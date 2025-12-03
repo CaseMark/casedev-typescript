@@ -2,7 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import * as V1API from './v1';
-import { V1 } from './v1';
+import { V1, V1ExecuteParams, V1ExecuteResponse, V1ListParams, V1SearchParams } from './v1';
 
 export class Templates extends APIResource {
   v1: V1API.V1 = new V1API.V1(this._client);
@@ -11,5 +11,11 @@ export class Templates extends APIResource {
 Templates.V1 = V1;
 
 export declare namespace Templates {
-  export { V1 as V1 };
+  export {
+    V1 as V1,
+    type V1ExecuteResponse as V1ExecuteResponse,
+    type V1ListParams as V1ListParams,
+    type V1ExecuteParams as V1ExecuteParams,
+    type V1SearchParams as V1SearchParams,
+  };
 }

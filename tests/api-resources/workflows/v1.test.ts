@@ -9,8 +9,45 @@ const client = new Casedev({
 
 describe('resource v1', () => {
   // Prism tests are disabled
+  test.skip('create: only required params', async () => {
+    const responsePromise = client.workflows.v1.create({ name: 'Document Processor' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('create: required and optional params', async () => {
+    const response = await client.workflows.v1.create({
+      name: 'Document Processor',
+      description: 'description',
+      edges: [{}],
+      nodes: [{}],
+      triggerConfig: {},
+      triggerType: 'manual',
+      visibility: 'private',
+    });
+  });
+
+  // Prism tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.workflows.v1.retrieve('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('update', async () => {
+    const responsePromise = client.workflows.v1.update('id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -37,22 +74,15 @@ describe('resource v1', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.workflows.v1.list(
-        {
-          category: 'category',
-          limit: 1,
-          offset: 0,
-          published: true,
-          sub_category: 'sub_category',
-          type: 'type',
-        },
+        { limit: 100, offset: 0, visibility: 'private' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
   // Prism tests are disabled
-  test.skip('execute: only required params', async () => {
-    const responsePromise = client.workflows.v1.execute('id', { input: {} });
+  test.skip('delete', async () => {
+    const responsePromise = client.workflows.v1.delete('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -63,16 +93,76 @@ describe('resource v1', () => {
   });
 
   // Prism tests are disabled
-  test.skip('execute: required and optional params', async () => {
-    const response = await client.workflows.v1.execute('id', {
-      input: {},
-      options: { format: 'json', model: 'model' },
-    });
+  test.skip('deploy', async () => {
+    const responsePromise = client.workflows.v1.deploy('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('execute', async () => {
+    const responsePromise = client.workflows.v1.execute('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('execute: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.workflows.v1.execute('id', { body: {} }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
+  // Prism tests are disabled
+  test.skip('listExecutions', async () => {
+    const responsePromise = client.workflows.v1.listExecutions('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('listExecutions: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.workflows.v1.listExecutions(
+        'id',
+        { limit: 100, status: 'pending' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
   });
 
   // Prism tests are disabled
   test.skip('retrieveExecution', async () => {
-    const responsePromise = client.workflows.v1.retrieveExecution('exec_abc123def456');
+    const responsePromise = client.workflows.v1.retrieveExecution('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('undeploy', async () => {
+    const responsePromise = client.workflows.v1.undeploy('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

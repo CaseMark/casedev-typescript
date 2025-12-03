@@ -56,6 +56,19 @@ export class Vault extends APIResource {
   }
 
   /**
+   * List all vaults for the authenticated organization. Returns vault metadata
+   * including storage configuration and usage statistics.
+   *
+   * @example
+   * ```ts
+   * const vaults = await client.vault.list();
+   * ```
+   */
+  list(options?: RequestOptions): APIPromise<VaultListResponse> {
+    return this._client.get('/vault', options);
+  }
+
+  /**
    * Triggers OCR ingestion workflow for a vault object to extract text, generate
    * chunks, and create embeddings. Processing happens asynchronously with GraphRAG
    * support if enabled on the vault. Returns immediately with workflow tracking
@@ -153,6 +166,54 @@ export interface VaultCreateResponse {
    * S3 bucket name for vector embeddings
    */
   vectorBucket?: string;
+}
+
+export interface VaultListResponse {
+  /**
+   * Total number of vaults
+   */
+  total?: number;
+
+  vaults?: Array<VaultListResponse.Vault>;
+}
+
+export namespace VaultListResponse {
+  export interface Vault {
+    /**
+     * Vault identifier
+     */
+    id?: string;
+
+    /**
+     * Vault creation timestamp
+     */
+    createdAt?: string;
+
+    /**
+     * Vault description
+     */
+    description?: string;
+
+    /**
+     * Whether GraphRAG is enabled
+     */
+    enableGraph?: boolean;
+
+    /**
+     * Vault name
+     */
+    name?: string;
+
+    /**
+     * Total storage size in bytes
+     */
+    totalBytes?: number;
+
+    /**
+     * Number of stored documents
+     */
+    totalObjects?: number;
+  }
 }
 
 export interface VaultIngestResponse {
@@ -361,6 +422,7 @@ Vault.Objects = Objects;
 export declare namespace Vault {
   export {
     type VaultCreateResponse as VaultCreateResponse,
+    type VaultListResponse as VaultListResponse,
     type VaultIngestResponse as VaultIngestResponse,
     type VaultSearchResponse as VaultSearchResponse,
     type VaultUploadResponse as VaultUploadResponse,
