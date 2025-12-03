@@ -7,6 +7,7 @@ export { Format } from './format/format';
 export { Llm } from './llm/llm';
 export { Ocr } from './ocr/ocr';
 export { Search } from './search/search';
+export { Templates } from './templates/templates';
 export {
   Vault,
   type VaultCreateResponse,

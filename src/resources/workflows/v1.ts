@@ -59,18 +59,6 @@ export class V1 extends APIResource {
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
-
-  /**
-   * Perform semantic search across available workflows to find the most relevant
-   * pre-built document processing pipelines for your legal use case.
-   */
-  search(body: V1SearchParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/workflows/v1/search', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
 }
 
 export interface V1ExecuteResponse {
@@ -160,28 +148,10 @@ export namespace V1ExecuteParams {
   }
 }
 
-export interface V1SearchParams {
-  /**
-   * Search query to find relevant workflows
-   */
-  query: string;
-
-  /**
-   * Optional category filter to narrow results
-   */
-  category?: string;
-
-  /**
-   * Maximum number of results to return (default: 10, max: 50)
-   */
-  limit?: number;
-}
-
 export declare namespace V1 {
   export {
     type V1ExecuteResponse as V1ExecuteResponse,
     type V1ListParams as V1ListParams,
     type V1ExecuteParams as V1ExecuteParams,
-    type V1SearchParams as V1SearchParams,
   };
 }
