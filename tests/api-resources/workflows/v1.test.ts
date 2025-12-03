@@ -81,21 +81,4 @@ describe('resource v1', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-
-  // Prism tests are disabled
-  test.skip('search: only required params', async () => {
-    const responsePromise = client.workflows.v1.search({ query: 'query' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Prism tests are disabled
-  test.skip('search: required and optional params', async () => {
-    const response = await client.workflows.v1.search({ query: 'query', category: 'category', limit: 1 });
-  });
 });

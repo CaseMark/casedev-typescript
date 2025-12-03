@@ -23,6 +23,7 @@ import { Format } from './resources/format/format';
 import { Llm } from './resources/llm/llm';
 import { Ocr } from './resources/ocr/ocr';
 import { Search } from './resources/search/search';
+import { Templates } from './resources/templates/templates';
 import {
   Vault,
   VaultCreateParams,
@@ -768,6 +769,7 @@ export class Casedev {
   vault: API.Vault = new API.Vault(this);
   voice: API.Voice = new API.Voice(this);
   webhooks: API.Webhooks = new API.Webhooks(this);
+  templates: API.Templates = new API.Templates(this);
   workflows: API.Workflows = new API.Workflows(this);
 }
 
@@ -781,6 +783,7 @@ Casedev.Search = Search;
 Casedev.Vault = Vault;
 Casedev.Voice = Voice;
 Casedev.Webhooks = Webhooks;
+Casedev.Templates = Templates;
 Casedev.Workflows = Workflows;
 
 export declare namespace Casedev {
@@ -815,6 +818,8 @@ export declare namespace Casedev {
   export { Voice as Voice };
 
   export { Webhooks as Webhooks };
+
+  export { Templates as Templates };
 
   export { Workflows as Workflows };
 }

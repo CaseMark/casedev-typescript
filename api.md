@@ -268,6 +268,10 @@ Methods:
 - <code title="get /webhooks/v1">client.webhooks.v1.<a href="./src/resources/webhooks/v1.ts">list</a>() -> void</code>
 - <code title="delete /webhooks/v1/{id}">client.webhooks.v1.<a href="./src/resources/webhooks/v1.ts">delete</a>(id) -> void</code>
 
+# Templates
+
+## V1
+
 # Workflows
 
 ## V1
@@ -282,4 +286,3 @@ Methods:
 - <code title="get /workflows/v1">client.workflows.v1.<a href="./src/resources/workflows/v1.ts">list</a>({ ...params }) -> void</code>
 - <code title="post /workflows/v1/{id}/execute">client.workflows.v1.<a href="./src/resources/workflows/v1.ts">execute</a>(id, { ...params }) -> V1ExecuteResponse</code>
 - <code title="get /workflows/v1/executions/{id}">client.workflows.v1.<a href="./src/resources/workflows/v1.ts">retrieveExecution</a>(id) -> void</code>
-- <code title="post /workflows/v1/search">client.workflows.v1.<a href="./src/resources/workflows/v1.ts">search</a>({ ...params }) -> void</code>
