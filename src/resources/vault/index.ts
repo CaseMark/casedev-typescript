@@ -12,6 +12,7 @@ export {
 export {
   Vault,
   type VaultCreateResponse,
+  type VaultListResponse,
   type VaultIngestResponse,
   type VaultSearchResponse,
   type VaultUploadResponse,

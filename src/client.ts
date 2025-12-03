@@ -30,6 +30,7 @@ import {
   VaultCreateResponse,
   VaultIngestParams,
   VaultIngestResponse,
+  VaultListResponse,
   VaultSearchParams,
   VaultSearchResponse,
   VaultUploadParams,
@@ -806,6 +807,7 @@ export declare namespace Casedev {
   export {
     Vault as Vault,
     type VaultCreateResponse as VaultCreateResponse,
+    type VaultListResponse as VaultListResponse,
     type VaultIngestResponse as VaultIngestResponse,
     type VaultSearchResponse as VaultSearchResponse,
     type VaultUploadResponse as VaultUploadResponse,

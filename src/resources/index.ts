@@ -11,6 +11,7 @@ export { Templates } from './templates/templates';
 export {
   Vault,
   type VaultCreateResponse,
+  type VaultListResponse,
   type VaultIngestResponse,
   type VaultSearchResponse,
   type VaultUploadResponse,

@@ -7,31 +7,10 @@ const client = new Casedev({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource vault', () => {
-  // Prism tests are disabled
-  test.skip('create: only required params', async () => {
-    const responsePromise = client.vault.create({ name: 'Contract Review Archive' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Prism tests are disabled
-  test.skip('create: required and optional params', async () => {
-    const response = await client.vault.create({
-      name: 'Contract Review Archive',
-      description: 'Repository for all client contract reviews and analysis',
-      enableGraph: true,
-    });
-  });
-
+describe('resource v1', () => {
   // Prism tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.vault.retrieve('vault_abc123');
+    const responsePromise = client.templates.v1.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -43,7 +22,7 @@ describe('resource vault', () => {
 
   // Prism tests are disabled
   test.skip('list', async () => {
-    const responsePromise = client.vault.list();
+    const responsePromise = client.templates.v1.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -54,8 +33,26 @@ describe('resource vault', () => {
   });
 
   // Prism tests are disabled
-  test.skip('ingest: only required params', async () => {
-    const responsePromise = client.vault.ingest('objectId', { id: 'id' });
+  test.skip('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.templates.v1.list(
+        {
+          category: 'category',
+          limit: 1,
+          offset: 0,
+          published: true,
+          sub_category: 'sub_category',
+          type: 'type',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
+  // Prism tests are disabled
+  test.skip('execute: only required params', async () => {
+    const responsePromise = client.templates.v1.execute('id', { input: {} });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -66,13 +63,28 @@ describe('resource vault', () => {
   });
 
   // Prism tests are disabled
-  test.skip('ingest: required and optional params', async () => {
-    const response = await client.vault.ingest('objectId', { id: 'id' });
+  test.skip('execute: required and optional params', async () => {
+    const response = await client.templates.v1.execute('id', {
+      input: {},
+      options: { format: 'json', model: 'model' },
+    });
+  });
+
+  // Prism tests are disabled
+  test.skip('retrieveExecution', async () => {
+    const responsePromise = client.templates.v1.retrieveExecution('exec_abc123def456');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 
   // Prism tests are disabled
   test.skip('search: only required params', async () => {
-    const responsePromise = client.vault.search('id', { query: 'query' });
+    const responsePromise = client.templates.v1.search({ query: 'query' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -84,34 +96,6 @@ describe('resource vault', () => {
 
   // Prism tests are disabled
   test.skip('search: required and optional params', async () => {
-    const response = await client.vault.search('id', {
-      query: 'query',
-      filters: { foo: 'bar' },
-      method: 'vector',
-      topK: 1,
-    });
-  });
-
-  // Prism tests are disabled
-  test.skip('upload: only required params', async () => {
-    const responsePromise = client.vault.upload('id', { contentType: 'contentType', filename: 'filename' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Prism tests are disabled
-  test.skip('upload: required and optional params', async () => {
-    const response = await client.vault.upload('id', {
-      contentType: 'contentType',
-      filename: 'filename',
-      auto_index: true,
-      metadata: {},
-      sizeBytes: 0,
-    });
+    const response = await client.templates.v1.search({ query: 'query', category: 'category', limit: 1 });
   });
 });
