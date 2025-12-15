@@ -253,7 +253,6 @@ Methods:
 Methods:
 
 - <code title="post /voice/v1/speak">client.voice.v1.speak.<a href="./src/resources/voice/v1/speak.ts">create</a>({ ...params }) -> Response</code>
-- <code title="post /voice/v1/speak/stream">client.voice.v1.speak.<a href="./src/resources/voice/v1/speak.ts">stream</a>({ ...params }) -> Response</code>
 
 # Webhooks
 
