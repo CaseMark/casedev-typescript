@@ -29,31 +29,6 @@ export class Speak extends APIResource {
       __binaryResponse: true,
     });
   }
-
-  /**
-   * Convert text to speech using ElevenLabs AI voices with streaming for real-time
-   * playback. Returns audio data as an MP3 stream for immediate playback with
-   * minimal latency. Perfect for legal document narration, client presentations, or
-   * accessibility features.
-   *
-   * @example
-   * ```ts
-   * const response = await client.voice.v1.speak.stream({
-   *   text: 'text',
-   * });
-   *
-   * const content = await response.blob();
-   * console.log(content);
-   * ```
-   */
-  stream(body: SpeakStreamParams, options?: RequestOptions): APIPromise<Response> {
-    return this._client.post('/voice/v1/speak/stream', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: 'audio/mpeg' }, options?.headers]),
-      __binaryResponse: true,
-    });
-  }
 }
 
 export interface SpeakCreateParams {
@@ -145,93 +120,6 @@ export namespace SpeakCreateParams {
   }
 }
 
-export interface SpeakStreamParams {
-  /**
-   * Text to convert to speech
-   */
-  text: string;
-
-  /**
-   * Apply text normalization
-   */
-  apply_text_normalization?: boolean;
-
-  /**
-   * Enable request logging
-   */
-  enable_logging?: boolean;
-
-  /**
-   * Language code (e.g., 'en', 'es', 'fr')
-   */
-  language_code?: string;
-
-  /**
-   * TTS model to use
-   */
-  model_id?:
-    | 'eleven_monolingual_v1'
-    | 'eleven_multilingual_v1'
-    | 'eleven_multilingual_v2'
-    | 'eleven_turbo_v2';
-
-  /**
-   * Next text for context
-   */
-  next_text?: string;
-
-  /**
-   * Optimize for streaming latency (0-4)
-   */
-  optimize_streaming_latency?: number;
-
-  /**
-   * Audio output format
-   */
-  output_format?: 'mp3_44100_128' | 'mp3_22050_32' | 'pcm_16000' | 'pcm_22050' | 'pcm_24000' | 'pcm_44100';
-
-  /**
-   * Previous text for context
-   */
-  previous_text?: string;
-
-  /**
-   * Random seed for reproducible generation
-   */
-  seed?: number;
-
-  /**
-   * ElevenLabs voice ID (defaults to Rachel for professional clarity)
-   */
-  voice_id?: string;
-
-  voice_settings?: SpeakStreamParams.VoiceSettings;
-}
-
-export namespace SpeakStreamParams {
-  export interface VoiceSettings {
-    /**
-     * Similarity boost (0-1)
-     */
-    similarity_boost?: number;
-
-    /**
-     * Voice stability (0-1)
-     */
-    stability?: number;
-
-    /**
-     * Style exaggeration (0-1)
-     */
-    style?: number;
-
-    /**
-     * Enable speaker boost
-     */
-    use_speaker_boost?: boolean;
-  }
-}
-
 export declare namespace Speak {
-  export { type SpeakCreateParams as SpeakCreateParams, type SpeakStreamParams as SpeakStreamParams };
+  export { type SpeakCreateParams as SpeakCreateParams };
 }
