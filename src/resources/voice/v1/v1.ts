@@ -2,7 +2,7 @@
 
 import { APIResource } from '../../../core/resource';
 import * as SpeakAPI from './speak';
-import { Speak, SpeakCreateParams, SpeakStreamParams } from './speak';
+import { Speak, SpeakCreateParams } from './speak';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
@@ -82,9 +82,5 @@ V1.Speak = Speak;
 export declare namespace V1 {
   export { type V1ListVoicesParams as V1ListVoicesParams };
 
-  export {
-    Speak as Speak,
-    type SpeakCreateParams as SpeakCreateParams,
-    type SpeakStreamParams as SpeakStreamParams,
-  };
+  export { Speak as Speak, type SpeakCreateParams as SpeakCreateParams };
 }

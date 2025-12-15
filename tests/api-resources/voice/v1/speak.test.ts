@@ -24,21 +24,4 @@ describe('resource speak', () => {
       voice_settings: { similarity_boost: 0, stability: 0, style: 0, use_speaker_boost: true },
     });
   });
-
-  test('stream: required and optional params', async () => {
-    const response = await client.voice.v1.speak.stream({
-      text: 'text',
-      apply_text_normalization: true,
-      enable_logging: true,
-      language_code: 'language_code',
-      model_id: 'eleven_monolingual_v1',
-      next_text: 'next_text',
-      optimize_streaming_latency: 0,
-      output_format: 'mp3_44100_128',
-      previous_text: 'previous_text',
-      seed: 0,
-      voice_id: 'voice_id',
-      voice_settings: { similarity_boost: 0, stability: 0, style: 0, use_speaker_boost: true },
-    });
-  });
 });
