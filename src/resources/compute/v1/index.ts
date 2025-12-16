@@ -18,4 +18,4 @@ export {
   type SecretRetrieveGroupParams,
   type SecretUpdateGroupParams,
 } from './secrets';
-export { V1, type V1DeployResponse, type V1DeployParams, type V1GetUsageParams } from './v1';
+export { V1, type V1GetUsageParams } from './v1';
