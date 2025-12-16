@@ -2,20 +2,6 @@
 
 ## V1
 
-Types:
-
-- <code><a href="./src/resources/actions/v1.ts">V1CreateResponse</a></code>
-- <code><a href="./src/resources/actions/v1.ts">V1ExecuteResponse</a></code>
-
-Methods:
-
-- <code title="post /actions/v1">client.actions.v1.<a href="./src/resources/actions/v1.ts">create</a>({ ...params }) -> V1CreateResponse</code>
-- <code title="get /actions/v1/{id}">client.actions.v1.<a href="./src/resources/actions/v1.ts">retrieve</a>(id) -> void</code>
-- <code title="get /actions/v1">client.actions.v1.<a href="./src/resources/actions/v1.ts">list</a>() -> void</code>
-- <code title="delete /actions/v1/{id}">client.actions.v1.<a href="./src/resources/actions/v1.ts">delete</a>(id) -> void</code>
-- <code title="post /actions/v1/{id}/execute">client.actions.v1.<a href="./src/resources/actions/v1.ts">execute</a>(id, { ...params }) -> V1ExecuteResponse</code>
-- <code title="get /actions/v1/executions/{id}">client.actions.v1.<a href="./src/resources/actions/v1.ts">retrieveExecution</a>(id) -> void</code>
-
 # Compute
 
 ## V1
@@ -42,27 +28,9 @@ Methods:
 
 ### Functions
 
-Methods:
-
-- <code title="get /compute/v1/functions">client.compute.v1.functions.<a href="./src/resources/compute/v1/functions.ts">list</a>({ ...params }) -> void</code>
-- <code title="get /compute/v1/functions/{id}/logs">client.compute.v1.functions.<a href="./src/resources/compute/v1/functions.ts">getLogs</a>(id, { ...params }) -> void</code>
-
 ### Invoke
 
-Types:
-
-- <code><a href="./src/resources/compute/v1/invoke.ts">InvokeRunResponse</a></code>
-
-Methods:
-
-- <code title="post /compute/v1/invoke/{functionId}">client.compute.v1.invoke.<a href="./src/resources/compute/v1/invoke.ts">run</a>(functionID, { ...params }) -> InvokeRunResponse</code>
-
 ### Runs
-
-Methods:
-
-- <code title="get /compute/v1/runs/{id}">client.compute.v1.runs.<a href="./src/resources/compute/v1/runs.ts">retrieve</a>(id) -> void</code>
-- <code title="get /compute/v1/runs">client.compute.v1.runs.<a href="./src/resources/compute/v1/runs.ts">list</a>({ ...params }) -> void</code>
 
 ### Secrets
 
@@ -252,17 +220,6 @@ Methods:
 # Webhooks
 
 ## V1
-
-Types:
-
-- <code><a href="./src/resources/webhooks/v1.ts">V1CreateResponse</a></code>
-
-Methods:
-
-- <code title="post /webhooks/v1">client.webhooks.v1.<a href="./src/resources/webhooks/v1.ts">create</a>({ ...params }) -> V1CreateResponse</code>
-- <code title="get /webhooks/v1/{id}">client.webhooks.v1.<a href="./src/resources/webhooks/v1.ts">retrieve</a>(id) -> void</code>
-- <code title="get /webhooks/v1">client.webhooks.v1.<a href="./src/resources/webhooks/v1.ts">list</a>() -> void</code>
-- <code title="delete /webhooks/v1/{id}">client.webhooks.v1.<a href="./src/resources/webhooks/v1.ts">delete</a>(id) -> void</code>
 
 # Templates
 

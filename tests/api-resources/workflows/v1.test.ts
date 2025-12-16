@@ -120,7 +120,11 @@ describe('resource v1', () => {
   test.skip('execute: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.workflows.v1.execute('id', { body: {} }, { path: '/_stainless_unknown_path' }),
+      client.workflows.v1.execute(
+        'id',
+        { callbackHeaders: {}, callbackUrl: 'callbackUrl', input: {}, timeout: 'timeout', wait: true },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 

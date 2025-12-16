@@ -86,7 +86,7 @@ describe('resource vault', () => {
   test.skip('search: required and optional params', async () => {
     const response = await client.vault.search('id', {
       query: 'query',
-      filters: { foo: 'bar' },
+      filters: { object_id: 'string' },
       method: 'vector',
       topK: 1,
     });

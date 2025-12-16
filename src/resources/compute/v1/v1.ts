@@ -9,11 +9,11 @@ import {
   Environments,
 } from './environments';
 import * as FunctionsAPI from './functions';
-import { FunctionGetLogsParams, FunctionListParams, Functions } from './functions';
+import { Functions } from './functions';
 import * as InvokeAPI from './invoke';
-import { Invoke, InvokeRunParams, InvokeRunResponse } from './invoke';
+import { Invoke } from './invoke';
 import * as RunsAPI from './runs';
-import { RunListParams, Runs } from './runs';
+import { Runs } from './runs';
 import * as SecretsAPI from './secrets';
 import {
   SecretCreateParams,
@@ -36,9 +36,9 @@ export class V1 extends APIResource {
   secrets: SecretsAPI.Secrets = new SecretsAPI.Secrets(this._client);
 
   /**
-   * Returns current pricing for GPU and CPU compute resources. This public endpoint
-   * provides detailed pricing information for all available compute types, including
-   * GPU instances and CPU cores, with billing model details.
+   * Returns current pricing for GPU instances. Prices are fetched in real-time and
+   * include a 20% platform fee. For detailed instance types and availability, use
+   * GET /compute/v1/instance-types.
    *
    * @example
    * ```ts
@@ -99,19 +99,11 @@ export declare namespace V1 {
     type EnvironmentCreateParams as EnvironmentCreateParams,
   };
 
-  export {
-    Functions as Functions,
-    type FunctionListParams as FunctionListParams,
-    type FunctionGetLogsParams as FunctionGetLogsParams,
-  };
+  export { Functions as Functions };
 
-  export {
-    Invoke as Invoke,
-    type InvokeRunResponse as InvokeRunResponse,
-    type InvokeRunParams as InvokeRunParams,
-  };
+  export { Invoke as Invoke };
 
-  export { Runs as Runs, type RunListParams as RunListParams };
+  export { Runs as Runs };
 
   export {
     Secrets as Secrets,
