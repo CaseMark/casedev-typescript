@@ -24,8 +24,8 @@ export class Vault extends APIResource {
   /**
    * Creates a new secure vault with dedicated S3 storage and vector search
    * capabilities. Each vault provides isolated document storage with semantic
-   * search, OCR processing, and optional knowledge graph features for legal document
-   * analysis and discovery.
+   * search, OCR processing, and optional GraphRAG knowledge graph features for legal
+   * document analysis and discovery.
    *
    * @example
    * ```ts
@@ -57,7 +57,7 @@ export class Vault extends APIResource {
 
   /**
    * List all vaults for the authenticated organization. Returns vault metadata
-   * including storage configuration and usage statistics.
+   * including name, description, storage configuration, and usage statistics.
    *
    * @example
    * ```ts
@@ -373,9 +373,9 @@ export interface VaultSearchParams {
   query: string;
 
   /**
-   * Additional filters to apply to search results
+   * Filters to narrow search results to specific documents
    */
-  filters?: { [key: string]: unknown };
+  filters?: VaultSearchParams.Filters;
 
   /**
    * Search method: 'global' for comprehensive questions, 'entity' for specific
@@ -387,6 +387,21 @@ export interface VaultSearchParams {
    * Maximum number of results to return
    */
   topK?: number;
+}
+
+export namespace VaultSearchParams {
+  /**
+   * Filters to narrow search results to specific documents
+   */
+  export interface Filters {
+    /**
+     * Filter to specific document(s) by object ID. Accepts a single ID or array of
+     * IDs.
+     */
+    object_id?: string | Array<string>;
+
+    [k: string]: unknown;
+  }
 }
 
 export interface VaultUploadParams {

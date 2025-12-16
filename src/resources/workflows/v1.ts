@@ -69,7 +69,7 @@ export class V1 extends APIResource {
   }
 
   /**
-   * Deploy a workflow to Modal compute. Returns a webhook URL and secret for
+   * Deploy a workflow to AWS Step Functions. Returns a webhook URL and secret for
    * triggering the workflow.
    *
    * @example
@@ -82,8 +82,13 @@ export class V1 extends APIResource {
   }
 
   /**
-   * Execute a workflow for testing. This runs the workflow synchronously without
-   * deployment.
+   * Execute a deployed workflow. Supports three modes:
+   *
+   * - **Fire-and-forget** (default): Returns immediately with executionId. Poll
+   *   /executions/{id} for status.
+   * - **Callback**: Returns immediately, POSTs result to callbackUrl when workflow
+   *   completes.
+   * - **Sync wait**: Blocks until workflow completes (max 5 minutes).
    *
    * @example
    * ```ts
@@ -92,11 +97,10 @@ export class V1 extends APIResource {
    */
   execute(
     id: string,
-    params: V1ExecuteParams | null | undefined = undefined,
+    body: V1ExecuteParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<V1ExecuteResponse> {
-    const { body } = params ?? {};
-    return this._client.post(path`/workflows/v1/${id}/execute`, { body: body, ...options });
+    return this._client.post(path`/workflows/v1/${id}/execute`, { body, ...options });
   }
 
   /**
@@ -118,7 +122,8 @@ export class V1 extends APIResource {
   }
 
   /**
-   * Get detailed information about a workflow execution.
+   * Get detailed information about a workflow execution, including live Step
+   * Functions status.
    *
    * @example
    * ```ts
@@ -131,7 +136,7 @@ export class V1 extends APIResource {
   }
 
   /**
-   * Stop a deployed workflow and release its webhook URL.
+   * Stop a deployed workflow and delete its Step Functions state machine.
    *
    * @example
    * ```ts
@@ -236,6 +241,8 @@ export interface V1DeleteResponse {
 export interface V1DeployResponse {
   message?: string;
 
+  stateMachineArn?: string;
+
   success?: boolean;
 
   /**
@@ -249,13 +256,15 @@ export interface V1DeployResponse {
 export interface V1ExecuteResponse {
   duration?: number;
 
-  error?: string;
+  executionArn?: string;
 
   executionId?: string;
 
-  outputs?: unknown;
+  mode?: 'fire-and-forget' | 'callback' | 'sync';
 
-  status?: 'completed' | 'failed';
+  output?: unknown;
+
+  status?: 'running' | 'completed' | 'failed';
 }
 
 export interface V1ListExecutionsResponse {
@@ -287,6 +296,8 @@ export interface V1RetrieveExecutionResponse {
 
   error?: string;
 
+  executionArn?: string;
+
   input?: unknown;
 
   output?: unknown;
@@ -294,6 +305,8 @@ export interface V1RetrieveExecutionResponse {
   startedAt?: string;
 
   status?: string;
+
+  steps?: Array<unknown>;
 
   triggerType?: string;
 
@@ -375,9 +388,29 @@ export interface V1ListParams {
 
 export interface V1ExecuteParams {
   /**
-   * Input data to pass to the workflow trigger
+   * Headers to include in callback request (e.g., Authorization)
    */
-  body?: unknown;
+  callbackHeaders?: unknown;
+
+  /**
+   * URL to POST results when workflow completes (enables callback mode)
+   */
+  callbackUrl?: string;
+
+  /**
+   * Input data to pass to the workflow
+   */
+  input?: unknown;
+
+  /**
+   * Timeout for sync wait mode (e.g., '30s', '2m'). Max 5m. Default: 30s
+   */
+  timeout?: string;
+
+  /**
+   * Wait for completion (default: false, max 5 min)
+   */
+  wait?: boolean;
 }
 
 export interface V1ListExecutionsParams {
