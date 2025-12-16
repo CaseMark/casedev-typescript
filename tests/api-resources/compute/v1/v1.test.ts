@@ -9,56 +9,6 @@ const client = new Casedev({
 
 describe('resource v1', () => {
   // Prism tests are disabled
-  test.skip('deploy: only required params', async () => {
-    const responsePromise = client.compute.v1.deploy({ entrypointName: 'entrypointName', type: 'task' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Prism tests are disabled
-  test.skip('deploy: required and optional params', async () => {
-    const response = await client.compute.v1.deploy({
-      entrypointName: 'entrypointName',
-      type: 'task',
-      code: 'code',
-      config: {
-        addPython: 'addPython',
-        allowNetwork: true,
-        cmd: ['string'],
-        concurrency: 0,
-        cpuCount: 0,
-        cronSchedule: 'cronSchedule',
-        dependencies: ['string'],
-        entrypoint: ['string'],
-        env: { foo: 'string' },
-        gpuCount: 0,
-        gpuType: 'cpu',
-        isWebService: true,
-        memoryMb: 0,
-        pipInstall: ['string'],
-        port: 0,
-        pythonVersion: 'pythonVersion',
-        retries: 0,
-        secretGroups: ['string'],
-        timeoutSeconds: 0,
-        useUv: true,
-        warmInstances: 0,
-        workdir: 'workdir',
-      },
-      dockerfile: 'dockerfile',
-      entrypointFile: 'entrypointFile',
-      environment: 'environment',
-      image: 'image',
-      runtime: 'python',
-    });
-  });
-
-  // Prism tests are disabled
   test.skip('getPricing', async () => {
     const responsePromise = client.compute.v1.getPricing();
     const rawResponse = await responsePromise.asResponse();
