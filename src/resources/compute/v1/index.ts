@@ -6,9 +6,9 @@ export {
   type EnvironmentDeleteResponse,
   type EnvironmentCreateParams,
 } from './environments';
-export { Functions, type FunctionListParams, type FunctionGetLogsParams } from './functions';
-export { Invoke, type InvokeRunResponse, type InvokeRunParams } from './invoke';
-export { Runs, type RunListParams } from './runs';
+export { Functions } from './functions';
+export { Invoke } from './invoke';
+export { Runs } from './runs';
 export {
   Secrets,
   type SecretCreateResponse,

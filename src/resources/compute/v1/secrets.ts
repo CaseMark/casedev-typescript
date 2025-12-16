@@ -50,11 +50,9 @@ export class Secrets extends APIResource {
   }
 
   /**
-   * Delete an entire secret group or a specific key within a secret group.
-   * Automatically syncs the deletion to Modal compute infrastructure. When deleting
-   * a specific key, the remaining secrets in the group are re-synced. When deleting
-   * the entire group, all secrets and the group itself are removed from both the
-   * database and Modal.
+   * Delete an entire secret group or a specific key within a secret group. When
+   * deleting a specific key, the remaining secrets in the group are preserved. When
+   * deleting the entire group, all secrets and the group itself are removed.
    *
    * @example
    * ```ts
@@ -98,8 +96,8 @@ export class Secrets extends APIResource {
 
   /**
    * Set or update secrets in a compute secret group. Secrets are encrypted with
-   * AES-256-GCM and synced to compute infrastructure in real-time. Use this to
-   * manage environment variables and API keys for your compute workloads.
+   * AES-256-GCM. Use this to manage environment variables and API keys for your
+   * compute workloads.
    *
    * @example
    * ```ts
