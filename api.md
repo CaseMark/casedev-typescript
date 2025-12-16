@@ -20,13 +20,8 @@ Methods:
 
 ## V1
 
-Types:
-
-- <code><a href="./src/resources/compute/v1/v1.ts">V1DeployResponse</a></code>
-
 Methods:
 
-- <code title="post /compute/v1/deploy">client.compute.v1.<a href="./src/resources/compute/v1/v1.ts">deploy</a>({ ...params }) -> V1DeployResponse</code>
 - <code title="get /compute/v1/pricing">client.compute.v1.<a href="./src/resources/compute/v1/v1.ts">getPricing</a>() -> void</code>
 - <code title="get /compute/v1/usage">client.compute.v1.<a href="./src/resources/compute/v1/v1.ts">getUsage</a>({ ...params }) -> void</code>
 
