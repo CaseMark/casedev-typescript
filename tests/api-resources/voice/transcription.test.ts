@@ -9,8 +9,8 @@ const client = new Casedev({
 
 describe('resource transcription', () => {
   // Prism tests are disabled
-  test.skip('create: only required params', async () => {
-    const responsePromise = client.voice.transcription.create({ audio_url: 'audio_url' });
+  test.skip('create', async () => {
+    const responsePromise = client.voice.transcription.create({});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,22 +21,8 @@ describe('resource transcription', () => {
   });
 
   // Prism tests are disabled
-  test.skip('create: required and optional params', async () => {
-    const response = await client.voice.transcription.create({
-      audio_url: 'audio_url',
-      auto_highlights: true,
-      content_safety_labels: true,
-      format_text: true,
-      language_code: 'language_code',
-      language_detection: true,
-      punctuate: true,
-      speaker_labels: true,
-    });
-  });
-
-  // Prism tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.voice.transcription.retrieve('5551902f-fc65-4a61-81b2-e002d4e464e5');
+    const responsePromise = client.voice.transcription.retrieve('tr_abc123def456');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
