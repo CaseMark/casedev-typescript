@@ -8,16 +8,18 @@ import { path } from '../../internal/utils/path';
 
 export class Transcription extends APIResource {
   /**
-   * Creates an asynchronous transcription job for audio files. Supports various
-   * audio formats and advanced features like speaker identification, content
-   * moderation, and automatic highlights. Returns a job ID for checking
-   * transcription status and retrieving results.
+   * Creates an asynchronous transcription job for audio files. Supports two modes:
+   *
+   * **Vault-based (recommended)**: Pass `vault_id` and `object_id` to transcribe
+   * audio from your vault. The transcript will automatically be saved back to the
+   * vault when complete.
+   *
+   * **Direct URL (legacy)**: Pass `audio_url` for direct transcription without
+   * automatic storage.
    *
    * @example
    * ```ts
-   * await client.voice.transcription.create({
-   *   audio_url: 'audio_url',
-   * });
+   * await client.voice.transcription.create();
    * ```
    */
   create(body: TranscriptionCreateParams, options?: RequestOptions): APIPromise<void> {
@@ -29,14 +31,15 @@ export class Transcription extends APIResource {
   }
 
   /**
-   * Retrieve the status and result of an audio transcription job. Returns the
-   * transcription text when complete, or status information for pending jobs.
+   * Retrieve the status and result of an audio transcription job. For vault-based
+   * jobs, returns status and result_object_id when complete. For legacy direct URL
+   * jobs, returns the full transcription data.
    *
    * @example
    * ```ts
    * const transcription =
    *   await client.voice.transcription.retrieve(
-   *     '5551902f-fc65-4a61-81b2-e002d4e464e5',
+   *     'tr_abc123def456',
    *   );
    * ```
    */
@@ -54,7 +57,7 @@ export interface TranscriptionRetrieveResponse {
   /**
    * Current status of the transcription job
    */
-  status: 'queued' | 'processing' | 'completed' | 'error';
+  status: 'queued' | 'processing' | 'completed' | 'failed';
 
   /**
    * Duration of the audio file in seconds
@@ -62,43 +65,51 @@ export interface TranscriptionRetrieveResponse {
   audio_duration?: number;
 
   /**
-   * Overall confidence score for the transcription
+   * Overall confidence score (0-100)
    */
   confidence?: number;
 
   /**
-   * Error message (only present when status is error)
+   * Error message (only present when status is failed)
    */
   error?: string;
 
   /**
-   * Full transcription text (only present when status is completed)
+   * Result transcript object ID (vault-based jobs, when completed)
+   */
+  result_object_id?: string;
+
+  /**
+   * Source audio object ID (vault-based jobs only)
+   */
+  source_object_id?: string;
+
+  /**
+   * Full transcription text (legacy direct URL jobs only)
    */
   text?: string;
 
   /**
-   * Word-level timestamps and confidence scores
+   * Vault ID (vault-based jobs only)
    */
-  words?: Array<TranscriptionRetrieveResponse.Word>;
-}
+  vault_id?: string;
 
-export namespace TranscriptionRetrieveResponse {
-  export interface Word {
-    confidence?: number;
+  /**
+   * Number of words in the transcript
+   */
+  word_count?: number;
 
-    end?: number;
-
-    start?: number;
-
-    text?: string;
-  }
+  /**
+   * Word-level timestamps (legacy direct URL jobs only)
+   */
+  words?: Array<unknown>;
 }
 
 export interface TranscriptionCreateParams {
   /**
-   * URL of the audio file to transcribe
+   * URL of the audio file to transcribe (legacy mode, no auto-storage)
    */
-  audio_url: string;
+  audio_url?: string;
 
   /**
    * Automatically extract key phrases and topics
@@ -106,9 +117,19 @@ export interface TranscriptionCreateParams {
   auto_highlights?: boolean;
 
   /**
+   * How much to boost custom vocabulary
+   */
+  boost_param?: 'low' | 'default' | 'high';
+
+  /**
    * Enable content moderation and safety labeling
    */
   content_safety_labels?: boolean;
+
+  /**
+   * Output format for the transcript when using vault mode
+   */
+  format?: 'json' | 'text';
 
   /**
    * Format text with proper capitalization
@@ -127,6 +148,11 @@ export interface TranscriptionCreateParams {
   language_detection?: boolean;
 
   /**
+   * Object ID of the audio file in the vault (use with vault_id)
+   */
+  object_id?: string;
+
+  /**
    * Add punctuation to the transcript
    */
   punctuate?: boolean;
@@ -135,6 +161,21 @@ export interface TranscriptionCreateParams {
    * Enable speaker identification and labeling
    */
   speaker_labels?: boolean;
+
+  /**
+   * Expected number of speakers (improves accuracy when known)
+   */
+  speakers_expected?: number;
+
+  /**
+   * Vault ID containing the audio file (use with object_id)
+   */
+  vault_id?: string;
+
+  /**
+   * Custom vocabulary words to boost (e.g., legal terms)
+   */
+  word_boost?: Array<string>;
 }
 
 export declare namespace Transcription {
