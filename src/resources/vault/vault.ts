@@ -322,6 +322,11 @@ export interface VaultUploadResponse {
   objectId?: string;
 
   /**
+   * Folder path for hierarchy if provided
+   */
+  relative_path?: string | null;
+
+  /**
    * S3 object key for the file
    */
   s3Key?: string;
@@ -424,6 +429,13 @@ export interface VaultUploadParams {
    * Additional metadata to associate with the file
    */
   metadata?: unknown;
+
+  /**
+   * Optional folder path for hierarchy preservation. Allows integrations to maintain
+   * source folder structure from systems like NetDocs, Clio, or Smokeball. Example:
+   * '/Discovery/Depositions/2024'
+   */
+  relative_path?: string;
 
   /**
    * Estimated file size in bytes for cost calculation
