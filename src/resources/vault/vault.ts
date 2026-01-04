@@ -362,6 +362,12 @@ export interface VaultCreateParams {
    * Enable knowledge graph for entity relationship mapping
    */
   enableGraph?: boolean;
+
+  /**
+   * Optional metadata to attach to the vault (e.g., { containsPHI: true } for HIPAA
+   * compliance tracking)
+   */
+  metadata?: unknown;
 }
 
 export interface VaultIngestParams {
