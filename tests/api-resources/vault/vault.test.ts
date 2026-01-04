@@ -111,7 +111,7 @@ describe('resource vault', () => {
       filename: 'filename',
       auto_index: true,
       metadata: {},
-      relative_path: 'relative_path',
+      path: 'path',
       sizeBytes: 0,
     });
   });
