@@ -70,9 +70,9 @@ export class Vault extends APIResource {
 
   /**
    * Triggers OCR ingestion workflow for a vault object to extract text, generate
-   * chunks, and create embeddings. Processing happens asynchronously with GraphRAG
-   * support if enabled on the vault. Returns immediately with workflow tracking
-   * information.
+   * chunks, and create embeddings. Processing happens asynchronously. GraphRAG
+   * indexing must be triggered separately via POST /vault/:id/graphrag/:objectId.
+   * Returns immediately with workflow tracking information.
    *
    * @example
    * ```ts
@@ -218,7 +218,8 @@ export namespace VaultListResponse {
 
 export interface VaultIngestResponse {
   /**
-   * Whether GraphRAG is enabled for this vault
+   * Always false - GraphRAG must be triggered separately via POST
+   * /vault/:id/graphrag/:objectId
    */
   enableGraphRAG: boolean;
 
