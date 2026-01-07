@@ -145,7 +145,9 @@ const response = await client.vault.create({ name: 'My Vault' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: vault, response: raw } = await client.vault.create({ name: 'My Vault' }).withResponse();
+const { data: vault, response: raw } = await client.vault
+  .create({ name: 'My Vault' })
+  .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(vault.id);
 ```
