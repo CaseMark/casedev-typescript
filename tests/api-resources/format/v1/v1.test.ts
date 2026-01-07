@@ -13,7 +13,16 @@ describe('resource v1', () => {
       content: 'content',
       output_format: 'pdf',
       input_format: 'md',
-      options: { components: [{ content: 'content', styles: {}, templateId: 'templateId', variables: {} }] },
+      options: {
+        components: [
+          {
+            content: 'content',
+            styles: {},
+            templateId: 'templateId',
+            variables: {},
+          },
+        ],
+      },
     });
   });
 });
