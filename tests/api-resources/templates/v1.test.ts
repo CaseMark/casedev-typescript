@@ -96,6 +96,10 @@ describe('resource v1', () => {
 
   // Prism tests are disabled
   test.skip('search: required and optional params', async () => {
-    const response = await client.templates.v1.search({ query: 'query', category: 'category', limit: 1 });
+    const response = await client.templates.v1.search({
+      query: 'query',
+      category: 'category',
+      limit: 1,
+    });
   });
 });

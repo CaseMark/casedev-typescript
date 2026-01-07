@@ -56,7 +56,12 @@ describe('resource v1', () => {
       callback_url: 'https://your-app.com/webhooks/ocr-complete',
       document_id: 'contract-2024-001',
       engine: 'doctr',
-      features: { forms: false, layout: true, tables: true, text: true },
+      features: {
+        forms: false,
+        layout: true,
+        tables: true,
+        text: true,
+      },
       result_bucket: 'my-ocr-results',
       result_prefix: 'ocr/2024/',
     });

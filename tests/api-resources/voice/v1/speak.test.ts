@@ -21,7 +21,12 @@ describe('resource speak', () => {
       previous_text: 'previous_text',
       seed: 0,
       voice_id: 'voice_id',
-      voice_settings: { similarity_boost: 0, stability: 0, style: 0, use_speaker_boost: true },
+      voice_settings: {
+        similarity_boost: 0,
+        stability: 0,
+        style: 0,
+        use_speaker_boost: true,
+      },
     });
   });
 });

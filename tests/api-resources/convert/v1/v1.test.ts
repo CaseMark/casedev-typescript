@@ -46,7 +46,11 @@ describe('resource v1', () => {
       job_id: 'job_id',
       status: 'completed',
       error: 'error',
-      result: { duration_seconds: 0, file_size_bytes: 0, stored_filename: 'stored_filename' },
+      result: {
+        duration_seconds: 0,
+        file_size_bytes: 0,
+        stored_filename: 'stored_filename',
+      },
     });
   });
 });

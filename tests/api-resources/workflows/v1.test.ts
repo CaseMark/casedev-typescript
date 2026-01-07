@@ -74,7 +74,11 @@ describe('resource v1', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.workflows.v1.list(
-        { limit: 100, offset: 0, visibility: 'private' },
+        {
+          limit: 100,
+          offset: 0,
+          visibility: 'private',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Casedev.NotFoundError);
@@ -122,7 +126,13 @@ describe('resource v1', () => {
     await expect(
       client.workflows.v1.execute(
         'id',
-        { callbackHeaders: {}, callbackUrl: 'callbackUrl', input: {}, timeout: 'timeout', wait: true },
+        {
+          callbackHeaders: {},
+          callbackUrl: 'callbackUrl',
+          input: {},
+          timeout: 'timeout',
+          wait: true,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Casedev.NotFoundError);
