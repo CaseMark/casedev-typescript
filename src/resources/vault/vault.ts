@@ -143,14 +143,19 @@ export interface VaultCreateResponse {
   description?: string;
 
   /**
+   * Whether vector indexing is enabled for this vault
+   */
+  enableIndexing?: boolean;
+
+  /**
    * S3 bucket name for document storage
    */
   filesBucket?: string;
 
   /**
-   * Vector search index name
+   * Vector search index name. Null for storage-only vaults.
    */
-  indexName?: string;
+  indexName?: string | null;
 
   /**
    * Vault display name
@@ -163,9 +168,9 @@ export interface VaultCreateResponse {
   region?: string;
 
   /**
-   * S3 bucket name for vector embeddings
+   * S3 bucket name for vector embeddings. Null for storage-only vaults.
    */
-  vectorBucket?: string;
+  vectorBucket?: string | null;
 }
 
 export interface VaultListResponse {
@@ -306,6 +311,11 @@ export interface VaultUploadResponse {
   auto_index?: boolean;
 
   /**
+   * Whether the vault supports indexing. False for storage-only vaults.
+   */
+  enableIndexing?: boolean;
+
+  /**
    * URL expiration time in seconds
    */
   expiresIn?: number;
@@ -360,9 +370,16 @@ export interface VaultCreateParams {
   description?: string;
 
   /**
-   * Enable knowledge graph for entity relationship mapping
+   * Enable knowledge graph for entity relationship mapping. Only applies when
+   * enableIndexing is true.
    */
   enableGraph?: boolean;
+
+  /**
+   * Enable vector indexing and search capabilities. Set to false for storage-only
+   * vaults.
+   */
+  enableIndexing?: boolean;
 
   /**
    * Optional metadata to attach to the vault (e.g., { containsPHI: true } for HIPAA
