@@ -16,14 +16,11 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { Actions } from './resources/actions/actions';
 import { Compute } from './resources/compute/compute';
-import { Convert } from './resources/convert/convert';
 import { Format } from './resources/format/format';
 import { Llm } from './resources/llm/llm';
 import { Ocr } from './resources/ocr/ocr';
 import { Search } from './resources/search/search';
-import { Templates } from './resources/templates/templates';
 import {
   Vault,
   VaultCreateParams,
@@ -38,7 +35,6 @@ import {
 } from './resources/vault/vault';
 import { Voice } from './resources/voice/voice';
 import { Webhooks } from './resources/webhooks/webhooks';
-import { Workflows } from './resources/workflows/workflows';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -760,9 +756,7 @@ export class Casedev {
 
   static toFile = Uploads.toFile;
 
-  actions: API.Actions = new API.Actions(this);
   compute: API.Compute = new API.Compute(this);
-  convert: API.Convert = new API.Convert(this);
   format: API.Format = new API.Format(this);
   llm: API.Llm = new API.Llm(this);
   ocr: API.Ocr = new API.Ocr(this);
@@ -770,13 +764,9 @@ export class Casedev {
   vault: API.Vault = new API.Vault(this);
   voice: API.Voice = new API.Voice(this);
   webhooks: API.Webhooks = new API.Webhooks(this);
-  templates: API.Templates = new API.Templates(this);
-  workflows: API.Workflows = new API.Workflows(this);
 }
 
-Casedev.Actions = Actions;
 Casedev.Compute = Compute;
-Casedev.Convert = Convert;
 Casedev.Format = Format;
 Casedev.Llm = Llm;
 Casedev.Ocr = Ocr;
@@ -784,17 +774,11 @@ Casedev.Search = Search;
 Casedev.Vault = Vault;
 Casedev.Voice = Voice;
 Casedev.Webhooks = Webhooks;
-Casedev.Templates = Templates;
-Casedev.Workflows = Workflows;
 
 export declare namespace Casedev {
   export type RequestOptions = Opts.RequestOptions;
 
-  export { Actions as Actions };
-
   export { Compute as Compute };
-
-  export { Convert as Convert };
 
   export { Format as Format };
 
@@ -820,8 +804,4 @@ export declare namespace Casedev {
   export { Voice as Voice };
 
   export { Webhooks as Webhooks };
-
-  export { Templates as Templates };
-
-  export { Workflows as Workflows };
 }
