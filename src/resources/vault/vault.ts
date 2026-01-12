@@ -69,10 +69,12 @@ export class Vault extends APIResource {
   }
 
   /**
-   * Triggers OCR ingestion workflow for a vault object to extract text, generate
-   * chunks, and create embeddings. Processing happens asynchronously. GraphRAG
-   * indexing must be triggered separately via POST /vault/:id/graphrag/:objectId.
-   * Returns immediately with workflow tracking information.
+   * Triggers ingestion workflow for a vault object to extract text, generate chunks,
+   * and create embeddings. For supported file types (PDF, DOCX, TXT, RTF, XML,
+   * audio, video), processing happens asynchronously. For unsupported types (images,
+   * archives, etc.), the file is marked as completed immediately without text
+   * extraction. GraphRAG indexing must be triggered separately via POST
+   * /vault/:id/graphrag/:objectId.
    *
    * @example
    * ```ts
@@ -239,14 +241,15 @@ export interface VaultIngestResponse {
   objectId: string;
 
   /**
-   * Current ingestion status
+   * Current ingestion status. 'stored' for file types without text extraction (no
+   * chunks/vectors created).
    */
-  status: 'processing';
+  status: 'processing' | 'stored';
 
   /**
-   * Workflow run ID for tracking progress
+   * Workflow run ID for tracking progress. Null for file types that skip processing.
    */
-  workflowId: string;
+  workflowId: string | null;
 }
 
 export interface VaultSearchResponse {
