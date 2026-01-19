@@ -4,7 +4,6 @@ import { APIResource } from '../../../core/resource';
 import * as ChatAPI from './chat';
 import { Chat, ChatCreateCompletionParams, ChatCreateCompletionResponse } from './chat';
 import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class V1 extends APIResource {
@@ -17,18 +16,17 @@ export class V1 extends APIResource {
    *
    * @example
    * ```ts
-   * await client.llm.v1.createEmbedding({
+   * const response = await client.llm.v1.createEmbedding({
    *   input: 'string',
    *   model: 'model',
    * });
    * ```
    */
-  createEmbedding(body: V1CreateEmbeddingParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/llm/v1/embeddings', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  createEmbedding(
+    body: V1CreateEmbeddingParams,
+    options?: RequestOptions,
+  ): APIPromise<V1CreateEmbeddingResponse> {
+    return this._client.post('/llm/v1/embeddings', { body, ...options });
   }
 
   /**
@@ -41,14 +39,91 @@ export class V1 extends APIResource {
    *
    * @example
    * ```ts
-   * await client.llm.v1.listModels();
+   * const response = await client.llm.v1.listModels();
    * ```
    */
-  listModels(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/llm/v1/models', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  listModels(options?: RequestOptions): APIPromise<V1ListModelsResponse> {
+    return this._client.get('/llm/v1/models', options);
+  }
+}
+
+export interface V1CreateEmbeddingResponse {
+  data?: Array<V1CreateEmbeddingResponse.Data>;
+
+  model?: string;
+
+  object?: string;
+
+  usage?: V1CreateEmbeddingResponse.Usage;
+}
+
+export namespace V1CreateEmbeddingResponse {
+  export interface Data {
+    embedding?: Array<number>;
+
+    index?: number;
+
+    object?: string;
+  }
+
+  export interface Usage {
+    prompt_tokens?: number;
+
+    total_tokens?: number;
+  }
+}
+
+export interface V1ListModelsResponse {
+  data?: Array<V1ListModelsResponse.Data>;
+
+  /**
+   * Response object type, always 'list'
+   */
+  object?: string;
+}
+
+export namespace V1ListModelsResponse {
+  export interface Data {
+    /**
+     * Unique model identifier
+     */
+    id?: string;
+
+    /**
+     * Unix timestamp of model creation
+     */
+    created?: number;
+
+    /**
+     * Object type, always 'model'
+     */
+    object?: string;
+
+    /**
+     * Model provider (openai, anthropic, google, casemark, etc.)
+     */
+    owned_by?: string;
+
+    pricing?: Data.Pricing;
+  }
+
+  export namespace Data {
+    export interface Pricing {
+      /**
+       * Input token price per token
+       */
+      input?: string;
+
+      /**
+       * Cache read price per token (if supported)
+       */
+      input_cache_read?: string;
+
+      /**
+       * Output token price per token
+       */
+      output?: string;
+    }
   }
 }
 
@@ -82,7 +157,11 @@ export interface V1CreateEmbeddingParams {
 V1.Chat = Chat;
 
 export declare namespace V1 {
-  export { type V1CreateEmbeddingParams as V1CreateEmbeddingParams };
+  export {
+    type V1CreateEmbeddingResponse as V1CreateEmbeddingResponse,
+    type V1ListModelsResponse as V1ListModelsResponse,
+    type V1CreateEmbeddingParams as V1CreateEmbeddingParams,
+  };
 
   export {
     Chat as Chat,

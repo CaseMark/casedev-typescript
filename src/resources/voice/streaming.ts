@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class Streaming extends APIResource {
@@ -21,13 +20,71 @@ export class Streaming extends APIResource {
    *
    * @example
    * ```ts
-   * await client.voice.streaming.getURL();
+   * const response = await client.voice.streaming.getURL();
    * ```
    */
-  getURL(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/voice/streaming/url', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getURL(options?: RequestOptions): APIPromise<StreamingGetURLResponse> {
+    return this._client.get('/voice/streaming/url', options);
   }
+}
+
+export interface StreamingGetURLResponse {
+  audio_format?: StreamingGetURLResponse.AudioFormat;
+
+  /**
+   * Complete WebSocket URL with authentication token
+   */
+  connect_url?: string;
+
+  pricing?: StreamingGetURLResponse.Pricing;
+
+  /**
+   * Connection protocol
+   */
+  protocol?: string;
+
+  /**
+   * Base WebSocket URL for streaming transcription
+   */
+  url?: string;
+}
+
+export namespace StreamingGetURLResponse {
+  export interface AudioFormat {
+    /**
+     * Number of audio channels
+     */
+    channels?: number;
+
+    /**
+     * Required audio encoding format
+     */
+    encoding?: string;
+
+    /**
+     * Required audio sample rate in Hz
+     */
+    sample_rate?: number;
+  }
+
+  export interface Pricing {
+    /**
+     * Currency for pricing
+     */
+    currency?: string;
+
+    /**
+     * Cost per hour of transcription
+     */
+    per_hour?: number;
+
+    /**
+     * Cost per minute of transcription
+     */
+    per_minute?: number;
+  }
+}
+
+export declare namespace Streaming {
+  export { type StreamingGetURLResponse as StreamingGetURLResponse };
 }

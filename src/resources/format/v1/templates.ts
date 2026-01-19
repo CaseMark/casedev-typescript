@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
@@ -21,11 +20,8 @@ export class Templates extends APIResource {
    * documents should be structured and formatted for specific legal use cases such
    * as contracts, briefs, or pleadings.
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/format/v1/templates/${id}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  retrieve(id: string, options?: RequestOptions): APIPromise<TemplateRetrieveResponse> {
+    return this._client.get(path`/format/v1/templates/${id}`, options);
   }
 
   /**
@@ -36,12 +32,11 @@ export class Templates extends APIResource {
    * Filter by type to get specific template categories like contracts, pleadings, or
    * correspondence.
    */
-  list(query: TemplateListParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/format/v1/templates', {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  list(
+    query: TemplateListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<TemplateListResponse> {
+    return this._client.get('/format/v1/templates', { query, ...options });
   }
 }
 
@@ -70,6 +65,91 @@ export interface TemplateCreateResponse {
    * Detected template variables
    */
   variables?: Array<string>;
+}
+
+export interface TemplateRetrieveResponse {
+  /**
+   * Unique template identifier
+   */
+  id?: string;
+
+  /**
+   * Template formatting rules and structure
+   */
+  content?: unknown;
+
+  /**
+   * Template creation timestamp
+   */
+  createdAt?: string;
+
+  /**
+   * Template description
+   */
+  description?: string;
+
+  /**
+   * Template name
+   */
+  name?: string;
+
+  /**
+   * Organization ID that owns the template
+   */
+  organizationId?: string;
+
+  /**
+   * Template last modification timestamp
+   */
+  updatedAt?: string;
+}
+
+export interface TemplateListResponse {
+  templates?: Array<TemplateListResponse.Template>;
+}
+
+export namespace TemplateListResponse {
+  export interface Template {
+    /**
+     * Unique template identifier
+     */
+    id?: string;
+
+    /**
+     * Template creation timestamp
+     */
+    createdAt?: string;
+
+    /**
+     * Template description
+     */
+    description?: string;
+
+    /**
+     * Template name
+     */
+    name?: string;
+
+    /**
+     * Template tags for organization
+     */
+    tags?: Array<unknown>;
+
+    /**
+     * Template type/category
+     */
+    type?: string;
+
+    /**
+     * Number of times template has been used
+     */
+    usageCount?: number;
+
+    /**
+     * Template variables for customization
+     */
+    variables?: Array<unknown>;
+  }
 }
 
 export interface TemplateCreateParams {
@@ -119,6 +199,8 @@ export interface TemplateListParams {
 export declare namespace Templates {
   export {
     type TemplateCreateResponse as TemplateCreateResponse,
+    type TemplateRetrieveResponse as TemplateRetrieveResponse,
+    type TemplateListResponse as TemplateListResponse,
     type TemplateCreateParams as TemplateCreateParams,
     type TemplateListParams as TemplateListParams,
   };

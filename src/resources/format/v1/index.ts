@@ -3,6 +3,8 @@
 export {
   Templates,
   type TemplateCreateResponse,
+  type TemplateRetrieveResponse,
+  type TemplateListResponse,
   type TemplateCreateParams,
   type TemplateListParams,
 } from './templates';

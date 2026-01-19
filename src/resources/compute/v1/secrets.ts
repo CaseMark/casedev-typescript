@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
@@ -38,15 +37,14 @@ export class Secrets extends APIResource {
    *
    * @example
    * ```ts
-   * await client.compute.v1.secrets.list();
+   * const secrets = await client.compute.v1.secrets.list();
    * ```
    */
-  list(query: SecretListParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/compute/v1/secrets', {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  list(
+    query: SecretListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<SecretListResponse> {
+    return this._client.get('/compute/v1/secrets', { query, ...options });
   }
 
   /**
@@ -56,20 +54,17 @@ export class Secrets extends APIResource {
    *
    * @example
    * ```ts
-   * await client.compute.v1.secrets.deleteGroup('group');
+   * const response =
+   *   await client.compute.v1.secrets.deleteGroup('group');
    * ```
    */
   deleteGroup(
     group: string,
     params: SecretDeleteGroupParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<void> {
+  ): APIPromise<SecretDeleteGroupResponse> {
     const { env, key } = params ?? {};
-    return this._client.delete(path`/compute/v1/secrets/${group}`, {
-      query: { env, key },
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/compute/v1/secrets/${group}`, { query: { env, key }, ...options });
   }
 
   /**
@@ -79,19 +74,16 @@ export class Secrets extends APIResource {
    *
    * @example
    * ```ts
-   * await client.compute.v1.secrets.retrieveGroup('group');
+   * const response =
+   *   await client.compute.v1.secrets.retrieveGroup('group');
    * ```
    */
   retrieveGroup(
     group: string,
     query: SecretRetrieveGroupParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.get(path`/compute/v1/secrets/${group}`, {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  ): APIPromise<SecretRetrieveGroupResponse> {
+    return this._client.get(path`/compute/v1/secrets/${group}`, { query, ...options });
   }
 
   /**
@@ -101,18 +93,19 @@ export class Secrets extends APIResource {
    *
    * @example
    * ```ts
-   * await client.compute.v1.secrets.updateGroup(
-   *   'litigation-apis',
-   *   { secrets: { foo: 'string' } },
-   * );
+   * const response =
+   *   await client.compute.v1.secrets.updateGroup(
+   *     'litigation-apis',
+   *     { secrets: { foo: 'string' } },
+   *   );
    * ```
    */
-  updateGroup(group: string, body: SecretUpdateGroupParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.put(path`/compute/v1/secrets/${group}`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  updateGroup(
+    group: string,
+    body: SecretUpdateGroupParams,
+    options?: RequestOptions,
+  ): APIPromise<SecretUpdateGroupResponse> {
+    return this._client.put(path`/compute/v1/secrets/${group}`, { body, ...options });
   }
 }
 
@@ -136,6 +129,108 @@ export interface SecretCreateResponse {
    * Name of the secret group
    */
   name?: string;
+}
+
+export interface SecretListResponse {
+  groups?: Array<SecretListResponse.Group>;
+}
+
+export namespace SecretListResponse {
+  export interface Group {
+    /**
+     * Unique identifier for the secret group
+     */
+    id?: string;
+
+    /**
+     * When the secret group was created
+     */
+    createdAt?: string;
+
+    /**
+     * Description of the secret group
+     */
+    description?: string;
+
+    /**
+     * Name of the secret group
+     */
+    name?: string;
+
+    /**
+     * When the secret group was last updated
+     */
+    updatedAt?: string;
+  }
+}
+
+export interface SecretDeleteGroupResponse {
+  message?: string;
+
+  success?: boolean;
+}
+
+export interface SecretRetrieveGroupResponse {
+  group?: SecretRetrieveGroupResponse.Group;
+
+  keys?: Array<SecretRetrieveGroupResponse.Key>;
+}
+
+export namespace SecretRetrieveGroupResponse {
+  export interface Group {
+    /**
+     * Unique identifier of the secret group
+     */
+    id?: string;
+
+    /**
+     * Description of the secret group
+     */
+    description?: string;
+
+    /**
+     * Name of the secret group
+     */
+    name?: string;
+  }
+
+  export interface Key {
+    /**
+     * When the secret was created
+     */
+    createdAt?: string;
+
+    /**
+     * Name of the secret key
+     */
+    key?: string;
+
+    /**
+     * When the secret was last updated
+     */
+    updatedAt?: string;
+  }
+}
+
+export interface SecretUpdateGroupResponse {
+  /**
+   * Number of new secrets created
+   */
+  created?: number;
+
+  /**
+   * Name of the secret group
+   */
+  group?: string;
+
+  message?: string;
+
+  success?: boolean;
+
+  /**
+   * Number of existing secrets updated
+   */
+  updated?: number;
 }
 
 export interface SecretCreateParams {
@@ -200,6 +295,10 @@ export interface SecretUpdateGroupParams {
 export declare namespace Secrets {
   export {
     type SecretCreateResponse as SecretCreateResponse,
+    type SecretListResponse as SecretListResponse,
+    type SecretDeleteGroupResponse as SecretDeleteGroupResponse,
+    type SecretRetrieveGroupResponse as SecretRetrieveGroupResponse,
+    type SecretUpdateGroupResponse as SecretUpdateGroupResponse,
     type SecretCreateParams as SecretCreateParams,
     type SecretListParams as SecretListParams,
     type SecretDeleteGroupParams as SecretDeleteGroupParams,

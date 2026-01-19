@@ -2,11 +2,16 @@
 
 import { APIResource } from '../../core/resource';
 import * as StreamingAPI from './streaming';
-import { Streaming } from './streaming';
+import { Streaming, StreamingGetURLResponse } from './streaming';
 import * as TranscriptionAPI from './transcription';
-import { Transcription, TranscriptionCreateParams, TranscriptionRetrieveResponse } from './transcription';
+import {
+  Transcription,
+  TranscriptionCreateParams,
+  TranscriptionCreateResponse,
+  TranscriptionRetrieveResponse,
+} from './transcription';
 import * as V1API from './v1/v1';
-import { V1, V1ListVoicesParams } from './v1/v1';
+import { V1, V1ListVoicesParams, V1ListVoicesResponse } from './v1/v1';
 
 export class Voice extends APIResource {
   streaming: StreamingAPI.Streaming = new StreamingAPI.Streaming(this._client);
@@ -19,13 +24,18 @@ Voice.Transcription = Transcription;
 Voice.V1 = V1;
 
 export declare namespace Voice {
-  export { Streaming as Streaming };
+  export { Streaming as Streaming, type StreamingGetURLResponse as StreamingGetURLResponse };
 
   export {
     Transcription as Transcription,
+    type TranscriptionCreateResponse as TranscriptionCreateResponse,
     type TranscriptionRetrieveResponse as TranscriptionRetrieveResponse,
     type TranscriptionCreateParams as TranscriptionCreateParams,
   };
 
-  export { V1 as V1, type V1ListVoicesParams as V1ListVoicesParams };
+  export {
+    V1 as V1,
+    type V1ListVoicesResponse as V1ListVoicesResponse,
+    type V1ListVoicesParams as V1ListVoicesParams,
+  };
 }

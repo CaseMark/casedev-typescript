@@ -6,6 +6,7 @@ export {
   type V1AnswerResponse,
   type V1ContentsResponse,
   type V1ResearchResponse,
+  type V1RetrieveResearchResponse,
   type V1SearchResponse,
   type V1SimilarResponse,
   type V1AnswerParams,
