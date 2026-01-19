@@ -2,18 +2,21 @@
 
 import { APIResource } from '../../core/resource';
 import * as GraphragAPI from './graphrag';
-import { Graphrag } from './graphrag';
+import { Graphrag, GraphragGetStatsResponse, GraphragInitResponse } from './graphrag';
 import * as ObjectsAPI from './objects';
 import {
   ObjectCreatePresignedURLParams,
   ObjectCreatePresignedURLResponse,
   ObjectDownloadParams,
+  ObjectDownloadResponse,
   ObjectGetTextParams,
+  ObjectGetTextResponse,
+  ObjectListResponse,
   ObjectRetrieveParams,
+  ObjectRetrieveResponse,
   Objects,
 } from './objects';
 import { APIPromise } from '../../core/api-promise';
-import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -45,14 +48,11 @@ export class Vault extends APIResource {
    *
    * @example
    * ```ts
-   * await client.vault.retrieve('vault_abc123');
+   * const vault = await client.vault.retrieve('vault_abc123');
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/vault/${id}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  retrieve(id: string, options?: RequestOptions): APIPromise<VaultRetrieveResponse> {
+    return this._client.get(path`/vault/${id}`, options);
   }
 
   /**
@@ -173,6 +173,115 @@ export interface VaultCreateResponse {
    * S3 bucket name for vector embeddings. Null for storage-only vaults.
    */
   vectorBucket?: string | null;
+}
+
+export interface VaultRetrieveResponse {
+  /**
+   * Vault identifier
+   */
+  id?: string;
+
+  /**
+   * Document chunking strategy configuration
+   */
+  chunkStrategy?: VaultRetrieveResponse.ChunkStrategy;
+
+  /**
+   * Vault creation timestamp
+   */
+  createdAt?: string;
+
+  /**
+   * Vault description
+   */
+  description?: string;
+
+  /**
+   * Whether GraphRAG is enabled
+   */
+  enableGraph?: boolean;
+
+  /**
+   * S3 bucket for document storage
+   */
+  filesBucket?: string;
+
+  /**
+   * Search index name
+   */
+  indexName?: string;
+
+  /**
+   * KMS key for encryption
+   */
+  kmsKeyId?: string;
+
+  /**
+   * Additional vault metadata
+   */
+  metadata?: unknown;
+
+  /**
+   * Vault name
+   */
+  name?: string;
+
+  /**
+   * AWS region
+   */
+  region?: string;
+
+  /**
+   * Total storage size in bytes
+   */
+  totalBytes?: number;
+
+  /**
+   * Number of stored documents
+   */
+  totalObjects?: number;
+
+  /**
+   * Number of vector embeddings
+   */
+  totalVectors?: number;
+
+  /**
+   * Last update timestamp
+   */
+  updatedAt?: string;
+
+  /**
+   * S3 bucket for vector embeddings
+   */
+  vectorBucket?: string | null;
+}
+
+export namespace VaultRetrieveResponse {
+  /**
+   * Document chunking strategy configuration
+   */
+  export interface ChunkStrategy {
+    /**
+     * Target size for each chunk in tokens
+     */
+    chunkSize?: number;
+
+    /**
+     * Chunking method (e.g., 'semantic', 'fixed')
+     */
+    method?: string;
+
+    /**
+     * Minimum chunk size in tokens
+     */
+    minChunkSize?: number;
+
+    /**
+     * Number of overlapping tokens between chunks
+     */
+    overlap?: number;
+  }
 }
 
 export interface VaultListResponse {
@@ -476,6 +585,7 @@ Vault.Objects = Objects;
 export declare namespace Vault {
   export {
     type VaultCreateResponse as VaultCreateResponse,
+    type VaultRetrieveResponse as VaultRetrieveResponse,
     type VaultListResponse as VaultListResponse,
     type VaultIngestResponse as VaultIngestResponse,
     type VaultSearchResponse as VaultSearchResponse,
@@ -486,11 +596,19 @@ export declare namespace Vault {
     type VaultUploadParams as VaultUploadParams,
   };
 
-  export { Graphrag as Graphrag };
+  export {
+    Graphrag as Graphrag,
+    type GraphragGetStatsResponse as GraphragGetStatsResponse,
+    type GraphragInitResponse as GraphragInitResponse,
+  };
 
   export {
     Objects as Objects,
+    type ObjectRetrieveResponse as ObjectRetrieveResponse,
+    type ObjectListResponse as ObjectListResponse,
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
+    type ObjectDownloadResponse as ObjectDownloadResponse,
+    type ObjectGetTextResponse as ObjectGetTextResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectCreatePresignedURLParams as ObjectCreatePresignedURLParams,
     type ObjectDownloadParams as ObjectDownloadParams,

@@ -2,7 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import { buildHeaders } from '../../internal/headers';
+import { type Uploadable } from '../../core/uploads';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -13,14 +13,11 @@ export class V1 extends APIResource {
    *
    * @example
    * ```ts
-   * await client.ocr.v1.retrieve('id');
+   * const v1 = await client.ocr.v1.retrieve('id');
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/ocr/v1/${id}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  retrieve(id: string, options?: RequestOptions): APIPromise<V1RetrieveResponse> {
+    return this._client.get(path`/ocr/v1/${id}`, options);
   }
 
   /**
@@ -30,19 +27,18 @@ export class V1 extends APIResource {
    *
    * @example
    * ```ts
-   * await client.ocr.v1.download('text', { id: 'id' });
+   * const response = await client.ocr.v1.download('text', {
+   *   id: 'id',
+   * });
    * ```
    */
   download(
     type: 'text' | 'json' | 'pdf' | 'original',
     params: V1DownloadParams,
     options?: RequestOptions,
-  ): APIPromise<void> {
+  ): APIPromise<string> {
     const { id } = params;
-    return this._client.get(path`/ocr/v1/${id}/download/${type}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.get(path`/ocr/v1/${id}/download/${type}`, options);
   }
 
   /**
@@ -61,6 +57,45 @@ export class V1 extends APIResource {
     return this._client.post('/ocr/v1/process', { body, ...options });
   }
 }
+
+export interface V1RetrieveResponse {
+  /**
+   * OCR job ID
+   */
+  id?: string;
+
+  /**
+   * Job completion timestamp
+   */
+  completed_at?: string;
+
+  /**
+   * Job creation timestamp
+   */
+  created_at?: string;
+
+  /**
+   * Additional processing metadata
+   */
+  metadata?: unknown;
+
+  /**
+   * Number of pages processed
+   */
+  page_count?: number;
+
+  /**
+   * Current job status
+   */
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  /**
+   * Extracted text content (when completed)
+   */
+  text?: string;
+}
+
+export type V1DownloadResponse = Uploadable;
 
 export interface V1ProcessResponse {
   /**
@@ -172,6 +207,8 @@ export namespace V1ProcessParams {
 
 export declare namespace V1 {
   export {
+    type V1RetrieveResponse as V1RetrieveResponse,
+    type V1DownloadResponse as V1DownloadResponse,
     type V1ProcessResponse as V1ProcessResponse,
     type V1DownloadParams as V1DownloadParams,
     type V1ProcessParams as V1ProcessParams,

@@ -4,7 +4,6 @@ import { APIResource } from '../../../core/resource';
 import * as SpeakAPI from './speak';
 import { Speak, SpeakCreateParams } from './speak';
 import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class V1 extends APIResource {
@@ -18,15 +17,67 @@ export class V1 extends APIResource {
    *
    * @example
    * ```ts
-   * await client.voice.v1.listVoices();
+   * const response = await client.voice.v1.listVoices();
    * ```
    */
-  listVoices(query: V1ListVoicesParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/voice/v1/voices', {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  listVoices(
+    query: V1ListVoicesParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<V1ListVoicesResponse> {
+    return this._client.get('/voice/v1/voices', { query, ...options });
+  }
+}
+
+export interface V1ListVoicesResponse {
+  /**
+   * Token for next page of results
+   */
+  next_page_token?: string;
+
+  /**
+   * Total number of voices (if requested)
+   */
+  total_count?: number;
+
+  voices?: Array<V1ListVoicesResponse.Voice>;
+}
+
+export namespace V1ListVoicesResponse {
+  export interface Voice {
+    /**
+     * Available subscription tiers
+     */
+    available_for_tiers?: Array<string>;
+
+    /**
+     * Voice category
+     */
+    category?: string;
+
+    /**
+     * Voice description
+     */
+    description?: string;
+
+    /**
+     * Voice characteristics and metadata
+     */
+    labels?: unknown;
+
+    /**
+     * Voice name
+     */
+    name?: string;
+
+    /**
+     * URL to preview audio sample
+     */
+    preview_url?: string;
+
+    /**
+     * Unique voice identifier
+     */
+    voice_id?: string;
   }
 }
 
@@ -80,7 +131,7 @@ export interface V1ListVoicesParams {
 V1.Speak = Speak;
 
 export declare namespace V1 {
-  export { type V1ListVoicesParams as V1ListVoicesParams };
+  export { type V1ListVoicesResponse as V1ListVoicesResponse, type V1ListVoicesParams as V1ListVoicesParams };
 
   export { Speak as Speak, type SpeakCreateParams as SpeakCreateParams };
 }

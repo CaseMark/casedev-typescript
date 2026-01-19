@@ -3,7 +3,10 @@
 export {
   Environments,
   type EnvironmentCreateResponse,
+  type EnvironmentRetrieveResponse,
+  type EnvironmentListResponse,
   type EnvironmentDeleteResponse,
+  type EnvironmentSetDefaultResponse,
   type EnvironmentCreateParams,
 } from './environments';
 export { Functions } from './functions';
@@ -12,10 +15,14 @@ export { Runs } from './runs';
 export {
   Secrets,
   type SecretCreateResponse,
+  type SecretListResponse,
+  type SecretDeleteGroupResponse,
+  type SecretRetrieveGroupResponse,
+  type SecretUpdateGroupResponse,
   type SecretCreateParams,
   type SecretListParams,
   type SecretDeleteGroupParams,
   type SecretRetrieveGroupParams,
   type SecretUpdateGroupParams,
 } from './secrets';
-export { V1, type V1GetUsageParams } from './v1';
+export { V1, type V1GetUsageResponse, type V1GetUsageParams } from './v1';

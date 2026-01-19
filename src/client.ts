@@ -18,7 +18,7 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { Compute } from './resources/compute/compute';
 import { Format } from './resources/format/format';
-import { Llm } from './resources/llm/llm';
+import { Llm, LlmGetConfigResponse } from './resources/llm/llm';
 import { Ocr } from './resources/ocr/ocr';
 import { Search } from './resources/search/search';
 import {
@@ -28,6 +28,7 @@ import {
   VaultIngestParams,
   VaultIngestResponse,
   VaultListResponse,
+  VaultRetrieveResponse,
   VaultSearchParams,
   VaultSearchResponse,
   VaultUploadParams,
@@ -782,7 +783,7 @@ export declare namespace Casedev {
 
   export { Format as Format };
 
-  export { Llm as Llm };
+  export { Llm as Llm, type LlmGetConfigResponse as LlmGetConfigResponse };
 
   export { Ocr as Ocr };
 
@@ -791,6 +792,7 @@ export declare namespace Casedev {
   export {
     Vault as Vault,
     type VaultCreateResponse as VaultCreateResponse,
+    type VaultRetrieveResponse as VaultRetrieveResponse,
     type VaultListResponse as VaultListResponse,
     type VaultIngestResponse as VaultIngestResponse,
     type VaultSearchResponse as VaultSearchResponse,

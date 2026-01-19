@@ -2,12 +2,13 @@
 
 export { Compute } from './compute/compute';
 export { Format } from './format/format';
-export { Llm } from './llm/llm';
+export { Llm, type LlmGetConfigResponse } from './llm/llm';
 export { Ocr } from './ocr/ocr';
 export { Search } from './search/search';
 export {
   Vault,
   type VaultCreateResponse,
+  type VaultRetrieveResponse,
   type VaultListResponse,
   type VaultIngestResponse,
   type VaultSearchResponse,

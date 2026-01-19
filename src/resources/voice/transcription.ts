@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -19,15 +18,12 @@ export class Transcription extends APIResource {
    *
    * @example
    * ```ts
-   * await client.voice.transcription.create();
+   * const transcription =
+   *   await client.voice.transcription.create();
    * ```
    */
-  create(body: TranscriptionCreateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/voice/transcription', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  create(body: TranscriptionCreateParams, options?: RequestOptions): APIPromise<TranscriptionCreateResponse> {
+    return this._client.post('/voice/transcription', { body, ...options });
   }
 
   /**
@@ -46,6 +42,28 @@ export class Transcription extends APIResource {
   retrieve(id: string, options?: RequestOptions): APIPromise<TranscriptionRetrieveResponse> {
     return this._client.get(path`/voice/transcription/${id}`, options);
   }
+}
+
+export interface TranscriptionCreateResponse {
+  /**
+   * Unique transcription job ID
+   */
+  id?: string;
+
+  /**
+   * Source audio object ID (only for vault-based transcription)
+   */
+  source_object_id?: string;
+
+  /**
+   * Current status of the transcription job
+   */
+  status?: 'queued' | 'processing' | 'completed' | 'error';
+
+  /**
+   * Vault ID (only for vault-based transcription)
+   */
+  vault_id?: string;
 }
 
 export interface TranscriptionRetrieveResponse {
@@ -180,6 +198,7 @@ export interface TranscriptionCreateParams {
 
 export declare namespace Transcription {
   export {
+    type TranscriptionCreateResponse as TranscriptionCreateResponse,
     type TranscriptionRetrieveResponse as TranscriptionRetrieveResponse,
     type TranscriptionCreateParams as TranscriptionCreateParams,
   };

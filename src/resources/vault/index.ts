@@ -1,9 +1,13 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Graphrag } from './graphrag';
+export { Graphrag, type GraphragGetStatsResponse, type GraphragInitResponse } from './graphrag';
 export {
   Objects,
+  type ObjectRetrieveResponse,
+  type ObjectListResponse,
   type ObjectCreatePresignedURLResponse,
+  type ObjectDownloadResponse,
+  type ObjectGetTextResponse,
   type ObjectRetrieveParams,
   type ObjectCreatePresignedURLParams,
   type ObjectDownloadParams,
@@ -12,6 +16,7 @@ export {
 export {
   Vault,
   type VaultCreateResponse,
+  type VaultRetrieveResponse,
   type VaultListResponse,
   type VaultIngestResponse,
   type VaultSearchResponse,
