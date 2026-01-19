@@ -2,7 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import { buildHeaders } from '../../internal/headers';
+import { type Uploadable } from '../../core/uploads';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -14,17 +14,19 @@ export class Objects extends APIResource {
    *
    * @example
    * ```ts
-   * await client.vault.objects.retrieve('objectId', {
-   *   id: 'id',
-   * });
+   * const object = await client.vault.objects.retrieve(
+   *   'objectId',
+   *   { id: 'id' },
+   * );
    * ```
    */
-  retrieve(objectID: string, params: ObjectRetrieveParams, options?: RequestOptions): APIPromise<void> {
+  retrieve(
+    objectID: string,
+    params: ObjectRetrieveParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectRetrieveResponse> {
     const { id } = params;
-    return this._client.get(path`/vault/${id}/objects/${objectID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.get(path`/vault/${id}/objects/${objectID}`, options);
   }
 
   /**
@@ -33,14 +35,11 @@ export class Objects extends APIResource {
    *
    * @example
    * ```ts
-   * await client.vault.objects.list('id');
+   * const objects = await client.vault.objects.list('id');
    * ```
    */
-  list(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/vault/${id}/objects`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  list(id: string, options?: RequestOptions): APIPromise<ObjectListResponse> {
+    return this._client.get(path`/vault/${id}/objects`, options);
   }
 
   /**
@@ -75,17 +74,15 @@ export class Objects extends APIResource {
    *
    * @example
    * ```ts
-   * await client.vault.objects.download('objectId', {
-   *   id: 'id',
-   * });
+   * const response = await client.vault.objects.download(
+   *   'objectId',
+   *   { id: 'id' },
+   * );
    * ```
    */
-  download(objectID: string, params: ObjectDownloadParams, options?: RequestOptions): APIPromise<void> {
+  download(objectID: string, params: ObjectDownloadParams, options?: RequestOptions): APIPromise<string> {
     const { id } = params;
-    return this._client.get(path`/vault/${id}/objects/${objectID}/download`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.get(path`/vault/${id}/objects/${objectID}/download`, options);
   }
 
   /**
@@ -95,17 +92,184 @@ export class Objects extends APIResource {
    *
    * @example
    * ```ts
-   * await client.vault.objects.getText('objectId', {
-   *   id: 'id',
-   * });
+   * const response = await client.vault.objects.getText(
+   *   'objectId',
+   *   { id: 'id' },
+   * );
    * ```
    */
-  getText(objectID: string, params: ObjectGetTextParams, options?: RequestOptions): APIPromise<void> {
+  getText(
+    objectID: string,
+    params: ObjectGetTextParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectGetTextResponse> {
     const { id } = params;
-    return this._client.get(path`/vault/${id}/objects/${objectID}/text`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.get(path`/vault/${id}/objects/${objectID}/text`, options);
+  }
+}
+
+export interface ObjectRetrieveResponse {
+  /**
+   * Object ID
+   */
+  id?: string;
+
+  /**
+   * Number of text chunks created
+   */
+  chunkCount?: number;
+
+  /**
+   * MIME type
+   */
+  contentType?: string;
+
+  /**
+   * Upload timestamp
+   */
+  createdAt?: string;
+
+  /**
+   * Presigned S3 download URL
+   */
+  downloadUrl?: string;
+
+  /**
+   * URL expiration time in seconds
+   */
+  expiresIn?: number;
+
+  /**
+   * Original filename
+   */
+  filename?: string;
+
+  /**
+   * Processing status (pending, processing, completed, failed)
+   */
+  ingestionStatus?: string;
+
+  /**
+   * Additional metadata
+   */
+  metadata?: unknown;
+
+  /**
+   * Number of pages (for documents)
+   */
+  pageCount?: number;
+
+  /**
+   * Optional folder path for hierarchy preservation
+   */
+  path?: string | null;
+
+  /**
+   * File size in bytes
+   */
+  sizeBytes?: number;
+
+  /**
+   * Length of extracted text
+   */
+  textLength?: number;
+
+  /**
+   * Vault ID
+   */
+  vaultId?: string;
+
+  /**
+   * Number of embedding vectors generated
+   */
+  vectorCount?: number;
+}
+
+export interface ObjectListResponse {
+  /**
+   * Total number of objects in the vault
+   */
+  count?: number;
+
+  objects?: Array<ObjectListResponse.Object>;
+
+  /**
+   * The ID of the vault
+   */
+  vaultId?: string;
+}
+
+export namespace ObjectListResponse {
+  export interface Object {
+    /**
+     * Unique object identifier
+     */
+    id?: string;
+
+    /**
+     * Number of text chunks created for vectorization
+     */
+    chunkCount?: number;
+
+    /**
+     * MIME type of the document
+     */
+    contentType?: string;
+
+    /**
+     * Document upload timestamp
+     */
+    createdAt?: string;
+
+    /**
+     * Original filename of the uploaded document
+     */
+    filename?: string;
+
+    /**
+     * Processing completion timestamp
+     */
+    ingestionCompletedAt?: string;
+
+    /**
+     * Processing status of the document
+     */
+    ingestionStatus?: string;
+
+    /**
+     * Custom metadata associated with the document
+     */
+    metadata?: unknown;
+
+    /**
+     * Number of pages in the document
+     */
+    pageCount?: number;
+
+    /**
+     * Optional folder path for hierarchy preservation from source systems
+     */
+    path?: string | null;
+
+    /**
+     * File size in bytes
+     */
+    sizeBytes?: number;
+
+    /**
+     * Custom tags associated with the document
+     */
+    tags?: Array<string>;
+
+    /**
+     * Total character count of extracted text
+     */
+    textLength?: number;
+
+    /**
+     * Number of vectors generated for semantic search
+     */
+    vectorCount?: number;
   }
 }
 
@@ -170,6 +334,51 @@ export namespace ObjectCreatePresignedURLResponse {
   }
 }
 
+export type ObjectDownloadResponse = Uploadable;
+
+export interface ObjectGetTextResponse {
+  metadata?: ObjectGetTextResponse.Metadata;
+
+  /**
+   * Full concatenated text content from all chunks
+   */
+  text?: string;
+}
+
+export namespace ObjectGetTextResponse {
+  export interface Metadata {
+    /**
+     * Number of text chunks the document was split into
+     */
+    chunk_count?: number;
+
+    /**
+     * Original filename of the document
+     */
+    filename?: string;
+
+    /**
+     * When the document processing completed
+     */
+    ingestion_completed_at?: string;
+
+    /**
+     * Total character count of the extracted text
+     */
+    length?: number;
+
+    /**
+     * The object ID
+     */
+    object_id?: string;
+
+    /**
+     * The vault ID
+     */
+    vault_id?: string;
+  }
+}
+
 export interface ObjectRetrieveParams {
   /**
    * Vault ID
@@ -216,7 +425,11 @@ export interface ObjectGetTextParams {
 
 export declare namespace Objects {
   export {
+    type ObjectRetrieveResponse as ObjectRetrieveResponse,
+    type ObjectListResponse as ObjectListResponse,
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
+    type ObjectDownloadResponse as ObjectDownloadResponse,
+    type ObjectGetTextResponse as ObjectGetTextResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectCreatePresignedURLParams as ObjectCreatePresignedURLParams,
     type ObjectDownloadParams as ObjectDownloadParams,

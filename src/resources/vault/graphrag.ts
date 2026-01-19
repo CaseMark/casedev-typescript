@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -15,14 +14,11 @@ export class Graphrag extends APIResource {
    *
    * @example
    * ```ts
-   * await client.vault.graphrag.getStats('id');
+   * const response = await client.vault.graphrag.getStats('id');
    * ```
    */
-  getStats(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/vault/${id}/graphrag/stats`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getStats(id: string, options?: RequestOptions): APIPromise<GraphragGetStatsResponse> {
+    return this._client.get(path`/vault/${id}/graphrag/stats`, options);
   }
 
   /**
@@ -33,13 +29,59 @@ export class Graphrag extends APIResource {
    *
    * @example
    * ```ts
-   * await client.vault.graphrag.init('id');
+   * const response = await client.vault.graphrag.init('id');
    * ```
    */
-  init(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/vault/${id}/graphrag/init`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  init(id: string, options?: RequestOptions): APIPromise<GraphragInitResponse> {
+    return this._client.post(path`/vault/${id}/graphrag/init`, options);
   }
+}
+
+export interface GraphragGetStatsResponse {
+  /**
+   * Number of entity communities identified
+   */
+  communities?: number;
+
+  /**
+   * Number of processed documents
+   */
+  documents?: number;
+
+  /**
+   * Total number of entities extracted from documents
+   */
+  entities?: number;
+
+  /**
+   * Timestamp of last GraphRAG processing
+   */
+  lastProcessed?: string;
+
+  /**
+   * Total number of relationships between entities
+   */
+  relationships?: number;
+
+  /**
+   * Current processing status
+   */
+  status?: 'processing' | 'completed' | 'error';
+}
+
+export interface GraphragInitResponse {
+  message?: string;
+
+  status?: string;
+
+  success?: boolean;
+
+  vault_id?: string;
+}
+
+export declare namespace Graphrag {
+  export {
+    type GraphragGetStatsResponse as GraphragGetStatsResponse,
+    type GraphragInitResponse as GraphragInitResponse,
+  };
 }

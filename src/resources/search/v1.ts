@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -45,12 +44,8 @@ export class V1 extends APIResource {
     id: string,
     query: V1RetrieveResearchParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.get(path`/search/v1/research/${id}`, {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  ): APIPromise<V1RetrieveResearchResponse> {
+    return this._client.get(path`/search/v1/research/${id}`, { query, ...options });
   }
 
   /**
@@ -161,6 +156,98 @@ export interface V1ResearchResponse {
    * Research findings and analysis
    */
   results?: unknown;
+}
+
+export interface V1RetrieveResearchResponse {
+  /**
+   * Research task ID
+   */
+  id?: string;
+
+  /**
+   * Task completion timestamp
+   */
+  completedAt?: string;
+
+  /**
+   * Task creation timestamp
+   */
+  createdAt?: string;
+
+  /**
+   * Research model used
+   */
+  model?: 'fast' | 'normal' | 'pro';
+
+  /**
+   * Completion percentage (0-100)
+   */
+  progress?: number;
+
+  /**
+   * Original research query
+   */
+  query?: string;
+
+  /**
+   * Research findings and analysis
+   */
+  results?: V1RetrieveResearchResponse.Results;
+
+  /**
+   * Current status of the research task
+   */
+  status?: 'pending' | 'running' | 'completed' | 'failed';
+}
+
+export namespace V1RetrieveResearchResponse {
+  /**
+   * Research findings and analysis
+   */
+  export interface Results {
+    /**
+     * Detailed research sections
+     */
+    sections?: Array<Results.Section>;
+
+    /**
+     * All sources referenced in research
+     */
+    sources?: Array<Results.Source>;
+
+    /**
+     * Executive summary of research findings
+     */
+    summary?: string;
+  }
+
+  export namespace Results {
+    export interface Section {
+      content?: string;
+
+      sources?: Array<Section.Source>;
+
+      title?: string;
+    }
+
+    export namespace Section {
+      export interface Source {
+        snippet?: string;
+
+        title?: string;
+
+        url?: string;
+      }
+    }
+
+    export interface Source {
+      snippet?: string;
+
+      title?: string;
+
+      url?: string;
+    }
+  }
 }
 
 export interface V1SearchResponse {
@@ -507,6 +594,7 @@ export declare namespace V1 {
     type V1AnswerResponse as V1AnswerResponse,
     type V1ContentsResponse as V1ContentsResponse,
     type V1ResearchResponse as V1ResearchResponse,
+    type V1RetrieveResearchResponse as V1RetrieveResearchResponse,
     type V1SearchResponse as V1SearchResponse,
     type V1SimilarResponse as V1SimilarResponse,
     type V1AnswerParams as V1AnswerParams,

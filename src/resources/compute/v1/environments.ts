@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
@@ -32,14 +31,12 @@ export class Environments extends APIResource {
    *
    * @example
    * ```ts
-   * await client.compute.v1.environments.retrieve('name');
+   * const environment =
+   *   await client.compute.v1.environments.retrieve('name');
    * ```
    */
-  retrieve(name: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/compute/v1/environments/${name}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  retrieve(name: string, options?: RequestOptions): APIPromise<EnvironmentRetrieveResponse> {
+    return this._client.get(path`/compute/v1/environments/${name}`, options);
   }
 
   /**
@@ -48,14 +45,12 @@ export class Environments extends APIResource {
    *
    * @example
    * ```ts
-   * await client.compute.v1.environments.list();
+   * const environments =
+   *   await client.compute.v1.environments.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/compute/v1/environments', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  list(options?: RequestOptions): APIPromise<EnvironmentListResponse> {
+    return this._client.get('/compute/v1/environments', options);
   }
 
   /**
@@ -82,16 +77,14 @@ export class Environments extends APIResource {
    *
    * @example
    * ```ts
-   * await client.compute.v1.environments.setDefault(
-   *   'prod-legal-docs',
-   * );
+   * const response =
+   *   await client.compute.v1.environments.setDefault(
+   *     'prod-legal-docs',
+   *   );
    * ```
    */
-  setDefault(name: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/compute/v1/environments/${name}/default`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  setDefault(name: string, options?: RequestOptions): APIPromise<EnvironmentSetDefaultResponse> {
+    return this._client.post(path`/compute/v1/environments/${name}/default`, options);
   }
 }
 
@@ -132,10 +125,142 @@ export interface EnvironmentCreateResponse {
   status?: 'active' | 'inactive';
 }
 
+export interface EnvironmentRetrieveResponse {
+  /**
+   * Unique environment identifier
+   */
+  id?: string;
+
+  /**
+   * Environment creation timestamp
+   */
+  createdAt?: string;
+
+  /**
+   * Environment domain URL
+   */
+  domain?: string;
+
+  /**
+   * Whether this is the default environment
+   */
+  isDefault?: boolean;
+
+  /**
+   * Environment name
+   */
+  name?: string;
+
+  /**
+   * URL-safe environment slug
+   */
+  slug?: string;
+
+  /**
+   * Environment status (active, inactive, etc.)
+   */
+  status?: string;
+
+  /**
+   * Environment last update timestamp
+   */
+  updatedAt?: string;
+}
+
+export interface EnvironmentListResponse {
+  environments?: Array<EnvironmentListResponse.Environment>;
+}
+
+export namespace EnvironmentListResponse {
+  export interface Environment {
+    /**
+     * Unique environment identifier
+     */
+    id?: string;
+
+    /**
+     * Environment creation timestamp
+     */
+    createdAt?: string;
+
+    /**
+     * Environment domain
+     */
+    domain?: string;
+
+    /**
+     * Whether this is the default environment
+     */
+    isDefault?: boolean;
+
+    /**
+     * Human-readable environment name
+     */
+    name?: string;
+
+    /**
+     * URL-safe environment identifier
+     */
+    slug?: string;
+
+    /**
+     * Environment status
+     */
+    status?: string;
+
+    /**
+     * Last update timestamp
+     */
+    updatedAt?: string;
+  }
+}
+
 export interface EnvironmentDeleteResponse {
   message: string;
 
   success: boolean;
+}
+
+export interface EnvironmentSetDefaultResponse {
+  /**
+   * Unique environment identifier
+   */
+  id?: string;
+
+  /**
+   * Environment creation timestamp
+   */
+  createdAt?: string;
+
+  /**
+   * Environment domain
+   */
+  domain?: string;
+
+  /**
+   * Whether this is the default environment
+   */
+  isDefault?: boolean;
+
+  /**
+   * Environment name
+   */
+  name?: string;
+
+  /**
+   * URL-friendly environment identifier
+   */
+  slug?: string;
+
+  /**
+   * Current environment status
+   */
+  status?: string;
+
+  /**
+   * Last update timestamp
+   */
+  updatedAt?: string;
 }
 
 export interface EnvironmentCreateParams {
@@ -148,7 +273,10 @@ export interface EnvironmentCreateParams {
 export declare namespace Environments {
   export {
     type EnvironmentCreateResponse as EnvironmentCreateResponse,
+    type EnvironmentRetrieveResponse as EnvironmentRetrieveResponse,
+    type EnvironmentListResponse as EnvironmentListResponse,
     type EnvironmentDeleteResponse as EnvironmentDeleteResponse,
+    type EnvironmentSetDefaultResponse as EnvironmentSetDefaultResponse,
     type EnvironmentCreateParams as EnvironmentCreateParams,
   };
 }

@@ -2,7 +2,14 @@
 
 import { APIResource } from '../../../core/resource';
 import * as TemplatesAPI from './templates';
-import { TemplateCreateParams, TemplateCreateResponse, TemplateListParams, Templates } from './templates';
+import {
+  TemplateCreateParams,
+  TemplateCreateResponse,
+  TemplateListParams,
+  TemplateListResponse,
+  TemplateRetrieveResponse,
+  Templates,
+} from './templates';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
@@ -85,6 +92,8 @@ export declare namespace V1 {
   export {
     Templates as Templates,
     type TemplateCreateResponse as TemplateCreateResponse,
+    type TemplateRetrieveResponse as TemplateRetrieveResponse,
+    type TemplateListResponse as TemplateListResponse,
     type TemplateCreateParams as TemplateCreateParams,
     type TemplateListParams as TemplateListParams,
   };
