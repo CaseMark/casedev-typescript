@@ -363,7 +363,7 @@ export interface VaultIngestResponse {
 
 export interface VaultSearchResponse {
   /**
-   * Relevant text chunks with similarity scores
+   * Relevant text chunks with similarity scores and page locations
    */
   chunks?: Array<VaultSearchResponse.Chunk>;
 
@@ -392,10 +392,46 @@ export interface VaultSearchResponse {
 
 export namespace VaultSearchResponse {
   export interface Chunk {
+    /**
+     * Index of the chunk within the document (0-based)
+     */
+    chunk_index?: number;
+
+    /**
+     * Vector similarity distance (lower is more similar)
+     */
+    distance?: number;
+
+    /**
+     * ID of the source document
+     */
+    object_id?: string;
+
+    /**
+     * PDF page number where the chunk ends (1-indexed). Null for non-PDF documents or
+     * documents ingested before page tracking was added.
+     */
+    page_end?: number | null;
+
+    /**
+     * PDF page number where the chunk begins (1-indexed). Null for non-PDF documents
+     * or documents ingested before page tracking was added.
+     */
+    page_start?: number | null;
+
+    /**
+     * Relevance score (deprecated, use distance or hybridScore)
+     */
     score?: number;
 
+    /**
+     * Source identifier (deprecated, use object_id)
+     */
     source?: string;
 
+    /**
+     * Preview of the chunk text (up to 500 characters)
+     */
     text?: string;
   }
 
