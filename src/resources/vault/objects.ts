@@ -407,6 +407,12 @@ export interface ObjectCreatePresignedURLParams {
    * Body param: The S3 operation to generate URL for
    */
   operation?: 'GET' | 'PUT' | 'DELETE' | 'HEAD';
+
+  /**
+   * Body param: File size in bytes (required for PUT operations, max 500MB). Used to
+   * enforce upload limits at S3 level.
+   */
+  sizeBytes?: number;
 }
 
 export interface ObjectDownloadParams {

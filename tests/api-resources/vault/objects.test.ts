@@ -56,6 +56,7 @@ describe('resource objects', () => {
       contentType: 'contentType',
       expiresIn: 60,
       operation: 'GET',
+      sizeBytes: 1,
     });
   });
 
