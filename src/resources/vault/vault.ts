@@ -120,6 +120,7 @@ export class Vault extends APIResource {
    * const response = await client.vault.upload('id', {
    *   contentType: 'contentType',
    *   filename: 'filename',
+   *   sizeBytes: 1,
    * });
    * ```
    */
@@ -433,6 +434,20 @@ export namespace VaultSearchResponse {
      * Preview of the chunk text (up to 500 characters)
      */
     text?: string;
+
+    /**
+     * Ending word index (0-based) in the OCR word list. Use with GET
+     * /vault/:id/objects/:objectId/ocr-words to retrieve bounding boxes for
+     * highlighting.
+     */
+    word_end_index?: number | null;
+
+    /**
+     * Starting word index (0-based) in the OCR word list. Use with GET
+     * /vault/:id/objects/:objectId/ocr-words to retrieve bounding boxes for
+     * highlighting.
+     */
+    word_start_index?: number | null;
   }
 
   export interface Source {
@@ -593,6 +608,12 @@ export interface VaultUploadParams {
   filename: string;
 
   /**
+   * File size in bytes (required, max 500MB). Used to enforce upload limits at S3
+   * level.
+   */
+  sizeBytes: number;
+
+  /**
    * Whether to automatically process and index the file for search
    */
   auto_index?: boolean;
@@ -608,11 +629,6 @@ export interface VaultUploadParams {
    * '/Discovery/Depositions/2024'
    */
   path?: string;
-
-  /**
-   * Estimated file size in bytes for cost calculation
-   */
-  sizeBytes?: number;
 }
 
 Vault.Graphrag = Graphrag;
