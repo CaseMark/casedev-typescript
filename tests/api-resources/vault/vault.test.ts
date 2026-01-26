@@ -96,7 +96,11 @@ describe('resource vault', () => {
 
   // Prism tests are disabled
   test.skip('upload: only required params', async () => {
-    const responsePromise = client.vault.upload('id', { contentType: 'contentType', filename: 'filename' });
+    const responsePromise = client.vault.upload('id', {
+      contentType: 'contentType',
+      filename: 'filename',
+      sizeBytes: 1,
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -111,10 +115,10 @@ describe('resource vault', () => {
     const response = await client.vault.upload('id', {
       contentType: 'contentType',
       filename: 'filename',
+      sizeBytes: 1,
       auto_index: true,
       metadata: {},
       path: 'path',
-      sizeBytes: 0,
     });
   });
 });
