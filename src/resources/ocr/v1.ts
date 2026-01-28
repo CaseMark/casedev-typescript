@@ -62,17 +62,22 @@ export interface V1RetrieveResponse {
   /**
    * OCR job ID
    */
-  id?: string;
+  id: string;
+
+  /**
+   * Job creation timestamp
+   */
+  created_at: string;
+
+  /**
+   * Current job status
+   */
+  status: 'pending' | 'processing' | 'completed' | 'failed';
 
   /**
    * Job completion timestamp
    */
   completed_at?: string;
-
-  /**
-   * Job creation timestamp
-   */
-  created_at?: string;
 
   /**
    * Additional processing metadata
@@ -83,11 +88,6 @@ export interface V1RetrieveResponse {
    * Number of pages processed
    */
   page_count?: number;
-
-  /**
-   * Current job status
-   */
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
 
   /**
    * Extracted text content (when completed)
