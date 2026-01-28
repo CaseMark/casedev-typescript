@@ -57,10 +57,9 @@ describe('resource v1', () => {
       document_id: 'contract-2024-001',
       engine: 'doctr',
       features: {
-        forms: false,
-        layout: true,
-        tables: true,
-        text: true,
+        embed: {},
+        forms: { foo: 'bar' },
+        tables: { format: 'csv' },
       },
       result_bucket: 'my-ocr-results',
       result_prefix: 'ocr/2024/',
