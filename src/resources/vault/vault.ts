@@ -180,17 +180,32 @@ export interface VaultRetrieveResponse {
   /**
    * Vault identifier
    */
-  id?: string;
+  id: string;
+
+  /**
+   * Vault creation timestamp
+   */
+  createdAt: string;
+
+  /**
+   * S3 bucket for document storage
+   */
+  filesBucket: string;
+
+  /**
+   * Vault name
+   */
+  name: string;
+
+  /**
+   * AWS region
+   */
+  region: string;
 
   /**
    * Document chunking strategy configuration
    */
   chunkStrategy?: VaultRetrieveResponse.ChunkStrategy;
-
-  /**
-   * Vault creation timestamp
-   */
-  createdAt?: string;
 
   /**
    * Vault description
@@ -201,11 +216,6 @@ export interface VaultRetrieveResponse {
    * Whether GraphRAG is enabled
    */
   enableGraph?: boolean;
-
-  /**
-   * S3 bucket for document storage
-   */
-  filesBucket?: string;
 
   /**
    * Search index name
@@ -221,16 +231,6 @@ export interface VaultRetrieveResponse {
    * Additional vault metadata
    */
   metadata?: unknown;
-
-  /**
-   * Vault name
-   */
-  name?: string;
-
-  /**
-   * AWS region
-   */
-  region?: string;
 
   /**
    * Total storage size in bytes
