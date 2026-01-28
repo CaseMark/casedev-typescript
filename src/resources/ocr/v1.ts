@@ -163,7 +163,7 @@ export interface V1ProcessParams {
   engine?: 'doctr' | 'paddleocr';
 
   /**
-   * OCR features to extract
+   * Additional processing options
    */
   features?: V1ProcessParams.Features;
 
@@ -180,28 +180,37 @@ export interface V1ProcessParams {
 
 export namespace V1ProcessParams {
   /**
-   * OCR features to extract
+   * Additional processing options
    */
   export interface Features {
     /**
-     * Detect form fields
+     * Generate searchable PDF with text layer
      */
-    forms?: boolean;
+    embed?: { [key: string]: unknown };
 
     /**
-     * Preserve document layout
+     * Detect and extract form fields
      */
-    layout?: boolean;
+    forms?: { [key: string]: unknown };
 
     /**
-     * Detect and extract tables
+     * Extract tables as structured data
      */
-    tables?: boolean;
+    tables?: Features.Tables;
+  }
 
+  export namespace Features {
     /**
-     * Extract text content
+     * Extract tables as structured data
      */
-    text?: boolean;
+    export interface Tables {
+      /**
+       * Output format for extracted tables
+       */
+      format?: 'csv' | 'json';
+
+      [k: string]: unknown;
+    }
   }
 }
 
