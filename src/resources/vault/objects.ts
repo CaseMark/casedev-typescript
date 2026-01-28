@@ -112,42 +112,47 @@ export interface ObjectRetrieveResponse {
   /**
    * Object ID
    */
-  id?: string;
+  id: string;
+
+  /**
+   * MIME type
+   */
+  contentType: string;
+
+  /**
+   * Upload timestamp
+   */
+  createdAt: string;
+
+  /**
+   * Presigned S3 download URL
+   */
+  downloadUrl: string;
+
+  /**
+   * URL expiration time in seconds
+   */
+  expiresIn: number;
+
+  /**
+   * Original filename
+   */
+  filename: string;
+
+  /**
+   * Processing status (pending, processing, completed, failed)
+   */
+  ingestionStatus: string;
+
+  /**
+   * Vault ID
+   */
+  vaultId: string;
 
   /**
    * Number of text chunks created
    */
   chunkCount?: number;
-
-  /**
-   * MIME type
-   */
-  contentType?: string;
-
-  /**
-   * Upload timestamp
-   */
-  createdAt?: string;
-
-  /**
-   * Presigned S3 download URL
-   */
-  downloadUrl?: string;
-
-  /**
-   * URL expiration time in seconds
-   */
-  expiresIn?: number;
-
-  /**
-   * Original filename
-   */
-  filename?: string;
-
-  /**
-   * Processing status (pending, processing, completed, failed)
-   */
-  ingestionStatus?: string;
 
   /**
    * Additional metadata
@@ -175,11 +180,6 @@ export interface ObjectRetrieveResponse {
   textLength?: number;
 
   /**
-   * Vault ID
-   */
-  vaultId?: string;
-
-  /**
    * Number of embedding vectors generated
    */
   vectorCount?: number;
@@ -189,14 +189,14 @@ export interface ObjectListResponse {
   /**
    * Total number of objects in the vault
    */
-  count?: number;
+  count: number;
 
-  objects?: Array<ObjectListResponse.Object>;
+  objects: Array<ObjectListResponse.Object>;
 
   /**
    * The ID of the vault
    */
-  vaultId?: string;
+  vaultId: string;
 }
 
 export namespace ObjectListResponse {
@@ -204,7 +204,27 @@ export namespace ObjectListResponse {
     /**
      * Unique object identifier
      */
-    id?: string;
+    id: string;
+
+    /**
+     * MIME type of the document
+     */
+    contentType: string;
+
+    /**
+     * Document upload timestamp
+     */
+    createdAt: string;
+
+    /**
+     * Original filename of the uploaded document
+     */
+    filename: string;
+
+    /**
+     * Processing status of the document
+     */
+    ingestionStatus: string;
 
     /**
      * Number of text chunks created for vectorization
@@ -212,29 +232,9 @@ export namespace ObjectListResponse {
     chunkCount?: number;
 
     /**
-     * MIME type of the document
-     */
-    contentType?: string;
-
-    /**
-     * Document upload timestamp
-     */
-    createdAt?: string;
-
-    /**
-     * Original filename of the uploaded document
-     */
-    filename?: string;
-
-    /**
      * Processing completion timestamp
      */
     ingestionCompletedAt?: string;
-
-    /**
-     * Processing status of the document
-     */
-    ingestionStatus?: string;
 
     /**
      * Custom metadata associated with the document
@@ -337,12 +337,12 @@ export namespace ObjectCreatePresignedURLResponse {
 export type ObjectDownloadResponse = Uploadable;
 
 export interface ObjectGetTextResponse {
-  metadata?: ObjectGetTextResponse.Metadata;
+  metadata: ObjectGetTextResponse.Metadata;
 
   /**
    * Full concatenated text content from all chunks
    */
-  text?: string;
+  text: string;
 }
 
 export namespace ObjectGetTextResponse {
@@ -350,32 +350,32 @@ export namespace ObjectGetTextResponse {
     /**
      * Number of text chunks the document was split into
      */
-    chunk_count?: number;
+    chunk_count: number;
 
     /**
      * Original filename of the document
      */
-    filename?: string;
+    filename: string;
+
+    /**
+     * Total character count of the extracted text
+     */
+    length: number;
+
+    /**
+     * The object ID
+     */
+    object_id: string;
+
+    /**
+     * The vault ID
+     */
+    vault_id: string;
 
     /**
      * When the document processing completed
      */
     ingestion_completed_at?: string;
-
-    /**
-     * Total character count of the extracted text
-     */
-    length?: number;
-
-    /**
-     * The object ID
-     */
-    object_id?: string;
-
-    /**
-     * The vault ID
-     */
-    vault_id?: string;
   }
 }
 
