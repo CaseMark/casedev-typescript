@@ -120,7 +120,6 @@ export class Vault extends APIResource {
    * const response = await client.vault.upload('id', {
    *   contentType: 'contentType',
    *   filename: 'filename',
-   *   sizeBytes: 1,
    * });
    * ```
    */
@@ -608,12 +607,6 @@ export interface VaultUploadParams {
   filename: string;
 
   /**
-   * File size in bytes (required, max 500MB). Used to enforce upload limits at S3
-   * level.
-   */
-  sizeBytes: number;
-
-  /**
    * Whether to automatically process and index the file for search
    */
   auto_index?: boolean;
@@ -629,6 +622,12 @@ export interface VaultUploadParams {
    * '/Discovery/Depositions/2024'
    */
   path?: string;
+
+  /**
+   * File size in bytes (optional, max 500MB). When provided, enforces exact file
+   * size at S3 level.
+   */
+  sizeBytes?: number;
 }
 
 Vault.Graphrag = Graphrag;
