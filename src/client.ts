@@ -16,26 +16,38 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
+import { Applications } from './resources/applications/applications';
 import { Compute } from './resources/compute/compute';
+import { Database } from './resources/database/database';
 import { Format } from './resources/format/format';
+import { Legal } from './resources/legal/legal';
 import { Llm, LlmGetConfigResponse } from './resources/llm/llm';
+import { Memory } from './resources/memory/memory';
 import { Ocr } from './resources/ocr/ocr';
+import { Payments } from './resources/payments/payments';
+import { Privilege } from './resources/privilege/privilege';
+import { Projects } from './resources/projects/projects';
 import { Search } from './resources/search/search';
+import { Superdoc } from './resources/superdoc/superdoc';
+import { Translate } from './resources/translate/translate';
 import {
   Vault,
   VaultCreateParams,
   VaultCreateResponse,
+  VaultDeleteParams,
+  VaultDeleteResponse,
   VaultIngestParams,
   VaultIngestResponse,
   VaultListResponse,
   VaultRetrieveResponse,
   VaultSearchParams,
   VaultSearchResponse,
+  VaultUpdateParams,
+  VaultUpdateResponse,
   VaultUploadParams,
   VaultUploadResponse,
 } from './resources/vault/vault';
 import { Voice } from './resources/voice/voice';
-import { Webhooks } from './resources/webhooks/webhooks';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -758,53 +770,89 @@ export class Casedev {
 
   static toFile = Uploads.toFile;
 
+  applications: API.Applications = new API.Applications(this);
   compute: API.Compute = new API.Compute(this);
+  database: API.Database = new API.Database(this);
   format: API.Format = new API.Format(this);
+  legal: API.Legal = new API.Legal(this);
   llm: API.Llm = new API.Llm(this);
+  memory: API.Memory = new API.Memory(this);
   ocr: API.Ocr = new API.Ocr(this);
+  payments: API.Payments = new API.Payments(this);
+  privilege: API.Privilege = new API.Privilege(this);
+  projects: API.Projects = new API.Projects(this);
   search: API.Search = new API.Search(this);
+  superdoc: API.Superdoc = new API.Superdoc(this);
+  translate: API.Translate = new API.Translate(this);
   vault: API.Vault = new API.Vault(this);
   voice: API.Voice = new API.Voice(this);
-  webhooks: API.Webhooks = new API.Webhooks(this);
 }
 
+Casedev.Applications = Applications;
 Casedev.Compute = Compute;
+Casedev.Database = Database;
 Casedev.Format = Format;
+Casedev.Legal = Legal;
 Casedev.Llm = Llm;
+Casedev.Memory = Memory;
 Casedev.Ocr = Ocr;
+Casedev.Payments = Payments;
+Casedev.Privilege = Privilege;
+Casedev.Projects = Projects;
 Casedev.Search = Search;
+Casedev.Superdoc = Superdoc;
+Casedev.Translate = Translate;
 Casedev.Vault = Vault;
 Casedev.Voice = Voice;
-Casedev.Webhooks = Webhooks;
 
 export declare namespace Casedev {
   export type RequestOptions = Opts.RequestOptions;
 
+  export { Applications as Applications };
+
   export { Compute as Compute };
+
+  export { Database as Database };
 
   export { Format as Format };
 
+  export { Legal as Legal };
+
   export { Llm as Llm, type LlmGetConfigResponse as LlmGetConfigResponse };
+
+  export { Memory as Memory };
 
   export { Ocr as Ocr };
 
+  export { Payments as Payments };
+
+  export { Privilege as Privilege };
+
+  export { Projects as Projects };
+
   export { Search as Search };
+
+  export { Superdoc as Superdoc };
+
+  export { Translate as Translate };
 
   export {
     Vault as Vault,
     type VaultCreateResponse as VaultCreateResponse,
     type VaultRetrieveResponse as VaultRetrieveResponse,
+    type VaultUpdateResponse as VaultUpdateResponse,
     type VaultListResponse as VaultListResponse,
+    type VaultDeleteResponse as VaultDeleteResponse,
     type VaultIngestResponse as VaultIngestResponse,
     type VaultSearchResponse as VaultSearchResponse,
     type VaultUploadResponse as VaultUploadResponse,
     type VaultCreateParams as VaultCreateParams,
+    type VaultUpdateParams as VaultUpdateParams,
+    type VaultDeleteParams as VaultDeleteParams,
     type VaultIngestParams as VaultIngestParams,
     type VaultSearchParams as VaultSearchParams,
     type VaultUploadParams as VaultUploadParams,
   };
 
   export { Voice as Voice };
-
-  export { Webhooks as Webhooks };
 }

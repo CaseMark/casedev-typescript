@@ -9,9 +9,15 @@ export {
   type EnvironmentSetDefaultResponse,
   type EnvironmentCreateParams,
 } from './environments';
-export { Functions } from './functions';
-export { Invoke } from './invoke';
-export { Runs } from './runs';
+export { InstanceTypes, type InstanceTypeListResponse } from './instance-types';
+export {
+  Instances,
+  type InstanceCreateResponse,
+  type InstanceRetrieveResponse,
+  type InstanceListResponse,
+  type InstanceDeleteResponse,
+  type InstanceCreateParams,
+} from './instances';
 export {
   Secrets,
   type SecretCreateResponse,

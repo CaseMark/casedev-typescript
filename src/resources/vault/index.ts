@@ -1,27 +1,45 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Graphrag, type GraphragGetStatsResponse, type GraphragInitResponse } from './graphrag';
+export {
+  Graphrag,
+  type GraphragGetStatsResponse,
+  type GraphragInitResponse,
+  type GraphragProcessObjectResponse,
+  type GraphragProcessObjectParams,
+} from './graphrag';
 export {
   Objects,
   type ObjectRetrieveResponse,
+  type ObjectUpdateResponse,
   type ObjectListResponse,
+  type ObjectDeleteResponse,
   type ObjectCreatePresignedURLResponse,
   type ObjectDownloadResponse,
+  type ObjectGetOcrWordsResponse,
+  type ObjectGetSummarizeJobResponse,
   type ObjectGetTextResponse,
   type ObjectRetrieveParams,
+  type ObjectUpdateParams,
+  type ObjectDeleteParams,
   type ObjectCreatePresignedURLParams,
   type ObjectDownloadParams,
+  type ObjectGetOcrWordsParams,
+  type ObjectGetSummarizeJobParams,
   type ObjectGetTextParams,
 } from './objects';
 export {
   Vault,
   type VaultCreateResponse,
   type VaultRetrieveResponse,
+  type VaultUpdateResponse,
   type VaultListResponse,
+  type VaultDeleteResponse,
   type VaultIngestResponse,
   type VaultSearchResponse,
   type VaultUploadResponse,
   type VaultCreateParams,
+  type VaultUpdateParams,
+  type VaultDeleteParams,
   type VaultIngestParams,
   type VaultSearchParams,
   type VaultUploadParams,
