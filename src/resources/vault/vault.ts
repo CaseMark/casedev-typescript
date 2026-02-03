@@ -2,18 +2,32 @@
 
 import { APIResource } from '../../core/resource';
 import * as GraphragAPI from './graphrag';
-import { Graphrag, GraphragGetStatsResponse, GraphragInitResponse } from './graphrag';
+import {
+  Graphrag,
+  GraphragGetStatsResponse,
+  GraphragInitResponse,
+  GraphragProcessObjectParams,
+  GraphragProcessObjectResponse,
+} from './graphrag';
 import * as ObjectsAPI from './objects';
 import {
   ObjectCreatePresignedURLParams,
   ObjectCreatePresignedURLResponse,
+  ObjectDeleteParams,
+  ObjectDeleteResponse,
   ObjectDownloadParams,
   ObjectDownloadResponse,
+  ObjectGetOcrWordsParams,
+  ObjectGetOcrWordsResponse,
+  ObjectGetSummarizeJobParams,
+  ObjectGetSummarizeJobResponse,
   ObjectGetTextParams,
   ObjectGetTextResponse,
   ObjectListResponse,
   ObjectRetrieveParams,
   ObjectRetrieveResponse,
+  ObjectUpdateParams,
+  ObjectUpdateResponse,
   Objects,
 } from './objects';
 import { APIPromise } from '../../core/api-promise';
@@ -56,6 +70,22 @@ export class Vault extends APIResource {
   }
 
   /**
+   * Update vault settings including name, description, and enableGraph. Changing
+   * enableGraph only affects future document uploads - existing documents retain
+   * their current graph/non-graph state.
+   *
+   * @example
+   * ```ts
+   * const vault = await client.vault.update('id', {
+   *   name: 'Updated Vault Name',
+   * });
+   * ```
+   */
+  update(id: string, body: VaultUpdateParams, options?: RequestOptions): APIPromise<VaultUpdateResponse> {
+    return this._client.patch(path`/vault/${id}`, { body, ...options });
+  }
+
+  /**
    * List all vaults for the authenticated organization. Returns vault metadata
    * including name, description, storage configuration, and usage statistics.
    *
@@ -66,6 +96,25 @@ export class Vault extends APIResource {
    */
   list(options?: RequestOptions): APIPromise<VaultListResponse> {
     return this._client.get('/vault', options);
+  }
+
+  /**
+   * Permanently deletes a vault and all its contents including documents, vectors,
+   * graph data, and S3 buckets. This operation cannot be undone. For large vaults,
+   * use the async=true query parameter to queue deletion in the background.
+   *
+   * @example
+   * ```ts
+   * const vault = await client.vault.delete('id');
+   * ```
+   */
+  delete(
+    id: string,
+    params: VaultDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<VaultDeleteResponse> {
+    const { async } = params ?? {};
+    return this._client.delete(path`/vault/${id}`, { query: { async }, ...options });
   }
 
   /**
@@ -284,6 +333,88 @@ export namespace VaultRetrieveResponse {
   }
 }
 
+export interface VaultUpdateResponse {
+  /**
+   * Vault identifier
+   */
+  id?: string;
+
+  /**
+   * Document chunking strategy configuration
+   */
+  chunkStrategy?: unknown;
+
+  /**
+   * Vault creation timestamp
+   */
+  createdAt?: string;
+
+  /**
+   * Vault description
+   */
+  description?: string | null;
+
+  /**
+   * Whether GraphRAG is enabled for future uploads
+   */
+  enableGraph?: boolean;
+
+  /**
+   * S3 bucket for document storage
+   */
+  filesBucket?: string;
+
+  /**
+   * Search index name
+   */
+  indexName?: string;
+
+  /**
+   * KMS key for encryption
+   */
+  kmsKeyId?: string;
+
+  /**
+   * Additional vault metadata
+   */
+  metadata?: unknown;
+
+  /**
+   * Vault name
+   */
+  name?: string;
+
+  /**
+   * AWS region
+   */
+  region?: string;
+
+  /**
+   * Total storage size in bytes
+   */
+  totalBytes?: number;
+
+  /**
+   * Number of stored documents
+   */
+  totalObjects?: number;
+
+  /**
+   * Number of vector embeddings
+   */
+  totalVectors?: number;
+
+  /**
+   * Last update timestamp
+   */
+  updatedAt?: string;
+
+  /**
+   * S3 bucket for vector embeddings
+   */
+  vectorBucket?: string | null;
+}
+
 export interface VaultListResponse {
   /**
    * Total number of vaults
@@ -329,6 +460,31 @@ export namespace VaultListResponse {
      * Number of stored documents
      */
     totalObjects?: number;
+  }
+}
+
+export interface VaultDeleteResponse {
+  deletedVault?: VaultDeleteResponse.DeletedVault;
+
+  /**
+   * Either 'deleted' or 'deletion_queued'
+   */
+  status?: string;
+
+  success?: boolean;
+}
+
+export namespace VaultDeleteResponse {
+  export interface DeletedVault {
+    id?: string;
+
+    bytesFreed?: number;
+
+    name?: string;
+
+    objectsDeleted?: number;
+
+    vectorsDeleted?: number;
   }
 }
 
@@ -550,6 +706,31 @@ export interface VaultCreateParams {
   metadata?: unknown;
 }
 
+export interface VaultUpdateParams {
+  /**
+   * New description for the vault. Set to null to remove.
+   */
+  description?: string | null;
+
+  /**
+   * Whether to enable GraphRAG for future document uploads
+   */
+  enableGraph?: boolean;
+
+  /**
+   * New name for the vault
+   */
+  name?: string;
+}
+
+export interface VaultDeleteParams {
+  /**
+   * If true and vault has many objects, queue deletion in background and return
+   * immediately
+   */
+  async?: boolean;
+}
+
 export interface VaultIngestParams {
   /**
    * Vault ID
@@ -637,11 +818,15 @@ export declare namespace Vault {
   export {
     type VaultCreateResponse as VaultCreateResponse,
     type VaultRetrieveResponse as VaultRetrieveResponse,
+    type VaultUpdateResponse as VaultUpdateResponse,
     type VaultListResponse as VaultListResponse,
+    type VaultDeleteResponse as VaultDeleteResponse,
     type VaultIngestResponse as VaultIngestResponse,
     type VaultSearchResponse as VaultSearchResponse,
     type VaultUploadResponse as VaultUploadResponse,
     type VaultCreateParams as VaultCreateParams,
+    type VaultUpdateParams as VaultUpdateParams,
+    type VaultDeleteParams as VaultDeleteParams,
     type VaultIngestParams as VaultIngestParams,
     type VaultSearchParams as VaultSearchParams,
     type VaultUploadParams as VaultUploadParams,
@@ -651,18 +836,28 @@ export declare namespace Vault {
     Graphrag as Graphrag,
     type GraphragGetStatsResponse as GraphragGetStatsResponse,
     type GraphragInitResponse as GraphragInitResponse,
+    type GraphragProcessObjectResponse as GraphragProcessObjectResponse,
+    type GraphragProcessObjectParams as GraphragProcessObjectParams,
   };
 
   export {
     Objects as Objects,
     type ObjectRetrieveResponse as ObjectRetrieveResponse,
+    type ObjectUpdateResponse as ObjectUpdateResponse,
     type ObjectListResponse as ObjectListResponse,
+    type ObjectDeleteResponse as ObjectDeleteResponse,
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
     type ObjectDownloadResponse as ObjectDownloadResponse,
+    type ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse,
+    type ObjectGetSummarizeJobResponse as ObjectGetSummarizeJobResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
+    type ObjectUpdateParams as ObjectUpdateParams,
+    type ObjectDeleteParams as ObjectDeleteParams,
     type ObjectCreatePresignedURLParams as ObjectCreatePresignedURLParams,
     type ObjectDownloadParams as ObjectDownloadParams,
+    type ObjectGetOcrWordsParams as ObjectGetOcrWordsParams,
+    type ObjectGetSummarizeJobParams as ObjectGetSummarizeJobParams,
     type ObjectGetTextParams as ObjectGetTextParams,
   };
 }
