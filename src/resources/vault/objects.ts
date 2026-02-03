@@ -409,8 +409,8 @@ export interface ObjectCreatePresignedURLParams {
   operation?: 'GET' | 'PUT' | 'DELETE' | 'HEAD';
 
   /**
-   * Body param: File size in bytes (optional, max 500MB). When provided for PUT
-   * operations, enforces exact file size at S3 level.
+   * Body param: File size in bytes (optional, max 5GB for single PUT uploads). When
+   * provided for PUT operations, enforces exact file size at S3 level.
    */
   sizeBytes?: number;
 }
