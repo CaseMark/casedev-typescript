@@ -30,6 +30,32 @@ export class Objects extends APIResource {
   }
 
   /**
+   * Update a document's filename, path, or metadata. Use this to rename files or
+   * organize them into virtual folders. The path is stored in metadata.path and can
+   * be used to build folder hierarchies in your application.
+   *
+   * @example
+   * ```ts
+   * const object = await client.vault.objects.update(
+   *   'objectId',
+   *   {
+   *     id: 'id',
+   *     filename: 'deposition-smith-2024.pdf',
+   *     path: '/Discovery/Depositions',
+   *   },
+   * );
+   * ```
+   */
+  update(
+    objectID: string,
+    params: ObjectUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectUpdateResponse> {
+    const { id, ...body } = params;
+    return this._client.patch(path`/vault/${id}/objects/${objectID}`, { body, ...options });
+  }
+
+  /**
    * Retrieve all objects stored in a specific vault, including document metadata,
    * ingestion status, and processing statistics.
    *
@@ -40,6 +66,27 @@ export class Objects extends APIResource {
    */
   list(id: string, options?: RequestOptions): APIPromise<ObjectListResponse> {
     return this._client.get(path`/vault/${id}/objects`, options);
+  }
+
+  /**
+   * Permanently deletes a document from the vault including all associated vectors,
+   * chunks, graph data, and the original file. This operation cannot be undone.
+   *
+   * @example
+   * ```ts
+   * const object = await client.vault.objects.delete(
+   *   'objectId',
+   *   { id: 'id' },
+   * );
+   * ```
+   */
+  delete(
+    objectID: string,
+    params: ObjectDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectDeleteResponse> {
+    const { id, force } = params;
+    return this._client.delete(path`/vault/${id}/objects/${objectID}`, { query: { force }, ...options });
   }
 
   /**
@@ -83,6 +130,51 @@ export class Objects extends APIResource {
   download(objectID: string, params: ObjectDownloadParams, options?: RequestOptions): APIPromise<string> {
     const { id } = params;
     return this._client.get(path`/vault/${id}/objects/${objectID}/download`, options);
+  }
+
+  /**
+   * Retrieves word-level OCR bounding box data for a processed PDF document. Each
+   * word includes its text, normalized bounding box coordinates (0-1 range),
+   * confidence score, and global word index. Use this data to highlight specific
+   * text ranges in a PDF viewer based on word indices from search results.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.objects.getOcrWords(
+   *   'objectId',
+   *   { id: 'id' },
+   * );
+   * ```
+   */
+  getOcrWords(
+    objectID: string,
+    params: ObjectGetOcrWordsParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectGetOcrWordsResponse> {
+    const { id, ...query } = params;
+    return this._client.get(path`/vault/${id}/objects/${objectID}/ocr-words`, { query, ...options });
+  }
+
+  /**
+   * Get the status of a CaseMark summary workflow job. If the job has been
+   * processing for too long, this endpoint will poll CaseMark directly to recover
+   * stuck jobs.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.objects.getSummarizeJob(
+   *   'jobId',
+   *   { id: 'id', objectId: 'objectId' },
+   * );
+   * ```
+   */
+  getSummarizeJob(
+    jobID: string,
+    params: ObjectGetSummarizeJobParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectGetSummarizeJobResponse> {
+    const { id, objectId } = params;
+    return this._client.get(path`/vault/${id}/objects/${objectId}/summarize/${jobID}`, options);
   }
 
   /**
@@ -185,6 +277,53 @@ export interface ObjectRetrieveResponse {
   vectorCount?: number;
 }
 
+export interface ObjectUpdateResponse {
+  /**
+   * Object ID
+   */
+  id?: string;
+
+  /**
+   * MIME type
+   */
+  contentType?: string;
+
+  /**
+   * Updated filename
+   */
+  filename?: string;
+
+  /**
+   * Processing status
+   */
+  ingestionStatus?: string;
+
+  /**
+   * Full metadata object
+   */
+  metadata?: unknown;
+
+  /**
+   * Folder path for hierarchy preservation
+   */
+  path?: string | null;
+
+  /**
+   * File size in bytes
+   */
+  sizeBytes?: number;
+
+  /**
+   * Last update timestamp
+   */
+  updatedAt?: string;
+
+  /**
+   * Vault ID
+   */
+  vaultId?: string;
+}
+
 export interface ObjectListResponse {
   /**
    * Total number of objects in the vault
@@ -273,6 +412,36 @@ export namespace ObjectListResponse {
   }
 }
 
+export interface ObjectDeleteResponse {
+  deletedObject?: ObjectDeleteResponse.DeletedObject;
+
+  success?: boolean;
+}
+
+export namespace ObjectDeleteResponse {
+  export interface DeletedObject {
+    /**
+     * Deleted object ID
+     */
+    id?: string;
+
+    /**
+     * Original filename
+     */
+    filename?: string;
+
+    /**
+     * Size of deleted file in bytes
+     */
+    sizeBytes?: number;
+
+    /**
+     * Number of vectors deleted
+     */
+    vectorsDeleted?: number;
+  }
+}
+
 export interface ObjectCreatePresignedURLResponse {
   /**
    * URL expiration timestamp
@@ -336,6 +505,115 @@ export namespace ObjectCreatePresignedURLResponse {
 
 export type ObjectDownloadResponse = Uploadable;
 
+export interface ObjectGetOcrWordsResponse {
+  /**
+   * When the OCR data was extracted
+   */
+  createdAt?: string;
+
+  /**
+   * The object ID
+   */
+  objectId?: string;
+
+  /**
+   * Total number of pages in the document
+   */
+  pageCount?: number;
+
+  /**
+   * Per-page word data with bounding boxes
+   */
+  pages?: Array<ObjectGetOcrWordsResponse.Page>;
+
+  /**
+   * Total number of words extracted from the document
+   */
+  totalWords?: number;
+}
+
+export namespace ObjectGetOcrWordsResponse {
+  export interface Page {
+    /**
+     * Page number (1-indexed)
+     */
+    page?: number;
+
+    words?: Array<Page.Word>;
+  }
+
+  export namespace Page {
+    export interface Word {
+      /**
+       * Bounding box [x0, y0, x1, y1] normalized to 0-1 range
+       */
+      bbox?: Array<number>;
+
+      /**
+       * OCR confidence score (0-1)
+       */
+      confidence?: number | null;
+
+      /**
+       * The word text
+       */
+      text?: string;
+
+      /**
+       * Global word index across the entire document (0-based)
+       */
+      wordIndex?: number;
+    }
+  }
+}
+
+export interface ObjectGetSummarizeJobResponse {
+  /**
+   * When the job completed
+   */
+  completedAt?: string | null;
+
+  /**
+   * When the job was created
+   */
+  createdAt?: string;
+
+  /**
+   * Error message (if failed)
+   */
+  error?: string | null;
+
+  /**
+   * Case.dev job ID
+   */
+  jobId?: string;
+
+  /**
+   * Filename of the result document (if completed)
+   */
+  resultFilename?: string | null;
+
+  /**
+   * ID of the result document (if completed)
+   */
+  resultObjectId?: string | null;
+
+  /**
+   * ID of the source document
+   */
+  sourceObjectId?: string;
+
+  /**
+   * Current job status
+   */
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  /**
+   * Type of workflow being executed
+   */
+  workflowType?: string;
+}
+
 export interface ObjectGetTextResponse {
   metadata: ObjectGetTextResponse.Metadata;
 
@@ -386,6 +664,42 @@ export interface ObjectRetrieveParams {
   id: string;
 }
 
+export interface ObjectUpdateParams {
+  /**
+   * Path param: Vault ID
+   */
+  id: string;
+
+  /**
+   * Body param: New filename for the document (affects display name and downloads)
+   */
+  filename?: string;
+
+  /**
+   * Body param: Additional metadata to merge with existing metadata
+   */
+  metadata?: unknown;
+
+  /**
+   * Body param: Folder path for hierarchy preservation (e.g.,
+   * '/Discovery/Depositions'). Set to null or empty string to remove.
+   */
+  path?: string | null;
+}
+
+export interface ObjectDeleteParams {
+  /**
+   * Path param: Vault ID
+   */
+  id: string;
+
+  /**
+   * Query param: Force delete a stuck document that is still in 'processing' state.
+   * Use this if a document got stuck during ingestion (e.g., OCR timeout).
+   */
+  force?: 'true';
+}
+
 export interface ObjectCreatePresignedURLParams {
   /**
    * Path param: The unique identifier of the vault
@@ -422,6 +736,43 @@ export interface ObjectDownloadParams {
   id: string;
 }
 
+export interface ObjectGetOcrWordsParams {
+  /**
+   * Path param: The vault ID
+   */
+  id: string;
+
+  /**
+   * Query param: Filter to a specific page number (1-indexed). If omitted, returns
+   * all pages.
+   */
+  page?: number;
+
+  /**
+   * Query param: Filter to words ending at this index (inclusive). Useful for
+   * retrieving words for a specific chunk.
+   */
+  wordEnd?: number;
+
+  /**
+   * Query param: Filter to words starting at this index (inclusive). Useful for
+   * retrieving words for a specific chunk.
+   */
+  wordStart?: number;
+}
+
+export interface ObjectGetSummarizeJobParams {
+  /**
+   * Vault ID
+   */
+  id: string;
+
+  /**
+   * Source object ID
+   */
+  objectId: string;
+}
+
 export interface ObjectGetTextParams {
   /**
    * The vault ID
@@ -432,13 +783,21 @@ export interface ObjectGetTextParams {
 export declare namespace Objects {
   export {
     type ObjectRetrieveResponse as ObjectRetrieveResponse,
+    type ObjectUpdateResponse as ObjectUpdateResponse,
     type ObjectListResponse as ObjectListResponse,
+    type ObjectDeleteResponse as ObjectDeleteResponse,
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
     type ObjectDownloadResponse as ObjectDownloadResponse,
+    type ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse,
+    type ObjectGetSummarizeJobResponse as ObjectGetSummarizeJobResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
+    type ObjectUpdateParams as ObjectUpdateParams,
+    type ObjectDeleteParams as ObjectDeleteParams,
     type ObjectCreatePresignedURLParams as ObjectCreatePresignedURLParams,
     type ObjectDownloadParams as ObjectDownloadParams,
+    type ObjectGetOcrWordsParams as ObjectGetOcrWordsParams,
+    type ObjectGetSummarizeJobParams as ObjectGetSummarizeJobParams,
     type ObjectGetTextParams as ObjectGetTextParams,
   };
 }

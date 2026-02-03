@@ -35,6 +35,28 @@ export class Graphrag extends APIResource {
   init(id: string, options?: RequestOptions): APIPromise<GraphragInitResponse> {
     return this._client.post(path`/vault/${id}/graphrag/init`, options);
   }
+
+  /**
+   * Manually trigger GraphRAG indexing for a vault object. The object must already
+   * be ingested (completed status). This extracts entities, relationships, and
+   * communities from the document for advanced knowledge graph queries.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.graphrag.processObject(
+   *   'objectId',
+   *   { id: 'id' },
+   * );
+   * ```
+   */
+  processObject(
+    objectID: string,
+    params: GraphragProcessObjectParams,
+    options?: RequestOptions,
+  ): APIPromise<GraphragProcessObjectResponse> {
+    const { id } = params;
+    return this._client.post(path`/vault/${id}/graphrag/${objectID}`, options);
+  }
 }
 
 export interface GraphragGetStatsResponse {
@@ -79,9 +101,73 @@ export interface GraphragInitResponse {
   vault_id?: string;
 }
 
+export interface GraphragProcessObjectResponse {
+  /**
+   * Number of communities detected
+   */
+  communities: number;
+
+  /**
+   * Number of entities extracted
+   */
+  entities: number;
+
+  /**
+   * ID of the indexed object
+   */
+  objectId: string;
+
+  /**
+   * Number of relationships extracted
+   */
+  relationships: number;
+
+  /**
+   * Extraction statistics
+   */
+  stats: GraphragProcessObjectResponse.Stats;
+
+  /**
+   * Status from GraphRAG service
+   */
+  status: string;
+
+  /**
+   * Whether indexing completed successfully
+   */
+  success: boolean;
+
+  /**
+   * ID of the vault
+   */
+  vaultId: string;
+}
+
+export namespace GraphragProcessObjectResponse {
+  /**
+   * Extraction statistics
+   */
+  export interface Stats {
+    community_count?: number;
+
+    entity_count?: number;
+
+    relationship_count?: number;
+  }
+}
+
+export interface GraphragProcessObjectParams {
+  /**
+   * Vault ID
+   */
+  id: string;
+}
+
 export declare namespace Graphrag {
   export {
     type GraphragGetStatsResponse as GraphragGetStatsResponse,
     type GraphragInitResponse as GraphragInitResponse,
+    type GraphragProcessObjectResponse as GraphragProcessObjectResponse,
+    type GraphragProcessObjectParams as GraphragProcessObjectParams,
   };
 }

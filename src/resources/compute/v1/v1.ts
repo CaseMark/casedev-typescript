@@ -11,12 +11,17 @@ import {
   EnvironmentSetDefaultResponse,
   Environments,
 } from './environments';
-import * as FunctionsAPI from './functions';
-import { Functions } from './functions';
-import * as InvokeAPI from './invoke';
-import { Invoke } from './invoke';
-import * as RunsAPI from './runs';
-import { Runs } from './runs';
+import * as InstanceTypesAPI from './instance-types';
+import { InstanceTypeListResponse, InstanceTypes } from './instance-types';
+import * as InstancesAPI from './instances';
+import {
+  InstanceCreateParams,
+  InstanceCreateResponse,
+  InstanceDeleteResponse,
+  InstanceListResponse,
+  InstanceRetrieveResponse,
+  Instances,
+} from './instances';
 import * as SecretsAPI from './secrets';
 import {
   SecretCreateParams,
@@ -37,9 +42,8 @@ import { RequestOptions } from '../../../internal/request-options';
 
 export class V1 extends APIResource {
   environments: EnvironmentsAPI.Environments = new EnvironmentsAPI.Environments(this._client);
-  functions: FunctionsAPI.Functions = new FunctionsAPI.Functions(this._client);
-  invoke: InvokeAPI.Invoke = new InvokeAPI.Invoke(this._client);
-  runs: RunsAPI.Runs = new RunsAPI.Runs(this._client);
+  instanceTypes: InstanceTypesAPI.InstanceTypes = new InstanceTypesAPI.InstanceTypes(this._client);
+  instances: InstancesAPI.Instances = new InstancesAPI.Instances(this._client);
   secrets: SecretsAPI.Secrets = new SecretsAPI.Secrets(this._client);
 
   /**
@@ -134,9 +138,8 @@ export interface V1GetUsageParams {
 }
 
 V1.Environments = Environments;
-V1.Functions = Functions;
-V1.Invoke = Invoke;
-V1.Runs = Runs;
+V1.InstanceTypes = InstanceTypes;
+V1.Instances = Instances;
 V1.Secrets = Secrets;
 
 export declare namespace V1 {
@@ -152,11 +155,16 @@ export declare namespace V1 {
     type EnvironmentCreateParams as EnvironmentCreateParams,
   };
 
-  export { Functions as Functions };
+  export { InstanceTypes as InstanceTypes, type InstanceTypeListResponse as InstanceTypeListResponse };
 
-  export { Invoke as Invoke };
-
-  export { Runs as Runs };
+  export {
+    Instances as Instances,
+    type InstanceCreateResponse as InstanceCreateResponse,
+    type InstanceRetrieveResponse as InstanceRetrieveResponse,
+    type InstanceListResponse as InstanceListResponse,
+    type InstanceDeleteResponse as InstanceDeleteResponse,
+    type InstanceCreateParams as InstanceCreateParams,
+  };
 
   export {
     Secrets as Secrets,

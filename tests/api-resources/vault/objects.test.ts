@@ -26,6 +26,28 @@ describe('resource objects', () => {
   });
 
   // Prism tests are disabled
+  test.skip('update: only required params', async () => {
+    const responsePromise = client.vault.objects.update('objectId', { id: 'id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('update: required and optional params', async () => {
+    const response = await client.vault.objects.update('objectId', {
+      id: 'id',
+      filename: 'deposition-smith-2024.pdf',
+      metadata: {},
+      path: '/Discovery/Depositions',
+    });
+  });
+
+  // Prism tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.vault.objects.list('id');
     const rawResponse = await responsePromise.asResponse();
@@ -35,6 +57,23 @@ describe('resource objects', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('delete: only required params', async () => {
+    const responsePromise = client.vault.objects.delete('objectId', { id: 'id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('delete: required and optional params', async () => {
+    const response = await client.vault.objects.delete('objectId', { id: 'id', force: 'true' });
   });
 
   // Prism tests are disabled
@@ -75,6 +114,45 @@ describe('resource objects', () => {
   // Prism tests are disabled
   test.skip('download: required and optional params', async () => {
     const response = await client.vault.objects.download('objectId', { id: 'id' });
+  });
+
+  // Prism tests are disabled
+  test.skip('getOcrWords: only required params', async () => {
+    const responsePromise = client.vault.objects.getOcrWords('objectId', { id: 'id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('getOcrWords: required and optional params', async () => {
+    const response = await client.vault.objects.getOcrWords('objectId', {
+      id: 'id',
+      page: 0,
+      wordEnd: 0,
+      wordStart: 0,
+    });
+  });
+
+  // Prism tests are disabled
+  test.skip('getSummarizeJob: only required params', async () => {
+    const responsePromise = client.vault.objects.getSummarizeJob('jobId', { id: 'id', objectId: 'objectId' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('getSummarizeJob: required and optional params', async () => {
+    const response = await client.vault.objects.getSummarizeJob('jobId', { id: 'id', objectId: 'objectId' });
   });
 
   // Prism tests are disabled
