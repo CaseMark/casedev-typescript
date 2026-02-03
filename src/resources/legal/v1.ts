@@ -516,7 +516,7 @@ export interface V1VerifyResponse {
 export namespace V1VerifyResponse {
   export interface Citation {
     /**
-     * Multiple candidates (when ambiguous)
+     * Multiple candidates (when multiple_matches or heuristic verification)
      */
     candidates?: Array<Citation.Candidate>;
 
@@ -526,7 +526,7 @@ export namespace V1VerifyResponse {
     case?: Citation.Case;
 
     /**
-     * Heuristic confidence score when using fallback verification.
+     * Confidence score (1.0 for CourtListener, heuristic score for fallback).
      */
     confidence?: number;
 
@@ -542,7 +542,7 @@ export namespace V1VerifyResponse {
 
     span?: Citation.Span;
 
-    status?: 'verified' | 'not_found' | 'ambiguous';
+    status?: 'verified' | 'not_found' | 'multiple_matches';
 
     /**
      * Source of verification result (heuristic for fallback matches).
@@ -593,7 +593,7 @@ export namespace V1VerifyResponse {
     /**
      * Citations with multiple possible matches
      */
-    ambiguous?: number;
+    multipleMatches?: number;
 
     /**
      * Citations not found in database
