@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.4.0 (2026-02-04)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/CaseMark/casedev-typescript/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* **api:** api update ([185f392](https://github.com/CaseMark/casedev-typescript/commit/185f39222e6fd49baf3c399b499b950f8149f9ed))
+* **api:** api update ([61d91e5](https://github.com/CaseMark/casedev-typescript/commit/61d91e51559ce11549443efa5e1f6ebd62ca790b))
+* **api:** api update ([35e147b](https://github.com/CaseMark/casedev-typescript/commit/35e147bb52d14c7a7bea0bf7f1eb7825d9d9c1ae))
+* **api:** api update ([d8a5b81](https://github.com/CaseMark/casedev-typescript/commit/d8a5b81de9d55b74d07900fec56aae690e5c13b6))
+
+
+### Bug Fixes
+
+* **client:** avoid memory leak with abort signals ([2901c71](https://github.com/CaseMark/casedev-typescript/commit/2901c71efac3cd4e23b05505ee71274e7ad7b73e))
+
+
+### Chores
+
+* **client:** do not parse responses with empty content-length ([aa42e51](https://github.com/CaseMark/casedev-typescript/commit/aa42e51add6e570f993323a5d72bd2c52c4601a3))
+
 ## 0.3.0 (2026-01-31)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/CaseMark/casedev-typescript/compare/v0.2.0...v0.3.0)
