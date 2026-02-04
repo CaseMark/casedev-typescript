@@ -122,6 +122,14 @@ Methods:
 
 ## V1
 
+Types:
+
+- <code><a href="./src/resources/database/v1/v1.ts">V1GetUsageResponse</a></code>
+
+Methods:
+
+- <code title="get /database/v1/usage">client.database.v1.<a href="./src/resources/database/v1/v1.ts">getUsage</a>() -> V1GetUsageResponse</code>
+
 ### Projects
 
 Types:
@@ -262,85 +270,6 @@ Methods:
 - <code title="get /ocr/v1/{id}/download/{type}">client.ocr.v1.<a href="./src/resources/ocr/v1.ts">download</a>(type, { ...params }) -> string</code>
 - <code title="post /ocr/v1/process">client.ocr.v1.<a href="./src/resources/ocr/v1.ts">process</a>({ ...params }) -> V1ProcessResponse</code>
 
-# Payments
-
-## V1
-
-### Accounts
-
-Types:
-
-- <code><a href="./src/resources/payments/v1/accounts.ts">AccountCreateResponse</a></code>
-- <code><a href="./src/resources/payments/v1/accounts.ts">AccountListResponse</a></code>
-- <code><a href="./src/resources/payments/v1/accounts.ts">AccountGetBalanceResponse</a></code>
-- <code><a href="./src/resources/payments/v1/accounts.ts">AccountGetLedgerResponse</a></code>
-
-Methods:
-
-- <code title="post /payments/v1/accounts">client.payments.v1.accounts.<a href="./src/resources/payments/v1/accounts.ts">create</a>({ ...params }) -> AccountCreateResponse</code>
-- <code title="get /payments/v1/accounts/{id}">client.payments.v1.accounts.<a href="./src/resources/payments/v1/accounts.ts">retrieve</a>(id) -> void</code>
-- <code title="patch /payments/v1/accounts/{id}">client.payments.v1.accounts.<a href="./src/resources/payments/v1/accounts.ts">update</a>(id, { ...params }) -> void</code>
-- <code title="get /payments/v1/accounts">client.payments.v1.accounts.<a href="./src/resources/payments/v1/accounts.ts">list</a>({ ...params }) -> unknown</code>
-- <code title="get /payments/v1/accounts/{id}/balance">client.payments.v1.accounts.<a href="./src/resources/payments/v1/accounts.ts">getBalance</a>(id) -> AccountGetBalanceResponse</code>
-- <code title="get /payments/v1/accounts/{id}/ledger">client.payments.v1.accounts.<a href="./src/resources/payments/v1/accounts.ts">getLedger</a>(id, { ...params }) -> AccountGetLedgerResponse</code>
-
-### Charges
-
-Methods:
-
-- <code title="post /payments/v1/charges">client.payments.v1.charges.<a href="./src/resources/payments/v1/charges.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /payments/v1/charges/{id}">client.payments.v1.charges.<a href="./src/resources/payments/v1/charges.ts">retrieve</a>(id) -> void</code>
-- <code title="get /payments/v1/charges">client.payments.v1.charges.<a href="./src/resources/payments/v1/charges.ts">list</a>({ ...params }) -> void</code>
-- <code title="post /payments/v1/charges/{id}/cancel">client.payments.v1.charges.<a href="./src/resources/payments/v1/charges.ts">cancel</a>(id) -> void</code>
-- <code title="post /payments/v1/charges/{id}/refund">client.payments.v1.charges.<a href="./src/resources/payments/v1/charges.ts">refund</a>(id, { ...params }) -> void</code>
-
-### Holds
-
-Methods:
-
-- <code title="post /payments/v1/holds">client.payments.v1.holds.<a href="./src/resources/payments/v1/holds.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /payments/v1/holds/{id}">client.payments.v1.holds.<a href="./src/resources/payments/v1/holds.ts">retrieve</a>(id) -> void</code>
-- <code title="get /payments/v1/holds">client.payments.v1.holds.<a href="./src/resources/payments/v1/holds.ts">list</a>({ ...params }) -> void</code>
-- <code title="post /payments/v1/holds/{id}/approve">client.payments.v1.holds.<a href="./src/resources/payments/v1/holds.ts">approve</a>(id, { ...params }) -> void</code>
-- <code title="post /payments/v1/holds/{id}/cancel">client.payments.v1.holds.<a href="./src/resources/payments/v1/holds.ts">cancel</a>(id) -> void</code>
-- <code title="post /payments/v1/holds/{id}/release">client.payments.v1.holds.<a href="./src/resources/payments/v1/holds.ts">release</a>(id) -> void</code>
-
-### Ledger
-
-Methods:
-
-- <code title="get /payments/v1/ledger">client.payments.v1.ledger.<a href="./src/resources/payments/v1/ledger.ts">get</a>({ ...params }) -> void</code>
-- <code title="get /payments/v1/ledger/transactions">client.payments.v1.ledger.<a href="./src/resources/payments/v1/ledger.ts">listTransactions</a>({ ...params }) -> void</code>
-
-### Parties
-
-Methods:
-
-- <code title="post /payments/v1/parties">client.payments.v1.parties.<a href="./src/resources/payments/v1/parties.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /payments/v1/parties/{id}">client.payments.v1.parties.<a href="./src/resources/payments/v1/parties.ts">retrieve</a>(id) -> void</code>
-- <code title="patch /payments/v1/parties/{id}">client.payments.v1.parties.<a href="./src/resources/payments/v1/parties.ts">update</a>(id, { ...params }) -> void</code>
-- <code title="get /payments/v1/parties">client.payments.v1.parties.<a href="./src/resources/payments/v1/parties.ts">list</a>({ ...params }) -> void</code>
-- <code title="get /payments/v1/parties/{id}/payment-methods">client.payments.v1.parties.<a href="./src/resources/payments/v1/parties.ts">listPaymentMethods</a>(id) -> void</code>
-
-### Payouts
-
-Methods:
-
-- <code title="post /payments/v1/payouts">client.payments.v1.payouts.<a href="./src/resources/payments/v1/payouts.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /payments/v1/payouts/{id}">client.payments.v1.payouts.<a href="./src/resources/payments/v1/payouts.ts">retrieve</a>(id) -> void</code>
-- <code title="get /payments/v1/payouts">client.payments.v1.payouts.<a href="./src/resources/payments/v1/payouts.ts">list</a>({ ...params }) -> void</code>
-- <code title="post /payments/v1/payouts/{id}/cancel">client.payments.v1.payouts.<a href="./src/resources/payments/v1/payouts.ts">cancel</a>(id) -> void</code>
-
-### Transfers
-
-Methods:
-
-- <code title="post /payments/v1/transfers">client.payments.v1.transfers.<a href="./src/resources/payments/v1/transfers.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /payments/v1/transfers/{id}">client.payments.v1.transfers.<a href="./src/resources/payments/v1/transfers.ts">retrieve</a>(id) -> void</code>
-- <code title="get /payments/v1/transfers">client.payments.v1.transfers.<a href="./src/resources/payments/v1/transfers.ts">list</a>({ ...params }) -> void</code>
-- <code title="post /payments/v1/transfers/{id}/approve">client.payments.v1.transfers.<a href="./src/resources/payments/v1/transfers.ts">approve</a>(id) -> void</code>
-- <code title="post /payments/v1/transfers/{id}/cancel">client.payments.v1.transfers.<a href="./src/resources/payments/v1/transfers.ts">cancel</a>(id) -> void</code>
-
 # Privilege
 
 ## V1
@@ -352,24 +281,6 @@ Types:
 Methods:
 
 - <code title="post /privilege/v1/detect">client.privilege.v1.<a href="./src/resources/privilege/v1.ts">detect</a>({ ...params }) -> V1DetectResponse</code>
-
-# Projects
-
-## V1
-
-Types:
-
-- <code><a href="./src/resources/projects/v1.ts">V1ListResponse</a></code>
-- <code><a href="./src/resources/projects/v1.ts">V1DeleteResponse</a></code>
-
-Methods:
-
-- <code title="post /projects/v1">client.projects.v1.<a href="./src/resources/projects/v1.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /projects/v1/{id}">client.projects.v1.<a href="./src/resources/projects/v1.ts">retrieve</a>(id) -> void</code>
-- <code title="get /projects/v1">client.projects.v1.<a href="./src/resources/projects/v1.ts">list</a>() -> V1ListResponse</code>
-- <code title="delete /projects/v1/{id}">client.projects.v1.<a href="./src/resources/projects/v1.ts">delete</a>(id, { ...params }) -> V1DeleteResponse</code>
-- <code title="post /projects/v1/{id}/env-vars">client.projects.v1.<a href="./src/resources/projects/v1.ts">createEnvVars</a>(id, { ...params }) -> void</code>
-- <code title="get /projects/v1/{id}/env-vars">client.projects.v1.<a href="./src/resources/projects/v1.ts">listEnvVars</a>(id, { ...params }) -> void</code>
 
 # Search
 
@@ -455,6 +366,20 @@ Methods:
 - <code title="get /vault/{id}/graphrag/stats">client.vault.graphrag.<a href="./src/resources/vault/graphrag.ts">getStats</a>(id) -> GraphragGetStatsResponse</code>
 - <code title="post /vault/{id}/graphrag/init">client.vault.graphrag.<a href="./src/resources/vault/graphrag.ts">init</a>(id) -> GraphragInitResponse</code>
 - <code title="post /vault/{id}/graphrag/{objectId}">client.vault.graphrag.<a href="./src/resources/vault/graphrag.ts">processObject</a>(objectID, { ...params }) -> GraphragProcessObjectResponse</code>
+
+## Multipart
+
+Types:
+
+- <code><a href="./src/resources/vault/multipart.ts">MultipartGetPartURLsResponse</a></code>
+- <code><a href="./src/resources/vault/multipart.ts">MultipartInitResponse</a></code>
+
+Methods:
+
+- <code title="post /vault/{id}/multipart/abort">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">abort</a>(id, { ...params }) -> void</code>
+- <code title="post /vault/{id}/multipart/complete">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">complete</a>(id, { ...params }) -> void</code>
+- <code title="post /vault/{id}/multipart/part-urls">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">getPartURLs</a>(id, { ...params }) -> MultipartGetPartURLsResponse</code>
+- <code title="post /vault/{id}/multipart/init">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">init</a>(id, { ...params }) -> MultipartInitResponse</code>
 
 ## Objects
 

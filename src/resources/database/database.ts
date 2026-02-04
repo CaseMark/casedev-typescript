@@ -2,7 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import * as V1API from './v1/v1';
-import { V1 } from './v1/v1';
+import { V1, V1GetUsageResponse } from './v1/v1';
 
 export class Database extends APIResource {
   v1: V1API.V1 = new V1API.V1(this._client);
@@ -11,5 +11,5 @@ export class Database extends APIResource {
 Database.V1 = V1;
 
 export declare namespace Database {
-  export { V1 as V1 };
+  export { V1 as V1, type V1GetUsageResponse as V1GetUsageResponse };
 }

@@ -8,6 +8,15 @@ export {
   type GraphragProcessObjectParams,
 } from './graphrag';
 export {
+  Multipart,
+  type MultipartGetPartURLsResponse,
+  type MultipartInitResponse,
+  type MultipartAbortParams,
+  type MultipartCompleteParams,
+  type MultipartGetPartURLsParams,
+  type MultipartInitParams,
+} from './multipart';
+export {
   Objects,
   type ObjectRetrieveResponse,
   type ObjectUpdateResponse,
