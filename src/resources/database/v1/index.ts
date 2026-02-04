@@ -13,4 +13,4 @@ export {
   type ProjectCreateBranchParams,
   type ProjectGetConnectionParams,
 } from './projects';
-export { V1 } from './v1';
+export { V1, type V1GetUsageResponse } from './v1';

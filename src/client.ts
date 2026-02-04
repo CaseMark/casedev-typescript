@@ -24,9 +24,7 @@ import { Legal } from './resources/legal/legal';
 import { Llm, LlmGetConfigResponse } from './resources/llm/llm';
 import { Memory } from './resources/memory/memory';
 import { Ocr } from './resources/ocr/ocr';
-import { Payments } from './resources/payments/payments';
 import { Privilege } from './resources/privilege/privilege';
-import { Projects } from './resources/projects/projects';
 import { Search } from './resources/search/search';
 import { Superdoc } from './resources/superdoc/superdoc';
 import { Translate } from './resources/translate/translate';
@@ -778,9 +776,7 @@ export class Casedev {
   llm: API.Llm = new API.Llm(this);
   memory: API.Memory = new API.Memory(this);
   ocr: API.Ocr = new API.Ocr(this);
-  payments: API.Payments = new API.Payments(this);
   privilege: API.Privilege = new API.Privilege(this);
-  projects: API.Projects = new API.Projects(this);
   search: API.Search = new API.Search(this);
   superdoc: API.Superdoc = new API.Superdoc(this);
   translate: API.Translate = new API.Translate(this);
@@ -796,9 +792,7 @@ Casedev.Legal = Legal;
 Casedev.Llm = Llm;
 Casedev.Memory = Memory;
 Casedev.Ocr = Ocr;
-Casedev.Payments = Payments;
 Casedev.Privilege = Privilege;
-Casedev.Projects = Projects;
 Casedev.Search = Search;
 Casedev.Superdoc = Superdoc;
 Casedev.Translate = Translate;
@@ -824,11 +818,7 @@ export declare namespace Casedev {
 
   export { Ocr as Ocr };
 
-  export { Payments as Payments };
-
   export { Privilege as Privilege };
-
-  export { Projects as Projects };
 
   export { Search as Search };
 
