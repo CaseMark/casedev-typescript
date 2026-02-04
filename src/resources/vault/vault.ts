@@ -9,6 +9,16 @@ import {
   GraphragProcessObjectParams,
   GraphragProcessObjectResponse,
 } from './graphrag';
+import * as MultipartAPI from './multipart';
+import {
+  Multipart,
+  MultipartAbortParams,
+  MultipartCompleteParams,
+  MultipartGetPartURLsParams,
+  MultipartGetPartURLsResponse,
+  MultipartInitParams,
+  MultipartInitResponse,
+} from './multipart';
 import * as ObjectsAPI from './objects';
 import {
   ObjectCreatePresignedURLParams,
@@ -36,6 +46,7 @@ import { path } from '../../internal/utils/path';
 
 export class Vault extends APIResource {
   graphrag: GraphragAPI.Graphrag = new GraphragAPI.Graphrag(this._client);
+  multipart: MultipartAPI.Multipart = new MultipartAPI.Multipart(this._client);
   objects: ObjectsAPI.Objects = new ObjectsAPI.Objects(this._client);
 
   /**
@@ -812,6 +823,7 @@ export interface VaultUploadParams {
 }
 
 Vault.Graphrag = Graphrag;
+Vault.Multipart = Multipart;
 Vault.Objects = Objects;
 
 export declare namespace Vault {
@@ -838,6 +850,16 @@ export declare namespace Vault {
     type GraphragInitResponse as GraphragInitResponse,
     type GraphragProcessObjectResponse as GraphragProcessObjectResponse,
     type GraphragProcessObjectParams as GraphragProcessObjectParams,
+  };
+
+  export {
+    Multipart as Multipart,
+    type MultipartGetPartURLsResponse as MultipartGetPartURLsResponse,
+    type MultipartInitResponse as MultipartInitResponse,
+    type MultipartAbortParams as MultipartAbortParams,
+    type MultipartCompleteParams as MultipartCompleteParams,
+    type MultipartGetPartURLsParams as MultipartGetPartURLsParams,
+    type MultipartInitParams as MultipartInitParams,
   };
 
   export {
