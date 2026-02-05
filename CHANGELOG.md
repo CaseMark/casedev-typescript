@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1 (2026-02-05)
+
+Full Changelog: [v0.4.0...v0.4.1](https://github.com/CaseMark/casedev-typescript/compare/v0.4.0...v0.4.1)
+
+### Chores
+
+* **client:** restructure abort controller binding ([4216280](https://github.com/CaseMark/casedev-typescript/commit/4216280f0b000dfe5131cd7696fccd09f21000f3))
+
 ## 0.4.0 (2026-02-04)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/CaseMark/casedev-typescript/compare/v0.3.0...v0.4.0)
