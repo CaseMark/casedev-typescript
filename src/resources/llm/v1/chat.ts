@@ -97,7 +97,8 @@ export interface ChatCreateCompletionParams {
   max_tokens?: number;
 
   /**
-   * Model to use for completion. Defaults to casemark-core-1 if not specified
+   * Model to use for completion. Defaults to casemark/casemark-core-3 if not
+   * specified
    */
   model?: string;
 
