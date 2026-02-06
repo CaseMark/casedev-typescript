@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.5.0 (2026-02-06)
+
+Full Changelog: [v0.4.1...v0.5.0](https://github.com/CaseMark/casedev-typescript/compare/v0.4.1...v0.5.0)
+
+### Features
+
+* **api:** api update ([32999e3](https://github.com/CaseMark/casedev-typescript/commit/32999e34256bb253296dddb33150a19f66da5f26))
+
+
+### Bug Fixes
+
+* **client:** avoid removing abort listener too early ([3fd8828](https://github.com/CaseMark/casedev-typescript/commit/3fd88281cdaf9eb0e0c0bbad7fd11c8c7abc89df))
+
+
+### Chores
+
+* **internal:** upgrade pnpm ([9d25105](https://github.com/CaseMark/casedev-typescript/commit/9d2510596364780b8c86e205faa3dc7ff8b3f9fe))
+
 ## 0.4.1 (2026-02-05)
 
 Full Changelog: [v0.4.0...v0.4.1](https://github.com/CaseMark/casedev-typescript/compare/v0.4.0...v0.4.1)
