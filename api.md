@@ -338,6 +338,7 @@ Types:
 - <code><a href="./src/resources/vault/vault.ts">VaultUpdateResponse</a></code>
 - <code><a href="./src/resources/vault/vault.ts">VaultListResponse</a></code>
 - <code><a href="./src/resources/vault/vault.ts">VaultDeleteResponse</a></code>
+- <code><a href="./src/resources/vault/vault.ts">VaultConfirmUploadResponse</a></code>
 - <code><a href="./src/resources/vault/vault.ts">VaultIngestResponse</a></code>
 - <code><a href="./src/resources/vault/vault.ts">VaultSearchResponse</a></code>
 - <code><a href="./src/resources/vault/vault.ts">VaultUploadResponse</a></code>
@@ -349,6 +350,7 @@ Methods:
 - <code title="patch /vault/{id}">client.vault.<a href="./src/resources/vault/vault.ts">update</a>(id, { ...params }) -> VaultUpdateResponse</code>
 - <code title="get /vault">client.vault.<a href="./src/resources/vault/vault.ts">list</a>() -> VaultListResponse</code>
 - <code title="delete /vault/{id}">client.vault.<a href="./src/resources/vault/vault.ts">delete</a>(id, { ...params }) -> VaultDeleteResponse</code>
+- <code title="post /vault/{id}/upload/{objectId}/confirm">client.vault.<a href="./src/resources/vault/vault.ts">confirmUpload</a>(objectID, { ...params }) -> VaultConfirmUploadResponse</code>
 - <code title="post /vault/{id}/ingest/{objectId}">client.vault.<a href="./src/resources/vault/vault.ts">ingest</a>(objectID, { ...params }) -> VaultIngestResponse</code>
 - <code title="post /vault/{id}/search">client.vault.<a href="./src/resources/vault/vault.ts">search</a>(id, { ...params }) -> VaultSearchResponse</code>
 - <code title="post /vault/{id}/upload">client.vault.<a href="./src/resources/vault/vault.ts">upload</a>(id, { ...params }) -> VaultUploadResponse</code>

@@ -129,6 +129,32 @@ export class Vault extends APIResource {
   }
 
   /**
+   * Confirm whether a direct-to-S3 vault upload succeeded or failed. This endpoint
+   * emits vault.upload.completed or vault.upload.failed events and is idempotent for
+   * repeated confirmations.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.confirmUpload(
+   *   'objectId',
+   *   {
+   *     id: 'id',
+   *     sizeBytes: 1,
+   *     success: true,
+   *   },
+   * );
+   * ```
+   */
+  confirmUpload(
+    objectID: string,
+    params: VaultConfirmUploadParams,
+    options?: RequestOptions,
+  ): APIPromise<VaultConfirmUploadResponse> {
+    const { id, ...body } = params;
+    return this._client.post(path`/vault/${id}/upload/${objectID}/confirm`, { body, ...options });
+  }
+
+  /**
    * Triggers ingestion workflow for a vault object to extract text, generate chunks,
    * and create embeddings. For supported file types (PDF, DOCX, TXT, RTF, XML,
    * audio, video), processing happens asynchronously. For unsupported types (images,
@@ -171,9 +197,8 @@ export class Vault extends APIResource {
 
   /**
    * Generate a presigned URL for uploading files directly to a vault's S3 storage.
-   * This endpoint creates a temporary upload URL that allows secure file uploads
-   * without exposing credentials. Files can be automatically indexed for semantic
-   * search or stored for manual processing.
+   * After uploading to S3, confirm the upload result via POST
+   * /vault/:vaultId/upload/:objectId/confirm before triggering ingestion.
    *
    * @example
    * ```ts
@@ -499,6 +524,16 @@ export namespace VaultDeleteResponse {
   }
 }
 
+export interface VaultConfirmUploadResponse {
+  alreadyConfirmed?: boolean;
+
+  objectId?: string;
+
+  status?: 'completed' | 'failed';
+
+  vaultId?: string;
+}
+
 export interface VaultIngestResponse {
   /**
    * Always false - GraphRAG must be triggered separately via POST
@@ -742,6 +777,76 @@ export interface VaultDeleteParams {
   async?: boolean;
 }
 
+export type VaultConfirmUploadParams = VaultConfirmUploadParams.Variant0 | VaultConfirmUploadParams.Variant1;
+
+export declare namespace VaultConfirmUploadParams {
+  export interface Variant0 {
+    /**
+     * Path param: Vault ID
+     */
+    id: string;
+
+    /**
+     * Body param: Uploaded file size in bytes (required when success=true)
+     */
+    sizeBytes: number;
+
+    /**
+     * Body param
+     */
+    success: true;
+
+    /**
+     * Body param: Client-side error code (required when success=false)
+     */
+    errorCode?: string;
+
+    /**
+     * Body param: Client-side error message (required when success=false)
+     */
+    errorMessage?: string;
+
+    /**
+     * Body param: S3 ETag for the uploaded object (optional if client cannot access
+     * ETag header)
+     */
+    etag?: string;
+  }
+
+  export interface Variant1 {
+    /**
+     * Path param: Vault ID
+     */
+    id: string;
+
+    /**
+     * Body param: Client-side error code (required when success=false)
+     */
+    errorCode: string;
+
+    /**
+     * Body param: Client-side error message (required when success=false)
+     */
+    errorMessage: string;
+
+    /**
+     * Body param
+     */
+    success: false;
+
+    /**
+     * Body param: S3 ETag for the uploaded object (optional if client cannot access
+     * ETag header)
+     */
+    etag?: string;
+
+    /**
+     * Body param: Uploaded file size in bytes (required when success=true)
+     */
+    sizeBytes?: number;
+  }
+}
+
 export interface VaultIngestParams {
   /**
    * Vault ID
@@ -833,12 +938,14 @@ export declare namespace Vault {
     type VaultUpdateResponse as VaultUpdateResponse,
     type VaultListResponse as VaultListResponse,
     type VaultDeleteResponse as VaultDeleteResponse,
+    type VaultConfirmUploadResponse as VaultConfirmUploadResponse,
     type VaultIngestResponse as VaultIngestResponse,
     type VaultSearchResponse as VaultSearchResponse,
     type VaultUploadResponse as VaultUploadResponse,
     type VaultCreateParams as VaultCreateParams,
     type VaultUpdateParams as VaultUpdateParams,
     type VaultDeleteParams as VaultDeleteParams,
+    type VaultConfirmUploadParams as VaultConfirmUploadParams,
     type VaultIngestParams as VaultIngestParams,
     type VaultSearchParams as VaultSearchParams,
     type VaultUploadParams as VaultUploadParams,

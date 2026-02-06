@@ -26,7 +26,7 @@ describe('resource chat', () => {
       messages: [{ content: 'content', role: 'system' }],
       frequency_penalty: 0,
       max_tokens: 1000,
-      model: 'gpt-4o',
+      model: 'casemark/casemark-core-3',
       presence_penalty: 0,
       stream: false,
       temperature: 0.7,
