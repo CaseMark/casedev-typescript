@@ -88,6 +88,34 @@ describe('resource vault', () => {
   });
 
   // Prism tests are disabled
+  test.skip('confirmUpload: only required params', async () => {
+    const responsePromise = client.vault.confirmUpload('objectId', {
+      id: 'id',
+      sizeBytes: 1,
+      success: true,
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('confirmUpload: required and optional params', async () => {
+    const response = await client.vault.confirmUpload('objectId', {
+      id: 'id',
+      sizeBytes: 1,
+      success: true,
+      errorCode: 'errorCode',
+      errorMessage: 'errorMessage',
+      etag: 'etag',
+    });
+  });
+
+  // Prism tests are disabled
   test.skip('ingest: only required params', async () => {
     const responsePromise = client.vault.ingest('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();

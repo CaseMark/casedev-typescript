@@ -30,6 +30,8 @@ import { Superdoc } from './resources/superdoc/superdoc';
 import { Translate } from './resources/translate/translate';
 import {
   Vault,
+  VaultConfirmUploadParams,
+  VaultConfirmUploadResponse,
   VaultCreateParams,
   VaultCreateResponse,
   VaultDeleteParams,
@@ -839,12 +841,14 @@ export declare namespace Casedev {
     type VaultUpdateResponse as VaultUpdateResponse,
     type VaultListResponse as VaultListResponse,
     type VaultDeleteResponse as VaultDeleteResponse,
+    type VaultConfirmUploadResponse as VaultConfirmUploadResponse,
     type VaultIngestResponse as VaultIngestResponse,
     type VaultSearchResponse as VaultSearchResponse,
     type VaultUploadResponse as VaultUploadResponse,
     type VaultCreateParams as VaultCreateParams,
     type VaultUpdateParams as VaultUpdateParams,
     type VaultDeleteParams as VaultDeleteParams,
+    type VaultConfirmUploadParams as VaultConfirmUploadParams,
     type VaultIngestParams as VaultIngestParams,
     type VaultSearchParams as VaultSearchParams,
     type VaultUploadParams as VaultUploadParams,
