@@ -13,11 +13,8 @@ import * as MultipartAPI from './multipart';
 import {
   Multipart,
   MultipartAbortParams,
-  MultipartCompleteParams,
   MultipartGetPartURLsParams,
   MultipartGetPartURLsResponse,
-  MultipartInitParams,
-  MultipartInitResponse,
 } from './multipart';
 import * as ObjectsAPI from './objects';
 import {
@@ -962,11 +959,8 @@ export declare namespace Vault {
   export {
     Multipart as Multipart,
     type MultipartGetPartURLsResponse as MultipartGetPartURLsResponse,
-    type MultipartInitResponse as MultipartInitResponse,
     type MultipartAbortParams as MultipartAbortParams,
-    type MultipartCompleteParams as MultipartCompleteParams,
     type MultipartGetPartURLsParams as MultipartGetPartURLsParams,
-    type MultipartInitParams as MultipartInitParams,
   };
 
   export {
