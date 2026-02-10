@@ -374,14 +374,11 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/vault/multipart.ts">MultipartGetPartURLsResponse</a></code>
-- <code><a href="./src/resources/vault/multipart.ts">MultipartInitResponse</a></code>
 
 Methods:
 
 - <code title="post /vault/{id}/multipart/abort">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">abort</a>(id, { ...params }) -> void</code>
-- <code title="post /vault/{id}/multipart/complete">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">complete</a>(id, { ...params }) -> void</code>
 - <code title="post /vault/{id}/multipart/part-urls">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">getPartURLs</a>(id, { ...params }) -> MultipartGetPartURLsResponse</code>
-- <code title="post /vault/{id}/multipart/init">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">init</a>(id, { ...params }) -> MultipartInitResponse</code>
 
 ## Objects
 

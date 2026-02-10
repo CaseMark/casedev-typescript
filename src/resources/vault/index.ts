@@ -10,11 +10,8 @@ export {
 export {
   Multipart,
   type MultipartGetPartURLsResponse,
-  type MultipartInitResponse,
   type MultipartAbortParams,
-  type MultipartCompleteParams,
   type MultipartGetPartURLsParams,
-  type MultipartInitParams,
 } from './multipart';
 export {
   Objects,
