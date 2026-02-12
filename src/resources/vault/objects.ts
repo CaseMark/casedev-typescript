@@ -156,9 +156,7 @@ export class Objects extends APIResource {
   }
 
   /**
-   * Get the status of a CaseMark summary workflow job. If the job has been
-   * processing for too long, this endpoint will poll CaseMark directly to recover
-   * stuck jobs.
+   * Get the status of a CaseMark summary workflow job.
    *
    * @example
    * ```ts
