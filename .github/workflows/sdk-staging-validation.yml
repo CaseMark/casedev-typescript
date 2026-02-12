@@ -1,0 +1,107 @@
+name: SDK Staging Validation
+
+on:
+  push:
+    branches:
+      - 'next'
+  schedule:
+    # Run daily at 06:00 UTC to catch Stainless generation issues
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to validate (defaults to next)'
+        required: false
+        default: 'next'
+
+concurrency:
+  group: sdk-staging-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    timeout-minutes: 10
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || 'next' }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.27.0'
+
+      - name: Bootstrap
+        run: ./scripts/bootstrap
+
+      - name: Check types
+        run: ./scripts/lint
+
+  build:
+    timeout-minutes: 10
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || 'next' }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.27.0'
+
+      - name: Bootstrap
+        run: ./scripts/bootstrap
+
+      - name: Check build
+        run: ./scripts/build
+
+  test:
+    timeout-minutes: 15
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || 'next' }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.27.0'
+
+      - name: Bootstrap
+        run: ./scripts/bootstrap
+
+      - name: Enable Prism API tests
+        run: |
+          # Replace test.skip( with test( in all API resource test files
+          # to enable the Stainless-generated Prism mock tests
+          find tests/api-resources -name '*.test.ts' -exec sed -i "s/test\.skip(/test(/g" {} +
+          echo "Enabled $(find tests/api-resources -name '*.test.ts' | wc -l) API resource test files"
+
+      - name: Start Prism mock server
+        run: |
+          ./scripts/mock --daemon
+          echo "Prism mock server started"
+
+      - name: Run SDK tests (including Prism API tests)
+        run: ./node_modules/.bin/jest --forceExit
