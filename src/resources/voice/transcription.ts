@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -41,6 +42,23 @@ export class Transcription extends APIResource {
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<TranscriptionRetrieveResponse> {
     return this._client.get(path`/voice/transcription/${id}`, options);
+  }
+
+  /**
+   * Deletes a transcription job. For managed vault jobs (tr\_\*), also removes local
+   * job records and managed transcript result objects. Idempotent: returns success
+   * if already deleted.
+   *
+   * @example
+   * ```ts
+   * await client.voice.transcription.delete('id');
+   * ```
+   */
+  delete(id: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/voice/transcription/${id}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 
