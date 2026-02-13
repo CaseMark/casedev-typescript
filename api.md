@@ -185,6 +185,7 @@ Types:
 - <code><a href="./src/resources/legal/v1.ts">V1GetCitationsFromURLResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1GetFullTextResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1ListJurisdictionsResponse</a></code>
+- <code><a href="./src/resources/legal/v1.ts">V1PatentSearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1ResearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1SimilarResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1VerifyResponse</a></code>
@@ -196,6 +197,7 @@ Methods:
 - <code title="post /legal/v1/citations-from-url">client.legal.v1.<a href="./src/resources/legal/v1.ts">getCitationsFromURL</a>({ ...params }) -> V1GetCitationsFromURLResponse</code>
 - <code title="post /legal/v1/full-text">client.legal.v1.<a href="./src/resources/legal/v1.ts">getFullText</a>({ ...params }) -> V1GetFullTextResponse</code>
 - <code title="post /legal/v1/jurisdictions">client.legal.v1.<a href="./src/resources/legal/v1.ts">listJurisdictions</a>({ ...params }) -> V1ListJurisdictionsResponse</code>
+- <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/resources/legal/v1.ts">patentSearch</a>({ ...params }) -> V1PatentSearchResponse</code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/resources/legal/v1.ts">research</a>({ ...params }) -> V1ResearchResponse</code>
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/resources/legal/v1.ts">similar</a>({ ...params }) -> V1SimilarResponse</code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/resources/legal/v1.ts">verify</a>({ ...params }) -> V1VerifyResponse</code>
