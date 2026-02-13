@@ -105,3 +105,40 @@ jobs:
 
       - name: Run SDK tests (including Prism API tests)
         run: ./node_modules/.bin/jest --forceExit
+
+  smoke:
+    timeout-minutes: 5
+    name: smoke (live API)
+    runs-on: ubuntu-latest
+    # Run after the mock tests pass — no point hitting live if spec is broken
+    needs: [test]
+    # Only run when secrets are available (they won't be on forks/Stainless PRs)
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.event_name == 'push' }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || 'next' }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.27.0'
+
+      - name: Bootstrap
+        run: ./scripts/bootstrap
+
+      - name: Run live smoke tests
+        env:
+          CASEDEV_API_KEY: ${{ secrets.CASEDEV_API_KEY }}
+          CASEDEV_BASE_URL: ${{ secrets.CASEDEV_BASE_URL || 'https://api.case.dev' }}
+        run: |
+          if [ -z "$CASEDEV_API_KEY" ]; then
+            echo "::warning::CASEDEV_API_KEY secret not set — skipping live smoke tests"
+            exit 0
+          fi
+          ./node_modules/.bin/jest tests/custom/smoke.test.ts --forceExit --verbose
