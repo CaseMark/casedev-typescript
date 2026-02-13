@@ -56,6 +56,16 @@ export class V1 extends APIResource {
   }
 
   /**
+   * Search the USPTO Open Data Portal for US patent applications and granted
+   * patents. Supports free-text queries, field-specific search, filters by
+   * assignee/inventor/status/type, date ranges, and pagination. Covers applications
+   * filed on or after January 1, 2001. Data is refreshed daily.
+   */
+  patentSearch(body: V1PatentSearchParams, options?: RequestOptions): APIPromise<V1PatentSearchResponse> {
+    return this._client.post('/legal/v1/patent-search', { body, ...options });
+  }
+
+  /**
    * Perform comprehensive legal research with multiple query variations. Uses
    * advanced deep search to find relevant sources across different phrasings of the
    * legal issue.
@@ -386,6 +396,87 @@ export namespace V1ListJurisdictionsResponse {
   }
 }
 
+export interface V1PatentSearchResponse {
+  /**
+   * Number of results returned
+   */
+  limit?: number;
+
+  /**
+   * Current pagination offset
+   */
+  offset?: number;
+
+  /**
+   * Original search query
+   */
+  query?: string;
+
+  /**
+   * Array of matching patent applications
+   */
+  results?: Array<V1PatentSearchResponse.Result>;
+
+  /**
+   * Total number of matching patent applications
+   */
+  totalResults?: number;
+}
+
+export namespace V1PatentSearchResponse {
+  export interface Result {
+    /**
+     * Patent application serial number
+     */
+    applicationNumber?: string;
+
+    /**
+     * Application type (Utility, Design, Plant, etc.)
+     */
+    applicationType?: string;
+
+    /**
+     * List of assignee/owner names
+     */
+    assignees?: Array<string>;
+
+    /**
+     * Entity status (e.g. "Small Entity", "Micro Entity")
+     */
+    entityStatus?: string | null;
+
+    /**
+     * Date the application was filed
+     */
+    filingDate?: string | null;
+
+    /**
+     * Date the patent was granted
+     */
+    grantDate?: string | null;
+
+    /**
+     * List of inventor names
+     */
+    inventors?: Array<string>;
+
+    /**
+     * Granted patent number (if granted)
+     */
+    patentNumber?: string | null;
+
+    /**
+     * Current application status (e.g. "Patented Case", "Pending")
+     */
+    status?: string;
+
+    /**
+     * Invention title
+     */
+    title?: string;
+  }
+}
+
 export interface V1ResearchResponse {
   /**
    * Additional queries used
@@ -674,6 +765,74 @@ export interface V1ListJurisdictionsParams {
   name: string;
 }
 
+export interface V1PatentSearchParams {
+  /**
+   * Free-text search across all patent fields, or field-specific query (e.g.
+   * "applicationMetaData.patentNumber:11234567"). Supports AND, OR, NOT operators.
+   */
+  query: string;
+
+  /**
+   * Filter by application status (e.g. "Patented Case", "Abandoned", "Pending")
+   */
+  applicationStatus?: string;
+
+  /**
+   * Filter by application type
+   */
+  applicationType?: 'Utility' | 'Design' | 'Plant' | 'Provisional' | 'Reissue';
+
+  /**
+   * Filter by assignee/owner name (e.g. "Google LLC")
+   */
+  assignee?: string;
+
+  /**
+   * Start of filing date range (YYYY-MM-DD)
+   */
+  filingDateFrom?: string;
+
+  /**
+   * End of filing date range (YYYY-MM-DD)
+   */
+  filingDateTo?: string;
+
+  /**
+   * Start of grant date range (YYYY-MM-DD)
+   */
+  grantDateFrom?: string;
+
+  /**
+   * End of grant date range (YYYY-MM-DD)
+   */
+  grantDateTo?: string;
+
+  /**
+   * Filter by inventor name
+   */
+  inventor?: string;
+
+  /**
+   * Number of results to return (default 25, max 100)
+   */
+  limit?: number;
+
+  /**
+   * Starting position for pagination
+   */
+  offset?: number;
+
+  /**
+   * Field to sort results by
+   */
+  sortBy?: 'filingDate' | 'grantDate';
+
+  /**
+   * Sort order (default desc, newest first)
+   */
+  sortOrder?: 'asc' | 'desc';
+}
+
 export interface V1ResearchParams {
   /**
    * Primary search query
@@ -734,6 +893,7 @@ export declare namespace V1 {
     type V1GetCitationsFromURLResponse as V1GetCitationsFromURLResponse,
     type V1GetFullTextResponse as V1GetFullTextResponse,
     type V1ListJurisdictionsResponse as V1ListJurisdictionsResponse,
+    type V1PatentSearchResponse as V1PatentSearchResponse,
     type V1ResearchResponse as V1ResearchResponse,
     type V1SimilarResponse as V1SimilarResponse,
     type V1VerifyResponse as V1VerifyResponse,
@@ -742,6 +902,7 @@ export declare namespace V1 {
     type V1GetCitationsFromURLParams as V1GetCitationsFromURLParams,
     type V1GetFullTextParams as V1GetFullTextParams,
     type V1ListJurisdictionsParams as V1ListJurisdictionsParams,
+    type V1PatentSearchParams as V1PatentSearchParams,
     type V1ResearchParams as V1ResearchParams,
     type V1SimilarParams as V1SimilarParams,
     type V1VerifyParams as V1VerifyParams,

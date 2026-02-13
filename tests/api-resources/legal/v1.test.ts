@@ -103,6 +103,37 @@ describe('resource v1', () => {
   });
 
   // Prism tests are disabled
+  test.skip('patentSearch: only required params', async () => {
+    const responsePromise = client.legal.v1.patentSearch({ query: 'x' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('patentSearch: required and optional params', async () => {
+    const response = await client.legal.v1.patentSearch({
+      query: 'x',
+      applicationStatus: 'applicationStatus',
+      applicationType: 'Utility',
+      assignee: 'assignee',
+      filingDateFrom: '2019-12-27',
+      filingDateTo: '2019-12-27',
+      grantDateFrom: '2019-12-27',
+      grantDateTo: '2019-12-27',
+      inventor: 'inventor',
+      limit: 1,
+      offset: 0,
+      sortBy: 'filingDate',
+      sortOrder: 'asc',
+    });
+  });
+
+  // Prism tests are disabled
   test.skip('research: only required params', async () => {
     const responsePromise = client.legal.v1.research({ query: 'xxx' });
     const rawResponse = await responsePromise.asResponse();
