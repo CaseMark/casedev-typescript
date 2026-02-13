@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.7.0 (2026-02-13)
+
+Full Changelog: [v0.6.1...v0.7.0](https://github.com/CaseMark/casedev-typescript/compare/v0.6.1...v0.7.0)
+
+### Features
+
+* **api:** api update ([4661ee0](https://github.com/CaseMark/casedev-typescript/commit/4661ee0adf15be7c03b053480333ed8e26aa5707))
+* **api:** api update ([398136f](https://github.com/CaseMark/casedev-typescript/commit/398136f96c2e1a58dee78b0d40d51224e2563348))
+* **api:** api update ([2e9a09e](https://github.com/CaseMark/casedev-typescript/commit/2e9a09e9c1982b1ec5a2c7fba674c0f86ecb5799))
+
+
+### Chores
+
+* **internal:** avoid type checking errors with ts-reset ([1b0334f](https://github.com/CaseMark/casedev-typescript/commit/1b0334fe58796f503ef34a4c631a4908e23b3662))
+
 ## 0.6.1 (2026-02-10)
 
 Full Changelog: [v0.6.0...v0.6.1](https://github.com/CaseMark/casedev-typescript/compare/v0.6.0...v0.6.1)
