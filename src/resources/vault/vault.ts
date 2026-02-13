@@ -37,11 +37,14 @@ import {
   ObjectUpdateResponse,
   Objects,
 } from './objects';
+import * as EventsAPI from './events/events';
+import { Events } from './events/events';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Vault extends APIResource {
+  events: EventsAPI.Events = new EventsAPI.Events(this._client);
   graphrag: GraphragAPI.Graphrag = new GraphragAPI.Graphrag(this._client);
   multipart: MultipartAPI.Multipart = new MultipartAPI.Multipart(this._client);
   objects: ObjectsAPI.Objects = new ObjectsAPI.Objects(this._client);
@@ -924,6 +927,7 @@ export interface VaultUploadParams {
   sizeBytes?: number;
 }
 
+Vault.Events = Events;
 Vault.Graphrag = Graphrag;
 Vault.Multipart = Multipart;
 Vault.Objects = Objects;
@@ -947,6 +951,8 @@ export declare namespace Vault {
     type VaultSearchParams as VaultSearchParams,
     type VaultUploadParams as VaultUploadParams,
   };
+
+  export { Events as Events };
 
   export {
     Graphrag as Graphrag,
