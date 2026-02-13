@@ -355,6 +355,18 @@ Methods:
 - <code title="post /vault/{id}/search">client.vault.<a href="./src/resources/vault/vault.ts">search</a>(id, { ...params }) -> VaultSearchResponse</code>
 - <code title="post /vault/{id}/upload">client.vault.<a href="./src/resources/vault/vault.ts">upload</a>(id, { ...params }) -> VaultUploadResponse</code>
 
+## Events
+
+### Subscriptions
+
+Methods:
+
+- <code title="post /vault/{id}/events/subscriptions">client.vault.events.subscriptions.<a href="./src/resources/vault/events/subscriptions.ts">create</a>(id, { ...params }) -> void</code>
+- <code title="patch /vault/{id}/events/subscriptions/{subscriptionId}">client.vault.events.subscriptions.<a href="./src/resources/vault/events/subscriptions.ts">update</a>(subscriptionID, { ...params }) -> void</code>
+- <code title="get /vault/{id}/events/subscriptions">client.vault.events.subscriptions.<a href="./src/resources/vault/events/subscriptions.ts">list</a>(id) -> void</code>
+- <code title="delete /vault/{id}/events/subscriptions/{subscriptionId}">client.vault.events.subscriptions.<a href="./src/resources/vault/events/subscriptions.ts">delete</a>(subscriptionID, { ...params }) -> void</code>
+- <code title="post /vault/{id}/events/subscriptions/{subscriptionId}/test">client.vault.events.subscriptions.<a href="./src/resources/vault/events/subscriptions.ts">test</a>(subscriptionID, { ...params }) -> void</code>
+
 ## Graphrag
 
 Types:
