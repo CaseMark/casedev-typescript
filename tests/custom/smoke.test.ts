@@ -25,18 +25,12 @@ const apiKey = process.env['CASEDEV_API_KEY'];
 // Prism (mock) credentials.
 const describeIfLive = apiKey ? describe : describe.skip;
 
-function createClient(): Casedev {
-  // CASEDEV_BASE_URL is picked up automatically by the client if set.
-  // If unset, the client defaults to https://api.case.dev (production).
-  return new Casedev({
-    apiKey: apiKey!,
-    // Shorter timeout for smoke tests — these should be fast reads
-    timeout: 30_000,
-  });
-}
-
 describeIfLive('smoke: /llm/config', () => {
-  const client = createClient();
+  let client: Casedev;
+
+  beforeAll(() => {
+    client = new Casedev({ apiKey: apiKey!, timeout: 30_000 });
+  });
 
   test('returns a list of models', async () => {
     const config = await client.llm.getConfig();
@@ -60,7 +54,11 @@ describeIfLive('smoke: /llm/config', () => {
 });
 
 describeIfLive('smoke: /vault', () => {
-  const client = createClient();
+  let client: Casedev;
+
+  beforeAll(() => {
+    client = new Casedev({ apiKey: apiKey!, timeout: 30_000 });
+  });
 
   test('list returns a valid response', async () => {
     const result = await client.vault.list();

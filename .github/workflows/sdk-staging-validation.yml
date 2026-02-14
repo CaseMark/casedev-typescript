@@ -104,7 +104,7 @@ jobs:
           echo "Prism mock server started"
 
       - name: Run SDK tests (including Prism API tests)
-        run: ./node_modules/.bin/jest --forceExit
+        run: ./node_modules/.bin/jest --forceExit --testPathIgnorePatterns='tests/custom/'
 
   smoke:
     timeout-minutes: 5
