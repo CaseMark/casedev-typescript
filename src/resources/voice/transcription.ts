@@ -204,6 +204,11 @@ export interface TranscriptionCreateParams {
   speakers_expected?: number;
 
   /**
+   * Priority-ordered speech models to use
+   */
+  speech_models?: Array<string>;
+
+  /**
    * Vault ID containing the audio file (use with object_id)
    */
   vault_id?: string;
