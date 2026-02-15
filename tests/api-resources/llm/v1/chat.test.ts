@@ -24,6 +24,7 @@ describe('resource chat', () => {
   test.skip('createCompletion: required and optional params', async () => {
     const response = await client.llm.v1.chat.createCompletion({
       messages: [{ content: 'content', role: 'system' }],
+      casemark_show_reasoning: false,
       frequency_penalty: 0,
       max_tokens: 1000,
       model: 'casemark/casemark-core-3',
