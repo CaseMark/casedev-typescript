@@ -87,6 +87,12 @@ export interface ChatCreateCompletionParams {
   messages: Array<ChatCreateCompletionParams.Message>;
 
   /**
+   * CaseMark-only: when true, allows reasoning fields in responses. Defaults to
+   * false (reasoning is suppressed).
+   */
+  casemark_show_reasoning?: boolean;
+
+  /**
    * Frequency penalty parameter
    */
   frequency_penalty?: number;
