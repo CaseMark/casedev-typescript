@@ -9,6 +9,8 @@ import {
   GraphragProcessObjectParams,
   GraphragProcessObjectResponse,
 } from './graphrag';
+import * as GroupsAPI from './groups';
+import { Groups } from './groups';
 import * as MultipartAPI from './multipart';
 import {
   Multipart,
@@ -46,6 +48,7 @@ import { path } from '../../internal/utils/path';
 export class Vault extends APIResource {
   events: EventsAPI.Events = new EventsAPI.Events(this._client);
   graphrag: GraphragAPI.Graphrag = new GraphragAPI.Graphrag(this._client);
+  groups: GroupsAPI.Groups = new GroupsAPI.Groups(this._client);
   multipart: MultipartAPI.Multipart = new MultipartAPI.Multipart(this._client);
   objects: ObjectsAPI.Objects = new ObjectsAPI.Objects(this._client);
 
@@ -746,6 +749,12 @@ export interface VaultCreateParams {
   enableIndexing?: boolean;
 
   /**
+   * Assign the vault to a vault group for access control. Required when using a
+   * group-scoped API key.
+   */
+  groupId?: string;
+
+  /**
    * Optional metadata to attach to the vault (e.g., { containsPHI: true } for HIPAA
    * compliance tracking)
    */
@@ -762,6 +771,12 @@ export interface VaultUpdateParams {
    * Whether to enable GraphRAG for future document uploads
    */
   enableGraph?: boolean;
+
+  /**
+   * Move the vault to a different group, or set to null to remove from its current
+   * group.
+   */
+  groupId?: string | null;
 
   /**
    * New name for the vault
@@ -929,6 +944,7 @@ export interface VaultUploadParams {
 
 Vault.Events = Events;
 Vault.Graphrag = Graphrag;
+Vault.Groups = Groups;
 Vault.Multipart = Multipart;
 Vault.Objects = Objects;
 
@@ -961,6 +977,8 @@ export declare namespace Vault {
     type GraphragProcessObjectResponse as GraphragProcessObjectResponse,
     type GraphragProcessObjectParams as GraphragProcessObjectParams,
   };
+
+  export { Groups as Groups };
 
   export {
     Multipart as Multipart,
