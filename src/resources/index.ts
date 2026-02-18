@@ -11,6 +11,7 @@ export { Ocr } from './ocr/ocr';
 export { Privilege } from './privilege/privilege';
 export { Search } from './search/search';
 export { Superdoc } from './superdoc/superdoc';
+export { System, type SystemListServicesResponse } from './system';
 export { Translate } from './translate/translate';
 export {
   Vault,
