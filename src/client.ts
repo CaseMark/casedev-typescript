@@ -16,6 +16,7 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
+import { System, SystemListServicesResponse } from './resources/system';
 import { Applications } from './resources/applications/applications';
 import { Compute } from './resources/compute/compute';
 import { Database } from './resources/database/database';
@@ -776,6 +777,7 @@ export class Casedev {
 
   static toFile = Uploads.toFile;
 
+  system: API.System = new API.System(this);
   applications: API.Applications = new API.Applications(this);
   compute: API.Compute = new API.Compute(this);
   database: API.Database = new API.Database(this);
@@ -792,6 +794,7 @@ export class Casedev {
   voice: API.Voice = new API.Voice(this);
 }
 
+Casedev.System = System;
 Casedev.Applications = Applications;
 Casedev.Compute = Compute;
 Casedev.Database = Database;
@@ -809,6 +812,8 @@ Casedev.Voice = Voice;
 
 export declare namespace Casedev {
   export type RequestOptions = Opts.RequestOptions;
+
+  export { System as System, type SystemListServicesResponse as SystemListServicesResponse };
 
   export { Applications as Applications };
 

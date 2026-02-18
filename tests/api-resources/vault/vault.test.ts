@@ -27,6 +27,7 @@ describe('resource vault', () => {
       description: 'Repository for all client contract reviews and analysis',
       enableGraph: true,
       enableIndexing: true,
+      groupId: 'grp_abc123',
       metadata: { containsPHI: true, hipaaCompliant: true },
     });
   });

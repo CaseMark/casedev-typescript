@@ -1,3 +1,13 @@
+# System
+
+Types:
+
+- <code><a href="./src/resources/system.ts">SystemListServicesResponse</a></code>
+
+Methods:
+
+- <code title="get /services">client.system.<a href="./src/resources/system.ts">listServices</a>() -> SystemListServicesResponse</code>
+
 # Applications
 
 ## V1
@@ -382,6 +392,15 @@ Methods:
 - <code title="get /vault/{id}/graphrag/stats">client.vault.graphrag.<a href="./src/resources/vault/graphrag.ts">getStats</a>(id) -> GraphragGetStatsResponse</code>
 - <code title="post /vault/{id}/graphrag/init">client.vault.graphrag.<a href="./src/resources/vault/graphrag.ts">init</a>(id) -> GraphragInitResponse</code>
 - <code title="post /vault/{id}/graphrag/{objectId}">client.vault.graphrag.<a href="./src/resources/vault/graphrag.ts">processObject</a>(objectID, { ...params }) -> GraphragProcessObjectResponse</code>
+
+## Groups
+
+Methods:
+
+- <code title="post /vault/groups">client.vault.groups.<a href="./src/resources/vault/groups.ts">create</a>() -> void</code>
+- <code title="patch /vault/groups/{groupId}">client.vault.groups.<a href="./src/resources/vault/groups.ts">update</a>(groupID) -> void</code>
+- <code title="get /vault/groups">client.vault.groups.<a href="./src/resources/vault/groups.ts">list</a>() -> void</code>
+- <code title="delete /vault/groups/{groupId}">client.vault.groups.<a href="./src/resources/vault/groups.ts">delete</a>(groupID) -> void</code>
 
 ## Multipart
 
