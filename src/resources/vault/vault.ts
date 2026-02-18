@@ -792,34 +792,26 @@ export interface VaultDeleteParams {
   async?: boolean;
 }
 
-export type VaultConfirmUploadParams = VaultConfirmUploadParams.Variant0 | VaultConfirmUploadParams.Variant1;
+export type VaultConfirmUploadParams =
+  | VaultConfirmUploadParams.VaultConfirmUploadSuccess
+  | VaultConfirmUploadParams.VaultConfirmUploadFailure;
 
 export declare namespace VaultConfirmUploadParams {
-  export interface Variant0 {
+  export interface VaultConfirmUploadSuccess {
     /**
      * Path param: Vault ID
      */
     id: string;
 
     /**
-     * Body param: Uploaded file size in bytes (required when success=true)
+     * Body param: Uploaded file size in bytes
      */
     sizeBytes: number;
 
     /**
-     * Body param
+     * Body param: Whether the upload succeeded
      */
     success: true;
-
-    /**
-     * Body param: Client-side error code (required when success=false)
-     */
-    errorCode?: string;
-
-    /**
-     * Body param: Client-side error message (required when success=false)
-     */
-    errorMessage?: string;
 
     /**
      * Body param: S3 ETag for the uploaded object (optional if client cannot access
@@ -828,37 +820,26 @@ export declare namespace VaultConfirmUploadParams {
     etag?: string;
   }
 
-  export interface Variant1 {
+  export interface VaultConfirmUploadFailure {
     /**
      * Path param: Vault ID
      */
     id: string;
 
     /**
-     * Body param: Client-side error code (required when success=false)
+     * Body param: Client-side error code
      */
     errorCode: string;
 
     /**
-     * Body param: Client-side error message (required when success=false)
+     * Body param: Client-side error message
      */
     errorMessage: string;
 
     /**
-     * Body param
+     * Body param: Whether the upload succeeded
      */
     success: false;
-
-    /**
-     * Body param: S3 ETag for the uploaded object (optional if client cannot access
-     * ETag header)
-     */
-    etag?: string;
-
-    /**
-     * Body param: Uploaded file size in bytes (required when success=true)
-     */
-    sizeBytes?: number;
   }
 }
 

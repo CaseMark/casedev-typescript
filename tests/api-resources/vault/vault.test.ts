@@ -110,8 +110,6 @@ describe('resource vault', () => {
       id: 'id',
       sizeBytes: 1,
       success: true,
-      errorCode: 'errorCode',
-      errorMessage: 'errorMessage',
       etag: 'etag',
     });
   });
