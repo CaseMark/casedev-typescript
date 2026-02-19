@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.10.0 (2026-02-19)
+
+Full Changelog: [v0.9.0...v0.10.0](https://github.com/CaseMark/casedev-typescript/compare/v0.9.0...v0.10.0)
+
+### Features
+
+* **api:** api update ([6ed5391](https://github.com/CaseMark/casedev-typescript/commit/6ed53911e707f7f5a84bc8cef1083a14d5ef27e1))
+* **api:** api update ([0f3e255](https://github.com/CaseMark/casedev-typescript/commit/0f3e255d0ba74c9374b89311a5d04e27b18e239f))
+* **api:** api update ([98f1eee](https://github.com/CaseMark/casedev-typescript/commit/98f1eee2de69350536052ee9bf8b6b747d212e25))
+
+
+### Chores
+
+* **internal/client:** fix form-urlencoded requests ([d394155](https://github.com/CaseMark/casedev-typescript/commit/d3941553701b400e3d8b3360dbaf89fceec29cc6))
+
 ## 0.9.0 (2026-02-14)
 
 Full Changelog: [v0.8.1...v0.9.0](https://github.com/CaseMark/casedev-typescript/compare/v0.8.1...v0.9.0)
