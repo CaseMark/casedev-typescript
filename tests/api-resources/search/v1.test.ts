@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Mock server tests are disabled
-  test.skip('answer: only required params', async () => {
+  test('answer: only required params', async () => {
     const responsePromise = client.search.v1.answer({ query: 'query' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('answer: required and optional params', async () => {
+  test('answer: required and optional params', async () => {
     const response = await client.search.v1.answer({
       query: 'query',
       excludeDomains: ['string'],
@@ -37,8 +35,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('contents: only required params', async () => {
+  test('contents: only required params', async () => {
     const responsePromise = client.search.v1.contents({ urls: ['https://example.com'] });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -49,8 +46,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('contents: required and optional params', async () => {
+  test('contents: required and optional params', async () => {
     const response = await client.search.v1.contents({
       urls: ['https://example.com'],
       context: 'context',
@@ -65,8 +61,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('research: only required params', async () => {
+  test('research: only required params', async () => {
     const responsePromise = client.search.v1.research({ instructions: 'instructions' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -77,8 +72,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('research: required and optional params', async () => {
+  test('research: required and optional params', async () => {
     const response = await client.search.v1.research({
       instructions: 'instructions',
       model: 'fast',
@@ -87,8 +81,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('retrieveResearch', async () => {
+  test('retrieveResearch', async () => {
     const responsePromise = client.search.v1.retrieveResearch('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -99,8 +92,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('retrieveResearch: request options and params are passed correctly', async () => {
+  test('retrieveResearch: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.search.v1.retrieveResearch(
@@ -111,8 +103,7 @@ describe('resource v1', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Mock server tests are disabled
-  test.skip('search: only required params', async () => {
+  test('search: only required params', async () => {
     const responsePromise = client.search.v1.search({ query: 'query' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -123,8 +114,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('search: required and optional params', async () => {
+  test('search: required and optional params', async () => {
     const response = await client.search.v1.search({
       query: 'query',
       additionalQueries: ['string'],
@@ -143,8 +133,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('similar: only required params', async () => {
+  test('similar: only required params', async () => {
     const responsePromise = client.search.v1.similar({ url: 'https://example.com' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -155,8 +144,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('similar: required and optional params', async () => {
+  test('similar: required and optional params', async () => {
     const response = await client.search.v1.similar({
       url: 'https://example.com',
       contents: 'contents',

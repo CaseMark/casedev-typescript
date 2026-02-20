@@ -83,6 +83,19 @@ export class V1 extends APIResource {
   }
 
   /**
+   * Look up trademark status and details from the USPTO Trademark Status & Document
+   * Retrieval (TSDR) system. Supports lookup by serial number or registration
+   * number. Returns mark text, status, owner, goods/services, Nice classification,
+   * filing/registration dates, and more.
+   */
+  trademarkSearch(
+    body: V1TrademarkSearchParams,
+    options?: RequestOptions,
+  ): APIPromise<V1TrademarkSearchResponse> {
+    return this._client.post('/legal/v1/trademark-search', { body, ...options });
+  }
+
+  /**
    * Validates legal citations against authoritative case law sources (CourtListener
    * database of ~10M cases). Returns verification status and case metadata for each
    * citation found in the input text. Accepts either a single citation or a full
@@ -598,6 +611,97 @@ export namespace V1SimilarResponse {
   }
 }
 
+export interface V1TrademarkSearchResponse {
+  /**
+   * Attorney of record
+   */
+  attorney?: string | null;
+
+  /**
+   * Date the application was filed
+   */
+  filingDate?: string | null;
+
+  /**
+   * Goods and services descriptions with class numbers
+   */
+  goodsAndServices?: Array<V1TrademarkSearchResponse.GoodsAndService>;
+
+  /**
+   * URL to the mark image on USPTO CDN
+   */
+  imageUrl?: string | null;
+
+  /**
+   * The text of the trademark
+   */
+  markText?: string | null;
+
+  /**
+   * Type of mark (e.g. "Standard Character Mark", "Design Mark")
+   */
+  markType?: string | null;
+
+  /**
+   * Nice classification class numbers
+   */
+  niceClasses?: Array<number>;
+
+  /**
+   * Current owner/applicant information
+   */
+  owner?: V1TrademarkSearchResponse.Owner | null;
+
+  /**
+   * Date the mark was registered
+   */
+  registrationDate?: string | null;
+
+  /**
+   * USPTO registration number (if registered)
+   */
+  registrationNumber?: string | null;
+
+  /**
+   * USPTO serial number
+   */
+  serialNumber?: string;
+
+  /**
+   * Current status (e.g. "Registered", "Pending", "Abandoned", "Cancelled")
+   */
+  status?: string | null;
+
+  /**
+   * Date of most recent status update
+   */
+  statusDate?: string | null;
+
+  /**
+   * Canonical TSDR link for this mark
+   */
+  usptoUrl?: string;
+}
+
+export namespace V1TrademarkSearchResponse {
+  export interface GoodsAndService {
+    classNumber?: string | null;
+
+    description?: string | null;
+  }
+
+  /**
+   * Current owner/applicant information
+   */
+  export interface Owner {
+    address?: string | null;
+
+    entityType?: string | null;
+
+    name?: string | null;
+  }
+}
+
 export interface V1VerifyResponse {
   citations?: Array<V1VerifyResponse.Citation>;
 
@@ -878,6 +982,20 @@ export interface V1SimilarParams {
   startPublishedDate?: string;
 }
 
+export interface V1TrademarkSearchParams {
+  /**
+   * USPTO registration number (e.g. "6123456"). Provide either serialNumber or
+   * registrationNumber.
+   */
+  registrationNumber?: string;
+
+  /**
+   * USPTO serial number (e.g. "97123456"). Provide either serialNumber or
+   * registrationNumber.
+   */
+  serialNumber?: string;
+}
+
 export interface V1VerifyParams {
   /**
    * Text containing citations to verify. Can be a single citation (e.g., "531 U.S.
@@ -896,6 +1014,7 @@ export declare namespace V1 {
     type V1PatentSearchResponse as V1PatentSearchResponse,
     type V1ResearchResponse as V1ResearchResponse,
     type V1SimilarResponse as V1SimilarResponse,
+    type V1TrademarkSearchResponse as V1TrademarkSearchResponse,
     type V1VerifyResponse as V1VerifyResponse,
     type V1FindParams as V1FindParams,
     type V1GetCitationsParams as V1GetCitationsParams,
@@ -905,6 +1024,7 @@ export declare namespace V1 {
     type V1PatentSearchParams as V1PatentSearchParams,
     type V1ResearchParams as V1ResearchParams,
     type V1SimilarParams as V1SimilarParams,
+    type V1TrademarkSearchParams as V1TrademarkSearchParams,
     type V1VerifyParams as V1VerifyParams,
   };
 }

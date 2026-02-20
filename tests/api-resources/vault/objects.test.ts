@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource objects', () => {
-  // Mock server tests are disabled
-  test.skip('retrieve: only required params', async () => {
+  test('retrieve: only required params', async () => {
     const responsePromise = client.vault.objects.retrieve('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,13 +19,11 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('retrieve: required and optional params', async () => {
+  test('retrieve: required and optional params', async () => {
     const response = await client.vault.objects.retrieve('objectId', { id: 'id' });
   });
 
-  // Mock server tests are disabled
-  test.skip('update: only required params', async () => {
+  test('update: only required params', async () => {
     const responsePromise = client.vault.objects.update('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -37,8 +34,7 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('update: required and optional params', async () => {
+  test('update: required and optional params', async () => {
     const response = await client.vault.objects.update('objectId', {
       id: 'id',
       filename: 'deposition-smith-2024.pdf',
@@ -47,8 +43,7 @@ describe('resource objects', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('list', async () => {
+  test('list', async () => {
     const responsePromise = client.vault.objects.list('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -59,8 +54,7 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('delete: only required params', async () => {
+  test('delete: only required params', async () => {
     const responsePromise = client.vault.objects.delete('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -71,13 +65,11 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('delete: required and optional params', async () => {
+  test('delete: required and optional params', async () => {
     const response = await client.vault.objects.delete('objectId', { id: 'id', force: 'true' });
   });
 
-  // Mock server tests are disabled
-  test.skip('createPresignedURL: only required params', async () => {
+  test('createPresignedURL: only required params', async () => {
     const responsePromise = client.vault.objects.createPresignedURL('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -88,8 +80,7 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('createPresignedURL: required and optional params', async () => {
+  test('createPresignedURL: required and optional params', async () => {
     const response = await client.vault.objects.createPresignedURL('objectId', {
       id: 'id',
       contentType: 'contentType',
@@ -99,8 +90,7 @@ describe('resource objects', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('download: only required params', async () => {
+  test('download: only required params', async () => {
     const responsePromise = client.vault.objects.download('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -111,13 +101,11 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('download: required and optional params', async () => {
+  test('download: required and optional params', async () => {
     const response = await client.vault.objects.download('objectId', { id: 'id' });
   });
 
-  // Mock server tests are disabled
-  test.skip('getOcrWords: only required params', async () => {
+  test('getOcrWords: only required params', async () => {
     const responsePromise = client.vault.objects.getOcrWords('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -128,8 +116,7 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('getOcrWords: required and optional params', async () => {
+  test('getOcrWords: required and optional params', async () => {
     const response = await client.vault.objects.getOcrWords('objectId', {
       id: 'id',
       page: 0,
@@ -138,8 +125,7 @@ describe('resource objects', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('getSummarizeJob: only required params', async () => {
+  test('getSummarizeJob: only required params', async () => {
     const responsePromise = client.vault.objects.getSummarizeJob('jobId', { id: 'id', objectId: 'objectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -150,13 +136,11 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('getSummarizeJob: required and optional params', async () => {
+  test('getSummarizeJob: required and optional params', async () => {
     const response = await client.vault.objects.getSummarizeJob('jobId', { id: 'id', objectId: 'objectId' });
   });
 
-  // Mock server tests are disabled
-  test.skip('getText: only required params', async () => {
+  test('getText: only required params', async () => {
     const responsePromise = client.vault.objects.getText('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -167,8 +151,7 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('getText: required and optional params', async () => {
+  test('getText: required and optional params', async () => {
     const response = await client.vault.objects.getText('objectId', { id: 'id' });
   });
 });

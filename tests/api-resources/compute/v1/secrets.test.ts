@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource secrets', () => {
-  // Mock server tests are disabled
-  test.skip('create: only required params', async () => {
+  test('create: only required params', async () => {
     const responsePromise = client.compute.v1.secrets.create({ name: 'name' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource secrets', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('create: required and optional params', async () => {
+  test('create: required and optional params', async () => {
     const response = await client.compute.v1.secrets.create({
       name: 'name',
       description: 'description',
@@ -29,8 +27,7 @@ describe('resource secrets', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('list', async () => {
+  test('list', async () => {
     const responsePromise = client.compute.v1.secrets.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -41,16 +38,14 @@ describe('resource secrets', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('list: request options and params are passed correctly', async () => {
+  test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.compute.v1.secrets.list({ env: 'env' }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Mock server tests are disabled
-  test.skip('deleteGroup', async () => {
+  test('deleteGroup', async () => {
     const responsePromise = client.compute.v1.secrets.deleteGroup('group');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -61,8 +56,7 @@ describe('resource secrets', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('deleteGroup: request options and params are passed correctly', async () => {
+  test('deleteGroup: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.compute.v1.secrets.deleteGroup(
@@ -73,8 +67,7 @@ describe('resource secrets', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Mock server tests are disabled
-  test.skip('retrieveGroup', async () => {
+  test('retrieveGroup', async () => {
     const responsePromise = client.compute.v1.secrets.retrieveGroup('group');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -85,16 +78,14 @@ describe('resource secrets', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('retrieveGroup: request options and params are passed correctly', async () => {
+  test('retrieveGroup: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.compute.v1.secrets.retrieveGroup('group', { env: 'env' }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Mock server tests are disabled
-  test.skip('updateGroup: only required params', async () => {
+  test('updateGroup: only required params', async () => {
     const responsePromise = client.compute.v1.secrets.updateGroup('litigation-apis', {
       secrets: { foo: 'string' },
     });
@@ -107,8 +98,7 @@ describe('resource secrets', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('updateGroup: required and optional params', async () => {
+  test('updateGroup: required and optional params', async () => {
     const response = await client.compute.v1.secrets.updateGroup('litigation-apis', {
       secrets: { foo: 'string' },
       env: 'env',

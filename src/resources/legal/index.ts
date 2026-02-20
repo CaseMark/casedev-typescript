@@ -11,6 +11,7 @@ export {
   type V1PatentSearchResponse,
   type V1ResearchResponse,
   type V1SimilarResponse,
+  type V1TrademarkSearchResponse,
   type V1VerifyResponse,
   type V1FindParams,
   type V1GetCitationsParams,
@@ -20,5 +21,6 @@ export {
   type V1PatentSearchParams,
   type V1ResearchParams,
   type V1SimilarParams,
+  type V1TrademarkSearchParams,
   type V1VerifyParams,
 } from './v1';

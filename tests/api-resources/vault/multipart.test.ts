@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource multipart', () => {
-  // Mock server tests are disabled
-  test.skip('abort: only required params', async () => {
+  test('abort: only required params', async () => {
     const responsePromise = client.vault.multipart.abort('id', {
       objectId: 'objectId',
       uploadId: 'uploadId',
@@ -23,13 +22,11 @@ describe('resource multipart', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('abort: required and optional params', async () => {
+  test('abort: required and optional params', async () => {
     const response = await client.vault.multipart.abort('id', { objectId: 'objectId', uploadId: 'uploadId' });
   });
 
-  // Mock server tests are disabled
-  test.skip('getPartURLs: only required params', async () => {
+  test('getPartURLs: only required params', async () => {
     const responsePromise = client.vault.multipart.getPartURLs('id', {
       objectId: 'objectId',
       parts: [{ partNumber: 1, sizeBytes: 1 }],
@@ -44,8 +41,7 @@ describe('resource multipart', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('getPartURLs: required and optional params', async () => {
+  test('getPartURLs: required and optional params', async () => {
     const response = await client.vault.multipart.getPartURLs('id', {
       objectId: 'objectId',
       parts: [{ partNumber: 1, sizeBytes: 1 }],

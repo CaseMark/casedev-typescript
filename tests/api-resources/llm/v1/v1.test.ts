@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Mock server tests are disabled
-  test.skip('createEmbedding: only required params', async () => {
+  test('createEmbedding: only required params', async () => {
     const responsePromise = client.llm.v1.createEmbedding({ input: 'string', model: 'model' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('createEmbedding: required and optional params', async () => {
+  test('createEmbedding: required and optional params', async () => {
     const response = await client.llm.v1.createEmbedding({
       input: 'string',
       model: 'model',
@@ -31,8 +29,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('listModels', async () => {
+  test('listModels', async () => {
     const responsePromise = client.llm.v1.listModels();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

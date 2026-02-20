@@ -20,6 +20,8 @@ import {
   V1ResearchResponse,
   V1SimilarParams,
   V1SimilarResponse,
+  V1TrademarkSearchParams,
+  V1TrademarkSearchResponse,
   V1VerifyParams,
   V1VerifyResponse,
 } from './v1';
@@ -41,6 +43,7 @@ export declare namespace Legal {
     type V1PatentSearchResponse as V1PatentSearchResponse,
     type V1ResearchResponse as V1ResearchResponse,
     type V1SimilarResponse as V1SimilarResponse,
+    type V1TrademarkSearchResponse as V1TrademarkSearchResponse,
     type V1VerifyResponse as V1VerifyResponse,
     type V1FindParams as V1FindParams,
     type V1GetCitationsParams as V1GetCitationsParams,
@@ -50,6 +53,7 @@ export declare namespace Legal {
     type V1PatentSearchParams as V1PatentSearchParams,
     type V1ResearchParams as V1ResearchParams,
     type V1SimilarParams as V1SimilarParams,
+    type V1TrademarkSearchParams as V1TrademarkSearchParams,
     type V1VerifyParams as V1VerifyParams,
   };
 }

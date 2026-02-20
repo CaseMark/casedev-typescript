@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Mock server tests are disabled
-  test.skip('retrieve', async () => {
+  test('retrieve', async () => {
     const responsePromise = client.ocr.v1.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('download: only required params', async () => {
+  test('download: only required params', async () => {
     const responsePromise = client.ocr.v1.download('text', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -32,13 +30,11 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('download: required and optional params', async () => {
+  test('download: required and optional params', async () => {
     const response = await client.ocr.v1.download('text', { id: 'id' });
   });
 
-  // Mock server tests are disabled
-  test.skip('process: only required params', async () => {
+  test('process: only required params', async () => {
     const responsePromise = client.ocr.v1.process({ document_url: 'https://example.com/contract.pdf' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -49,8 +45,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('process: required and optional params', async () => {
+  test('process: required and optional params', async () => {
     const response = await client.ocr.v1.process({
       document_url: 'https://example.com/contract.pdf',
       callback_url: 'https://your-app.com/webhooks/ocr-complete',
