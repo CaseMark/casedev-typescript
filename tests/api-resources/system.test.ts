@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource system', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('listServices', async () => {
     const responsePromise = client.system.listServices();
     const rawResponse = await responsePromise.asResponse();

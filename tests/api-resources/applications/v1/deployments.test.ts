@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource deployments', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.create({ projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.applications.v1.deployments.create({
       projectId: 'projectId',
@@ -29,7 +29,7 @@ describe('resource deployments', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.retrieve('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -41,7 +41,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve: required and optional params', async () => {
     const response = await client.applications.v1.deployments.retrieve('id', {
       projectId: 'projectId',
@@ -49,7 +49,7 @@ describe('resource deployments', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.list({ projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -61,7 +61,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: required and optional params', async () => {
     const response = await client.applications.v1.deployments.list({
       projectId: 'projectId',
@@ -71,7 +71,7 @@ describe('resource deployments', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('cancel: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.cancel('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -83,12 +83,12 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('cancel: required and optional params', async () => {
     const response = await client.applications.v1.deployments.cancel('id', { projectId: 'projectId' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createFromFiles', async () => {
     const responsePromise = client.applications.v1.deployments.createFromFiles();
     const rawResponse = await responsePromise.asResponse();
@@ -100,7 +100,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getLogs: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.getLogs('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -112,12 +112,12 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getLogs: required and optional params', async () => {
     const response = await client.applications.v1.deployments.getLogs('id', { projectId: 'projectId' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getStatus', async () => {
     const responsePromise = client.applications.v1.deployments.getStatus('id');
     const rawResponse = await responsePromise.asResponse();
@@ -129,7 +129,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('stream: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.stream('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -141,7 +141,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('stream: required and optional params', async () => {
     const response = await client.applications.v1.deployments.stream('id', {
       projectId: 'projectId',

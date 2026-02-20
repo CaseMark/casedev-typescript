@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource transcription', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create', async () => {
     const responsePromise = client.voice.transcription.create({});
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource transcription', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.voice.transcription.retrieve('tr_abc123def456');
     const rawResponse = await responsePromise.asResponse();
@@ -32,7 +32,7 @@ describe('resource transcription', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.voice.transcription.delete('id');
     const rawResponse = await responsePromise.asResponse();

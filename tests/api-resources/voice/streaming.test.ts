@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource streaming', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getURL', async () => {
     const responsePromise = client.voice.streaming.getURL();
     const rawResponse = await responsePromise.asResponse();

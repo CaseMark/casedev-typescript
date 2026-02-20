@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource projects', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.applications.v1.projects.create({ gitRepo: 'gitRepo', name: 'name' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.applications.v1.projects.create({
       gitRepo: 'gitRepo',
@@ -42,7 +42,7 @@ describe('resource projects', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.applications.v1.projects.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
@@ -54,7 +54,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.applications.v1.projects.list();
     const rawResponse = await responsePromise.asResponse();
@@ -66,7 +66,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.applications.v1.projects.delete('id');
     const rawResponse = await responsePromise.asResponse();
@@ -78,7 +78,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -90,7 +90,7 @@ describe('resource projects', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createDeployment', async () => {
     const responsePromise = client.applications.v1.projects.createDeployment('id');
     const rawResponse = await responsePromise.asResponse();
@@ -102,7 +102,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createDeployment: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -123,7 +123,7 @@ describe('resource projects', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createDomain: only required params', async () => {
     const responsePromise = client.applications.v1.projects.createDomain('id', { domain: 'domain' });
     const rawResponse = await responsePromise.asResponse();
@@ -135,7 +135,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createDomain: required and optional params', async () => {
     const response = await client.applications.v1.projects.createDomain('id', {
       domain: 'domain',
@@ -143,7 +143,7 @@ describe('resource projects', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createEnv: only required params', async () => {
     const responsePromise = client.applications.v1.projects.createEnv('id', {
       key: 'key',
@@ -159,7 +159,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createEnv: required and optional params', async () => {
     const response = await client.applications.v1.projects.createEnv('id', {
       key: 'key',
@@ -170,7 +170,7 @@ describe('resource projects', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('deleteDomain: only required params', async () => {
     const responsePromise = client.applications.v1.projects.deleteDomain('domain', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -182,12 +182,12 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('deleteDomain: required and optional params', async () => {
     const response = await client.applications.v1.projects.deleteDomain('domain', { id: 'id' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('deleteEnv: only required params', async () => {
     const responsePromise = client.applications.v1.projects.deleteEnv('envId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -199,12 +199,12 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('deleteEnv: required and optional params', async () => {
     const response = await client.applications.v1.projects.deleteEnv('envId', { id: 'id' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getRuntimeLogs', async () => {
     const responsePromise = client.applications.v1.projects.getRuntimeLogs('id');
     const rawResponse = await responsePromise.asResponse();
@@ -216,7 +216,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getRuntimeLogs: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -228,7 +228,7 @@ describe('resource projects', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('listDeployments', async () => {
     const responsePromise = client.applications.v1.projects.listDeployments('id');
     const rawResponse = await responsePromise.asResponse();
@@ -240,7 +240,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('listDeployments: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -256,7 +256,7 @@ describe('resource projects', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('listDomains', async () => {
     const responsePromise = client.applications.v1.projects.listDomains('id');
     const rawResponse = await responsePromise.asResponse();
@@ -268,7 +268,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('listEnv', async () => {
     const responsePromise = client.applications.v1.projects.listEnv('id');
     const rawResponse = await responsePromise.asResponse();
@@ -280,7 +280,7 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('listEnv: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(

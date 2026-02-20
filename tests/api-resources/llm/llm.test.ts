@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource llm', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getConfig', async () => {
     const responsePromise = client.llm.getConfig();
     const rawResponse = await responsePromise.asResponse();

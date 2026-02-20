@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource multipart', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('abort: only required params', async () => {
     const responsePromise = client.vault.multipart.abort('id', {
       objectId: 'objectId',
@@ -23,12 +23,12 @@ describe('resource multipart', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('abort: required and optional params', async () => {
     const response = await client.vault.multipart.abort('id', { objectId: 'objectId', uploadId: 'uploadId' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getPartURLs: only required params', async () => {
     const responsePromise = client.vault.multipart.getPartURLs('id', {
       objectId: 'objectId',
@@ -44,7 +44,7 @@ describe('resource multipart', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getPartURLs: required and optional params', async () => {
     const response = await client.vault.multipart.getPartURLs('id', {
       objectId: 'objectId',

@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource run', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.agent.v1.run.create({ agentId: 'agentId', prompt: 'prompt' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.agent.v1.run.create({
       agentId: 'agentId',
@@ -30,7 +30,7 @@ describe('resource run', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('cancel', async () => {
     const responsePromise = client.agent.v1.run.cancel('id');
     const rawResponse = await responsePromise.asResponse();
@@ -42,7 +42,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('exec', async () => {
     const responsePromise = client.agent.v1.run.exec('id');
     const rawResponse = await responsePromise.asResponse();
@@ -54,7 +54,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getDetails', async () => {
     const responsePromise = client.agent.v1.run.getDetails('id');
     const rawResponse = await responsePromise.asResponse();
@@ -66,7 +66,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getStatus', async () => {
     const responsePromise = client.agent.v1.run.getStatus('id');
     const rawResponse = await responsePromise.asResponse();
@@ -78,7 +78,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('watch: only required params', async () => {
     const responsePromise = client.agent.v1.run.watch('id', { callbackUrl: 'https://example.com' });
     const rawResponse = await responsePromise.asResponse();
@@ -90,7 +90,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('watch: required and optional params', async () => {
     const response = await client.agent.v1.run.watch('id', { callbackUrl: 'https://example.com' });
   });

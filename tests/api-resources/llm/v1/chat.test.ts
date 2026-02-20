@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource chat', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createCompletion: only required params', async () => {
     const responsePromise = client.llm.v1.chat.createCompletion({ messages: [{}] });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource chat', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createCompletion: required and optional params', async () => {
     const response = await client.llm.v1.chat.createCompletion({
       messages: [{ content: 'content', role: 'system' }],

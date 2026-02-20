@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getUsage', async () => {
     const responsePromise = client.database.v1.getUsage();
     const rawResponse = await responsePromise.asResponse();
