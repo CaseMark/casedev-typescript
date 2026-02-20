@@ -1,5 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+export { Agent } from './agent/agent';
 export { Applications } from './applications/applications';
 export { Compute } from './compute/compute';
 export { Database } from './database/database';
