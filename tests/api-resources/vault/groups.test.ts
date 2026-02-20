@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource groups', () => {
-  // Mock server tests are disabled
-  test.skip('create', async () => {
+  test('create', async () => {
     const responsePromise = client.vault.groups.create();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource groups', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('update', async () => {
+  test('update', async () => {
     const responsePromise = client.vault.groups.update('groupId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -32,8 +30,7 @@ describe('resource groups', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('list', async () => {
+  test('list', async () => {
     const responsePromise = client.vault.groups.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -44,8 +41,7 @@ describe('resource groups', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('delete', async () => {
+  test('delete', async () => {
     const responsePromise = client.vault.groups.delete('groupId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

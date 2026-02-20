@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Mock server tests are disabled
-  test.skip('create: only required params', async () => {
+  test('create: only required params', async () => {
     const responsePromise = client.memory.v1.create({ messages: [{ content: 'content', role: 'user' }] });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('create: required and optional params', async () => {
+  test('create: required and optional params', async () => {
     const response = await client.memory.v1.create({
       messages: [{ content: 'content', role: 'user' }],
       category: 'category',
@@ -43,8 +41,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('retrieve', async () => {
+  test('retrieve', async () => {
     const responsePromise = client.memory.v1.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -55,8 +52,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('list', async () => {
+  test('list', async () => {
     const responsePromise = client.memory.v1.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -67,8 +63,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('list: request options and params are passed correctly', async () => {
+  test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.memory.v1.list(
@@ -94,8 +89,7 @@ describe('resource v1', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Mock server tests are disabled
-  test.skip('delete', async () => {
+  test('delete', async () => {
     const responsePromise = client.memory.v1.delete('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -106,8 +100,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('deleteAll', async () => {
+  test('deleteAll', async () => {
     const responsePromise = client.memory.v1.deleteAll();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -118,8 +111,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('deleteAll: request options and params are passed correctly', async () => {
+  test('deleteAll: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.memory.v1.deleteAll(
@@ -142,8 +134,7 @@ describe('resource v1', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Mock server tests are disabled
-  test.skip('search: only required params', async () => {
+  test('search: only required params', async () => {
     const responsePromise = client.memory.v1.search({ query: 'query' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -154,8 +145,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('search: required and optional params', async () => {
+  test('search: required and optional params', async () => {
     const response = await client.memory.v1.search({
       query: 'query',
       category: 'category',

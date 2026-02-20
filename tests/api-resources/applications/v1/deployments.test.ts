@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource deployments', () => {
-  // Mock server tests are disabled
-  test.skip('create: only required params', async () => {
+  test('create: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.create({ projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('create: required and optional params', async () => {
+  test('create: required and optional params', async () => {
     const response = await client.applications.v1.deployments.create({
       projectId: 'projectId',
       ref: 'ref',
@@ -29,8 +27,7 @@ describe('resource deployments', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('retrieve: only required params', async () => {
+  test('retrieve: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.retrieve('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -41,16 +38,14 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('retrieve: required and optional params', async () => {
+  test('retrieve: required and optional params', async () => {
     const response = await client.applications.v1.deployments.retrieve('id', {
       projectId: 'projectId',
       includeLogs: true,
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('list: only required params', async () => {
+  test('list: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.list({ projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -61,8 +56,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('list: required and optional params', async () => {
+  test('list: required and optional params', async () => {
     const response = await client.applications.v1.deployments.list({
       projectId: 'projectId',
       limit: 0,
@@ -71,8 +65,7 @@ describe('resource deployments', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('cancel: only required params', async () => {
+  test('cancel: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.cancel('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -83,13 +76,11 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('cancel: required and optional params', async () => {
+  test('cancel: required and optional params', async () => {
     const response = await client.applications.v1.deployments.cancel('id', { projectId: 'projectId' });
   });
 
-  // Mock server tests are disabled
-  test.skip('createFromFiles', async () => {
+  test('createFromFiles', async () => {
     const responsePromise = client.applications.v1.deployments.createFromFiles();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -100,8 +91,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('getLogs: only required params', async () => {
+  test('getLogs: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.getLogs('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -112,13 +102,11 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('getLogs: required and optional params', async () => {
+  test('getLogs: required and optional params', async () => {
     const response = await client.applications.v1.deployments.getLogs('id', { projectId: 'projectId' });
   });
 
-  // Mock server tests are disabled
-  test.skip('getStatus', async () => {
+  test('getStatus', async () => {
     const responsePromise = client.applications.v1.deployments.getStatus('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -129,8 +117,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('stream: only required params', async () => {
+  test('stream: only required params', async () => {
     const responsePromise = client.applications.v1.deployments.stream('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -141,8 +128,7 @@ describe('resource deployments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('stream: required and optional params', async () => {
+  test('stream: required and optional params', async () => {
     const response = await client.applications.v1.deployments.stream('id', {
       projectId: 'projectId',
       startIndex: 0,

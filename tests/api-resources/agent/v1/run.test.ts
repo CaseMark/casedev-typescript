@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource run', () => {
-  // Mock server tests are disabled
-  test.skip('create: only required params', async () => {
+  test('create: only required params', async () => {
     const responsePromise = client.agent.v1.run.create({ agentId: 'agentId', prompt: 'prompt' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('create: required and optional params', async () => {
+  test('create: required and optional params', async () => {
     const response = await client.agent.v1.run.create({
       agentId: 'agentId',
       prompt: 'prompt',
@@ -30,8 +28,7 @@ describe('resource run', () => {
     });
   });
 
-  // Mock server tests are disabled
-  test.skip('cancel', async () => {
+  test('cancel', async () => {
     const responsePromise = client.agent.v1.run.cancel('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -42,8 +39,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('exec', async () => {
+  test('exec', async () => {
     const responsePromise = client.agent.v1.run.exec('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -54,8 +50,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('getDetails', async () => {
+  test('getDetails', async () => {
     const responsePromise = client.agent.v1.run.getDetails('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -66,8 +61,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('getStatus', async () => {
+  test('getStatus', async () => {
     const responsePromise = client.agent.v1.run.getStatus('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -78,8 +72,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('watch: only required params', async () => {
+  test('watch: only required params', async () => {
     const responsePromise = client.agent.v1.run.watch('id', { callbackUrl: 'https://example.com' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -90,8 +83,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('watch: required and optional params', async () => {
+  test('watch: required and optional params', async () => {
     const response = await client.agent.v1.run.watch('id', { callbackUrl: 'https://example.com' });
   });
 });

@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource llm', () => {
-  // Mock server tests are disabled
-  test.skip('getConfig', async () => {
+  test('getConfig', async () => {
     const responsePromise = client.llm.getConfig();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

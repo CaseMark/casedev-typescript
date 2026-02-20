@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Mock server tests are disabled
-  test.skip('detect', async () => {
+  test('detect', async () => {
     const responsePromise = client.privilege.v1.detect({});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
