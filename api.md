@@ -240,6 +240,7 @@ Types:
 - <code><a href="./src/resources/legal/v1.ts">V1PatentSearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1ResearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1SimilarResponse</a></code>
+- <code><a href="./src/resources/legal/v1.ts">V1TrademarkSearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1VerifyResponse</a></code>
 
 Methods:
@@ -252,6 +253,7 @@ Methods:
 - <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/resources/legal/v1.ts">patentSearch</a>({ ...params }) -> V1PatentSearchResponse</code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/resources/legal/v1.ts">research</a>({ ...params }) -> V1ResearchResponse</code>
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/resources/legal/v1.ts">similar</a>({ ...params }) -> V1SimilarResponse</code>
+- <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/resources/legal/v1.ts">trademarkSearch</a>({ ...params }) -> V1TrademarkSearchResponse</code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/resources/legal/v1.ts">verify</a>({ ...params }) -> V1VerifyResponse</code>
 
 # Llm

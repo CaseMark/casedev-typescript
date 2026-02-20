@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource instanceTypes', () => {
-  // Prism tests are disabled
-  test.skip('list', async () => {
+  test('list', async () => {
     const responsePromise = client.compute.v1.instanceTypes.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

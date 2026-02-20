@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource graphrag', () => {
-  // Prism tests are disabled
-  test.skip('getStats', async () => {
+  test('getStats', async () => {
     const responsePromise = client.vault.graphrag.getStats('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource graphrag', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
-  test.skip('init', async () => {
+  test('init', async () => {
     const responsePromise = client.vault.graphrag.init('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -32,8 +30,7 @@ describe('resource graphrag', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
-  test.skip('processObject: only required params', async () => {
+  test('processObject: only required params', async () => {
     const responsePromise = client.vault.graphrag.processObject('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -44,8 +41,7 @@ describe('resource graphrag', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
-  test.skip('processObject: required and optional params', async () => {
+  test('processObject: required and optional params', async () => {
     const response = await client.vault.graphrag.processObject('objectId', { id: 'id' });
   });
 });

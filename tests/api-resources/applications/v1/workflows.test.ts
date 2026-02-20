@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource workflows', () => {
-  // Prism tests are disabled
-  test.skip('getStatus: only required params', async () => {
+  test('getStatus: only required params', async () => {
     const responsePromise = client.applications.v1.workflows.getStatus('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource workflows', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
-  test.skip('getStatus: required and optional params', async () => {
+  test('getStatus: required and optional params', async () => {
     const response = await client.applications.v1.workflows.getStatus('id', { projectId: 'projectId' });
   });
 });

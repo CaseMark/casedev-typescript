@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Prism tests are disabled
-  test.skip('getPricing', async () => {
+  test('getPricing', async () => {
     const responsePromise = client.compute.v1.getPricing();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,8 +19,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
-  test.skip('getUsage', async () => {
+  test('getUsage', async () => {
     const responsePromise = client.compute.v1.getUsage();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -32,8 +30,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
-  test.skip('getUsage: request options and params are passed correctly', async () => {
+  test('getUsage: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.compute.v1.getUsage({ month: 3, year: 2024 }, { path: '/_stainless_unknown_path' }),

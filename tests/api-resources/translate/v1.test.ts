@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Prism tests are disabled
-  test.skip('detect: only required params', async () => {
+  test('detect: only required params', async () => {
     const responsePromise = client.translate.v1.detect({ q: 'string' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,13 +19,11 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
-  test.skip('detect: required and optional params', async () => {
+  test('detect: required and optional params', async () => {
     const response = await client.translate.v1.detect({ q: 'string' });
   });
 
-  // Prism tests are disabled
-  test.skip('listLanguages', async () => {
+  test('listLanguages', async () => {
     const responsePromise = client.translate.v1.listLanguages();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -37,8 +34,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
-  test.skip('listLanguages: request options and params are passed correctly', async () => {
+  test('listLanguages: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.translate.v1.listLanguages(
@@ -48,8 +44,7 @@ describe('resource v1', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Prism tests are disabled
-  test.skip('translate: only required params', async () => {
+  test('translate: only required params', async () => {
     const responsePromise = client.translate.v1.translate({ q: 'string', target: 'es' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -60,8 +55,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
-  test.skip('translate: required and optional params', async () => {
+  test('translate: required and optional params', async () => {
     const response = await client.translate.v1.translate({
       q: 'string',
       target: 'es',

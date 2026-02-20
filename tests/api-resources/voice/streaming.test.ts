@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource streaming', () => {
-  // Prism tests are disabled
-  test.skip('getURL', async () => {
+  test('getURL', async () => {
     const responsePromise = client.voice.streaming.getURL();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

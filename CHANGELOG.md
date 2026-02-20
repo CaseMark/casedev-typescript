@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.12.0 (2026-02-20)
+
+Full Changelog: [v0.11.1...v0.12.0](https://github.com/CaseMark/casedev-typescript/compare/v0.11.1...v0.12.0)
+
+### Features
+
+* **api:** api update ([f6dd1a4](https://github.com/CaseMark/casedev-typescript/commit/f6dd1a4c8e459e48608c8905a39bbd0c6d2f2935))
+
+
+### Chores
+
+* **internal:** remove mock server code ([e8fd1a0](https://github.com/CaseMark/casedev-typescript/commit/e8fd1a084dc9d50146f6afb589a2699c012323c4))
+* update mock server docs ([8c1f50d](https://github.com/CaseMark/casedev-typescript/commit/8c1f50dc7e9403cf55d2e592fcde88d30c683ab8))
+
 ## 0.11.1 (2026-02-20)
 
 Full Changelog: [v0.11.0...v0.11.1](https://github.com/CaseMark/casedev-typescript/compare/v0.11.0...v0.11.1)
