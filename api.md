@@ -1,3 +1,45 @@
+# Agent
+
+## V1
+
+### Agents
+
+Types:
+
+- <code><a href="./src/resources/agent/v1/agents.ts">AgentCreateResponse</a></code>
+- <code><a href="./src/resources/agent/v1/agents.ts">AgentRetrieveResponse</a></code>
+- <code><a href="./src/resources/agent/v1/agents.ts">AgentUpdateResponse</a></code>
+- <code><a href="./src/resources/agent/v1/agents.ts">AgentListResponse</a></code>
+- <code><a href="./src/resources/agent/v1/agents.ts">AgentDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /agent/v1/agents">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
+- <code title="get /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">retrieve</a>(id) -> AgentRetrieveResponse</code>
+- <code title="patch /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">update</a>(id, { ...params }) -> AgentUpdateResponse</code>
+- <code title="get /agent/v1/agents">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">list</a>() -> AgentListResponse</code>
+- <code title="delete /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">delete</a>(id) -> AgentDeleteResponse</code>
+
+### Run
+
+Types:
+
+- <code><a href="./src/resources/agent/v1/run.ts">RunCreateResponse</a></code>
+- <code><a href="./src/resources/agent/v1/run.ts">RunCancelResponse</a></code>
+- <code><a href="./src/resources/agent/v1/run.ts">RunExecResponse</a></code>
+- <code><a href="./src/resources/agent/v1/run.ts">RunGetDetailsResponse</a></code>
+- <code><a href="./src/resources/agent/v1/run.ts">RunGetStatusResponse</a></code>
+- <code><a href="./src/resources/agent/v1/run.ts">RunWatchResponse</a></code>
+
+Methods:
+
+- <code title="post /agent/v1/run">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">create</a>({ ...params }) -> RunCreateResponse</code>
+- <code title="post /agent/v1/run/{id}/cancel">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">cancel</a>(id) -> RunCancelResponse</code>
+- <code title="post /agent/v1/run/{id}/exec">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">exec</a>(id) -> RunExecResponse</code>
+- <code title="get /agent/v1/run/{id}/details">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">getDetails</a>(id) -> RunGetDetailsResponse</code>
+- <code title="get /agent/v1/run/{id}/status">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">getStatus</a>(id) -> RunGetStatusResponse</code>
+- <code title="post /agent/v1/run/{id}/watch">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">watch</a>(id, { ...params }) -> RunWatchResponse</code>
+
 # System
 
 Types:
