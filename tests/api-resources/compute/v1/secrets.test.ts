@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource secrets', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.compute.v1.secrets.create({ name: 'name' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource secrets', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.compute.v1.secrets.create({
       name: 'name',
@@ -29,7 +29,7 @@ describe('resource secrets', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.compute.v1.secrets.list();
     const rawResponse = await responsePromise.asResponse();
@@ -41,7 +41,7 @@ describe('resource secrets', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -49,7 +49,7 @@ describe('resource secrets', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('deleteGroup', async () => {
     const responsePromise = client.compute.v1.secrets.deleteGroup('group');
     const rawResponse = await responsePromise.asResponse();
@@ -61,7 +61,7 @@ describe('resource secrets', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('deleteGroup: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -73,7 +73,7 @@ describe('resource secrets', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveGroup', async () => {
     const responsePromise = client.compute.v1.secrets.retrieveGroup('group');
     const rawResponse = await responsePromise.asResponse();
@@ -85,7 +85,7 @@ describe('resource secrets', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveGroup: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -93,7 +93,7 @@ describe('resource secrets', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('updateGroup: only required params', async () => {
     const responsePromise = client.compute.v1.secrets.updateGroup('litigation-apis', {
       secrets: { foo: 'string' },
@@ -107,7 +107,7 @@ describe('resource secrets', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('updateGroup: required and optional params', async () => {
     const response = await client.compute.v1.secrets.updateGroup('litigation-apis', {
       secrets: { foo: 'string' },

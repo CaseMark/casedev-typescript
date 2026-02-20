@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource subscriptions', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.vault.events.subscriptions.create('id', {
       callbackUrl: 'https://example.com',
@@ -22,7 +22,7 @@ describe('resource subscriptions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.vault.events.subscriptions.create('id', {
       callbackUrl: 'https://example.com',
@@ -32,7 +32,7 @@ describe('resource subscriptions', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: only required params', async () => {
     const responsePromise = client.vault.events.subscriptions.update('subscriptionId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -44,7 +44,7 @@ describe('resource subscriptions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: required and optional params', async () => {
     const response = await client.vault.events.subscriptions.update('subscriptionId', {
       id: 'id',
@@ -57,7 +57,7 @@ describe('resource subscriptions', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.vault.events.subscriptions.list('id');
     const rawResponse = await responsePromise.asResponse();
@@ -69,7 +69,7 @@ describe('resource subscriptions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: only required params', async () => {
     const responsePromise = client.vault.events.subscriptions.delete('subscriptionId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -81,12 +81,12 @@ describe('resource subscriptions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: required and optional params', async () => {
     const response = await client.vault.events.subscriptions.delete('subscriptionId', { id: 'id' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('test: only required params', async () => {
     const responsePromise = client.vault.events.subscriptions.test('subscriptionId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -98,7 +98,7 @@ describe('resource subscriptions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('test: required and optional params', async () => {
     const response = await client.vault.events.subscriptions.test('subscriptionId', {
       id: 'id',

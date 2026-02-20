@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('answer: only required params', async () => {
     const responsePromise = client.search.v1.answer({ query: 'query' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('answer: required and optional params', async () => {
     const response = await client.search.v1.answer({
       query: 'query',
@@ -37,7 +37,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('contents: only required params', async () => {
     const responsePromise = client.search.v1.contents({ urls: ['https://example.com'] });
     const rawResponse = await responsePromise.asResponse();
@@ -49,7 +49,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('contents: required and optional params', async () => {
     const response = await client.search.v1.contents({
       urls: ['https://example.com'],
@@ -65,7 +65,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('research: only required params', async () => {
     const responsePromise = client.search.v1.research({ instructions: 'instructions' });
     const rawResponse = await responsePromise.asResponse();
@@ -77,7 +77,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('research: required and optional params', async () => {
     const response = await client.search.v1.research({
       instructions: 'instructions',
@@ -87,7 +87,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveResearch', async () => {
     const responsePromise = client.search.v1.retrieveResearch('id');
     const rawResponse = await responsePromise.asResponse();
@@ -99,7 +99,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveResearch: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -111,7 +111,7 @@ describe('resource v1', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('search: only required params', async () => {
     const responsePromise = client.search.v1.search({ query: 'query' });
     const rawResponse = await responsePromise.asResponse();
@@ -123,7 +123,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('search: required and optional params', async () => {
     const response = await client.search.v1.search({
       query: 'query',
@@ -143,7 +143,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('similar: only required params', async () => {
     const responsePromise = client.search.v1.similar({ url: 'https://example.com' });
     const rawResponse = await responsePromise.asResponse();
@@ -155,7 +155,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('similar: required and optional params', async () => {
     const response = await client.search.v1.similar({
       url: 'https://example.com',

@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createEmbedding: only required params', async () => {
     const responsePromise = client.llm.v1.createEmbedding({ input: 'string', model: 'model' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createEmbedding: required and optional params', async () => {
     const response = await client.llm.v1.createEmbedding({
       input: 'string',
@@ -31,7 +31,7 @@ describe('resource v1', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('listModels', async () => {
     const responsePromise = client.llm.v1.listModels();
     const rawResponse = await responsePromise.asResponse();

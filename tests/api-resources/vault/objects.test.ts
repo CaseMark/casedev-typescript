@@ -8,7 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource objects', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve: only required params', async () => {
     const responsePromise = client.vault.objects.retrieve('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,12 +20,12 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve: required and optional params', async () => {
     const response = await client.vault.objects.retrieve('objectId', { id: 'id' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: only required params', async () => {
     const responsePromise = client.vault.objects.update('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -37,7 +37,7 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: required and optional params', async () => {
     const response = await client.vault.objects.update('objectId', {
       id: 'id',
@@ -47,7 +47,7 @@ describe('resource objects', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.vault.objects.list('id');
     const rawResponse = await responsePromise.asResponse();
@@ -59,7 +59,7 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: only required params', async () => {
     const responsePromise = client.vault.objects.delete('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -71,12 +71,12 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: required and optional params', async () => {
     const response = await client.vault.objects.delete('objectId', { id: 'id', force: 'true' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createPresignedURL: only required params', async () => {
     const responsePromise = client.vault.objects.createPresignedURL('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -88,7 +88,7 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createPresignedURL: required and optional params', async () => {
     const response = await client.vault.objects.createPresignedURL('objectId', {
       id: 'id',
@@ -99,7 +99,7 @@ describe('resource objects', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('download: only required params', async () => {
     const responsePromise = client.vault.objects.download('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -111,12 +111,12 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('download: required and optional params', async () => {
     const response = await client.vault.objects.download('objectId', { id: 'id' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getOcrWords: only required params', async () => {
     const responsePromise = client.vault.objects.getOcrWords('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -128,7 +128,7 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getOcrWords: required and optional params', async () => {
     const response = await client.vault.objects.getOcrWords('objectId', {
       id: 'id',
@@ -138,7 +138,7 @@ describe('resource objects', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getSummarizeJob: only required params', async () => {
     const responsePromise = client.vault.objects.getSummarizeJob('jobId', { id: 'id', objectId: 'objectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -150,12 +150,12 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getSummarizeJob: required and optional params', async () => {
     const response = await client.vault.objects.getSummarizeJob('jobId', { id: 'id', objectId: 'objectId' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getText: only required params', async () => {
     const responsePromise = client.vault.objects.getText('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -167,7 +167,7 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getText: required and optional params', async () => {
     const response = await client.vault.objects.getText('objectId', { id: 'id' });
   });
