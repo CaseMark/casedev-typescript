@@ -2,7 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import { type Uploadable } from '../../core/uploads';
+import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -30,15 +30,22 @@ export class V1 extends APIResource {
    * const response = await client.ocr.v1.download('text', {
    *   id: 'id',
    * });
+   *
+   * const content = await response.blob();
+   * console.log(content);
    * ```
    */
   download(
     type: 'text' | 'json' | 'pdf' | 'original',
     params: V1DownloadParams,
     options?: RequestOptions,
-  ): APIPromise<string> {
+  ): APIPromise<Response> {
     const { id } = params;
-    return this._client.get(path`/ocr/v1/${id}/download/${type}`, options);
+    return this._client.get(path`/ocr/v1/${id}/download/${type}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
+      __binaryResponse: true,
+    });
   }
 
   /**
@@ -94,8 +101,6 @@ export interface V1RetrieveResponse {
    */
   text?: string;
 }
-
-export type V1DownloadResponse = Uploadable;
 
 export interface V1ProcessResponse {
   /**
@@ -217,7 +222,6 @@ export namespace V1ProcessParams {
 export declare namespace V1 {
   export {
     type V1RetrieveResponse as V1RetrieveResponse,
-    type V1DownloadResponse as V1DownloadResponse,
     type V1ProcessResponse as V1ProcessResponse,
     type V1DownloadParams as V1DownloadParams,
     type V1ProcessParams as V1ProcessParams,

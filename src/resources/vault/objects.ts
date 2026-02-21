@@ -2,7 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import { type Uploadable } from '../../core/uploads';
+import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -125,11 +125,18 @@ export class Objects extends APIResource {
    *   'objectId',
    *   { id: 'id' },
    * );
+   *
+   * const content = await response.blob();
+   * console.log(content);
    * ```
    */
-  download(objectID: string, params: ObjectDownloadParams, options?: RequestOptions): APIPromise<string> {
+  download(objectID: string, params: ObjectDownloadParams, options?: RequestOptions): APIPromise<Response> {
     const { id } = params;
-    return this._client.get(path`/vault/${id}/objects/${objectID}/download`, options);
+    return this._client.get(path`/vault/${id}/objects/${objectID}/download`, {
+      ...options,
+      headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
+      __binaryResponse: true,
+    });
   }
 
   /**
@@ -501,8 +508,6 @@ export namespace ObjectCreatePresignedURLResponse {
   }
 }
 
-export type ObjectDownloadResponse = Uploadable;
-
 export interface ObjectGetOcrWordsResponse {
   /**
    * When the OCR data was extracted
@@ -785,7 +790,6 @@ export declare namespace Objects {
     type ObjectListResponse as ObjectListResponse,
     type ObjectDeleteResponse as ObjectDeleteResponse,
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
-    type ObjectDownloadResponse as ObjectDownloadResponse,
     type ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse,
     type ObjectGetSummarizeJobResponse as ObjectGetSummarizeJobResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
