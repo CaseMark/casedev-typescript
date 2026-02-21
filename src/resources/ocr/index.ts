@@ -4,7 +4,6 @@ export { Ocr } from './ocr';
 export {
   V1,
   type V1RetrieveResponse,
-  type V1DownloadResponse,
   type V1ProcessResponse,
   type V1DownloadParams,
   type V1ProcessParams,
