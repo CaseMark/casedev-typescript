@@ -317,13 +317,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/ocr/v1.ts">V1RetrieveResponse</a></code>
-- <code><a href="./src/resources/ocr/v1.ts">V1DownloadResponse</a></code>
 - <code><a href="./src/resources/ocr/v1.ts">V1ProcessResponse</a></code>
 
 Methods:
 
 - <code title="get /ocr/v1/{id}">client.ocr.v1.<a href="./src/resources/ocr/v1.ts">retrieve</a>(id) -> V1RetrieveResponse</code>
-- <code title="get /ocr/v1/{id}/download/{type}">client.ocr.v1.<a href="./src/resources/ocr/v1.ts">download</a>(type, { ...params }) -> string</code>
+- <code title="get /ocr/v1/{id}/download/{type}">client.ocr.v1.<a href="./src/resources/ocr/v1.ts">download</a>(type, { ...params }) -> Response</code>
 - <code title="post /ocr/v1/process">client.ocr.v1.<a href="./src/resources/ocr/v1.ts">process</a>({ ...params }) -> V1ProcessResponse</code>
 
 # Privilege
@@ -466,7 +465,6 @@ Types:
 - <code><a href="./src/resources/vault/objects.ts">ObjectListResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectDeleteResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectCreatePresignedURLResponse</a></code>
-- <code><a href="./src/resources/vault/objects.ts">ObjectDownloadResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetOcrWordsResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetSummarizeJobResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetTextResponse</a></code>
@@ -478,7 +476,7 @@ Methods:
 - <code title="get /vault/{id}/objects">client.vault.objects.<a href="./src/resources/vault/objects.ts">list</a>(id) -> ObjectListResponse</code>
 - <code title="delete /vault/{id}/objects/{objectId}">client.vault.objects.<a href="./src/resources/vault/objects.ts">delete</a>(objectID, { ...params }) -> ObjectDeleteResponse</code>
 - <code title="post /vault/{id}/objects/{objectId}/presigned-url">client.vault.objects.<a href="./src/resources/vault/objects.ts">createPresignedURL</a>(objectID, { ...params }) -> ObjectCreatePresignedURLResponse</code>
-- <code title="get /vault/{id}/objects/{objectId}/download">client.vault.objects.<a href="./src/resources/vault/objects.ts">download</a>(objectID, { ...params }) -> string</code>
+- <code title="get /vault/{id}/objects/{objectId}/download">client.vault.objects.<a href="./src/resources/vault/objects.ts">download</a>(objectID, { ...params }) -> Response</code>
 - <code title="get /vault/{id}/objects/{objectId}/ocr-words">client.vault.objects.<a href="./src/resources/vault/objects.ts">getOcrWords</a>(objectID, { ...params }) -> ObjectGetOcrWordsResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/summarize/{jobId}">client.vault.objects.<a href="./src/resources/vault/objects.ts">getSummarizeJob</a>(jobID, { ...params }) -> ObjectGetSummarizeJobResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/resources/vault/objects.ts">getText</a>(objectID, { ...params }) -> ObjectGetTextResponse</code>

@@ -22,7 +22,6 @@ export {
   type ObjectListResponse,
   type ObjectDeleteResponse,
   type ObjectCreatePresignedURLResponse,
-  type ObjectDownloadResponse,
   type ObjectGetOcrWordsResponse,
   type ObjectGetSummarizeJobResponse,
   type ObjectGetTextResponse,
