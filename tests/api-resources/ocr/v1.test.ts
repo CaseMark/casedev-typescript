@@ -19,7 +19,8 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('download: required and optional params', async () => {
+  // Mock server doesn't support application/octet-stream responses
+  test.skip('download: required and optional params', async () => {
     const response = await client.ocr.v1.download('text', { id: 'id' });
   });
 

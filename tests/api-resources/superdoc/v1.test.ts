@@ -8,7 +8,8 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  test('annotate: required and optional params', async () => {
+  // Mock server doesn't support application/pdf responses
+  test.skip('annotate: required and optional params', async () => {
     const response = await client.superdoc.v1.annotate({
       document: { base64: 'base64', url: 'url' },
       fields: [
@@ -24,7 +25,8 @@ describe('resource v1', () => {
     });
   });
 
-  test('convert: required and optional params', async () => {
+  // Mock server doesn't support application/pdf responses
+  test.skip('convert: required and optional params', async () => {
     const response = await client.superdoc.v1.convert({
       from: 'docx',
       document_base64: 'document_base64',
