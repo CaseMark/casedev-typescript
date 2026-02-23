@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.2 (2026-02-23)
+
+Full Changelog: [v0.13.1...v0.13.2](https://github.com/CaseMark/casedev-typescript/compare/v0.13.1...v0.13.2)
+
+### Chores
+
+* replace PR open Slack alert with CI failure alert ([0682f1b](https://github.com/CaseMark/casedev-typescript/commit/0682f1bffc40b281b7274826440a3d1072a08d5e))
+
 ## 0.13.1 (2026-02-22)
 
 Full Changelog: [v0.13.0...v0.13.1](https://github.com/CaseMark/casedev-typescript/compare/v0.13.0...v0.13.1)
