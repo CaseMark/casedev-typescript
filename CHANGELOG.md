@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.13.3 (2026-02-23)
+
+Full Changelog: [v0.13.2...v0.13.3](https://github.com/CaseMark/casedev-typescript/compare/v0.13.2...v0.13.3)
+
+### Bug Fixes
+
+* only alert on CI failure for PRs targeting main ([2be5336](https://github.com/CaseMark/casedev-typescript/commit/2be5336692fdc335454988b5b3d6f494d11523d0))
+* only alert Slack on CI failure for main branch ([e315a9f](https://github.com/CaseMark/casedev-typescript/commit/e315a9f7a5825c6b7ba3f9d3cdd5c3160a966c37))
+
 ## 0.13.2 (2026-02-23)
 
 Full Changelog: [v0.13.1...v0.13.2](https://github.com/CaseMark/casedev-typescript/compare/v0.13.1...v0.13.2)
