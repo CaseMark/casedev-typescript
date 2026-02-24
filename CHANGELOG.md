@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.6 (2026-02-24)
+
+Full Changelog: [v0.13.5...v0.13.6](https://github.com/CaseMark/casedev-typescript/compare/v0.13.5...v0.13.6)
+
+### Bug Fixes
+
+* prevent duplicate Slack alerts from release-please branches ([cc6658f](https://github.com/CaseMark/casedev-typescript/commit/cc6658f72b540ef69b4cbd75bf2a9bffeeeca486))
+
 ## 0.13.5 (2026-02-24)
 
 Full Changelog: [v0.13.4...v0.13.5](https://github.com/CaseMark/casedev-typescript/compare/v0.13.4...v0.13.5)
