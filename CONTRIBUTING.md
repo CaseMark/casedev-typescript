@@ -60,7 +60,7 @@ $ yarn link casedev
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global casedev
+$ pnpm link --global casedev
 ```
 
 ## Running tests
