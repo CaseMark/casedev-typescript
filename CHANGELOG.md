@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.4 (2026-02-24)
+
+Full Changelog: [v0.13.3...v0.13.4](https://github.com/CaseMark/casedev-typescript/compare/v0.13.3...v0.13.4)
+
+### Chores
+
+* **internal:** upgrade pnpm version ([84239e3](https://github.com/CaseMark/casedev-typescript/commit/84239e3eba65a9371e5f1f30e4fff53e45970e8d))
+
 ## 0.13.3 (2026-02-23)
 
 Full Changelog: [v0.13.2...v0.13.3](https://github.com/CaseMark/casedev-typescript/compare/v0.13.2...v0.13.3)
