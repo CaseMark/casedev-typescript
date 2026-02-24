@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.5 (2026-02-24)
+
+Full Changelog: [v0.13.4...v0.13.5](https://github.com/CaseMark/casedev-typescript/compare/v0.13.4...v0.13.5)
+
+### Bug Fixes
+
+* **docs/contributing:** correct pnpm link command ([141e1fc](https://github.com/CaseMark/casedev-typescript/commit/141e1fcae4839099f47b1d1c18cdaed1dd4a96d5))
+
 ## 0.13.4 (2026-02-24)
 
 Full Changelog: [v0.13.3...v0.13.4](https://github.com/CaseMark/casedev-typescript/compare/v0.13.3...v0.13.4)
