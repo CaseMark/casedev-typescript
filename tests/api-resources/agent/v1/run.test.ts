@@ -25,6 +25,7 @@ describe('resource run', () => {
       prompt: 'prompt',
       guidance: 'guidance',
       model: 'model',
+      objectIds: ['string'],
     });
   });
 
