@@ -28,6 +28,7 @@ describe('resource agents', () => {
       enabledTools: ['string'],
       model: 'model',
       sandbox: { cpu: 0, memoryMiB: 0 },
+      vaultGroups: ['string'],
       vaultIds: ['string'],
     });
   });

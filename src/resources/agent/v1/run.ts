@@ -62,6 +62,8 @@ export interface RunCreateResponse {
 
   createdAt?: string;
 
+  objectIds?: Array<string> | null;
+
   status?: 'queued';
 }
 
@@ -100,6 +102,11 @@ export interface RunGetDetailsResponse {
 
   guidance?: string | null;
 
+  /**
+   * Modal sandbox ID (available once sandbox is created)
+   */
+  modalSandboxId?: string | null;
+
   model?: string | null;
 
   prompt?: string;
@@ -119,6 +126,11 @@ export interface RunGetDetailsResponse {
    * Token usage statistics
    */
   usage?: RunGetDetailsResponse.Usage | null;
+
+  /**
+   * Durable workflow run ID
+   */
+  workflowId?: string | null;
 }
 
 export namespace RunGetDetailsResponse {
@@ -226,6 +238,12 @@ export interface RunCreateParams {
    * Override the agent default model for this run
    */
   model?: string | null;
+
+  /**
+   * Scope this run to specific vault object IDs. The agent will only be able to
+   * access these objects during execution.
+   */
+  objectIds?: Array<string> | null;
 }
 
 export interface RunWatchParams {

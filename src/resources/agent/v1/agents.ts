@@ -116,6 +116,8 @@ export interface AgentUpdateResponse {
 
   updatedAt?: string;
 
+  vaultGroups?: Array<string> | null;
+
   vaultIds?: Array<string> | null;
 }
 
@@ -185,6 +187,11 @@ export interface AgentCreateParams {
   sandbox?: AgentCreateParams.Sandbox | null;
 
   /**
+   * Restrict agent to vaults within specific vault group IDs
+   */
+  vaultGroups?: Array<string> | null;
+
+  /**
    * Restrict agent to specific vault IDs
    */
   vaultIds?: Array<string> | null;
@@ -221,6 +228,8 @@ export interface AgentUpdateParams {
   name?: string;
 
   sandbox?: unknown | null;
+
+  vaultGroups?: Array<string> | null;
 
   vaultIds?: Array<string> | null;
 }
