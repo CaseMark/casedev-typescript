@@ -10,6 +10,7 @@ export {
   type AgentCreateParams,
   type AgentUpdateParams,
 } from './agents';
+export { Execute, type ExecuteCreateResponse, type ExecuteCreateParams } from './execute';
 export {
   Run,
   type RunCreateResponse,

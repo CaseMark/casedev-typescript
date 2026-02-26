@@ -40,6 +40,16 @@ Methods:
 - <code title="get /agent/v1/run/{id}/status">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">getStatus</a>(id) -> RunGetStatusResponse</code>
 - <code title="post /agent/v1/run/{id}/watch">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">watch</a>(id, { ...params }) -> RunWatchResponse</code>
 
+### Execute
+
+Types:
+
+- <code><a href="./src/resources/agent/v1/execute.ts">ExecuteCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /agent/v1/execute">client.agent.v1.execute.<a href="./src/resources/agent/v1/execute.ts">create</a>({ ...params }) -> ExecuteCreateResponse</code>
+
 # System
 
 Types:

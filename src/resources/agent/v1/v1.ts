@@ -12,6 +12,8 @@ import {
   AgentUpdateResponse,
   Agents,
 } from './agents';
+import * as ExecuteAPI from './execute';
+import { Execute, ExecuteCreateParams, ExecuteCreateResponse } from './execute';
 import * as RunAPI from './run';
 import {
   Run,
@@ -28,10 +30,12 @@ import {
 export class V1 extends APIResource {
   agents: AgentsAPI.Agents = new AgentsAPI.Agents(this._client);
   run: RunAPI.Run = new RunAPI.Run(this._client);
+  execute: ExecuteAPI.Execute = new ExecuteAPI.Execute(this._client);
 }
 
 V1.Agents = Agents;
 V1.Run = Run;
+V1.Execute = Execute;
 
 export declare namespace V1 {
   export {
@@ -55,5 +59,11 @@ export declare namespace V1 {
     type RunWatchResponse as RunWatchResponse,
     type RunCreateParams as RunCreateParams,
     type RunWatchParams as RunWatchParams,
+  };
+
+  export {
+    Execute as Execute,
+    type ExecuteCreateResponse as ExecuteCreateResponse,
+    type ExecuteCreateParams as ExecuteCreateParams,
   };
 }
