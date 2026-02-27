@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.14.1 (2026-02-27)
+
+Full Changelog: [v0.14.0...v0.14.1](https://github.com/CaseMark/casedev-typescript/compare/v0.14.0...v0.14.1)
+
+### Chores
+
+* **internal:** move stringifyQuery implementation to internal function ([603e0f9](https://github.com/CaseMark/casedev-typescript/commit/603e0f9fe5c53003fd94348ee69838b0a998270d))
+
 ## 0.14.0 (2026-02-26)
 
 Full Changelog: [v0.13.6...v0.14.0](https://github.com/CaseMark/casedev-typescript/compare/v0.13.6...v0.14.0)
