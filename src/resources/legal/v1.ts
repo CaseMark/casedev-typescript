@@ -6,6 +6,14 @@ import { RequestOptions } from '../../internal/request-options';
 
 export class V1 extends APIResource {
   /**
+   * Search federal court dockets or retrieve a specific docket with optional filing
+   * entries via CourtListener RECAP data.
+   */
+  docket(body: V1DocketParams, options?: RequestOptions): APIPromise<V1DocketResponse> {
+    return this._client.post('/legal/v1/docket', { body, ...options });
+  }
+
+  /**
    * Search for legal sources including cases, statutes, and regulations from
    * authoritative legal databases. Returns ranked candidates. Always verify with
    * legal.verify() before citing.
@@ -42,6 +50,17 @@ export class V1 extends APIResource {
    */
   getFullText(body: V1GetFullTextParams, options?: RequestOptions): APIPromise<V1GetFullTextResponse> {
     return this._client.post('/legal/v1/full-text', { body, ...options });
+  }
+
+  /**
+   * Returns CourtListener court IDs and names for docket filtering. Use these IDs in
+   * legal.docket() as the court parameter.
+   */
+  listCourts(
+    body: V1ListCourtsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<V1ListCourtsResponse> {
+    return this._client.post('/legal/v1/courts', { body, ...options });
   }
 
   /**
@@ -103,6 +122,157 @@ export class V1 extends APIResource {
    */
   verify(body: V1VerifyParams, options?: RequestOptions): APIPromise<V1VerifyResponse> {
     return this._client.post('/legal/v1/verify', { body, ...options });
+  }
+}
+
+export interface V1DocketResponse {
+  /**
+   * Echo of court filter (search mode only)
+   */
+  court?: string | null;
+
+  /**
+   * Echo of date filter
+   */
+  dateFiledAfter?: string | null;
+
+  /**
+   * Echo of date filter
+   */
+  dateFiledBefore?: string | null;
+
+  /**
+   * Full docket record (lookup mode)
+   */
+  docket?: V1DocketResponse.Docket | null;
+
+  /**
+   * Search results (search mode)
+   */
+  dockets?: Array<V1DocketResponse.Docket>;
+
+  /**
+   * Docket entries/filings (lookup mode with includeEntries)
+   */
+  entries?: Array<V1DocketResponse.Entry> | null;
+
+  found?: number;
+
+  /**
+   * Whether entries were requested (lookup mode only)
+   */
+  includeEntries?: boolean;
+
+  /**
+   * Pagination info for entry list (lookup mode with includeEntries)
+   */
+  pagination?: V1DocketResponse.Pagination | null;
+
+  /**
+   * Echo of search query (search mode only)
+   */
+  query?: string | null;
+
+  type?: 'search' | 'lookup';
+}
+
+export namespace V1DocketResponse {
+  /**
+   * Full docket record (lookup mode)
+   */
+  export interface Docket {
+    id?: string;
+
+    assignedTo?: string | null;
+
+    caseName?: string | null;
+
+    cause?: string | null;
+
+    court?: string | null;
+
+    courtId?: string | null;
+
+    dateFiled?: string | null;
+
+    dateTerminated?: string | null;
+
+    docketNumber?: string | null;
+
+    natureOfSuit?: string | null;
+
+    pacerCaseId?: string | null;
+
+    parties?: Array<string>;
+
+    url?: string;
+  }
+
+  export interface Docket {
+    id?: string;
+
+    assignedTo?: string | null;
+
+    caseName?: string | null;
+
+    cause?: string | null;
+
+    court?: string | null;
+
+    courtId?: string | null;
+
+    dateFiled?: string | null;
+
+    dateTerminated?: string | null;
+
+    docketNumber?: string | null;
+
+    natureOfSuit?: string | null;
+
+    pacerCaseId?: string | null;
+
+    parties?: Array<string>;
+
+    url?: string;
+  }
+
+  export interface Entry {
+    date?: string | null;
+
+    description?: string | null;
+
+    documents?: Array<Entry.Document>;
+
+    entryNumber?: number | null;
+  }
+
+  export namespace Entry {
+    export interface Document {
+      id?: string;
+
+      attachmentNumber?: number | null;
+
+      description?: string | null;
+
+      documentNumber?: string | null;
+
+      isAvailable?: boolean;
+
+      pageCount?: number | null;
+
+      pdfUrl?: string | null;
+    }
+  }
+
+  /**
+   * Pagination info for entry list (lookup mode with includeEntries)
+   */
+  export interface Pagination {
+    limit?: number;
+
+    offset?: number;
+
+    returned?: number;
   }
 }
 
@@ -364,6 +534,38 @@ export interface V1GetFullTextResponse {
    * Document URL
    */
   url?: string;
+}
+
+export interface V1ListCourtsResponse {
+  courts?: Array<V1ListCourtsResponse.Court>;
+
+  found?: number;
+
+  /**
+   * Whether results are filtered to in-use courts only
+   */
+  inUseOnly?: boolean;
+
+  jurisdiction?: string | null;
+
+  query?: string | null;
+}
+
+export namespace V1ListCourtsResponse {
+  export interface Court {
+    /**
+     * CourtListener court slug
+     */
+    id?: string;
+
+    fullName?: string | null;
+
+    jurisdiction?: string | null;
+
+    pacerCourtId?: number | null;
+
+    shortName?: string | null;
+  }
 }
 
 export interface V1ListJurisdictionsResponse {
@@ -807,6 +1009,60 @@ export namespace V1VerifyResponse {
   }
 }
 
+export interface V1DocketParams {
+  /**
+   * Search dockets or look up a docket by ID
+   */
+  type: 'search' | 'lookup';
+
+  /**
+   * Optional CourtListener court slug (e.g. "nysd", "ca9", "cafc")
+   */
+  court?: string;
+
+  /**
+   * Optional lower bound for filing date (YYYY-MM-DD)
+   */
+  dateFiledAfter?: string;
+
+  /**
+   * Optional upper bound for filing date (YYYY-MM-DD)
+   */
+  dateFiledBefore?: string;
+
+  /**
+   * CourtListener docket ID (required for lookup)
+   */
+  docketId?: string;
+
+  /**
+   * Include docket entries/filings in lookup responses
+   */
+  includeEntries?: boolean;
+
+  /**
+   * Page size for search results or entry list (default 25 for search, 50 for
+   * lookup)
+   */
+  limit?: number;
+
+  /**
+   * Reserved for future PACER live fetch support. Setting true currently
+   * returns 400.
+   */
+  live?: boolean;
+
+  /**
+   * Offset for search results or entry list
+   */
+  offset?: number;
+
+  /**
+   * Case name or party name search query (required for search)
+   */
+  query?: string;
+}
+
 export interface V1FindParams {
   /**
    * Search query (e.g., "fair use copyright", "Miranda rights")
@@ -860,6 +1116,27 @@ export interface V1GetFullTextParams {
    * Optional query for generating a summary (e.g., "Summarize the key ruling")
    */
   summaryQuery?: string;
+}
+
+export interface V1ListCourtsParams {
+  /**
+   * Only return courts currently in use by CourtListener
+   */
+  inUseOnly?: boolean;
+
+  /**
+   * Optional CourtListener jurisdiction code filter (e.g. FD, F, S)
+   */
+  jurisdiction?: string;
+
+  limit?: number;
+
+  offset?: number;
+
+  /**
+   * Search by court name or slug (e.g. "Northern District", "nysd", "ca9")
+   */
+  query?: string;
 }
 
 export interface V1ListJurisdictionsParams {
@@ -1006,20 +1283,24 @@ export interface V1VerifyParams {
 
 export declare namespace V1 {
   export {
+    type V1DocketResponse as V1DocketResponse,
     type V1FindResponse as V1FindResponse,
     type V1GetCitationsResponse as V1GetCitationsResponse,
     type V1GetCitationsFromURLResponse as V1GetCitationsFromURLResponse,
     type V1GetFullTextResponse as V1GetFullTextResponse,
+    type V1ListCourtsResponse as V1ListCourtsResponse,
     type V1ListJurisdictionsResponse as V1ListJurisdictionsResponse,
     type V1PatentSearchResponse as V1PatentSearchResponse,
     type V1ResearchResponse as V1ResearchResponse,
     type V1SimilarResponse as V1SimilarResponse,
     type V1TrademarkSearchResponse as V1TrademarkSearchResponse,
     type V1VerifyResponse as V1VerifyResponse,
+    type V1DocketParams as V1DocketParams,
     type V1FindParams as V1FindParams,
     type V1GetCitationsParams as V1GetCitationsParams,
     type V1GetCitationsFromURLParams as V1GetCitationsFromURLParams,
     type V1GetFullTextParams as V1GetFullTextParams,
+    type V1ListCourtsParams as V1ListCourtsParams,
     type V1ListJurisdictionsParams as V1ListJurisdictionsParams,
     type V1PatentSearchParams as V1PatentSearchParams,
     type V1ResearchParams as V1ResearchParams,

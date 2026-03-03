@@ -103,7 +103,7 @@ export interface ChatCreateCompletionParams {
   max_tokens?: number;
 
   /**
-   * Model to use for completion. Defaults to casemark/casemark-core-3 if not
+   * Model to use for completion. Defaults to casemark/casemark-core-6 if not
    * specified
    */
   model?: string;
