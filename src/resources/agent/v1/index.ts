@@ -10,6 +10,16 @@ export {
   type AgentCreateParams,
   type AgentUpdateParams,
 } from './agents';
+export {
+  Chat,
+  type ChatCreateResponse,
+  type ChatDeleteResponse,
+  type ChatCancelResponse,
+  type ChatStreamResponse,
+  type ChatCreateParams,
+  type ChatSendMessageParams,
+  type ChatStreamParams,
+} from './chat';
 export { Execute, type ExecuteCreateResponse, type ExecuteCreateParams } from './execute';
 export {
   Run,
