@@ -50,6 +50,23 @@ Methods:
 
 - <code title="post /agent/v1/execute">client.agent.v1.execute.<a href="./src/resources/agent/v1/execute.ts">create</a>({ ...params }) -> ExecuteCreateResponse</code>
 
+### Chat
+
+Types:
+
+- <code><a href="./src/resources/agent/v1/chat.ts">ChatCreateResponse</a></code>
+- <code><a href="./src/resources/agent/v1/chat.ts">ChatDeleteResponse</a></code>
+- <code><a href="./src/resources/agent/v1/chat.ts">ChatCancelResponse</a></code>
+- <code><a href="./src/resources/agent/v1/chat.ts">ChatStreamResponse</a></code>
+
+Methods:
+
+- <code title="post /agent/v1/chat">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat.ts">create</a>({ ...params }) -> ChatCreateResponse</code>
+- <code title="delete /agent/v1/chat/{id}">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat.ts">delete</a>(id) -> ChatDeleteResponse</code>
+- <code title="post /agent/v1/chat/{id}/cancel">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat.ts">cancel</a>(id) -> ChatCancelResponse</code>
+- <code title="post /agent/v1/chat/{id}/message">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat.ts">sendMessage</a>(id, { ...params }) -> void</code>
+- <code title="get /agent/v1/chat/{id}/stream">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat.ts">stream</a>(id, { ...params }) -> string</code>
+
 # System
 
 Types:
