@@ -17,6 +17,7 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
+import { SkillReadResponse, SkillResolveParams, SkillResolveResponse, Skills } from './resources/skills';
 import { System, SystemListServicesResponse } from './resources/system';
 import { Agent } from './resources/agent/agent';
 import { Applications } from './resources/applications/applications';
@@ -785,6 +786,7 @@ export class Casedev {
   memory: API.Memory = new API.Memory(this);
   ocr: API.Ocr = new API.Ocr(this);
   privilege: API.Privilege = new API.Privilege(this);
+  skills: API.Skills = new API.Skills(this);
   search: API.Search = new API.Search(this);
   superdoc: API.Superdoc = new API.Superdoc(this);
   translate: API.Translate = new API.Translate(this);
@@ -803,6 +805,7 @@ Casedev.Llm = Llm;
 Casedev.Memory = Memory;
 Casedev.Ocr = Ocr;
 Casedev.Privilege = Privilege;
+Casedev.Skills = Skills;
 Casedev.Search = Search;
 Casedev.Superdoc = Superdoc;
 Casedev.Translate = Translate;
@@ -833,6 +836,13 @@ export declare namespace Casedev {
   export { Ocr as Ocr };
 
   export { Privilege as Privilege };
+
+  export {
+    Skills as Skills,
+    type SkillReadResponse as SkillReadResponse,
+    type SkillResolveResponse as SkillResolveResponse,
+    type SkillResolveParams as SkillResolveParams,
+  };
 
   export { Search as Search };
 
