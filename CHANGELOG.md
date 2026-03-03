@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.2 (2026-03-03)
+
+Full Changelog: [v0.15.1...v0.15.2](https://github.com/CaseMark/casedev-typescript/compare/v0.15.1...v0.15.2)
+
+### Chores
+
+* update SDK settings ([2525851](https://github.com/CaseMark/casedev-typescript/commit/2525851cf7616544657c1058dc59466818c379fb))
+
 ## 0.15.1 (2026-03-03)
 
 Full Changelog: [v0.15.0...v0.15.1](https://github.com/CaseMark/casedev-typescript/compare/v0.15.0...v0.15.1)
