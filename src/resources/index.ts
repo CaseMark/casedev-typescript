@@ -11,6 +11,7 @@ export { Memory } from './memory/memory';
 export { Ocr } from './ocr/ocr';
 export { Privilege } from './privilege/privilege';
 export { Search } from './search/search';
+export { Skills, type SkillReadResponse, type SkillResolveResponse, type SkillResolveParams } from './skills';
 export { Superdoc } from './superdoc/superdoc';
 export { System, type SystemListServicesResponse } from './system';
 export { Translate } from './translate/translate';

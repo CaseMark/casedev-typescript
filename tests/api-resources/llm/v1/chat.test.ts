@@ -25,7 +25,7 @@ describe('resource chat', () => {
       casemark_show_reasoning: false,
       frequency_penalty: 0,
       max_tokens: 1000,
-      model: 'casemark/casemark-core-3',
+      model: 'casemark/casemark-core-6',
       presence_penalty: 0,
       stream: false,
       temperature: 0.7,

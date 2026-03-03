@@ -242,10 +242,12 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/legal/v1.ts">V1DocketResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1FindResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1GetCitationsResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1GetCitationsFromURLResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1GetFullTextResponse</a></code>
+- <code><a href="./src/resources/legal/v1.ts">V1ListCourtsResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1ListJurisdictionsResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1PatentSearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1ResearchResponse</a></code>
@@ -255,10 +257,12 @@ Types:
 
 Methods:
 
+- <code title="post /legal/v1/docket">client.legal.v1.<a href="./src/resources/legal/v1.ts">docket</a>({ ...params }) -> V1DocketResponse</code>
 - <code title="post /legal/v1/find">client.legal.v1.<a href="./src/resources/legal/v1.ts">find</a>({ ...params }) -> V1FindResponse</code>
 - <code title="post /legal/v1/citations">client.legal.v1.<a href="./src/resources/legal/v1.ts">getCitations</a>({ ...params }) -> V1GetCitationsResponse</code>
 - <code title="post /legal/v1/citations-from-url">client.legal.v1.<a href="./src/resources/legal/v1.ts">getCitationsFromURL</a>({ ...params }) -> V1GetCitationsFromURLResponse</code>
 - <code title="post /legal/v1/full-text">client.legal.v1.<a href="./src/resources/legal/v1.ts">getFullText</a>({ ...params }) -> V1GetFullTextResponse</code>
+- <code title="post /legal/v1/courts">client.legal.v1.<a href="./src/resources/legal/v1.ts">listCourts</a>({ ...params }) -> V1ListCourtsResponse</code>
 - <code title="post /legal/v1/jurisdictions">client.legal.v1.<a href="./src/resources/legal/v1.ts">listJurisdictions</a>({ ...params }) -> V1ListJurisdictionsResponse</code>
 - <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/resources/legal/v1.ts">patentSearch</a>({ ...params }) -> V1PatentSearchResponse</code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/resources/legal/v1.ts">research</a>({ ...params }) -> V1ResearchResponse</code>
@@ -346,6 +350,18 @@ Types:
 Methods:
 
 - <code title="post /privilege/v1/detect">client.privilege.v1.<a href="./src/resources/privilege/v1.ts">detect</a>({ ...params }) -> V1DetectResponse</code>
+
+# Skills
+
+Types:
+
+- <code><a href="./src/resources/skills.ts">SkillReadResponse</a></code>
+- <code><a href="./src/resources/skills.ts">SkillResolveResponse</a></code>
+
+Methods:
+
+- <code title="get /skills/{slug}">client.skills.<a href="./src/resources/skills.ts">read</a>(slug) -> SkillReadResponse</code>
+- <code title="get /skills/resolve">client.skills.<a href="./src/resources/skills.ts">resolve</a>({ ...params }) -> SkillResolveResponse</code>
 
 # Search
 

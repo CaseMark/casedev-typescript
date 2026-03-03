@@ -8,6 +8,32 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
+  test('docket: only required params', async () => {
+    const responsePromise = client.legal.v1.docket({ type: 'search' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('docket: required and optional params', async () => {
+    const response = await client.legal.v1.docket({
+      type: 'search',
+      court: 'court',
+      dateFiledAfter: '2019-12-27',
+      dateFiledBefore: '2019-12-27',
+      docketId: 'docketId',
+      includeEntries: true,
+      limit: 1,
+      live: true,
+      offset: 0,
+      query: 'xx',
+    });
+  });
+
   test('find: only required params', async () => {
     const responsePromise = client.legal.v1.find({ query: 'xxx' });
     const rawResponse = await responsePromise.asResponse();
@@ -75,6 +101,33 @@ describe('resource v1', () => {
       maxCharacters: 1000,
       summaryQuery: 'summaryQuery',
     });
+  });
+
+  test('listCourts', async () => {
+    const responsePromise = client.legal.v1.listCourts();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listCourts: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.legal.v1.listCourts(
+        {
+          inUseOnly: true,
+          jurisdiction: 'jurisdiction',
+          limit: 1,
+          offset: 0,
+          query: 'xx',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
   });
 
   test('listJurisdictions: only required params', async () => {
