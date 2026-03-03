@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.1 (2026-03-03)
+
+Full Changelog: [v0.15.0...v0.15.1](https://github.com/CaseMark/casedev-typescript/compare/v0.15.0...v0.15.1)
+
+### Bug Fixes
+
+* deduplicate CI Slack alerts at workflow level, not PR level ([#38](https://github.com/CaseMark/casedev-typescript/issues/38)) ([b54525e](https://github.com/CaseMark/casedev-typescript/commit/b54525e256daf14253137600ae4282e6847bb8f2))
+
 ## 0.15.0 (2026-03-03)
 
 Full Changelog: [v0.14.1...v0.15.0](https://github.com/CaseMark/casedev-typescript/compare/v0.14.1...v0.15.0)
