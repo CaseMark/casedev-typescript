@@ -44,6 +44,9 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * Secure document storage with semantic search and GraphRAG
+ */
 export class Vault extends APIResource {
   events: EventsAPI.Events = new EventsAPI.Events(this._client);
   graphrag: GraphragAPI.Graphrag = new GraphragAPI.Graphrag(this._client);

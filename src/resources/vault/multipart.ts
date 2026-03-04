@@ -6,6 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * Secure document storage with semantic search and GraphRAG
+ */
 export class Multipart extends APIResource {
   /**
    * Abort a multipart upload and discard uploaded parts (live).

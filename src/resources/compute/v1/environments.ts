@@ -5,6 +5,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Serverless GPU and CPU infrastructure
+ */
 export class Environments extends APIResource {
   /**
    * Creates a new compute environment for running serverless workloads. Each

@@ -6,6 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { maybeMultipartFormRequestOptions } from '../../internal/uploads';
 
+/**
+ * Document conversion and template automation
+ */
 export class V1 extends APIResource {
   /**
    * Populate fields inside a DOCX template using SuperDoc annotations. Supports

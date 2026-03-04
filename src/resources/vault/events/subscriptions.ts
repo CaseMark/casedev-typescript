@@ -6,6 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Secure document storage with semantic search and GraphRAG
+ */
 export class Subscriptions extends APIResource {
   /**
    * Creates a webhook subscription for vault lifecycle events. Optional object

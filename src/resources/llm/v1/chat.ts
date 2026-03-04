@@ -4,6 +4,9 @@ import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Access 40+ language models through a unified API
+ */
 export class Chat extends APIResource {
   /**
    * Create a completion for the provided prompt and parameters. Compatible with

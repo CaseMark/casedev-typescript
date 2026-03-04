@@ -4,6 +4,9 @@ import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Serverless GPU and CPU infrastructure
+ */
 export class InstanceTypes extends APIResource {
   /**
    * Retrieves all available GPU instance types with pricing, specifications, and

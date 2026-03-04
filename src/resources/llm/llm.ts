@@ -6,6 +6,9 @@ import { V1, V1CreateEmbeddingParams, V1CreateEmbeddingResponse, V1ListModelsRes
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * Access 40+ language models through a unified API
+ */
 export class Llm extends APIResource {
   v1: V1API.V1 = new V1API.V1(this._client);
 

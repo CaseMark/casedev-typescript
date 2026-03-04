@@ -4,6 +4,9 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * Privilege detection for e-discovery and litigation workflows
+ */
 export class V1 extends APIResource {
   /**
    * Analyzes text or vault documents for legal privilege. Detects attorney-client

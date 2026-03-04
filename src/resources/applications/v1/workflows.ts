@@ -6,6 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Web application deployment management
+ */
 export class Workflows extends APIResource {
   /**
    * Get current deployment workflow status and accumulated events

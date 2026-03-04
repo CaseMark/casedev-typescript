@@ -4,6 +4,9 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
+/**
+ * Public system metadata and discovery endpoints
+ */
 export class System extends APIResource {
   /**
    * Returns the public Case.dev services catalog derived from
