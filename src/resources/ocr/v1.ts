@@ -6,6 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * Extract text from PDFs, images, and scanned documents
+ */
 export class V1 extends APIResource {
   /**
    * Retrieve the status and results of an OCR job. Returns job progress, extracted

@@ -5,6 +5,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Serverless PostgreSQL databases with instant branching
+ */
 export class Projects extends APIResource {
   /**
    * Creates a new serverless Postgres database project powered by Neon. Includes

@@ -5,6 +5,9 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * Secure document storage with semantic search and GraphRAG
+ */
 export class Graphrag extends APIResource {
   /**
    * Retrieve GraphRAG (Graph Retrieval-Augmented Generation) statistics for a

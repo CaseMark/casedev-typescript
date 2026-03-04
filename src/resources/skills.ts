@@ -5,6 +5,9 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
+/**
+ * Search and read legal AI skills for agents
+ */
 export class Skills extends APIResource {
   /**
    * Read the full content of a legal skill by its slug. Returns markdown content,

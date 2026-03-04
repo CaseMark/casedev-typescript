@@ -18,6 +18,9 @@ import {
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Serverless PostgreSQL databases with instant branching
+ */
 export class V1 extends APIResource {
   projects: ProjectsAPI.Projects = new ProjectsAPI.Projects(this._client);
 

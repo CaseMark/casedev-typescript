@@ -14,6 +14,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Document formatting and template rendering (MD/JSON to PDF/DOCX)
+ */
 export class V1 extends APIResource {
   templates: TemplatesAPI.Templates = new TemplatesAPI.Templates(this._client);
 

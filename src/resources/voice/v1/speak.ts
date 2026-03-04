@@ -5,6 +5,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Audio transcription and text-to-speech
+ */
 export class Speak extends APIResource {
   /**
    * Convert text to natural-sounding audio using ElevenLabs voices. Ideal for

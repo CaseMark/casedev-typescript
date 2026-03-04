@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.16.1 (2026-03-04)
+
+Full Changelog: [v0.16.0...v0.16.1](https://github.com/CaseMark/casedev-typescript/compare/v0.16.0...v0.16.1)
+
+### Chores
+
+* **internal:** codegen related update ([ccd0f92](https://github.com/CaseMark/casedev-typescript/commit/ccd0f9207763908aba1162e4edba2691fa53ede7))
+
 ## 0.16.0 (2026-03-03)
 
 Full Changelog: [v0.15.2...v0.16.0](https://github.com/CaseMark/casedev-typescript/compare/v0.15.2...v0.16.0)

@@ -5,6 +5,9 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * Web search, AI answers, and deep research
+ */
 export class V1 extends APIResource {
   /**
    * Generate comprehensive answers to questions using web search results. Supports

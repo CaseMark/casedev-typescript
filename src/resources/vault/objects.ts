@@ -6,6 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * Secure document storage with semantic search and GraphRAG
+ */
 export class Objects extends APIResource {
   /**
    * Retrieves metadata for a specific document in a vault and generates a temporary

@@ -6,6 +6,9 @@ import { Chat, ChatCreateCompletionParams, ChatCreateCompletionResponse } from '
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Access 40+ language models through a unified API
+ */
 export class V1 extends APIResource {
   chat: ChatAPI.Chat = new ChatAPI.Chat(this._client);
 

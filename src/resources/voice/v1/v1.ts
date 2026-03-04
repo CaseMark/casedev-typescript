@@ -6,6 +6,9 @@ import { Speak, SpeakCreateParams } from './speak';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Audio transcription and text-to-speech
+ */
 export class V1 extends APIResource {
   speak: SpeakAPI.Speak = new SpeakAPI.Speak(this._client);
 
