@@ -5,6 +5,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Document formatting and template rendering (MD/JSON to PDF/DOCX)
+ */
 export class Templates extends APIResource {
   /**
    * Create a new format template for document formatting. Templates support

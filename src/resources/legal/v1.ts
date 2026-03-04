@@ -4,6 +4,9 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * Legal research tools including citation verification
+ */
 export class V1 extends APIResource {
   /**
    * Search federal court dockets or retrieve a specific docket with optional filing

@@ -5,6 +5,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Serverless GPU and CPU infrastructure
+ */
 export class Instances extends APIResource {
   /**
    * Launches a new GPU compute instance with automatic SSH key generation. Supports

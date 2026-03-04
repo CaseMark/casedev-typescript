@@ -776,20 +776,32 @@ export class Casedev {
   static toFile = Uploads.toFile;
 
   agent: API.Agent = new API.Agent(this);
+  /**
+   * Public system metadata and discovery endpoints
+   */
   system: API.System = new API.System(this);
   applications: API.Applications = new API.Applications(this);
   compute: API.Compute = new API.Compute(this);
   database: API.Database = new API.Database(this);
   format: API.Format = new API.Format(this);
   legal: API.Legal = new API.Legal(this);
+  /**
+   * Access 40+ language models through a unified API
+   */
   llm: API.Llm = new API.Llm(this);
   memory: API.Memory = new API.Memory(this);
   ocr: API.Ocr = new API.Ocr(this);
   privilege: API.Privilege = new API.Privilege(this);
+  /**
+   * Search and read legal AI skills for agents
+   */
   skills: API.Skills = new API.Skills(this);
   search: API.Search = new API.Search(this);
   superdoc: API.Superdoc = new API.Superdoc(this);
   translate: API.Translate = new API.Translate(this);
+  /**
+   * Secure document storage with semantic search and GraphRAG
+   */
   vault: API.Vault = new API.Vault(this);
   voice: API.Voice = new API.Voice(this);
 }

@@ -6,6 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * Audio transcription and text-to-speech
+ */
 export class Transcription extends APIResource {
   /**
    * Creates an asynchronous transcription job for audio files. Supports two modes:

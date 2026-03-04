@@ -4,6 +4,9 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * Audio transcription and text-to-speech
+ */
 export class Streaming extends APIResource {
   /**
    * Returns the WebSocket URL and connection details for real-time audio

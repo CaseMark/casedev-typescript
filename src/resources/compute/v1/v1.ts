@@ -40,6 +40,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Serverless GPU and CPU infrastructure
+ */
 export class V1 extends APIResource {
   environments: EnvironmentsAPI.Environments = new EnvironmentsAPI.Environments(this._client);
   instanceTypes: InstanceTypesAPI.InstanceTypes = new InstanceTypesAPI.InstanceTypes(this._client);

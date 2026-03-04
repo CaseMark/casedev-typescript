@@ -5,6 +5,9 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * Persistent memory for AI agents with semantic search and 12 generic indexed tag fields
+ */
 export class V1 extends APIResource {
   /**
    * Store memories from conversation messages. Automatically extracts facts and

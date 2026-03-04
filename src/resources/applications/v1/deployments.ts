@@ -6,6 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Web application deployment management
+ */
 export class Deployments extends APIResource {
   /**
    * Trigger a new deployment for a project
