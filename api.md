@@ -259,6 +259,8 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/legal/v1.ts">DocketDetail</a></code>
+- <code><a href="./src/resources/legal/v1.ts">DocketSearchResult</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1DocketResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1FindResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1GetCitationsResponse</a></code>

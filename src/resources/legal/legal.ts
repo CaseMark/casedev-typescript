@@ -3,6 +3,8 @@
 import { APIResource } from '../../core/resource';
 import * as V1API from './v1';
 import {
+  DocketDetail,
+  DocketSearchResult,
   V1,
   V1DocketParams,
   V1DocketResponse,
@@ -39,6 +41,8 @@ Legal.V1 = V1;
 export declare namespace Legal {
   export {
     V1 as V1,
+    type DocketDetail as DocketDetail,
+    type DocketSearchResult as DocketSearchResult,
     type V1DocketResponse as V1DocketResponse,
     type V1FindResponse as V1FindResponse,
     type V1GetCitationsResponse as V1GetCitationsResponse,
