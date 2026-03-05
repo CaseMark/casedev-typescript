@@ -40,6 +40,26 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  // Mock server doesn't support text/event-stream responses
+  test.skip('events', async () => {
+    const responsePromise = client.agent.v1.run.events('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server doesn't support text/event-stream responses
+  test.skip('events: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.agent.v1.run.events('id', { lastEventId: 0 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
   test('exec', async () => {
     const responsePromise = client.agent.v1.run.exec('id');
     const rawResponse = await responsePromise.asResponse();

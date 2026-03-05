@@ -55,6 +55,23 @@ describe('resource chat', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  // Mock server doesn't support text/event-stream responses
+  test.skip('respond: only required params', async () => {
+    const responsePromise = client.agent.v1.chat.respond('id', { body: {} });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server doesn't support text/event-stream responses
+  test.skip('respond: required and optional params', async () => {
+    const response = await client.agent.v1.chat.respond('id', { body: {} });
+  });
+
   test('sendMessage: only required params', async () => {
     const responsePromise = client.agent.v1.chat.sendMessage('id', { body: {} });
     const rawResponse = await responsePromise.asResponse();
