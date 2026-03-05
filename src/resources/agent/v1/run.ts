@@ -2,6 +2,8 @@
 
 import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
+import { Stream } from '../../../core/streaming';
+import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
@@ -20,6 +22,22 @@ export class Run extends APIResource {
    */
   cancel(id: string, options?: RequestOptions): APIPromise<RunCancelResponse> {
     return this._client.post(path`/agent/v1/run/${id}/cancel`, options);
+  }
+
+  /**
+   * Streams real-time run events over SSE. Supports replay using Last-Event-ID.
+   */
+  events(
+    id: string,
+    query: RunEventsParams | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Stream<RunEventsResponse>> {
+    return this._client.get(path`/agent/v1/run/${id}/events`, {
+      query,
+      ...options,
+      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
+      stream: true,
+    }) as APIPromise<Stream<RunEventsResponse>>;
   }
 
   /**
@@ -77,6 +95,8 @@ export interface RunCancelResponse {
 
   status?: 'cancelled' | 'completed' | 'failed';
 }
+
+export type RunEventsResponse = string;
 
 export interface RunExecResponse {
   id?: string;
@@ -246,6 +266,13 @@ export interface RunCreateParams {
   objectIds?: Array<string> | null;
 }
 
+export interface RunEventsParams {
+  /**
+   * Replay events after this sequence number
+   */
+  lastEventId?: number;
+}
+
 export interface RunWatchParams {
   /**
    * HTTPS URL to receive completion callback
@@ -257,11 +284,13 @@ export declare namespace Run {
   export {
     type RunCreateResponse as RunCreateResponse,
     type RunCancelResponse as RunCancelResponse,
+    type RunEventsResponse as RunEventsResponse,
     type RunExecResponse as RunExecResponse,
     type RunGetDetailsResponse as RunGetDetailsResponse,
     type RunGetStatusResponse as RunGetStatusResponse,
     type RunWatchResponse as RunWatchResponse,
     type RunCreateParams as RunCreateParams,
+    type RunEventsParams as RunEventsParams,
     type RunWatchParams as RunWatchParams,
   };
 }
