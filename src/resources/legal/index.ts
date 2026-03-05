@@ -3,6 +3,8 @@
 export { Legal } from './legal';
 export {
   V1,
+  type DocketDetail,
+  type DocketSearchResult,
   type V1DocketResponse,
   type V1FindResponse,
   type V1GetCitationsResponse,
