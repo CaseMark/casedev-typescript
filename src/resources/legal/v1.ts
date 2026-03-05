@@ -128,6 +128,65 @@ export class V1 extends APIResource {
   }
 }
 
+/**
+ * Full docket record (lookup mode)
+ */
+export interface DocketDetail {
+  id?: string;
+
+  assignedTo?: string | null;
+
+  caseName?: string | null;
+
+  cause?: string | null;
+
+  court?: string | null;
+
+  courtId?: string | null;
+
+  dateFiled?: string | null;
+
+  dateTerminated?: string | null;
+
+  docketNumber?: string | null;
+
+  natureOfSuit?: string | null;
+
+  pacerCaseId?: string | null;
+
+  parties?: Array<string>;
+
+  url?: string;
+}
+
+export interface DocketSearchResult {
+  id?: string;
+
+  assignedTo?: string | null;
+
+  caseName?: string | null;
+
+  cause?: string | null;
+
+  court?: string | null;
+
+  courtId?: string | null;
+
+  dateFiled?: string | null;
+
+  dateTerminated?: string | null;
+
+  docketNumber?: string | null;
+
+  natureOfSuit?: string | null;
+
+  pacerCaseId?: string | null;
+
+  parties?: Array<string>;
+
+  url?: string;
+}
+
 export interface V1DocketResponse {
   /**
    * Echo of court filter (search mode only)
@@ -147,12 +206,12 @@ export interface V1DocketResponse {
   /**
    * Full docket record (lookup mode)
    */
-  docket?: V1DocketResponse.Docket | null;
+  docket?: DocketDetail | null;
 
   /**
    * Search results (search mode)
    */
-  dockets?: Array<V1DocketResponse.Docket>;
+  dockets?: Array<DocketSearchResult>;
 
   /**
    * Docket entries/filings (lookup mode with includeEntries)
@@ -180,65 +239,6 @@ export interface V1DocketResponse {
 }
 
 export namespace V1DocketResponse {
-  /**
-   * Full docket record (lookup mode)
-   */
-  export interface Docket {
-    id?: string;
-
-    assignedTo?: string | null;
-
-    caseName?: string | null;
-
-    cause?: string | null;
-
-    court?: string | null;
-
-    courtId?: string | null;
-
-    dateFiled?: string | null;
-
-    dateTerminated?: string | null;
-
-    docketNumber?: string | null;
-
-    natureOfSuit?: string | null;
-
-    pacerCaseId?: string | null;
-
-    parties?: Array<string>;
-
-    url?: string;
-  }
-
-  export interface Docket {
-    id?: string;
-
-    assignedTo?: string | null;
-
-    caseName?: string | null;
-
-    cause?: string | null;
-
-    court?: string | null;
-
-    courtId?: string | null;
-
-    dateFiled?: string | null;
-
-    dateTerminated?: string | null;
-
-    docketNumber?: string | null;
-
-    natureOfSuit?: string | null;
-
-    pacerCaseId?: string | null;
-
-    parties?: Array<string>;
-
-    url?: string;
-  }
-
   export interface Entry {
     date?: string | null;
 
@@ -1286,6 +1286,8 @@ export interface V1VerifyParams {
 
 export declare namespace V1 {
   export {
+    type DocketDetail as DocketDetail,
+    type DocketSearchResult as DocketSearchResult,
     type V1DocketResponse as V1DocketResponse,
     type V1FindResponse as V1FindResponse,
     type V1GetCitationsResponse as V1GetCitationsResponse,
