@@ -15,8 +15,10 @@ export {
   type ChatCreateResponse,
   type ChatDeleteResponse,
   type ChatCancelResponse,
+  type ChatRespondResponse,
   type ChatStreamResponse,
   type ChatCreateParams,
+  type ChatRespondParams,
   type ChatSendMessageParams,
   type ChatStreamParams,
 } from './chat';
@@ -25,11 +27,13 @@ export {
   Run,
   type RunCreateResponse,
   type RunCancelResponse,
+  type RunEventsResponse,
   type RunExecResponse,
   type RunGetDetailsResponse,
   type RunGetStatusResponse,
   type RunWatchResponse,
   type RunCreateParams,
+  type RunEventsParams,
   type RunWatchParams,
 } from './run';
 export { V1 } from './v1';

@@ -35,6 +35,24 @@ export class Chat extends APIResource {
   }
 
   /**
+   * Streams a single assistant turn as normalized state events with stable turn,
+   * message, and part ids.
+   */
+  respond(
+    id: string,
+    params: ChatRespondParams,
+    options?: RequestOptions,
+  ): APIPromise<Stream<ChatRespondResponse>> {
+    const { body } = params;
+    return this._client.post(path`/agent/v1/chat/${id}/respond`, {
+      body: body,
+      ...options,
+      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
+      stream: true,
+    }) as APIPromise<Stream<ChatRespondResponse>>;
+  }
+
+  /**
    * Proxies a message to the OpenCode session bound to this chat.
    */
   sendMessage(id: string, params: ChatSendMessageParams, options?: RequestOptions): APIPromise<void> {
@@ -92,6 +110,8 @@ export interface ChatCancelResponse {
   ok?: boolean;
 }
 
+export type ChatRespondResponse = string;
+
 export type ChatStreamResponse = string;
 
 export interface ChatCreateParams {
@@ -110,6 +130,13 @@ export interface ChatCreateParams {
    * Optional human-readable session title
    */
   title?: string;
+}
+
+export interface ChatRespondParams {
+  /**
+   * OpenCode message payload. Passed through 1:1.
+   */
+  body: unknown;
 }
 
 export interface ChatSendMessageParams {
@@ -131,8 +158,10 @@ export declare namespace Chat {
     type ChatCreateResponse as ChatCreateResponse,
     type ChatDeleteResponse as ChatDeleteResponse,
     type ChatCancelResponse as ChatCancelResponse,
+    type ChatRespondResponse as ChatRespondResponse,
     type ChatStreamResponse as ChatStreamResponse,
     type ChatCreateParams as ChatCreateParams,
+    type ChatRespondParams as ChatRespondParams,
     type ChatSendMessageParams as ChatSendMessageParams,
     type ChatStreamParams as ChatStreamParams,
   };
