@@ -27,6 +27,7 @@ describe('resource chat', () => {
           idleTimeoutMs: 0,
           model: 'model',
           title: 'title',
+          vaultIds: ['string'],
         },
         { path: '/_stainless_unknown_path' },
       ),
