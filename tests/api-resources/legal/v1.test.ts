@@ -34,6 +34,32 @@ describe('resource v1', () => {
     });
   });
 
+  test('draft: only required params', async () => {
+    const responsePromise = client.legal.v1.draft({ instructions: 'xxxxxxxxxx', vault_id: 'vault_id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('draft: required and optional params', async () => {
+    const response = await client.legal.v1.draft({
+      instructions: 'xxxxxxxxxx',
+      vault_id: 'vault_id',
+      citations: true,
+      format: 'format',
+      length: { target: 0, unit: 'words' },
+      model: 'model',
+      object_ids: ['string'],
+      output_name: 'output_name',
+      output_type: 'pdf',
+      verified: true,
+    });
+  });
+
   test('find: only required params', async () => {
     const responsePromise = client.legal.v1.find({ query: 'xxx' });
     const rawResponse = await responsePromise.asResponse();

@@ -266,6 +266,7 @@ Types:
 - <code><a href="./src/resources/legal/v1.ts">DocketDetail</a></code>
 - <code><a href="./src/resources/legal/v1.ts">DocketSearchResult</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1DocketResponse</a></code>
+- <code><a href="./src/resources/legal/v1.ts">V1DraftResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1FindResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1GetCitationsResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1GetCitationsFromURLResponse</a></code>
@@ -281,6 +282,7 @@ Types:
 Methods:
 
 - <code title="post /legal/v1/docket">client.legal.v1.<a href="./src/resources/legal/v1.ts">docket</a>({ ...params }) -> V1DocketResponse</code>
+- <code title="post /legal/v1/draft">client.legal.v1.<a href="./src/resources/legal/v1.ts">draft</a>({ ...params }) -> V1DraftResponse</code>
 - <code title="post /legal/v1/find">client.legal.v1.<a href="./src/resources/legal/v1.ts">find</a>({ ...params }) -> V1FindResponse</code>
 - <code title="post /legal/v1/citations">client.legal.v1.<a href="./src/resources/legal/v1.ts">getCitations</a>({ ...params }) -> V1GetCitationsResponse</code>
 - <code title="post /legal/v1/citations-from-url">client.legal.v1.<a href="./src/resources/legal/v1.ts">getCitationsFromURL</a>({ ...params }) -> V1GetCitationsFromURLResponse</code>
