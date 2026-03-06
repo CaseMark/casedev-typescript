@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.0 (2026-03-06)
+
+Full Changelog: [v0.20.0...v0.21.0](https://github.com/CaseMark/casedev-typescript/compare/v0.20.0...v0.21.0)
+
+### Features
+
+* **api:** api update ([7510f18](https://github.com/CaseMark/casedev-typescript/commit/7510f18eafe8d8c0af91671aaeec2f208223b361))
+
 ## 0.20.0 (2026-03-06)
 
 Full Changelog: [v0.19.0...v0.20.0](https://github.com/CaseMark/casedev-typescript/compare/v0.19.0...v0.20.0)
