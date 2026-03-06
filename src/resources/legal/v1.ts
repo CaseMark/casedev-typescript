@@ -17,6 +17,15 @@ export class V1 extends APIResource {
   }
 
   /**
+   * Generate a legal document with structured inputs. Powered by an agent that
+   * handles research, formatting, citation verification, and vault upload. Returns a
+   * run ID for polling.
+   */
+  draft(body: V1DraftParams, options?: RequestOptions): APIPromise<V1DraftResponse> {
+    return this._client.post('/legal/v1/draft', { body, ...options });
+  }
+
+  /**
    * Search for legal sources including cases, statutes, and regulations from
    * authoritative legal databases. Returns ranked candidates. Always verify with
    * legal.verify() before citing.
@@ -277,6 +286,22 @@ export namespace V1DocketResponse {
 
     returned?: number;
   }
+}
+
+export interface V1DraftResponse {
+  /**
+   * Ephemeral agent ID
+   */
+  agent_id?: string;
+
+  message?: string;
+
+  /**
+   * Run ID — poll /agent/v1/run/:id/status for progress
+   */
+  run_id?: string;
+
+  status?: 'running';
 }
 
 export interface V1FindResponse {
@@ -1066,6 +1091,75 @@ export interface V1DocketParams {
   query?: string;
 }
 
+export interface V1DraftParams {
+  /**
+   * What to draft — the core task. E.g., "Motion to compel defendant to produce
+   * discovery responses"
+   */
+  instructions: string;
+
+  /**
+   * Vault ID where the final document will be uploaded
+   */
+  vault_id: string;
+
+  /**
+   * Research and include legal citations
+   */
+  citations?: boolean;
+
+  /**
+   * Court or jurisdiction formatting hint. Triggers a legal-skills search. E.g.,
+   * "California Superior Court", "SDNY", "federal pleading"
+   */
+  format?: string | null;
+
+  /**
+   * Target document length
+   */
+  length?: V1DraftParams.Length | null;
+
+  /**
+   * LLM model override. Defaults to anthropic/claude-sonnet-4.6
+   */
+  model?: string | null;
+
+  /**
+   * Vault object IDs to use as source/reference documents
+   */
+  object_ids?: Array<string> | null;
+
+  /**
+   * Filename for the output document. Auto-generated if omitted.
+   */
+  output_name?: string | null;
+
+  /**
+   * Output file format
+   */
+  output_type?: 'pdf' | 'docx' | 'xlsx' | 'pptx' | 'md';
+
+  /**
+   * Verify all citations in a loop — re-run verification and repair bad citations
+   * until they pass
+   */
+  verified?: boolean;
+}
+
+export namespace V1DraftParams {
+  /**
+   * Target document length
+   */
+  export interface Length {
+    /**
+     * Target value (e.g., 2000 words or 5 pages)
+     */
+    target?: number;
+
+    unit?: 'words' | 'pages';
+  }
+}
+
 export interface V1FindParams {
   /**
    * Search query (e.g., "fair use copyright", "Miranda rights")
@@ -1289,6 +1383,7 @@ export declare namespace V1 {
     type DocketDetail as DocketDetail,
     type DocketSearchResult as DocketSearchResult,
     type V1DocketResponse as V1DocketResponse,
+    type V1DraftResponse as V1DraftResponse,
     type V1FindResponse as V1FindResponse,
     type V1GetCitationsResponse as V1GetCitationsResponse,
     type V1GetCitationsFromURLResponse as V1GetCitationsFromURLResponse,
@@ -1301,6 +1396,7 @@ export declare namespace V1 {
     type V1TrademarkSearchResponse as V1TrademarkSearchResponse,
     type V1VerifyResponse as V1VerifyResponse,
     type V1DocketParams as V1DocketParams,
+    type V1DraftParams as V1DraftParams,
     type V1FindParams as V1FindParams,
     type V1GetCitationsParams as V1GetCitationsParams,
     type V1GetCitationsFromURLParams as V1GetCitationsFromURLParams,

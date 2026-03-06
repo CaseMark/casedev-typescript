@@ -159,14 +159,32 @@ export namespace RunGetDetailsResponse {
    */
   export interface Result {
     /**
+     * Compact agent-facing result summary and execution issues
+     */
+    finalResponse?: Result.FinalResponse | null;
+
+    /**
      * Sandbox execution logs (OpenCode server + runner script)
      */
     logs?: Result.Logs | null;
 
     output?: string;
+
+    outputObjectIds?: Array<string>;
   }
 
   export namespace Result {
+    /**
+     * Compact agent-facing result summary and execution issues
+     */
+    export interface FinalResponse {
+      createdObjectIds?: Array<string>;
+
+      issues?: Array<string>;
+
+      summary?: string;
+    }
+
     /**
      * Sandbox execution logs (OpenCode server + runner script)
      */
