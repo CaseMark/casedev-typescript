@@ -130,6 +130,11 @@ export interface ChatCreateParams {
    * Optional human-readable session title
    */
   title?: string;
+
+  /**
+   * Restrict the chat session to specific vault IDs
+   */
+  vaultIds?: Array<string> | null;
 }
 
 export interface ChatRespondParams {
