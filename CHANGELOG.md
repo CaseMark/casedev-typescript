@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.3 (2026-03-07)
+
+Full Changelog: [v0.21.2...v0.21.3](https://github.com/CaseMark/casedev-typescript/compare/v0.21.2...v0.21.3)
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([ffb9737](https://github.com/CaseMark/casedev-typescript/commit/ffb973737ca68499087fd43178e899d2be162124))
+
 ## 0.21.2 (2026-03-07)
 
 Full Changelog: [v0.21.1...v0.21.2](https://github.com/CaseMark/casedev-typescript/compare/v0.21.1...v0.21.2)
