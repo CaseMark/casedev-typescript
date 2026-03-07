@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.4 (2026-03-07)
+
+Full Changelog: [v0.21.3...v0.21.4](https://github.com/CaseMark/casedev-typescript/compare/v0.21.3...v0.21.4)
+
+### Bug Fixes
+
+* **client:** preserve URL params already embedded in path ([dbfb4d9](https://github.com/CaseMark/casedev-typescript/commit/dbfb4d9e12371aa131f065de6fe2e051f755f914))
+
 ## 0.21.3 (2026-03-07)
 
 Full Changelog: [v0.21.2...v0.21.3](https://github.com/CaseMark/casedev-typescript/compare/v0.21.2...v0.21.3)
