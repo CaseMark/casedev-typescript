@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.2 (2026-03-07)
+
+Full Changelog: [v0.21.1...v0.21.2](https://github.com/CaseMark/casedev-typescript/compare/v0.21.1...v0.21.2)
+
+### Chores
+
+* **test:** do not count install time for mock server timeout ([f494909](https://github.com/CaseMark/casedev-typescript/commit/f49490924562a6c2af431e5a5b5bfc577dd0cf5b))
+
 ## 0.21.1 (2026-03-07)
 
 Full Changelog: [v0.21.0...v0.21.1](https://github.com/CaseMark/casedev-typescript/compare/v0.21.0...v0.21.1)
