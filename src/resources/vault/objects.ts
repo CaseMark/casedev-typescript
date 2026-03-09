@@ -384,6 +384,21 @@ export namespace ObjectListResponse {
     ingestionCompletedAt?: string;
 
     /**
+     * Failure reason when ingestion status is a failed state
+     */
+    ingestionError?: string | null;
+
+    /**
+     * When ingestion processing began
+     */
+    ingestionStartedAt?: string | null;
+
+    /**
+     * Durable workflow run ID for the active or last ingestion attempt
+     */
+    ingestionWorkflowId?: string | null;
+
+    /**
      * Custom metadata associated with the document
      */
     metadata?: unknown;

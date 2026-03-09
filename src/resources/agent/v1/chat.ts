@@ -35,8 +35,26 @@ export class Chat extends APIResource {
   }
 
   /**
+   * Answers a pending OpenCode question for the chat session bound to this agent
+   * chat.
+   */
+  replyToQuestion(
+    requestID: string,
+    params: ChatReplyToQuestionParams,
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    const { id, ...body } = params;
+    return this._client.post(path`/agent/v1/chat/${id}/question/${requestID}/reply`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
+  /**
    * Streams a single assistant turn as normalized state events with stable turn,
-   * message, and part ids.
+   * message, and part ids. Emits session.usage before turn.completed when token data
+   * is available.
    */
   respond(
     id: string,
@@ -80,6 +98,24 @@ export class Chat extends APIResource {
       stream: true,
     }) as APIPromise<Stream<ChatStreamResponse>>;
   }
+
+  /**
+   * Streams a single assistant turn as AI SDK UIMessageChunk SSE events for direct
+   * client rendering.
+   */
+  uiStream(
+    id: string,
+    params: ChatUiStreamParams,
+    options?: RequestOptions,
+  ): APIPromise<Stream<ChatUiStreamResponse>> {
+    const { body } = params;
+    return this._client.post(path`/agent/v1/chat/${id}/ui-stream`, {
+      body: body,
+      ...options,
+      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
+      stream: true,
+    }) as APIPromise<Stream<ChatUiStreamResponse>>;
+  }
 }
 
 export interface ChatCreateResponse {
@@ -114,6 +150,8 @@ export type ChatRespondResponse = string;
 
 export type ChatStreamResponse = string;
 
+export type ChatUiStreamResponse = string;
+
 export interface ChatCreateParams {
   /**
    * Idle timeout before session is eligible for snapshot/termination. Defaults to 15
@@ -137,6 +175,18 @@ export interface ChatCreateParams {
   vaultIds?: Array<string> | null;
 }
 
+export interface ChatReplyToQuestionParams {
+  /**
+   * Path param: Chat session ID
+   */
+  id: string;
+
+  /**
+   * Body param
+   */
+  answers: Array<Array<string>>;
+}
+
 export interface ChatRespondParams {
   /**
    * OpenCode message payload. Passed through 1:1.
@@ -158,6 +208,13 @@ export interface ChatStreamParams {
   lastEventId?: number;
 }
 
+export interface ChatUiStreamParams {
+  /**
+   * OpenCode message payload. Passed through 1:1.
+   */
+  body: unknown;
+}
+
 export declare namespace Chat {
   export {
     type ChatCreateResponse as ChatCreateResponse,
@@ -165,9 +222,12 @@ export declare namespace Chat {
     type ChatCancelResponse as ChatCancelResponse,
     type ChatRespondResponse as ChatRespondResponse,
     type ChatStreamResponse as ChatStreamResponse,
+    type ChatUiStreamResponse as ChatUiStreamResponse,
     type ChatCreateParams as ChatCreateParams,
+    type ChatReplyToQuestionParams as ChatReplyToQuestionParams,
     type ChatRespondParams as ChatRespondParams,
     type ChatSendMessageParams as ChatSendMessageParams,
     type ChatStreamParams as ChatStreamParams,
+    type ChatUiStreamParams as ChatUiStreamParams,
   };
 }
