@@ -19,11 +19,14 @@ import {
   ChatCreateParams,
   ChatCreateResponse,
   ChatDeleteResponse,
+  ChatReplyToQuestionParams,
   ChatRespondParams,
   ChatRespondResponse,
   ChatSendMessageParams,
   ChatStreamParams,
   ChatStreamResponse,
+  ChatUiStreamParams,
+  ChatUiStreamResponse,
 } from './chat';
 import * as ExecuteAPI from './execute';
 import { Execute, ExecuteCreateParams, ExecuteCreateResponse } from './execute';
@@ -93,9 +96,12 @@ export declare namespace V1 {
     type ChatCancelResponse as ChatCancelResponse,
     type ChatRespondResponse as ChatRespondResponse,
     type ChatStreamResponse as ChatStreamResponse,
+    type ChatUiStreamResponse as ChatUiStreamResponse,
     type ChatCreateParams as ChatCreateParams,
+    type ChatReplyToQuestionParams as ChatReplyToQuestionParams,
     type ChatRespondParams as ChatRespondParams,
     type ChatSendMessageParams as ChatSendMessageParams,
     type ChatStreamParams as ChatStreamParams,
+    type ChatUiStreamParams as ChatUiStreamParams,
   };
 }

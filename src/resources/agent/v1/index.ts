@@ -17,10 +17,13 @@ export {
   type ChatCancelResponse,
   type ChatRespondResponse,
   type ChatStreamResponse,
+  type ChatUiStreamResponse,
   type ChatCreateParams,
+  type ChatReplyToQuestionParams,
   type ChatRespondParams,
   type ChatSendMessageParams,
   type ChatStreamParams,
+  type ChatUiStreamParams,
 } from './chat';
 export { Execute, type ExecuteCreateResponse, type ExecuteCreateParams } from './execute';
 export {
