@@ -225,13 +225,57 @@ export namespace RunGetDetailsResponse {
   export interface Usage {
     durationMs?: number;
 
+    entries?: Array<Usage.Entry>;
+
     inputTokens?: number;
 
     model?: string;
 
     outputTokens?: number;
 
+    summary?: Usage.Summary | null;
+
     toolCalls?: number;
+  }
+
+  export namespace Usage {
+    export interface Entry {
+      id?: string;
+
+      completionTokens?: number | null;
+
+      costMicros?: number;
+
+      endpoint?: string | null;
+
+      kind?: 'llm' | 'api';
+
+      metadata?: unknown;
+
+      method?: string | null;
+
+      model?: string | null;
+
+      promptTokens?: number | null;
+
+      service?: string;
+
+      statusCode?: number | null;
+
+      timestamp?: string;
+
+      totalTokens?: number | null;
+    }
+
+    export interface Summary {
+      costMicros?: number;
+
+      totalInputTokens?: number;
+
+      totalOutputTokens?: number;
+
+      totalTokens?: number;
+    }
   }
 }
 

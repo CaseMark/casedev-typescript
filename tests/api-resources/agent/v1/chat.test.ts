@@ -56,6 +56,27 @@ describe('resource chat', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('replyToQuestion: only required params', async () => {
+    const responsePromise = client.agent.v1.chat.replyToQuestion('requestID', {
+      id: 'id',
+      answers: [['string']],
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('replyToQuestion: required and optional params', async () => {
+    const response = await client.agent.v1.chat.replyToQuestion('requestID', {
+      id: 'id',
+      answers: [['string']],
+    });
+  });
+
   // Mock server doesn't support text/event-stream responses
   test.skip('respond: only required params', async () => {
     const responsePromise = client.agent.v1.chat.respond('id', { body: {} });
@@ -106,5 +127,22 @@ describe('resource chat', () => {
     await expect(
       client.agent.v1.chat.stream('id', { lastEventId: 0 }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
+  // Mock server doesn't support text/event-stream responses
+  test.skip('uiStream: only required params', async () => {
+    const responsePromise = client.agent.v1.chat.uiStream('id', { body: {} });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server doesn't support text/event-stream responses
+  test.skip('uiStream: required and optional params', async () => {
+    const response = await client.agent.v1.chat.uiStream('id', { body: {} });
   });
 });
