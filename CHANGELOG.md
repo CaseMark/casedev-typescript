@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.22.1 (2026-03-10)
+
+Full Changelog: [v0.22.0...v0.22.1](https://github.com/CaseMark/casedev-typescript/compare/v0.22.0...v0.22.1)
+
+### Chores
+
+* **internal:** update dependencies to address dependabot vulnerabilities ([6e6cbc2](https://github.com/CaseMark/casedev-typescript/commit/6e6cbc239fe77350aec823136414723af0dc5095))
+
 ## 0.22.0 (2026-03-09)
 
 Full Changelog: [v0.21.4...v0.22.0](https://github.com/CaseMark/casedev-typescript/compare/v0.21.4...v0.22.0)
