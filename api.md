@@ -17,7 +17,7 @@ Methods:
 - <code title="post /agent/v1/agents">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
 - <code title="get /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">retrieve</a>(id) -> AgentRetrieveResponse</code>
 - <code title="patch /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">update</a>(id, { ...params }) -> AgentUpdateResponse</code>
-- <code title="get /agent/v1/agents">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">list</a>() -> AgentListResponse</code>
+- <code title="get /agent/v1/agents">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">list</a>({ ...params }) -> AgentListResponse</code>
 - <code title="delete /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/resources/agent/v1/agents.ts">delete</a>(id) -> AgentDeleteResponse</code>
 
 ### Run
@@ -25,6 +25,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/agent/v1/run.ts">RunCreateResponse</a></code>
+- <code><a href="./src/resources/agent/v1/run.ts">RunListResponse</a></code>
 - <code><a href="./src/resources/agent/v1/run.ts">RunCancelResponse</a></code>
 - <code><a href="./src/resources/agent/v1/run.ts">RunEventsResponse</a></code>
 - <code><a href="./src/resources/agent/v1/run.ts">RunExecResponse</a></code>
@@ -35,6 +36,7 @@ Types:
 Methods:
 
 - <code title="post /agent/v1/run">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">create</a>({ ...params }) -> RunCreateResponse</code>
+- <code title="get /agent/v1/run">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">list</a>({ ...params }) -> RunListResponse</code>
 - <code title="post /agent/v1/run/{id}/cancel">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">cancel</a>(id) -> RunCancelResponse</code>
 - <code title="get /agent/v1/run/{id}/events">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">events</a>(id, { ...params }) -> string</code>
 - <code title="post /agent/v1/run/{id}/exec">client.agent.v1.run.<a href="./src/resources/agent/v1/run.ts">exec</a>(id) -> RunExecResponse</code>
@@ -61,7 +63,6 @@ Types:
 - <code><a href="./src/resources/agent/v1/chat.ts">ChatCancelResponse</a></code>
 - <code><a href="./src/resources/agent/v1/chat.ts">ChatRespondResponse</a></code>
 - <code><a href="./src/resources/agent/v1/chat.ts">ChatStreamResponse</a></code>
-- <code><a href="./src/resources/agent/v1/chat.ts">ChatUiStreamResponse</a></code>
 
 Methods:
 
@@ -72,7 +73,6 @@ Methods:
 - <code title="post /agent/v1/chat/{id}/respond">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat.ts">respond</a>(id, { ...params }) -> string</code>
 - <code title="post /agent/v1/chat/{id}/message">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat.ts">sendMessage</a>(id, { ...params }) -> void</code>
 - <code title="get /agent/v1/chat/{id}/stream">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat.ts">stream</a>(id, { ...params }) -> string</code>
-- <code title="post /agent/v1/chat/{id}/ui-stream">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat.ts">uiStream</a>(id, { ...params }) -> string</code>
 
 # System
 
