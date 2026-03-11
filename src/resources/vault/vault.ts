@@ -10,7 +10,7 @@ import {
   GraphragProcessObjectResponse,
 } from './graphrag';
 import * as GroupsAPI from './groups';
-import { Groups } from './groups';
+import { GroupCreateParams, GroupUpdateParams, Groups } from './groups';
 import * as MultipartAPI from './multipart';
 import {
   Multipart,
@@ -963,7 +963,11 @@ export declare namespace Vault {
     type GraphragProcessObjectParams as GraphragProcessObjectParams,
   };
 
-  export { Groups as Groups };
+  export {
+    Groups as Groups,
+    type GroupCreateParams as GroupCreateParams,
+    type GroupUpdateParams as GroupUpdateParams,
+  };
 
   export {
     Multipart as Multipart,

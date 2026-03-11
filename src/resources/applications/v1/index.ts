@@ -13,6 +13,7 @@ export {
   Projects,
   type ProjectListResponse,
   type ProjectCreateParams,
+  type ProjectListParams,
   type ProjectDeleteParams,
   type ProjectCreateDeploymentParams,
   type ProjectCreateDomainParams,

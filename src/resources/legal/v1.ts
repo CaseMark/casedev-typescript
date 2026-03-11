@@ -1156,6 +1156,9 @@ export namespace V1DraftParams {
      */
     target?: number;
 
+    /**
+     * Whether the target length is measured in words or pages
+     */
     unit?: 'words' | 'pages';
   }
 }
@@ -1226,8 +1229,14 @@ export interface V1ListCourtsParams {
    */
   jurisdiction?: string;
 
+  /**
+   * Maximum number of courts to return
+   */
   limit?: number;
 
+  /**
+   * Number of courts to skip before returning results
+   */
   offset?: number;
 
   /**

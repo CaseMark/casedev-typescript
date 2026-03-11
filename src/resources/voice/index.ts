@@ -1,5 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+export {
+  BoostList,
+  type BoostListExtractResponse,
+  type BoostListGenerateResponse,
+  type BoostListExtractParams,
+  type BoostListGenerateParams,
+} from './boost-list';
 export { Streaming, type StreamingGetURLResponse } from './streaming';
 export {
   Transcription,

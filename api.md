@@ -111,7 +111,7 @@ Methods:
 
 - <code title="post /applications/v1/projects">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">create</a>({ ...params }) -> void</code>
 - <code title="get /applications/v1/projects/{id}">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">retrieve</a>(id) -> void</code>
-- <code title="get /applications/v1/projects">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">list</a>() -> ProjectListResponse</code>
+- <code title="get /applications/v1/projects">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">list</a>({ ...params }) -> ProjectListResponse</code>
 - <code title="delete /applications/v1/projects/{id}">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">delete</a>(id, { ...params }) -> void</code>
 - <code title="post /applications/v1/projects/{id}/deployments">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">createDeployment</a>(id, { ...params }) -> void</code>
 - <code title="post /applications/v1/projects/{id}/domains">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">createDomain</a>(id, { ...params }) -> void</code>
@@ -494,8 +494,8 @@ Methods:
 
 Methods:
 
-- <code title="post /vault/groups">client.vault.groups.<a href="./src/resources/vault/groups.ts">create</a>() -> void</code>
-- <code title="patch /vault/groups/{groupId}">client.vault.groups.<a href="./src/resources/vault/groups.ts">update</a>(groupID) -> void</code>
+- <code title="post /vault/groups">client.vault.groups.<a href="./src/resources/vault/groups.ts">create</a>({ ...params }) -> void</code>
+- <code title="patch /vault/groups/{groupId}">client.vault.groups.<a href="./src/resources/vault/groups.ts">update</a>(groupID, { ...params }) -> void</code>
 - <code title="get /vault/groups">client.vault.groups.<a href="./src/resources/vault/groups.ts">list</a>() -> void</code>
 - <code title="delete /vault/groups/{groupId}">client.vault.groups.<a href="./src/resources/vault/groups.ts">delete</a>(groupID) -> void</code>
 
@@ -546,6 +546,18 @@ Types:
 Methods:
 
 - <code title="get /voice/streaming/url">client.voice.streaming.<a href="./src/resources/voice/streaming.ts">getURL</a>() -> StreamingGetURLResponse</code>
+
+## BoostList
+
+Types:
+
+- <code><a href="./src/resources/voice/boost-list.ts">BoostListExtractResponse</a></code>
+- <code><a href="./src/resources/voice/boost-list.ts">BoostListGenerateResponse</a></code>
+
+Methods:
+
+- <code title="post /voice/boost-list/extract">client.voice.boostList.<a href="./src/resources/voice/boost-list.ts">extract</a>({ ...params }) -> BoostListExtractResponse</code>
+- <code title="post /voice/boost-list/generate">client.voice.boostList.<a href="./src/resources/voice/boost-list.ts">generate</a>({ ...params }) -> BoostListGenerateResponse</code>
 
 ## Transcription
 

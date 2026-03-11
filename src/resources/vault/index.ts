@@ -8,7 +8,7 @@ export {
   type GraphragProcessObjectResponse,
   type GraphragProcessObjectParams,
 } from './graphrag';
-export { Groups } from './groups';
+export { Groups, type GroupCreateParams, type GroupUpdateParams } from './groups';
 export {
   Multipart,
   type MultipartGetPartURLsResponse,

@@ -66,21 +66,39 @@ export namespace MultipartGetPartURLsResponse {
 }
 
 export interface MultipartAbortParams {
+  /**
+   * Vault object ID associated with the multipart upload
+   */
   objectId: string;
 
+  /**
+   * Multipart upload ID returned when the upload was initialized
+   */
   uploadId: string;
 }
 
 export interface MultipartGetPartURLsParams {
+  /**
+   * Vault object ID associated with the multipart upload
+   */
   objectId: string;
 
+  /**
+   * Multipart parts that need presigned upload URLs
+   */
   parts: Array<MultipartGetPartURLsParams.Part>;
 
+  /**
+   * Multipart upload ID returned when the upload was initialized
+   */
   uploadId: string;
 }
 
 export namespace MultipartGetPartURLsParams {
   export interface Part {
+    /**
+     * 1-based multipart part number
+     */
     partNumber: number;
 
     /**

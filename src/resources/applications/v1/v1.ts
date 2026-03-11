@@ -23,6 +23,7 @@ import {
   ProjectGetRuntimeLogsParams,
   ProjectListDeploymentsParams,
   ProjectListEnvParams,
+  ProjectListParams,
   ProjectListResponse,
   Projects,
 } from './projects';
@@ -54,6 +55,7 @@ export declare namespace V1 {
     Projects as Projects,
     type ProjectListResponse as ProjectListResponse,
     type ProjectCreateParams as ProjectCreateParams,
+    type ProjectListParams as ProjectListParams,
     type ProjectDeleteParams as ProjectDeleteParams,
     type ProjectCreateDeploymentParams as ProjectCreateDeploymentParams,
     type ProjectCreateDomainParams as ProjectCreateDomainParams,

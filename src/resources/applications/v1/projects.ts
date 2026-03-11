@@ -8,7 +8,9 @@ import { path } from '../../../internal/utils/path';
 
 export class Projects extends APIResource {
   /**
-   * Create a new web application project
+   * Creates a new application project, validates GitHub access, provisions a default
+   * case.dev domain, and starts the deployment workflow. The initial response
+   * returns as soon as the workflow is queued so clients can poll for progress.
    */
   create(body: ProjectCreateParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/applications/v1/projects', {
@@ -19,7 +21,9 @@ export class Projects extends APIResource {
   }
 
   /**
-   * Get details of a specific web application project
+   * Returns project details, domains, and recent deployment information for one
+   * application project or deployed Thurgood app. Use this endpoint when you need a
+   * single record with hosting metadata for a details view.
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/applications/v1/projects/${id}`, {
@@ -29,14 +33,21 @@ export class Projects extends APIResource {
   }
 
   /**
-   * List all web application projects
+   * Lists application projects and deployed Thurgood apps for the authenticated
+   * organization. Use enrich=true to include additional hosting metadata for
+   * projects linked to Vercel.
    */
-  list(options?: RequestOptions): APIPromise<ProjectListResponse> {
-    return this._client.get('/applications/v1/projects', options);
+  list(
+    query: ProjectListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ProjectListResponse> {
+    return this._client.get('/applications/v1/projects', { query, ...options });
   }
 
   /**
-   * Delete a web application project
+   * Soft-deletes an application project or deployed Thurgood app from Case.dev. By
+   * default it also removes the linked hosting project; set deleteFromHosting=false
+   * to keep the external hosting resources intact.
    */
   delete(
     id: string,
@@ -52,7 +63,9 @@ export class Projects extends APIResource {
   }
 
   /**
-   * Trigger a new deployment for a project.
+   * Starts a new deployment for an existing project using its saved repository and
+   * hosting configuration. Any environment variables passed in the request are
+   * merged into the deployment workflow before the build starts.
    */
   createDeployment(
     id: string,
@@ -130,7 +143,9 @@ export class Projects extends APIResource {
   }
 
   /**
-   * List deployments for a specific project
+   * Lists deployments for one project in the authenticated organization. If the
+   * hosting project has not been created yet, this endpoint returns an empty list
+   * with a progress message instead of failing.
    */
   listDeployments(
     id: string,
@@ -172,40 +187,85 @@ export class Projects extends APIResource {
 }
 
 export interface ProjectListResponse {
+  /**
+   * Projects and deployed apps visible to the organization
+   */
   projects?: Array<ProjectListResponse.Project>;
 }
 
 export namespace ProjectListResponse {
   export interface Project {
+    /**
+     * Project identifier
+     */
     id?: string;
 
+    /**
+     * When the project record was created
+     */
     createdAt?: string;
 
+    /**
+     * Custom or generated domains assigned to the project
+     */
     domains?: Array<Project.Domain>;
 
+    /**
+     * Detected or configured application framework
+     */
     framework?: string;
 
+    /**
+     * Default Git branch used for deployments
+     */
     gitBranch?: string;
 
+    /**
+     * Connected Git repository in owner/repo format
+     */
     gitRepo?: string;
 
+    /**
+     * Project display name
+     */
     name?: string;
 
+    /**
+     * Current project deployment status
+     */
     status?: string;
 
+    /**
+     * When the project record was last updated
+     */
     updatedAt?: string;
 
+    /**
+     * Hosting provider project ID, when linked
+     */
     vercelProjectId?: string;
   }
 
   export namespace Project {
     export interface Domain {
+      /**
+       * Domain record identifier
+       */
       id?: string;
 
+      /**
+       * Hostname assigned to the project
+       */
       domain?: string;
 
+      /**
+       * Whether this is the primary project domain
+       */
       isPrimary?: boolean;
 
+      /**
+       * Whether the domain has been verified by the hosting provider
+       */
       isVerified?: boolean;
     }
   }
@@ -213,47 +273,47 @@ export namespace ProjectListResponse {
 
 export interface ProjectCreateParams {
   /**
-   * GitHub repository URL or "owner/repo"
+   * GitHub repository URL or owner/repo identifier
    */
   gitRepo: string;
 
   /**
-   * Project name
+   * Human-readable project name
    */
   name: string;
 
   /**
-   * Custom build command
+   * Custom build command to override the framework default
    */
   buildCommand?: string;
 
   /**
-   * Environment variables to set on the project
+   * Environment variables to create before the first deployment
    */
   environmentVariables?: Array<ProjectCreateParams.EnvironmentVariable>;
 
   /**
-   * Framework (e.g., "nextjs", "remix", "astro")
+   * Framework preset for the hosting project, such as nextjs or remix
    */
   framework?: string;
 
   /**
-   * Git branch to deploy
+   * Git branch to deploy. Defaults to main.
    */
   gitBranch?: string;
 
   /**
-   * Custom install command
+   * Custom install command to override the framework default
    */
   installCommand?: string;
 
   /**
-   * Build output directory
+   * Build output directory relative to the project root
    */
   outputDirectory?: string;
 
   /**
-   * Root directory of the project
+   * Repository subdirectory that contains the app to deploy
    */
   rootDirectory?: string;
 }
@@ -266,7 +326,7 @@ export namespace ProjectCreateParams {
     key: string;
 
     /**
-     * Deployment targets for this variable
+     * Deployment targets that should receive this variable
      */
     target: Array<'production' | 'preview' | 'development'>;
 
@@ -276,15 +336,27 @@ export namespace ProjectCreateParams {
     value: string;
 
     /**
-     * Variable type
+     * Storage mode for the environment variable value
      */
     type?: 'plain' | 'encrypted' | 'secret';
   }
 }
 
+export interface ProjectListParams {
+  /**
+   * Whether to include additional hosting metadata from Vercel
+   */
+  enrich?: boolean;
+
+  /**
+   * Maximum number of projects to return from each backing source
+   */
+  limit?: number;
+}
+
 export interface ProjectDeleteParams {
   /**
-   * Also delete the project from hosting (default: true)
+   * Whether to also delete the linked hosting project. Defaults to true.
    */
   deleteFromHosting?: boolean;
 }
@@ -304,7 +376,7 @@ export namespace ProjectCreateDeploymentParams {
     key: string;
 
     /**
-     * Deployment targets for this variable
+     * Deployment targets that should receive this variable
      */
     target: Array<'production' | 'preview' | 'development'>;
 
@@ -314,7 +386,7 @@ export namespace ProjectCreateDeploymentParams {
     value: string;
 
     /**
-     * Variable type
+     * Storage mode for the environment variable value
      */
     type?: 'plain' | 'encrypted' | 'secret';
   }
@@ -387,12 +459,12 @@ export interface ProjectListDeploymentsParams {
   limit?: number;
 
   /**
-   * Filter by deployment state
+   * Deployment state to filter by
    */
   state?: string;
 
   /**
-   * Filter by deployment target
+   * Deployment target to filter by
    */
   target?: 'production' | 'staging';
 }
@@ -408,6 +480,7 @@ export declare namespace Projects {
   export {
     type ProjectListResponse as ProjectListResponse,
     type ProjectCreateParams as ProjectCreateParams,
+    type ProjectListParams as ProjectListParams,
     type ProjectDeleteParams as ProjectDeleteParams,
     type ProjectCreateDeploymentParams as ProjectCreateDeploymentParams,
     type ProjectCreateDomainParams as ProjectCreateDomainParams,
