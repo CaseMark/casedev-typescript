@@ -5,6 +5,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+ */
 export class Agents extends APIResource {
   /**
    * Creates a new agent definition with a scoped API key. The agent can then be used
@@ -31,8 +34,11 @@ export class Agents extends APIResource {
   /**
    * Lists all active agents for the authenticated organization.
    */
-  list(options?: RequestOptions): APIPromise<AgentListResponse> {
-    return this._client.get('/agent/v1/agents', options);
+  list(
+    query: AgentListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AgentListResponse> {
+    return this._client.get('/agent/v1/agents', { query, ...options });
   }
 
   /**
@@ -123,6 +129,13 @@ export interface AgentUpdateResponse {
 
 export interface AgentListResponse {
   agents?: Array<AgentListResponse.Agent>;
+
+  hasMore?: boolean;
+
+  /**
+   * Pass as cursor to fetch the next page
+   */
+  nextCursor?: string | null;
 }
 
 export namespace AgentListResponse {
@@ -166,12 +179,14 @@ export interface AgentCreateParams {
   description?: string;
 
   /**
-   * Denylist of tools the agent cannot use
+   * Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
+   * set one or the other, not both.
    */
   disabledTools?: Array<string> | null;
 
   /**
-   * Allowlist of tools the agent can use
+   * Allowlist of tools the agent can use. Mutually exclusive with disabledTools —
+   * set one or the other, not both.
    */
   enabledTools?: Array<string> | null;
 
@@ -217,8 +232,16 @@ export namespace AgentCreateParams {
 export interface AgentUpdateParams {
   description?: string;
 
+  /**
+   * Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
+   * set one or the other, not both. Pass null to clear.
+   */
   disabledTools?: Array<string> | null;
 
+  /**
+   * Allowlist of tools the agent can use. Mutually exclusive with disabledTools —
+   * set one or the other, not both. Pass null to clear.
+   */
   enabledTools?: Array<string> | null;
 
   instructions?: string;
@@ -234,6 +257,19 @@ export interface AgentUpdateParams {
   vaultIds?: Array<string> | null;
 }
 
+export interface AgentListParams {
+  /**
+   * Pagination cursor (agent ID from previous page). Returns agents created before
+   * this agent.
+   */
+  cursor?: string;
+
+  /**
+   * Maximum number of agents to return (default 50, max 250)
+   */
+  limit?: number;
+}
+
 export declare namespace Agents {
   export {
     type AgentCreateResponse as AgentCreateResponse,
@@ -243,5 +279,6 @@ export declare namespace Agents {
     type AgentDeleteResponse as AgentDeleteResponse,
     type AgentCreateParams as AgentCreateParams,
     type AgentUpdateParams as AgentUpdateParams,
+    type AgentListParams as AgentListParams,
   };
 }

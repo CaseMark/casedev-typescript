@@ -9,6 +9,7 @@ export {
   type AgentDeleteResponse,
   type AgentCreateParams,
   type AgentUpdateParams,
+  type AgentListParams,
 } from './agents';
 export {
   Chat,
@@ -17,18 +18,17 @@ export {
   type ChatCancelResponse,
   type ChatRespondResponse,
   type ChatStreamResponse,
-  type ChatUiStreamResponse,
   type ChatCreateParams,
   type ChatReplyToQuestionParams,
   type ChatRespondParams,
   type ChatSendMessageParams,
   type ChatStreamParams,
-  type ChatUiStreamParams,
 } from './chat';
 export { Execute, type ExecuteCreateResponse, type ExecuteCreateParams } from './execute';
 export {
   Run,
   type RunCreateResponse,
+  type RunListResponse,
   type RunCancelResponse,
   type RunEventsResponse,
   type RunExecResponse,
@@ -36,6 +36,7 @@ export {
   type RunGetStatusResponse,
   type RunWatchResponse,
   type RunCreateParams,
+  type RunListParams,
   type RunEventsParams,
   type RunWatchParams,
 } from './run';

@@ -6,6 +6,7 @@ import {
   AgentCreateParams,
   AgentCreateResponse,
   AgentDeleteResponse,
+  AgentListParams,
   AgentListResponse,
   AgentRetrieveResponse,
   AgentUpdateParams,
@@ -25,8 +26,6 @@ import {
   ChatSendMessageParams,
   ChatStreamParams,
   ChatStreamResponse,
-  ChatUiStreamParams,
-  ChatUiStreamResponse,
 } from './chat';
 import * as ExecuteAPI from './execute';
 import { Execute, ExecuteCreateParams, ExecuteCreateResponse } from './execute';
@@ -41,6 +40,8 @@ import {
   RunExecResponse,
   RunGetDetailsResponse,
   RunGetStatusResponse,
+  RunListParams,
+  RunListResponse,
   RunWatchParams,
   RunWatchResponse,
 } from './run';
@@ -67,11 +68,13 @@ export declare namespace V1 {
     type AgentDeleteResponse as AgentDeleteResponse,
     type AgentCreateParams as AgentCreateParams,
     type AgentUpdateParams as AgentUpdateParams,
+    type AgentListParams as AgentListParams,
   };
 
   export {
     Run as Run,
     type RunCreateResponse as RunCreateResponse,
+    type RunListResponse as RunListResponse,
     type RunCancelResponse as RunCancelResponse,
     type RunEventsResponse as RunEventsResponse,
     type RunExecResponse as RunExecResponse,
@@ -79,6 +82,7 @@ export declare namespace V1 {
     type RunGetStatusResponse as RunGetStatusResponse,
     type RunWatchResponse as RunWatchResponse,
     type RunCreateParams as RunCreateParams,
+    type RunListParams as RunListParams,
     type RunEventsParams as RunEventsParams,
     type RunWatchParams as RunWatchParams,
   };
@@ -96,12 +100,10 @@ export declare namespace V1 {
     type ChatCancelResponse as ChatCancelResponse,
     type ChatRespondResponse as ChatRespondResponse,
     type ChatStreamResponse as ChatStreamResponse,
-    type ChatUiStreamResponse as ChatUiStreamResponse,
     type ChatCreateParams as ChatCreateParams,
     type ChatReplyToQuestionParams as ChatReplyToQuestionParams,
     type ChatRespondParams as ChatRespondParams,
     type ChatSendMessageParams as ChatSendMessageParams,
     type ChatStreamParams as ChatStreamParams,
-    type ChatUiStreamParams as ChatUiStreamParams,
   };
 }

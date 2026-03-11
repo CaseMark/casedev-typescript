@@ -7,6 +7,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+ */
 export class Chat extends APIResource {
   /**
    * Creates a persistent OpenCode chat session in a Modal sandbox. Session state is
@@ -52,18 +55,27 @@ export class Chat extends APIResource {
   }
 
   /**
-   * Streams a single assistant turn as normalized state events with stable turn,
-   * message, and part ids. Emits session.usage before turn.completed when token data
-   * is available.
+   * Streams a single assistant turn as normalized SSE events with stable turn,
+   * message, and part IDs. Emits events: `turn.started`, `turn.status`,
+   * `message.created`, `message.part.updated`, `message.completed`, `session.usage`,
+   * `turn.completed`.
+   *
+   * **When to use this endpoint:** Recommended for building custom chat UIs that
+   * need real-time streaming progress. This is the primary streaming endpoint for
+   * new integrations.
+   *
+   * **Alternatives:**
+   *
+   * - `POST /chat/:id/message` — synchronous, returns complete response as JSON
+   *   (best for server-to-server)
    */
   respond(
     id: string,
-    params: ChatRespondParams,
+    body: ChatRespondParams,
     options?: RequestOptions,
   ): APIPromise<Stream<ChatRespondResponse>> {
-    const { body } = params;
     return this._client.post(path`/agent/v1/chat/${id}/respond`, {
-      body: body,
+      body,
       ...options,
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
@@ -71,12 +83,21 @@ export class Chat extends APIResource {
   }
 
   /**
-   * Proxies a message to the OpenCode session bound to this chat.
+   * Sends a message and returns the complete response as a single JSON body. Blocks
+   * until the agent turn completes.
+   *
+   * **When to use this endpoint:** Best for server-to-server integrations,
+   * background processing, or any context where you want the full response in one
+   * call without managing an SSE stream.
+   *
+   * **Alternatives:**
+   *
+   * - `POST /chat/:id/respond` — streaming SSE with normalized events (recommended
+   *   for custom chat UIs)
    */
-  sendMessage(id: string, params: ChatSendMessageParams, options?: RequestOptions): APIPromise<void> {
-    const { body } = params;
+  sendMessage(id: string, body: ChatSendMessageParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/agent/v1/chat/${id}/message`, {
-      body: body,
+      body,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
@@ -97,24 +118,6 @@ export class Chat extends APIResource {
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
     }) as APIPromise<Stream<ChatStreamResponse>>;
-  }
-
-  /**
-   * Streams a single assistant turn as AI SDK UIMessageChunk SSE events for direct
-   * client rendering.
-   */
-  uiStream(
-    id: string,
-    params: ChatUiStreamParams,
-    options?: RequestOptions,
-  ): APIPromise<Stream<ChatUiStreamResponse>> {
-    const { body } = params;
-    return this._client.post(path`/agent/v1/chat/${id}/ui-stream`, {
-      body: body,
-      ...options,
-      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
-      stream: true,
-    }) as APIPromise<Stream<ChatUiStreamResponse>>;
   }
 }
 
@@ -149,8 +152,6 @@ export interface ChatCancelResponse {
 export type ChatRespondResponse = string;
 
 export type ChatStreamResponse = string;
-
-export type ChatUiStreamResponse = string;
 
 export interface ChatCreateParams {
   /**
@@ -189,16 +190,46 @@ export interface ChatReplyToQuestionParams {
 
 export interface ChatRespondParams {
   /**
-   * OpenCode message payload. Passed through 1:1.
+   * Message content parts. Currently only "text" type is supported. Additional types
+   * (e.g. file, image) may be added in future versions.
    */
-  body: unknown;
+  parts?: Array<ChatRespondParams.Part>;
+}
+
+export namespace ChatRespondParams {
+  export interface Part {
+    /**
+     * The message text content
+     */
+    text: string;
+
+    /**
+     * Part type. Currently only "text" is supported.
+     */
+    type: 'text';
+  }
 }
 
 export interface ChatSendMessageParams {
   /**
-   * OpenCode message payload. Passed through 1:1.
+   * Message content parts. Currently only "text" type is supported. Additional types
+   * (e.g. file, image) may be added in future versions.
    */
-  body: unknown;
+  parts?: Array<ChatSendMessageParams.Part>;
+}
+
+export namespace ChatSendMessageParams {
+  export interface Part {
+    /**
+     * The message text content
+     */
+    text: string;
+
+    /**
+     * Part type. Currently only "text" is supported.
+     */
+    type: 'text';
+  }
 }
 
 export interface ChatStreamParams {
@@ -208,13 +239,6 @@ export interface ChatStreamParams {
   lastEventId?: number;
 }
 
-export interface ChatUiStreamParams {
-  /**
-   * OpenCode message payload. Passed through 1:1.
-   */
-  body: unknown;
-}
-
 export declare namespace Chat {
   export {
     type ChatCreateResponse as ChatCreateResponse,
@@ -222,12 +246,10 @@ export declare namespace Chat {
     type ChatCancelResponse as ChatCancelResponse,
     type ChatRespondResponse as ChatRespondResponse,
     type ChatStreamResponse as ChatStreamResponse,
-    type ChatUiStreamResponse as ChatUiStreamResponse,
     type ChatCreateParams as ChatCreateParams,
     type ChatReplyToQuestionParams as ChatReplyToQuestionParams,
     type ChatRespondParams as ChatRespondParams,
     type ChatSendMessageParams as ChatSendMessageParams,
     type ChatStreamParams as ChatStreamParams,
-    type ChatUiStreamParams as ChatUiStreamParams,
   };
 }

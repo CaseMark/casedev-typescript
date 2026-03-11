@@ -7,6 +7,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+ */
 export class Run extends APIResource {
   /**
    * Creates a run in queued state. Call POST /agent/v1/run/:id/exec to start
@@ -14,6 +17,14 @@ export class Run extends APIResource {
    */
   create(body: RunCreateParams, options?: RequestOptions): APIPromise<RunCreateResponse> {
     return this._client.post('/agent/v1/run', { body, ...options });
+  }
+
+  /**
+   * Lists agent runs for the authenticated organization. Supports filtering by
+   * agent, status, and cursor-based pagination.
+   */
+  list(query: RunListParams | null | undefined = {}, options?: RequestOptions): APIPromise<RunListResponse> {
+    return this._client.get('/agent/v1/run', { query, ...options });
   }
 
   /**
@@ -83,6 +94,40 @@ export interface RunCreateResponse {
   objectIds?: Array<string> | null;
 
   status?: 'queued';
+}
+
+export interface RunListResponse {
+  hasMore?: boolean;
+
+  /**
+   * Pass as cursor to fetch the next page
+   */
+  nextCursor?: string | null;
+
+  runs?: Array<RunListResponse.Run>;
+}
+
+export namespace RunListResponse {
+  export interface Run {
+    id?: string;
+
+    agentId?: string;
+
+    completedAt?: string | null;
+
+    createdAt?: string;
+
+    model?: string | null;
+
+    /**
+     * Truncated to first 200 characters
+     */
+    prompt?: string;
+
+    startedAt?: string | null;
+
+    status?: 'queued' | 'running' | 'completed' | 'failed' | 'cancelled';
+  }
 }
 
 export interface RunCancelResponse {
@@ -312,6 +357,13 @@ export interface RunCreateParams {
   prompt: string;
 
   /**
+   * HTTPS callback URL to receive a notification when the run completes. Registered
+   * atomically with the run — eliminates the race condition of calling /watch after
+   * /exec. Additional watchers can still be added via POST /run/:id/watch.
+   */
+  callbackUrl?: string | null;
+
+  /**
    * Additional guidance for this run
    */
   guidance?: string | null;
@@ -326,6 +378,29 @@ export interface RunCreateParams {
    * access these objects during execution.
    */
   objectIds?: Array<string> | null;
+}
+
+export interface RunListParams {
+  /**
+   * Filter by agent ID
+   */
+  agentId?: string;
+
+  /**
+   * Pagination cursor (run ID from previous page). Returns runs created before this
+   * run.
+   */
+  cursor?: string;
+
+  /**
+   * Maximum number of runs to return (default 50, max 250)
+   */
+  limit?: number;
+
+  /**
+   * Filter by run status
+   */
+  status?: 'queued' | 'running' | 'completed' | 'failed' | 'cancelled';
 }
 
 export interface RunEventsParams {
@@ -345,6 +420,7 @@ export interface RunWatchParams {
 export declare namespace Run {
   export {
     type RunCreateResponse as RunCreateResponse,
+    type RunListResponse as RunListResponse,
     type RunCancelResponse as RunCancelResponse,
     type RunEventsResponse as RunEventsResponse,
     type RunExecResponse as RunExecResponse,
@@ -352,6 +428,7 @@ export declare namespace Run {
     type RunGetStatusResponse as RunGetStatusResponse,
     type RunWatchResponse as RunWatchResponse,
     type RunCreateParams as RunCreateParams,
+    type RunListParams as RunListParams,
     type RunEventsParams as RunEventsParams,
     type RunWatchParams as RunWatchParams,
   };
