@@ -230,7 +230,10 @@ export namespace AgentCreateParams {
 }
 
 export interface AgentUpdateParams {
-  description?: string;
+  /**
+   * Updated agent description. Pass null to clear if supported by the client.
+   */
+  description?: string | null;
 
   /**
    * Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
@@ -244,16 +247,34 @@ export interface AgentUpdateParams {
    */
   enabledTools?: Array<string> | null;
 
+  /**
+   * Updated system instructions that guide agent behavior
+   */
   instructions?: string;
 
+  /**
+   * Model identifier the agent should use for future runs
+   */
   model?: string;
 
+  /**
+   * Updated agent display name
+   */
   name?: string;
 
+  /**
+   * Sandbox configuration override for future agent runs. Pass null to clear.
+   */
   sandbox?: unknown | null;
 
+  /**
+   * Vault group IDs the agent can access. Pass null to clear.
+   */
   vaultGroups?: Array<string> | null;
 
+  /**
+   * Vault IDs the agent can access directly. Pass null to clear.
+   */
   vaultIds?: Array<string> | null;
 }
 

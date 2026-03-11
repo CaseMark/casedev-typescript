@@ -62,6 +62,13 @@ describe('resource projects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.applications.v1.projects.list({ enrich: true, limit: 0 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
   test('delete', async () => {
     const responsePromise = client.applications.v1.projects.delete('id');
     const rawResponse = await responsePromise.asResponse();
