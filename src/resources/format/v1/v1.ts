@@ -51,10 +51,18 @@ export interface V1CreateDocumentParams {
    */
   input_format?: 'md' | 'json' | 'text';
 
+  /**
+   * Optional template composition and styling settings used during document
+   * generation
+   */
   options?: V1CreateDocumentParams.Options;
 }
 
 export namespace V1CreateDocumentParams {
+  /**
+   * Optional template composition and styling settings used during document
+   * generation
+   */
   export interface Options {
     /**
      * Template components with variables

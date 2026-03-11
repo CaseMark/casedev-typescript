@@ -183,7 +183,7 @@ export interface ChatReplyToQuestionParams {
   id: string;
 
   /**
-   * Body param
+   * Body param: Answer selections for each prompt element in the pending question
    */
   answers: Array<Array<string>>;
 }

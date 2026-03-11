@@ -115,12 +115,25 @@ export class Subscriptions extends APIResource {
 }
 
 export interface SubscriptionCreateParams {
+  /**
+   * Webhook endpoint URL that will receive vault event deliveries
+   */
   callbackUrl: string;
 
+  /**
+   * Vault event types to deliver. Omit to receive the default supported set.
+   */
   eventTypes?: Array<string>;
 
+  /**
+   * Vault object IDs to limit notifications to. Omit to receive events for all
+   * objects in the vault.
+   */
   objectIds?: Array<string>;
 
+  /**
+   * Optional secret used to sign outbound webhook deliveries
+   */
   signingSecret?: string;
 }
 
@@ -131,32 +144,33 @@ export interface SubscriptionUpdateParams {
   id: string;
 
   /**
-   * Body param
+   * Body param: Updated webhook endpoint URL for deliveries
    */
   callbackUrl?: string;
 
   /**
-   * Body param
+   * Body param: Whether to remove the existing signing secret
    */
   clearSigningSecret?: boolean;
 
   /**
-   * Body param
+   * Body param: Updated event types to deliver for this subscription
    */
   eventTypes?: Array<string>;
 
   /**
-   * Body param
+   * Body param: Whether the subscription should continue delivering events
    */
   isActive?: boolean;
 
   /**
-   * Body param
+   * Body param: Updated vault object IDs to limit notifications to. Pass an empty
+   * array to remove the filter.
    */
   objectIds?: Array<string>;
 
   /**
-   * Body param
+   * Body param: Replacement secret used to sign webhook deliveries
    */
   signingSecret?: string;
 }

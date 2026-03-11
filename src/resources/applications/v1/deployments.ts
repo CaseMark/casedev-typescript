@@ -11,7 +11,9 @@ import { path } from '../../../internal/utils/path';
  */
 export class Deployments extends APIResource {
   /**
-   * Trigger a new deployment for a project
+   * Creates a deployment for an existing project by fetching repository files from
+   * GitHub and uploading them to the hosting provider. Use ref to deploy a branch,
+   * tag, or commit other than the project default branch.
    */
   create(body: DeploymentCreateParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/applications/v1/deployments', {
@@ -22,7 +24,8 @@ export class Deployments extends APIResource {
   }
 
   /**
-   * Get details of a specific deployment including build logs
+   * Returns deployment details for one project in the authenticated organization.
+   * Set includeLogs=true to include recent build output in the response.
    */
   retrieve(id: string, query: DeploymentRetrieveParams, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/applications/v1/deployments/${id}`, {
@@ -33,7 +36,8 @@ export class Deployments extends APIResource {
   }
 
   /**
-   * List deployments for a project
+   * Lists recent deployments for one project in the authenticated organization. Use
+   * the optional filters to narrow results by target or deployment state.
    */
   list(query: DeploymentListParams, options?: RequestOptions): APIPromise<void> {
     return this._client.get('/applications/v1/deployments', {
@@ -44,7 +48,9 @@ export class Deployments extends APIResource {
   }
 
   /**
-   * Cancel a running deployment
+   * Cancels a running deployment after verifying that the referenced project belongs
+   * to the authenticated organization. Use this when a build is stuck,
+   * misconfigured, or no longer needed.
    */
   cancel(id: string, body: DeploymentCancelParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/applications/v1/deployments/${id}/cancel`, {
@@ -65,7 +71,9 @@ export class Deployments extends APIResource {
   }
 
   /**
-   * Get build logs for a specific deployment
+   * Returns build and runtime log events for a deployment after verifying access to
+   * the owning project. Use this when you need detailed output for a failed or
+   * in-progress build.
    */
   getLogs(id: string, query: DeploymentGetLogsParams, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/applications/v1/deployments/${id}/logs`, {
@@ -76,7 +84,9 @@ export class Deployments extends APIResource {
   }
 
   /**
-   * Get the current status of a deployment
+   * Returns the current status of a deployment without fetching full build logs. Use
+   * this endpoint for lightweight polling while a deployment is building or waiting
+   * to become ready.
    */
   getStatus(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/applications/v1/deployments/${id}/status`, {
@@ -99,36 +109,36 @@ export class Deployments extends APIResource {
 
 export interface DeploymentCreateParams {
   /**
-   * Project ID
+   * Project ID to deploy
    */
   projectId: string;
 
   /**
-   * Git ref (branch, tag, or commit) to deploy
+   * Git branch, tag, or commit to deploy. Defaults to the project branch.
    */
   ref?: string;
 
   /**
-   * Deployment target
+   * Deployment target environment
    */
   target?: 'production' | 'preview';
 }
 
 export interface DeploymentRetrieveParams {
   /**
-   * Project ID (for authorization)
+   * Project ID used to verify access to the deployment
    */
   projectId: string;
 
   /**
-   * Include build logs
+   * Whether to include build logs in the response
    */
   includeLogs?: boolean;
 }
 
 export interface DeploymentListParams {
   /**
-   * Project ID
+   * Project ID to list deployments for
    */
   projectId: string;
 
@@ -138,26 +148,26 @@ export interface DeploymentListParams {
   limit?: number;
 
   /**
-   * Filter by deployment state
+   * Deployment state to filter by
    */
   state?: string;
 
   /**
-   * Filter by deployment target
+   * Deployment target to filter by
    */
   target?: 'production' | 'staging';
 }
 
 export interface DeploymentCancelParams {
   /**
-   * Project ID (for authorization)
+   * Project ID used to verify access to the deployment
    */
   projectId: string;
 }
 
 export interface DeploymentGetLogsParams {
   /**
-   * Project ID (for authorization)
+   * Project ID used to verify access to the deployment
    */
   projectId: string;
 }
