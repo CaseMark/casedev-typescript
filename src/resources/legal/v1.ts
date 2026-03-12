@@ -10,7 +10,7 @@ import { RequestOptions } from '../../internal/request-options';
 export class V1 extends APIResource {
   /**
    * Search federal court dockets or retrieve a specific docket with optional filing
-   * entries via CourtListener RECAP data.
+   * entries. Use legal.listCourts() to resolve court slugs for filtering.
    */
   docket(body: V1DocketParams, options?: RequestOptions): APIPromise<V1DocketResponse> {
     return this._client.post('/legal/v1/docket', { body, ...options });
@@ -65,8 +65,8 @@ export class V1 extends APIResource {
   }
 
   /**
-   * Returns CourtListener court IDs and names for docket filtering. Use these IDs in
-   * legal.docket() as the court parameter.
+   * Returns court IDs (slugs) and names for use with the docket search endpoint. Use
+   * the returned court ID as the `court` parameter in legal.docket().
    */
   listCourts(
     body: V1ListCourtsParams | null | undefined = {},
@@ -235,6 +235,16 @@ export interface V1DocketResponse {
   includeEntries?: boolean;
 
   /**
+   * Whether this was a live PACER fetch (lookup mode only)
+   */
+  live?: boolean;
+
+  /**
+   * PACER fee information (present when live: true)
+   */
+  pacerFees?: V1DocketResponse.PacerFees | null;
+
+  /**
    * Pagination info for entry list (lookup mode with includeEntries)
    */
   pagination?: V1DocketResponse.Pagination | null;
@@ -274,6 +284,28 @@ export namespace V1DocketResponse {
 
       pdfUrl?: string | null;
     }
+  }
+
+  /**
+   * PACER fee information (present when live: true)
+   */
+  export interface PacerFees {
+    currency?: 'USD';
+
+    /**
+     * Time taken for PACER fetch in milliseconds
+     */
+    fetchDurationMs?: number;
+
+    /**
+     * Maximum PACER charge per docket in USD
+     */
+    maxPacerCost?: number;
+
+    /**
+     * CaseMark service fee in USD
+     */
+    serviceFee?: number;
   }
 
   /**
@@ -582,7 +614,7 @@ export interface V1ListCourtsResponse {
 export namespace V1ListCourtsResponse {
   export interface Court {
     /**
-     * CourtListener court slug
+     * Court slug (use as the court parameter in legal.docket())
      */
     id?: string;
 
@@ -1044,7 +1076,14 @@ export interface V1DocketParams {
   type: 'search' | 'lookup';
 
   /**
-   * Optional CourtListener court slug (e.g. "nysd", "ca9", "cafc")
+   * Required when live: true. Acknowledges that PACER fees (up to $3.00 per docket)
+   * plus a $0.05 service fee will be charged to your account.
+   */
+  acknowledgePacerFees?: boolean;
+
+  /**
+   * Optional court slug for filtering (e.g. "nysd", "ca9", "cafc"). Use
+   * legal.listCourts() to find slugs.
    */
   court?: string;
 
@@ -1059,12 +1098,13 @@ export interface V1DocketParams {
   dateFiledBefore?: string;
 
   /**
-   * CourtListener docket ID (required for lookup)
+   * Docket ID (required for lookup)
    */
   docketId?: string;
 
   /**
-   * Include docket entries/filings in lookup responses
+   * Include docket entries/filings in lookup responses. Coming soon — currently
+   * returns 501. The parameter is accepted for forward compatibility.
    */
   includeEntries?: boolean;
 
@@ -1075,8 +1115,9 @@ export interface V1DocketParams {
   limit?: number;
 
   /**
-   * Reserved for future PACER live fetch support. Setting true currently
-   * returns 400.
+   * Trigger a live PACER fetch for dockets not yet in the RECAP archive. Requires
+   * acknowledgePacerFees: true. PACER charges up to $3.00 per docket sheet plus a
+   * $0.05 service fee. Only valid with type: "lookup".
    */
   live?: boolean;
 
@@ -1220,12 +1261,13 @@ export interface V1GetFullTextParams {
 
 export interface V1ListCourtsParams {
   /**
-   * Only return courts currently in use by CourtListener
+   * Only return courts with available docket data
    */
   inUseOnly?: boolean;
 
   /**
-   * Optional CourtListener jurisdiction code filter (e.g. FD, F, S)
+   * Optional jurisdiction code filter (e.g. FD for Federal District, F for all
+   * Federal, S for State)
    */
   jurisdiction?: string;
 
