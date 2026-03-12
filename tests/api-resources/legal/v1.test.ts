@@ -22,6 +22,7 @@ describe('resource v1', () => {
   test('docket: required and optional params', async () => {
     const response = await client.legal.v1.docket({
       type: 'search',
+      acknowledgePacerFees: true,
       court: 'court',
       dateFiledAfter: '2019-12-27',
       dateFiledBefore: '2019-12-27',
