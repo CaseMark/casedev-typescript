@@ -23,7 +23,7 @@ export {
   type ChatRespondParams,
   type ChatSendMessageParams,
   type ChatStreamParams,
-} from './chat';
+} from './chat/index';
 export { Execute, type ExecuteCreateResponse, type ExecuteCreateParams } from './execute';
 export {
   Run,
