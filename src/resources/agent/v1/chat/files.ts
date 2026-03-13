@@ -22,9 +22,9 @@ export class Files extends APIResource {
    * Downloads a file from the sandbox workspace by path. Only available while the
    * sandbox is running.
    */
-  download(path_: string, params: FileDownloadParams, options?: RequestOptions): APIPromise<Response> {
+  download(filePath: string, params: FileDownloadParams, options?: RequestOptions): APIPromise<Response> {
     const { id } = params;
-    return this._client.get(path`/agent/v1/chat/${id}/files/${path_}`, {
+    return this._client.get(path`/agent/v1/chat/${id}/files/${filePath}`, {
       ...options,
       headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
       __binaryResponse: true,
