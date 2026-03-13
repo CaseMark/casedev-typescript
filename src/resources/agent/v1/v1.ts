@@ -13,20 +13,6 @@ import {
   AgentUpdateResponse,
   Agents,
 } from './agents';
-import * as ChatAPI from './chat';
-import {
-  Chat,
-  ChatCancelResponse,
-  ChatCreateParams,
-  ChatCreateResponse,
-  ChatDeleteResponse,
-  ChatReplyToQuestionParams,
-  ChatRespondParams,
-  ChatRespondResponse,
-  ChatSendMessageParams,
-  ChatStreamParams,
-  ChatStreamResponse,
-} from './chat';
 import * as ExecuteAPI from './execute';
 import { Execute, ExecuteCreateParams, ExecuteCreateResponse } from './execute';
 import * as RunAPI from './run';
@@ -45,6 +31,20 @@ import {
   RunWatchParams,
   RunWatchResponse,
 } from './run';
+import * as ChatAPI from './chat/chat';
+import {
+  Chat,
+  ChatCancelResponse,
+  ChatCreateParams,
+  ChatCreateResponse,
+  ChatDeleteResponse,
+  ChatReplyToQuestionParams,
+  ChatRespondParams,
+  ChatRespondResponse,
+  ChatSendMessageParams,
+  ChatStreamParams,
+  ChatStreamResponse,
+} from './chat/chat';
 
 export class V1 extends APIResource {
   agents: AgentsAPI.Agents = new AgentsAPI.Agents(this._client);
