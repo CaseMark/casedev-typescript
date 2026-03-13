@@ -83,7 +83,7 @@ Types:
 Methods:
 
 - <code title="get /agent/v1/chat/{id}/files">client.agent.v1.chat.files.<a href="./src/resources/agent/v1/chat/files.ts">list</a>(id) -> FileListResponse</code>
-- <code title="get /agent/v1/chat/{id}/files/{path}">client.agent.v1.chat.files.<a href="./src/resources/agent/v1/chat/files.ts">download</a>(path\_, { ...params }) -> Response</code>
+- <code title="get /agent/v1/chat/{id}/files/{filePath}">client.agent.v1.chat.files.<a href="./src/resources/agent/v1/chat/files.ts">download</a>(filePath, { ...params }) -> Response</code>
 
 # System
 

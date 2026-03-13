@@ -21,6 +21,6 @@ describe('resource files', () => {
 
   // Mock server doesn't support application/octet-stream responses
   test.skip('download: required and optional params', async () => {
-    const response = await client.agent.v1.chat.files.download('path', { id: 'id' });
+    const response = await client.agent.v1.chat.files.download('filePath', { id: 'id' });
   });
 });
