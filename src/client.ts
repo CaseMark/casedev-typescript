@@ -17,7 +17,6 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { SkillReadResponse, SkillResolveParams, SkillResolveResponse, Skills } from './resources/skills';
 import { System, SystemListServicesResponse } from './resources/system';
 import { Agent } from './resources/agent/agent';
 import { Applications } from './resources/applications/applications';
@@ -26,10 +25,23 @@ import { Database } from './resources/database/database';
 import { Format } from './resources/format/format';
 import { Legal } from './resources/legal/legal';
 import { Llm, LlmGetConfigResponse } from './resources/llm/llm';
+import { Mail } from './resources/mail/mail';
 import { Memory } from './resources/memory/memory';
 import { Ocr } from './resources/ocr/ocr';
+import { Operator } from './resources/operator/operator';
 import { Privilege } from './resources/privilege/privilege';
 import { Search } from './resources/search/search';
+import {
+  SkillCreateParams,
+  SkillCreateResponse,
+  SkillDeleteResponse,
+  SkillReadResponse,
+  SkillResolveParams,
+  SkillResolveResponse,
+  SkillUpdateParams,
+  SkillUpdateResponse,
+  Skills,
+} from './resources/skills/skills';
 import { Superdoc } from './resources/superdoc/superdoc';
 import { Translate } from './resources/translate/translate';
 import {
@@ -793,6 +805,8 @@ export class Casedev {
   memory: API.Memory = new API.Memory(this);
   ocr: API.Ocr = new API.Ocr(this);
   privilege: API.Privilege = new API.Privilege(this);
+  mail: API.Mail = new API.Mail(this);
+  operator: API.Operator = new API.Operator(this);
   /**
    * Search and read legal AI skills for agents
    */
@@ -818,6 +832,8 @@ Casedev.Llm = Llm;
 Casedev.Memory = Memory;
 Casedev.Ocr = Ocr;
 Casedev.Privilege = Privilege;
+Casedev.Mail = Mail;
+Casedev.Operator = Operator;
 Casedev.Skills = Skills;
 Casedev.Search = Search;
 Casedev.Superdoc = Superdoc;
@@ -850,10 +866,19 @@ export declare namespace Casedev {
 
   export { Privilege as Privilege };
 
+  export { Mail as Mail };
+
+  export { Operator as Operator };
+
   export {
     Skills as Skills,
+    type SkillCreateResponse as SkillCreateResponse,
+    type SkillUpdateResponse as SkillUpdateResponse,
+    type SkillDeleteResponse as SkillDeleteResponse,
     type SkillReadResponse as SkillReadResponse,
     type SkillResolveResponse as SkillResolveResponse,
+    type SkillCreateParams as SkillCreateParams,
+    type SkillUpdateParams as SkillUpdateParams,
     type SkillResolveParams as SkillResolveParams,
   };
 
