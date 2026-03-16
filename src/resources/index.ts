@@ -7,11 +7,23 @@ export { Database } from './database/database';
 export { Format } from './format/format';
 export { Legal } from './legal/legal';
 export { Llm, type LlmGetConfigResponse } from './llm/llm';
+export { Mail } from './mail/mail';
 export { Memory } from './memory/memory';
 export { Ocr } from './ocr/ocr';
+export { Operator } from './operator/operator';
 export { Privilege } from './privilege/privilege';
 export { Search } from './search/search';
-export { Skills, type SkillReadResponse, type SkillResolveResponse, type SkillResolveParams } from './skills';
+export {
+  Skills,
+  type SkillCreateResponse,
+  type SkillUpdateResponse,
+  type SkillDeleteResponse,
+  type SkillReadResponse,
+  type SkillResolveResponse,
+  type SkillCreateParams,
+  type SkillUpdateParams,
+  type SkillResolveParams,
+} from './skills/skills';
 export { Superdoc } from './superdoc/superdoc';
 export { System, type SystemListServicesResponse } from './system';
 export { Translate } from './translate/translate';

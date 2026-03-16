@@ -390,17 +390,62 @@ Methods:
 
 - <code title="post /privilege/v1/detect">client.privilege.v1.<a href="./src/resources/privilege/v1.ts">detect</a>({ ...params }) -> V1DetectResponse</code>
 
+# Mail
+
+## V1
+
+### Inboxes
+
+Methods:
+
+- <code title="post /mail/v1/inboxes">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">create</a>({ ...params }) -> void</code>
+- <code title="get /mail/v1/inboxes/{inboxId}">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">retrieve</a>(inboxID) -> void</code>
+- <code title="get /mail/v1/inboxes">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">list</a>() -> void</code>
+- <code title="delete /mail/v1/inboxes/{inboxId}">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">delete</a>(inboxID) -> void</code>
+- <code title="get /mail/v1/inboxes/{inboxId}/messages/{messageId}/attachments/{attachmentId}">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">getAttachment</a>(attachmentID, { ...params }) -> void</code>
+- <code title="get /mail/v1/inboxes/{inboxId}/messages/{messageId}">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">getMessage</a>(messageID, { ...params }) -> void</code>
+- <code title="get /mail/v1/inboxes/{inboxId}/messages">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">listMessages</a>(inboxID) -> void</code>
+- <code title="post /mail/v1/inboxes/{inboxId}/messages/{messageId}/reply">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">reply</a>(messageID, { ...params }) -> void</code>
+- <code title="post /mail/v1/inboxes/{inboxId}/messages/send">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">send</a>(inboxID) -> void</code>
+
+# Operator
+
+## V1
+
+Methods:
+
+- <code title="post /operator/v1/create">client.operator.v1.<a href="./src/resources/operator/v1.ts">create</a>({ ...params }) -> void</code>
+- <code title="post /operator/v1/chat/completions">client.operator.v1.<a href="./src/resources/operator/v1.ts">createChatCompletion</a>() -> void</code>
+- <code title="post /operator/v1/responses">client.operator.v1.<a href="./src/resources/operator/v1.ts">createResponse</a>() -> void</code>
+- <code title="get /operator/v1/status">client.operator.v1.<a href="./src/resources/operator/v1.ts">getStatus</a>() -> void</code>
+
 # Skills
 
 Types:
 
-- <code><a href="./src/resources/skills.ts">SkillReadResponse</a></code>
-- <code><a href="./src/resources/skills.ts">SkillResolveResponse</a></code>
+- <code><a href="./src/resources/skills/skills.ts">SkillCreateResponse</a></code>
+- <code><a href="./src/resources/skills/skills.ts">SkillUpdateResponse</a></code>
+- <code><a href="./src/resources/skills/skills.ts">SkillDeleteResponse</a></code>
+- <code><a href="./src/resources/skills/skills.ts">SkillReadResponse</a></code>
+- <code><a href="./src/resources/skills/skills.ts">SkillResolveResponse</a></code>
 
 Methods:
 
-- <code title="get /skills/{slug}">client.skills.<a href="./src/resources/skills.ts">read</a>(slug) -> SkillReadResponse</code>
-- <code title="get /skills/resolve">client.skills.<a href="./src/resources/skills.ts">resolve</a>({ ...params }) -> SkillResolveResponse</code>
+- <code title="post /skills">client.skills.<a href="./src/resources/skills/skills.ts">create</a>({ ...params }) -> SkillCreateResponse</code>
+- <code title="put /skills/{slug}">client.skills.<a href="./src/resources/skills/skills.ts">update</a>(slug, { ...params }) -> SkillUpdateResponse</code>
+- <code title="delete /skills/{slug}">client.skills.<a href="./src/resources/skills/skills.ts">delete</a>(slug) -> SkillDeleteResponse</code>
+- <code title="get /skills/{slug}">client.skills.<a href="./src/resources/skills/skills.ts">read</a>(slug) -> SkillReadResponse</code>
+- <code title="get /skills/resolve">client.skills.<a href="./src/resources/skills/skills.ts">resolve</a>({ ...params }) -> SkillResolveResponse</code>
+
+## Custom
+
+Types:
+
+- <code><a href="./src/resources/skills/custom.ts">CustomListResponse</a></code>
+
+Methods:
+
+- <code title="get /skills/custom">client.skills.custom.<a href="./src/resources/skills/custom.ts">list</a>({ ...params }) -> CustomListResponse</code>
 
 # Search
 
