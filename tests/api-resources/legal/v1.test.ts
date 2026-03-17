@@ -221,6 +221,32 @@ describe('resource v1', () => {
     });
   });
 
+  test('secFiling: only required params', async () => {
+    const responsePromise = client.legal.v1.secFiling({ type: 'search' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('secFiling: required and optional params', async () => {
+    const response = await client.legal.v1.secFiling({
+      type: 'search',
+      cik: 'cik',
+      dateAfter: '2019-12-27',
+      dateBefore: '2019-12-27',
+      entity: 'entity',
+      formTypes: ['string'],
+      limit: 1,
+      offset: 0,
+      query: 'xx',
+      ticker: 'ticker',
+    });
+  });
+
   test('similar: only required params', async () => {
     const responsePromise = client.legal.v1.similar({ url: 'https://example.com' });
     const rawResponse = await responsePromise.asResponse();
