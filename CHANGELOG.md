@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.28.1 (2026-03-17)
+
+Full Changelog: [v0.28.0...v0.28.1](https://github.com/CaseMark/casedev-typescript/compare/v0.28.0...v0.28.1)
+
+### Chores
+
+* **internal:** tweak CI branches ([29109b6](https://github.com/CaseMark/casedev-typescript/commit/29109b6eaa36ca250d71d040a09d3a5ec52c0525))
+
 ## 0.28.0 (2026-03-16)
 
 Full Changelog: [v0.27.0...v0.28.0](https://github.com/CaseMark/casedev-typescript/compare/v0.27.0...v0.28.0)
