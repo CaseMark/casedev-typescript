@@ -10,7 +10,6 @@ export { Llm, type LlmGetConfigResponse } from './llm/llm';
 export { Mail } from './mail/mail';
 export { Memory } from './memory/memory';
 export { Ocr } from './ocr/ocr';
-export { Operator } from './operator/operator';
 export { Privilege } from './privilege/privilege';
 export { Search } from './search/search';
 export {
