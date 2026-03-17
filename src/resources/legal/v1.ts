@@ -106,6 +106,15 @@ export class V1 extends APIResource {
   }
 
   /**
+   * Search SEC EDGAR full-text filings via efts.sec.gov or fetch a filer's
+   * structured filing history via data.sec.gov. Returns direct SEC archive URLs with
+   * filing metadata and match snippets when available.
+   */
+  secFiling(body: V1SecFilingParams, options?: RequestOptions): APIPromise<V1SecFilingResponse> {
+    return this._client.post('/legal/v1/sec-filing', { body, ...options });
+  }
+
+  /**
    * Find cases and documents similar to a given legal source. Useful for finding
    * citing cases, related precedents, or similar statutes.
    */
@@ -820,6 +829,80 @@ export namespace V1ResearchResponse {
   }
 }
 
+export interface V1SecFilingResponse {
+  cik?: string | null;
+
+  dateAfter?: string | null;
+
+  dateBefore?: string | null;
+
+  entity?: string | null;
+
+  filings?: Array<V1SecFilingResponse.Filing>;
+
+  formTypes?: Array<string>;
+
+  limit?: number;
+
+  offset?: number;
+
+  query?: string | null;
+
+  ticker?: string | null;
+
+  total?: number;
+
+  type?: 'search' | 'entity';
+}
+
+export namespace V1SecFilingResponse {
+  export interface Filing {
+    accessionNumber?: string;
+
+    description?: string | null;
+
+    documents?: Array<Filing.Document>;
+
+    entity?: Filing.Entity;
+
+    filedAt?: string;
+
+    formType?: string;
+
+    periodOfReport?: string | null;
+
+    secUrl?: string;
+
+    snippet?: string | null;
+  }
+
+  export namespace Filing {
+    export interface Document {
+      description?: string;
+
+      type?: string;
+
+      url?: string;
+    }
+
+    export interface Entity {
+      cik?: string;
+
+      entityType?: string | null;
+
+      name?: string | null;
+
+      sic?: string | null;
+
+      sicDescription?: string | null;
+
+      stateOfIncorporation?: string | null;
+
+      ticker?: string | null;
+    }
+  }
+}
+
 export interface V1SimilarResponse {
   /**
    * Number of similar sources found
@@ -1385,6 +1468,58 @@ export interface V1ResearchParams {
   numResults?: number;
 }
 
+export interface V1SecFilingParams {
+  /**
+   * Run a full-text search or fetch a single entity filing history
+   */
+  type: 'search' | 'entity';
+
+  /**
+   * CIK for entity lookups. Accepts padded or unpadded digits.
+   */
+  cik?: string;
+
+  /**
+   * Optional lower filing date bound (YYYY-MM-DD)
+   */
+  dateAfter?: string;
+
+  /**
+   * Optional upper filing date bound (YYYY-MM-DD)
+   */
+  dateBefore?: string;
+
+  /**
+   * Optional entity filter passed through to EDGAR full-text search
+   */
+  entity?: string;
+
+  /**
+   * Optional SEC form type filter such as 10-K, 10-Q, 8-K, or 4
+   */
+  formTypes?: Array<string>;
+
+  /**
+   * Maximum filings to return
+   */
+  limit?: number;
+
+  /**
+   * Result offset for pagination
+   */
+  offset?: number;
+
+  /**
+   * Full-text SEC search query (required for type: search)
+   */
+  query?: string;
+
+  /**
+   * Optional company ticker. Valid for both search and entity lookups.
+   */
+  ticker?: string;
+}
+
 export interface V1SimilarParams {
   /**
    * URL of a legal document to find similar sources for
@@ -1443,6 +1578,7 @@ export declare namespace V1 {
     type V1ListJurisdictionsResponse as V1ListJurisdictionsResponse,
     type V1PatentSearchResponse as V1PatentSearchResponse,
     type V1ResearchResponse as V1ResearchResponse,
+    type V1SecFilingResponse as V1SecFilingResponse,
     type V1SimilarResponse as V1SimilarResponse,
     type V1TrademarkSearchResponse as V1TrademarkSearchResponse,
     type V1VerifyResponse as V1VerifyResponse,
@@ -1456,6 +1592,7 @@ export declare namespace V1 {
     type V1ListJurisdictionsParams as V1ListJurisdictionsParams,
     type V1PatentSearchParams as V1PatentSearchParams,
     type V1ResearchParams as V1ResearchParams,
+    type V1SecFilingParams as V1SecFilingParams,
     type V1SimilarParams as V1SimilarParams,
     type V1TrademarkSearchParams as V1TrademarkSearchParams,
     type V1VerifyParams as V1VerifyParams,

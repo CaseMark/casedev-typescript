@@ -289,6 +289,7 @@ Types:
 - <code><a href="./src/resources/legal/v1.ts">V1ListJurisdictionsResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1PatentSearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1ResearchResponse</a></code>
+- <code><a href="./src/resources/legal/v1.ts">V1SecFilingResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1SimilarResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1TrademarkSearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1VerifyResponse</a></code>
@@ -305,6 +306,7 @@ Methods:
 - <code title="post /legal/v1/jurisdictions">client.legal.v1.<a href="./src/resources/legal/v1.ts">listJurisdictions</a>({ ...params }) -> V1ListJurisdictionsResponse</code>
 - <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/resources/legal/v1.ts">patentSearch</a>({ ...params }) -> V1PatentSearchResponse</code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/resources/legal/v1.ts">research</a>({ ...params }) -> V1ResearchResponse</code>
+- <code title="post /legal/v1/sec-filing">client.legal.v1.<a href="./src/resources/legal/v1.ts">secFiling</a>({ ...params }) -> V1SecFilingResponse</code>
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/resources/legal/v1.ts">similar</a>({ ...params }) -> V1SimilarResponse</code>
 - <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/resources/legal/v1.ts">trademarkSearch</a>({ ...params }) -> V1TrademarkSearchResponse</code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/resources/legal/v1.ts">verify</a>({ ...params }) -> V1VerifyResponse</code>
@@ -407,17 +409,6 @@ Methods:
 - <code title="get /mail/v1/inboxes/{inboxId}/messages">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">listMessages</a>(inboxID) -> void</code>
 - <code title="post /mail/v1/inboxes/{inboxId}/messages/{messageId}/reply">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">reply</a>(messageID, { ...params }) -> void</code>
 - <code title="post /mail/v1/inboxes/{inboxId}/messages/send">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">send</a>(inboxID) -> void</code>
-
-# Operator
-
-## V1
-
-Methods:
-
-- <code title="post /operator/v1/create">client.operator.v1.<a href="./src/resources/operator/v1.ts">create</a>({ ...params }) -> void</code>
-- <code title="post /operator/v1/chat/completions">client.operator.v1.<a href="./src/resources/operator/v1.ts">createChatCompletion</a>() -> void</code>
-- <code title="post /operator/v1/responses">client.operator.v1.<a href="./src/resources/operator/v1.ts">createResponse</a>() -> void</code>
-- <code title="get /operator/v1/status">client.operator.v1.<a href="./src/resources/operator/v1.ts">getStatus</a>() -> void</code>
 
 # Skills
 
