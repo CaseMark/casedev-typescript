@@ -7,6 +7,7 @@ import {
   InboxGetAttachmentParams,
   InboxGetMessageParams,
   InboxReplyParams,
+  InboxSetPolicyParams,
   Inboxes,
 } from './inboxes';
 
@@ -23,5 +24,6 @@ export declare namespace V1 {
     type InboxGetAttachmentParams as InboxGetAttachmentParams,
     type InboxGetMessageParams as InboxGetMessageParams,
     type InboxReplyParams as InboxReplyParams,
+    type InboxSetPolicyParams as InboxSetPolicyParams,
   };
 }
