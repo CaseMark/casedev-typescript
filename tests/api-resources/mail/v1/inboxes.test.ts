@@ -98,6 +98,17 @@ describe('resource inboxes', () => {
     const response = await client.mail.v1.inboxes.getMessage('messageId', { inboxId: 'inboxId' });
   });
 
+  test('getPolicy', async () => {
+    const responsePromise = client.mail.v1.inboxes.getPolicy('inboxId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('listMessages', async () => {
     const responsePromise = client.mail.v1.inboxes.listMessages('inboxId');
     const rawResponse = await responsePromise.asResponse();
@@ -126,6 +137,17 @@ describe('resource inboxes', () => {
 
   test('send', async () => {
     const responsePromise = client.mail.v1.inboxes.send('inboxId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('setPolicy', async () => {
+    const responsePromise = client.mail.v1.inboxes.setPolicy('inboxId', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

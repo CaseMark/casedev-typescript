@@ -406,9 +406,11 @@ Methods:
 - <code title="delete /mail/v1/inboxes/{inboxId}">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">delete</a>(inboxID) -> void</code>
 - <code title="get /mail/v1/inboxes/{inboxId}/messages/{messageId}/attachments/{attachmentId}">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">getAttachment</a>(attachmentID, { ...params }) -> void</code>
 - <code title="get /mail/v1/inboxes/{inboxId}/messages/{messageId}">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">getMessage</a>(messageID, { ...params }) -> void</code>
+- <code title="get /mail/v1/inboxes/{inboxId}/policy">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">getPolicy</a>(inboxID) -> void</code>
 - <code title="get /mail/v1/inboxes/{inboxId}/messages">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">listMessages</a>(inboxID) -> void</code>
 - <code title="post /mail/v1/inboxes/{inboxId}/messages/{messageId}/reply">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">reply</a>(messageID, { ...params }) -> void</code>
 - <code title="post /mail/v1/inboxes/{inboxId}/messages/send">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">send</a>(inboxID) -> void</code>
+- <code title="put /mail/v1/inboxes/{inboxId}/policy">client.mail.v1.inboxes.<a href="./src/resources/mail/v1/inboxes.ts">setPolicy</a>(inboxID, { ...params }) -> void</code>
 
 # Skills
 
