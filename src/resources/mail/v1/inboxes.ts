@@ -79,6 +79,17 @@ export class Inboxes extends APIResource {
   }
 
   /**
+   * Get the sender allowlist and send/reply/read access rules for an inbox owned by
+   * the authenticated organization.
+   */
+  getPolicy(inboxID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/mail/v1/inboxes/${inboxID}/policy`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
+  /**
    * List messages for an inbox owned by the authenticated organization.
    */
   listMessages(inboxID: string, options?: RequestOptions): APIPromise<void> {
@@ -108,6 +119,18 @@ export class Inboxes extends APIResource {
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
+
+  /**
+   * Set the sender allowlist and send/reply/read access rules for an inbox owned by
+   * the authenticated organization.
+   */
+  setPolicy(inboxID: string, body: InboxSetPolicyParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.put(path`/mail/v1/inboxes/${inboxID}/policy`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
 }
 
 export interface InboxCreateParams {
@@ -130,11 +153,38 @@ export interface InboxReplyParams {
   inboxId: string;
 }
 
+export interface InboxSetPolicyParams {
+  /**
+   * Exact emails, @domain rules, or \*
+   */
+  allowedSenderPatterns?: Array<string>;
+
+  enforceSenderAllowlist?: boolean;
+
+  /**
+   * Rules like organization, operator, user:<id>, api_key, api_key:<id>,
+   * clerk_session, or \*
+   */
+  readAccessRules?: Array<string>;
+
+  /**
+   * Rules like organization, operator, user:<id>, api_key, api_key:<id>,
+   * clerk_session, or \*
+   */
+  replyAccessRules?: Array<string>;
+
+  /**
+   * Rules like organization, user:<id>, api_key, api_key:<id>, clerk_session, or \*
+   */
+  sendAccessRules?: Array<string>;
+}
+
 export declare namespace Inboxes {
   export {
     type InboxCreateParams as InboxCreateParams,
     type InboxGetAttachmentParams as InboxGetAttachmentParams,
     type InboxGetMessageParams as InboxGetMessageParams,
     type InboxReplyParams as InboxReplyParams,
+    type InboxSetPolicyParams as InboxSetPolicyParams,
   };
 }

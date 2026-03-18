@@ -6,5 +6,6 @@ export {
   type InboxGetAttachmentParams,
   type InboxGetMessageParams,
   type InboxReplyParams,
+  type InboxSetPolicyParams,
 } from './inboxes';
 export { V1 } from './v1';
