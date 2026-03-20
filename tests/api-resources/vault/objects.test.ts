@@ -90,8 +90,7 @@ describe('resource objects', () => {
     });
   });
 
-  // Mock server doesn't support application/octet-stream responses
-  test.skip('download: required and optional params', async () => {
+  test('download: required and optional params', async () => {
     const response = await client.vault.objects.download('objectId', { id: 'id' });
   });
 
