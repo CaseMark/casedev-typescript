@@ -77,8 +77,7 @@ describe('resource chat', () => {
     });
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('respond', async () => {
+  test('respond', async () => {
     const responsePromise = client.agent.v1.chat.respond('id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -100,8 +99,7 @@ describe('resource chat', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('stream', async () => {
+  test('stream', async () => {
     const responsePromise = client.agent.v1.chat.stream('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -112,8 +110,7 @@ describe('resource chat', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('stream: request options and params are passed correctly', async () => {
+  test('stream: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.agent.v1.chat.stream('id', { lastEventId: 0 }, { path: '/_stainless_unknown_path' }),
