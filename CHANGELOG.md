@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.30.1 (2026-03-20)
+
+Full Changelog: [v0.30.0...v0.30.1](https://github.com/CaseMark/casedev-typescript/compare/v0.30.0...v0.30.1)
+
+### Refactors
+
+* **tests:** switch from prism to steady ([7d99ee3](https://github.com/CaseMark/casedev-typescript/commit/7d99ee3eb943954addc17216905837ab8b00cac9))
+
 ## 0.30.0 (2026-03-18)
 
 Full Changelog: [v0.29.0...v0.30.0](https://github.com/CaseMark/casedev-typescript/compare/v0.29.0...v0.30.0)
