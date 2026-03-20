@@ -8,8 +8,7 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
-  // Mock server doesn't support application/pdf responses
-  test.skip('createDocument: required and optional params', async () => {
+  test('createDocument: required and optional params', async () => {
     const response = await client.format.v1.createDocument({
       content: 'content',
       output_format: 'pdf',

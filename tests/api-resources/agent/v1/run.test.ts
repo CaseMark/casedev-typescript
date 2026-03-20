@@ -67,8 +67,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('events', async () => {
+  test('events', async () => {
     const responsePromise = client.agent.v1.run.events('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -79,8 +78,7 @@ describe('resource run', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('events: request options and params are passed correctly', async () => {
+  test('events: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.agent.v1.run.events('id', { lastEventId: 0 }, { path: '/_stainless_unknown_path' }),
