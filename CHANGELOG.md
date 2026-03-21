@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.30.2 (2026-03-21)
+
+Full Changelog: [v0.30.1...v0.30.2](https://github.com/CaseMark/casedev-typescript/compare/v0.30.1...v0.30.2)
+
+### Chores
+
+* **tests:** bump steady to v0.19.4 ([acfde15](https://github.com/CaseMark/casedev-typescript/commit/acfde1504beaf6d29d587f1767930974ee38eadf))
+
 ## 0.30.1 (2026-03-20)
 
 Full Changelog: [v0.30.0...v0.30.1](https://github.com/CaseMark/casedev-typescript/compare/v0.30.0...v0.30.1)
