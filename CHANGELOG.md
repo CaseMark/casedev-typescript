@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.31.1 (2026-03-24)
+
+Full Changelog: [v0.31.0...v0.31.1](https://github.com/CaseMark/casedev-typescript/compare/v0.31.0...v0.31.1)
+
+### Chores
+
+* **internal:** update gitignore ([54587ce](https://github.com/CaseMark/casedev-typescript/commit/54587ce67bc4a590faa5c0d0198bdb859c68f920))
+
 ## 0.31.0 (2026-03-21)
 
 Full Changelog: [v0.30.3...v0.31.0](https://github.com/CaseMark/casedev-typescript/compare/v0.30.3...v0.31.0)
