@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.31.3 (2026-03-25)
+
+Full Changelog: [v0.31.2...v0.31.3](https://github.com/CaseMark/casedev-typescript/compare/v0.31.2...v0.31.3)
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([963fab0](https://github.com/CaseMark/casedev-typescript/commit/963fab0611ccc9f188a34784d0f6b01ad89de7c0))
+* **tests:** bump steady to v0.19.7 ([2be3cee](https://github.com/CaseMark/casedev-typescript/commit/2be3ceedfb803ae514c8d4e3144619aad2c26fee))
+
 ## 0.31.2 (2026-03-24)
 
 Full Changelog: [v0.31.1...v0.31.2](https://github.com/CaseMark/casedev-typescript/compare/v0.31.1...v0.31.2)
