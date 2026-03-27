@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.31.4 (2026-03-27)
+
+Full Changelog: [v0.31.3...v0.31.4](https://github.com/CaseMark/casedev-typescript/compare/v0.31.3...v0.31.4)
+
+### Chores
+
+* **internal:** update multipart form array serialization ([ff0880a](https://github.com/CaseMark/casedev-typescript/commit/ff0880ac9d48dafdf0fce3fdfb8945eee5ddc3b8))
+
 ## 0.31.3 (2026-03-25)
 
 Full Changelog: [v0.31.2...v0.31.3](https://github.com/CaseMark/casedev-typescript/compare/v0.31.2...v0.31.3)
