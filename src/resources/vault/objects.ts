@@ -255,6 +255,11 @@ export interface ObjectRetrieveResponse {
   chunkCount?: number;
 
   /**
+   * Error details when ingestion fails
+   */
+  ingestionError?: string | null;
+
+  /**
    * Additional metadata
    */
   metadata?: unknown;

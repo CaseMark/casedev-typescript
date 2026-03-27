@@ -85,6 +85,67 @@ Methods:
 - <code title="get /agent/v1/chat/{id}/files">client.agent.v1.chat.files.<a href="./src/resources/agent/v1/chat/files.ts">list</a>(id) -> FileListResponse</code>
 - <code title="get /agent/v1/chat/{id}/files/{filePath}">client.agent.v1.chat.files.<a href="./src/resources/agent/v1/chat/files.ts">download</a>(filePath, { ...params }) -> Response</code>
 
+## V2
+
+### Run
+
+Types:
+
+- <code><a href="./src/resources/agent/v2/run.ts">RunCreateResponse</a></code>
+- <code><a href="./src/resources/agent/v2/run.ts">RunEventsResponse</a></code>
+- <code><a href="./src/resources/agent/v2/run.ts">RunExecResponse</a></code>
+- <code><a href="./src/resources/agent/v2/run.ts">RunGetDetailsResponse</a></code>
+- <code><a href="./src/resources/agent/v2/run.ts">RunGetStatusResponse</a></code>
+
+Methods:
+
+- <code title="post /agent/v2/run">client.agent.v2.run.<a href="./src/resources/agent/v2/run.ts">create</a>({ ...params }) -> RunCreateResponse</code>
+- <code title="get /agent/v2/run/{id}/events">client.agent.v2.run.<a href="./src/resources/agent/v2/run.ts">events</a>(id, { ...params }) -> string</code>
+- <code title="post /agent/v2/run/{id}/exec">client.agent.v2.run.<a href="./src/resources/agent/v2/run.ts">exec</a>(id) -> RunExecResponse</code>
+- <code title="get /agent/v2/run/{id}/details">client.agent.v2.run.<a href="./src/resources/agent/v2/run.ts">getDetails</a>(id) -> unknown</code>
+- <code title="get /agent/v2/run/{id}/status">client.agent.v2.run.<a href="./src/resources/agent/v2/run.ts">getStatus</a>(id) -> RunGetStatusResponse</code>
+
+### Execute
+
+Types:
+
+- <code><a href="./src/resources/agent/v2/execute.ts">ExecuteCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /agent/v2/execute">client.agent.v2.execute.<a href="./src/resources/agent/v2/execute.ts">create</a>({ ...params }) -> ExecuteCreateResponse</code>
+
+### Chat
+
+Types:
+
+- <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatCreateResponse</a></code>
+- <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatDeleteResponse</a></code>
+- <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatCancelResponse</a></code>
+- <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatRespondResponse</a></code>
+- <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatStreamResponse</a></code>
+
+Methods:
+
+- <code title="post /agent/v2/chat">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">create</a>({ ...params }) -> ChatCreateResponse</code>
+- <code title="delete /agent/v2/chat/{id}">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">delete</a>(id) -> ChatDeleteResponse</code>
+- <code title="post /agent/v2/chat/{id}/cancel">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">cancel</a>(id) -> ChatCancelResponse</code>
+- <code title="post /agent/v2/chat/{id}/question/{requestID}/reply">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">replyToQuestion</a>(requestID, { ...params }) -> void</code>
+- <code title="post /agent/v2/chat/{id}/respond">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">respond</a>(id, { ...params }) -> string</code>
+- <code title="post /agent/v2/chat/{id}/message">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">sendMessage</a>(id, { ...params }) -> void</code>
+- <code title="get /agent/v2/chat/{id}/stream">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">stream</a>(id, { ...params }) -> string</code>
+
+#### Files
+
+Types:
+
+- <code><a href="./src/resources/agent/v2/chat/files.ts">FileListResponse</a></code>
+
+Methods:
+
+- <code title="get /agent/v2/chat/{id}/files">client.agent.v2.chat.files.<a href="./src/resources/agent/v2/chat/files.ts">list</a>(id) -> FileListResponse</code>
+- <code title="get /agent/v2/chat/{id}/files/{filePath}">client.agent.v2.chat.files.<a href="./src/resources/agent/v2/chat/files.ts">download</a>(filePath, { ...params }) -> Response</code>
+
 # System
 
 Types:
