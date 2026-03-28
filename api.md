@@ -372,6 +372,90 @@ Methods:
 - <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/resources/legal/v1.ts">trademarkSearch</a>({ ...params }) -> V1TrademarkSearchResponse</code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/resources/legal/v1.ts">verify</a>({ ...params }) -> V1VerifyResponse</code>
 
+# Matters
+
+## V1
+
+Methods:
+
+- <code title="post /matters/v1">client.matters.v1.<a href="./src/resources/matters/v1/v1.ts">create</a>({ ...params }) -> void</code>
+- <code title="get /matters/v1/{id}">client.matters.v1.<a href="./src/resources/matters/v1/v1.ts">retrieve</a>(id) -> void</code>
+- <code title="patch /matters/v1/{id}">client.matters.v1.<a href="./src/resources/matters/v1/v1.ts">update</a>(id, { ...params }) -> void</code>
+- <code title="get /matters/v1">client.matters.v1.<a href="./src/resources/matters/v1/v1.ts">list</a>({ ...params }) -> void</code>
+
+### AgentTypes
+
+Methods:
+
+- <code title="post /matters/v1/agent-types">client.matters.v1.agentTypes.<a href="./src/resources/matters/v1/agent-types.ts">create</a>({ ...params }) -> void</code>
+- <code title="get /matters/v1/agent-types">client.matters.v1.agentTypes.<a href="./src/resources/matters/v1/agent-types.ts">list</a>({ ...params }) -> void</code>
+
+### Parties
+
+Methods:
+
+- <code title="post /matters/v1/parties">client.matters.v1.parties.<a href="./src/resources/matters/v1/parties.ts">create</a>({ ...params }) -> void</code>
+- <code title="get /matters/v1/parties/{partyId}">client.matters.v1.parties.<a href="./src/resources/matters/v1/parties.ts">retrieve</a>(partyID) -> void</code>
+- <code title="patch /matters/v1/parties/{partyId}">client.matters.v1.parties.<a href="./src/resources/matters/v1/parties.ts">update</a>(partyID) -> void</code>
+- <code title="get /matters/v1/parties">client.matters.v1.parties.<a href="./src/resources/matters/v1/parties.ts">list</a>({ ...params }) -> void</code>
+
+### Types
+
+Methods:
+
+- <code title="post /matters/v1/types">client.matters.v1.types.<a href="./src/resources/matters/v1/types.ts">create</a>({ ...params }) -> void</code>
+- <code title="get /matters/v1/types/{id}">client.matters.v1.types.<a href="./src/resources/matters/v1/types.ts">retrieve</a>(id) -> void</code>
+- <code title="patch /matters/v1/types/{id}">client.matters.v1.types.<a href="./src/resources/matters/v1/types.ts">update</a>(id, { ...params }) -> void</code>
+- <code title="get /matters/v1/types">client.matters.v1.types.<a href="./src/resources/matters/v1/types.ts">list</a>({ ...params }) -> void</code>
+
+### Events
+
+#### Subscriptions
+
+Methods:
+
+- <code title="post /matters/v1/{id}/events/subscriptions">client.matters.v1.events.subscriptions.<a href="./src/resources/matters/v1/events/subscriptions.ts">create</a>(id, { ...params }) -> void</code>
+- <code title="get /matters/v1/{id}/events/subscriptions">client.matters.v1.events.subscriptions.<a href="./src/resources/matters/v1/events/subscriptions.ts">list</a>(id) -> void</code>
+- <code title="delete /matters/v1/{id}/events/subscriptions/{subscriptionId}">client.matters.v1.events.subscriptions.<a href="./src/resources/matters/v1/events/subscriptions.ts">delete</a>(subscriptionID, { ...params }) -> void</code>
+
+### Log
+
+Types:
+
+- <code><a href="./src/resources/matters/v1/log.ts">LogExportResponse</a></code>
+
+Methods:
+
+- <code title="post /matters/v1/{id}/log">client.matters.v1.log.<a href="./src/resources/matters/v1/log.ts">create</a>(id, { ...params }) -> void</code>
+- <code title="get /matters/v1/{id}/log">client.matters.v1.log.<a href="./src/resources/matters/v1/log.ts">list</a>(id, { ...params }) -> void</code>
+- <code title="post /matters/v1/{id}/log/export">client.matters.v1.log.<a href="./src/resources/matters/v1/log.ts">export</a>(id, { ...params }) -> LogExportResponse</code>
+
+### MatterParties
+
+Methods:
+
+- <code title="post /matters/v1/{id}/parties">client.matters.v1.matterParties.<a href="./src/resources/matters/v1/matter-parties.ts">create</a>(id, { ...params }) -> void</code>
+- <code title="get /matters/v1/{id}/parties">client.matters.v1.matterParties.<a href="./src/resources/matters/v1/matter-parties.ts">list</a>(id) -> void</code>
+
+### Shares
+
+Methods:
+
+- <code title="post /matters/v1/{id}/shares">client.matters.v1.shares.<a href="./src/resources/matters/v1/shares.ts">create</a>(id, { ...params }) -> void</code>
+- <code title="get /matters/v1/{id}/shares">client.matters.v1.shares.<a href="./src/resources/matters/v1/shares.ts">list</a>(id) -> void</code>
+- <code title="delete /matters/v1/{id}/shares/{shareId}">client.matters.v1.shares.<a href="./src/resources/matters/v1/shares.ts">delete</a>(shareID, { ...params }) -> void</code>
+
+### WorkItems
+
+Methods:
+
+- <code title="post /matters/v1/{id}/work-items">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">create</a>(id, { ...params }) -> void</code>
+- <code title="get /matters/v1/{id}/work-items/{workItemId}">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">retrieve</a>(workItemID, { ...params }) -> void</code>
+- <code title="patch /matters/v1/{id}/work-items/{workItemId}">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">update</a>(workItemID, { ...params }) -> void</code>
+- <code title="get /matters/v1/{id}/work-items">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">list</a>(id, { ...params }) -> void</code>
+- <code title="post /matters/v1/{id}/work-items/{workItemId}/decision">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">decide</a>(workItemID, { ...params }) -> void</code>
+- <code title="get /matters/v1/{id}/work-items/{workItemId}/executions">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">listExecutions</a>(workItemID, { ...params }) -> void</code>
+
 # Llm
 
 Types:
