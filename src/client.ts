@@ -26,6 +26,7 @@ import { Format } from './resources/format/format';
 import { Legal } from './resources/legal/legal';
 import { Llm, LlmGetConfigResponse } from './resources/llm/llm';
 import { Mail } from './resources/mail/mail';
+import { Matters } from './resources/matters/matters';
 import { Memory } from './resources/memory/memory';
 import { Ocr } from './resources/ocr/ocr';
 import { Privilege } from './resources/privilege/privilege';
@@ -280,9 +281,6 @@ export class Casedev {
     return buildHeaders([{ Authorization: `Bearer ${this.apiKey}` }]);
   }
 
-  /**
-   * Basic re-implementation of `qs.stringify` for primitive types.
-   */
   protected stringifyQuery(query: object | Record<string, unknown>): string {
     return stringifyQuery(query);
   }
@@ -797,6 +795,7 @@ export class Casedev {
   database: API.Database = new API.Database(this);
   format: API.Format = new API.Format(this);
   legal: API.Legal = new API.Legal(this);
+  matters: API.Matters = new API.Matters(this);
   /**
    * Access 40+ language models through a unified API
    */
@@ -826,6 +825,7 @@ Casedev.Compute = Compute;
 Casedev.Database = Database;
 Casedev.Format = Format;
 Casedev.Legal = Legal;
+Casedev.Matters = Matters;
 Casedev.Llm = Llm;
 Casedev.Memory = Memory;
 Casedev.Ocr = Ocr;
@@ -854,6 +854,8 @@ export declare namespace Casedev {
   export { Format as Format };
 
   export { Legal as Legal };
+
+  export { Matters as Matters };
 
   export { Llm as Llm, type LlmGetConfigResponse as LlmGetConfigResponse };
 

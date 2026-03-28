@@ -8,6 +8,7 @@ export { Format } from './format/format';
 export { Legal } from './legal/legal';
 export { Llm, type LlmGetConfigResponse } from './llm/llm';
 export { Mail } from './mail/mail';
+export { Matters } from './matters/matters';
 export { Memory } from './memory/memory';
 export { Ocr } from './ocr/ocr';
 export { Privilege } from './privilege/privilege';
