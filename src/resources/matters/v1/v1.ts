@@ -44,7 +44,7 @@ export class V1 extends APIResource {
   workItems: WorkItemsAPI.WorkItems = new WorkItemsAPI.WorkItems(this._client);
 
   /**
-   * Create a new legal matter and provision its primary vault.
+   * Create a new legal matter and optionally link an existing primary vault.
    */
   create(body: V1CreateParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/matters/v1', {
@@ -119,6 +119,8 @@ export interface V1CreateParams {
   subtype?: string;
 
   vault?: V1CreateParams.Vault;
+
+  vault_id?: string;
 }
 
 export namespace V1CreateParams {

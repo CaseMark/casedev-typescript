@@ -42,6 +42,7 @@ describe('resource v1', () => {
         enableIndexing: true,
         metadata: { foo: 'bar' },
       },
+      vault_id: 'vault_id',
     });
   });
 
