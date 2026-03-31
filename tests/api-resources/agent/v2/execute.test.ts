@@ -22,6 +22,7 @@ describe('resource execute', () => {
   test('create: required and optional params', async () => {
     const response = await client.agent.v2.execute.create({
       prompt: 'prompt',
+      agentRuntime: true,
       disabledTools: ['string'],
       enabledTools: ['string'],
       guidance: 'guidance',
