@@ -9,12 +9,12 @@ import { RequestOptions } from '../../internal/request-options';
  */
 export class V1 extends APIResource {
   /**
-   * Analyzes text or vault documents for legal privilege. Detects attorney-client
-   * privilege, work product doctrine, common interest privilege, and litigation hold
-   * materials.
+   * Analyzes text or vault documents for legal privilege review. Detects
+   * attorney-client privilege, work product doctrine, and common interest privilege.
    *
-   * Returns structured privilege flags with confidence scores and policy-friendly
-   * rationale suitable for discovery workflows and privilege logs.
+   * Returns structured review flags with confidence scores and policy-friendly
+   * rationale suitable for discovery workflows and privilege logs. This endpoint is
+   * an AI-assisted triage tool and does not replace attorney judgment.
    *
    * **Size Limit:** Maximum 200,000 characters (larger documents rejected).
    *
@@ -85,9 +85,9 @@ export namespace V1DetectResponse {
 export interface V1DetectParams {
   /**
    * Privilege categories to check. Defaults to all: attorney_client, work_product,
-   * common_interest, litigation_hold
+   * common_interest
    */
-  categories?: Array<'attorney_client' | 'work_product' | 'common_interest' | 'litigation_hold'>;
+  categories?: Array<'attorney_client' | 'work_product' | 'common_interest'>;
 
   /**
    * Text content to analyze (required if document_id not provided)
