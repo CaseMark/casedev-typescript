@@ -9,8 +9,9 @@ import { RequestOptions } from '../../../internal/request-options';
  */
 export class Execute extends APIResource {
   /**
-   * Creates an ephemeral agent and immediately executes a v2 run on the Daytona
-   * runtime.
+   * Creates an ephemeral agent and executes it immediately. By default this uses the
+   * lightweight synchronous linc runtime on Vercel Sandbox. Set `agentRuntime: true`
+   * to opt into the legacy Daytona-backed agent runtime.
    */
   create(body: ExecuteCreateParams, options?: RequestOptions): APIPromise<ExecuteCreateResponse> {
     return this._client.post('/agent/v2/execute', { body, ...options });
@@ -20,19 +21,42 @@ export class Execute extends APIResource {
 export interface ExecuteCreateResponse {
   agentId?: string;
 
-  message?: string;
+  error?: string | null;
 
-  provider?: 'daytona';
+  logs?: ExecuteCreateResponse.Logs | null;
+
+  message?: string | null;
+
+  output?: string | null;
+
+  provider?: 'daytona' | 'vercel';
 
   runId?: string;
 
-  runtimeState?: 'running';
+  runtimeId?: string | null;
 
-  status?: 'running';
+  runtimeState?: 'running' | 'ended' | 'error';
+
+  status?: 'running' | 'completed' | 'failed';
+
+  usage?: unknown | null;
+}
+
+export namespace ExecuteCreateResponse {
+  export interface Logs {
+    linc?: string | null;
+
+    runner?: string | null;
+  }
 }
 
 export interface ExecuteCreateParams {
   prompt: string;
+
+  /**
+   * Set to true to opt into the legacy Daytona-backed agent runtime.
+   */
+  agentRuntime?: boolean | null;
 
   disabledTools?: Array<string> | null;
 
