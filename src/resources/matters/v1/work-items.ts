@@ -60,7 +60,8 @@ export class WorkItems extends APIResource {
   }
 
   /**
-   * Allow a human to act as the orchestrator for a work item.
+   * Approve, revise, block, or reassign a work item. Used by humans or agents to
+   * move work items through their lifecycle.
    */
   decide(workItemID: string, params: WorkItemDecideParams, options?: RequestOptions): APIPromise<void> {
     const { id, ...body } = params;
