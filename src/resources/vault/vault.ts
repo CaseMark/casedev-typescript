@@ -11,6 +11,17 @@ import {
 } from './graphrag';
 import * as GroupsAPI from './groups';
 import { GroupCreateParams, GroupUpdateParams, Groups } from './groups';
+import * as MemoryAPI from './memory';
+import {
+  Memory,
+  MemoryCreateParams,
+  MemoryCreateResponse,
+  MemoryDeleteParams,
+  MemoryListResponse,
+  MemorySearchParams,
+  MemorySearchResponse,
+  MemoryUpdateParams,
+} from './memory';
 import * as MultipartAPI from './multipart';
 import {
   Multipart,
@@ -53,6 +64,7 @@ export class Vault extends APIResource {
   groups: GroupsAPI.Groups = new GroupsAPI.Groups(this._client);
   multipart: MultipartAPI.Multipart = new MultipartAPI.Multipart(this._client);
   objects: ObjectsAPI.Objects = new ObjectsAPI.Objects(this._client);
+  memory: MemoryAPI.Memory = new MemoryAPI.Memory(this._client);
 
   /**
    * Creates a new secure vault with dedicated S3 storage and vector search
@@ -932,6 +944,7 @@ Vault.Graphrag = Graphrag;
 Vault.Groups = Groups;
 Vault.Multipart = Multipart;
 Vault.Objects = Objects;
+Vault.Memory = Memory;
 
 export declare namespace Vault {
   export {
@@ -994,5 +1007,16 @@ export declare namespace Vault {
     type ObjectGetOcrWordsParams as ObjectGetOcrWordsParams,
     type ObjectGetSummarizeJobParams as ObjectGetSummarizeJobParams,
     type ObjectGetTextParams as ObjectGetTextParams,
+  };
+
+  export {
+    Memory as Memory,
+    type MemoryCreateResponse as MemoryCreateResponse,
+    type MemoryListResponse as MemoryListResponse,
+    type MemorySearchResponse as MemorySearchResponse,
+    type MemoryCreateParams as MemoryCreateParams,
+    type MemoryUpdateParams as MemoryUpdateParams,
+    type MemoryDeleteParams as MemoryDeleteParams,
+    type MemorySearchParams as MemorySearchParams,
   };
 }
