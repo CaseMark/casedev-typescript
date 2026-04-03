@@ -10,6 +10,16 @@ export {
 } from './graphrag';
 export { Groups, type GroupCreateParams, type GroupUpdateParams } from './groups';
 export {
+  Memory,
+  type MemoryCreateResponse,
+  type MemoryListResponse,
+  type MemorySearchResponse,
+  type MemoryCreateParams,
+  type MemoryUpdateParams,
+  type MemoryDeleteParams,
+  type MemorySearchParams,
+} from './memory';
+export {
   Multipart,
   type MultipartGetPartURLsResponse,
   type MultipartAbortParams,

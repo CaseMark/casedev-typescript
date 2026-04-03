@@ -729,6 +729,22 @@ Methods:
 - <code title="get /vault/{id}/objects/{objectId}/summarize/{jobId}">client.vault.objects.<a href="./src/resources/vault/objects.ts">getSummarizeJob</a>(jobID, { ...params }) -> ObjectGetSummarizeJobResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/resources/vault/objects.ts">getText</a>(objectID, { ...params }) -> ObjectGetTextResponse</code>
 
+## Memory
+
+Types:
+
+- <code><a href="./src/resources/vault/memory.ts">MemoryCreateResponse</a></code>
+- <code><a href="./src/resources/vault/memory.ts">MemoryListResponse</a></code>
+- <code><a href="./src/resources/vault/memory.ts">MemorySearchResponse</a></code>
+
+Methods:
+
+- <code title="post /vault/{id}/memory">client.vault.memory.<a href="./src/resources/vault/memory.ts">create</a>(id, { ...params }) -> MemoryCreateResponse</code>
+- <code title="patch /vault/{id}/memory/{entryId}">client.vault.memory.<a href="./src/resources/vault/memory.ts">update</a>(entryID, { ...params }) -> void</code>
+- <code title="get /vault/{id}/memory">client.vault.memory.<a href="./src/resources/vault/memory.ts">list</a>(id) -> MemoryListResponse</code>
+- <code title="delete /vault/{id}/memory/{entryId}">client.vault.memory.<a href="./src/resources/vault/memory.ts">delete</a>(entryID, { ...params }) -> void</code>
+- <code title="post /vault/{id}/memory/search">client.vault.memory.<a href="./src/resources/vault/memory.ts">search</a>(id, { ...params }) -> MemorySearchResponse</code>
+
 # Voice
 
 ## Streaming
