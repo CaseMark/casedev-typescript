@@ -199,6 +199,12 @@ export interface ChatReplyToQuestionParams {
 
 export interface ChatRespondParams {
   /**
+   * Optional model override. When provided, the runtime bootstrap config is updated
+   * so subsequent turns use this model. Conversation history is preserved.
+   */
+  model?: string | null;
+
+  /**
    * Message content parts. Currently only "text" type is supported. Additional types
    * (e.g. file, image) may be added in future versions.
    */
@@ -220,6 +226,12 @@ export namespace ChatRespondParams {
 }
 
 export interface ChatSendMessageParams {
+  /**
+   * Optional model override. When provided, the runtime bootstrap config is updated
+   * so subsequent turns use this model. Conversation history is preserved.
+   */
+  model?: string | null;
+
   /**
    * Message content parts. Currently only "text" type is supported. Additional types
    * (e.g. file, image) may be added in future versions.
