@@ -16,6 +16,7 @@ import {
   Transcription,
   TranscriptionCreateParams,
   TranscriptionCreateResponse,
+  TranscriptionRetrieveParams,
   TranscriptionRetrieveResponse,
 } from './transcription';
 import * as V1API from './v1/v1';
@@ -49,6 +50,7 @@ export declare namespace Voice {
     type TranscriptionCreateResponse as TranscriptionCreateResponse,
     type TranscriptionRetrieveResponse as TranscriptionRetrieveResponse,
     type TranscriptionCreateParams as TranscriptionCreateParams,
+    type TranscriptionRetrieveParams as TranscriptionRetrieveParams,
   };
 
   export {

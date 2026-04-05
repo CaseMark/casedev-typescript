@@ -13,6 +13,7 @@ export {
   type TranscriptionCreateResponse,
   type TranscriptionRetrieveResponse,
   type TranscriptionCreateParams,
+  type TranscriptionRetrieveParams,
 } from './transcription';
 export { V1, type V1ListVoicesResponse, type V1ListVoicesParams } from './v1/index';
 export { Voice } from './voice';

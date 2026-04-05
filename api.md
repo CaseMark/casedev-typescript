@@ -779,7 +779,7 @@ Types:
 Methods:
 
 - <code title="post /voice/transcription">client.voice.transcription.<a href="./src/resources/voice/transcription.ts">create</a>({ ...params }) -> TranscriptionCreateResponse</code>
-- <code title="get /voice/transcription/{id}">client.voice.transcription.<a href="./src/resources/voice/transcription.ts">retrieve</a>(id) -> TranscriptionRetrieveResponse</code>
+- <code title="get /voice/transcription/{id}">client.voice.transcription.<a href="./src/resources/voice/transcription.ts">retrieve</a>(id, { ...params }) -> TranscriptionRetrieveResponse</code>
 - <code title="delete /voice/transcription/{id}">client.voice.transcription.<a href="./src/resources/voice/transcription.ts">delete</a>(id) -> void</code>
 
 ## V1
