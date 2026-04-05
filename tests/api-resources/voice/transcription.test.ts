@@ -30,6 +30,17 @@ describe('resource transcription', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.voice.transcription.retrieve(
+        'tr_abc123def456',
+        { include_text: 'true' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
   test('delete', async () => {
     const responsePromise = client.voice.transcription.delete('id');
     const rawResponse = await responsePromise.asResponse();
