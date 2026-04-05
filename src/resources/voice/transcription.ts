@@ -43,8 +43,12 @@ export class Transcription extends APIResource {
    *   );
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<TranscriptionRetrieveResponse> {
-    return this._client.get(path`/voice/transcription/${id}`, options);
+  retrieve(
+    id: string,
+    query: TranscriptionRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<TranscriptionRetrieveResponse> {
+    return this._client.get(path`/voice/transcription/${id}`, { query, ...options });
   }
 
   /**
@@ -124,7 +128,8 @@ export interface TranscriptionRetrieveResponse {
   source_object_id?: string;
 
   /**
-   * Full transcription text (legacy direct URL jobs only)
+   * Full transcription text (only included when include_text=true for vault-based
+   * jobs, or for legacy direct URL jobs)
    */
   text?: string;
 
@@ -222,10 +227,18 @@ export interface TranscriptionCreateParams {
   word_boost?: Array<string>;
 }
 
+export interface TranscriptionRetrieveParams {
+  /**
+   * Include full transcript text in response for vault-based jobs (default: false)
+   */
+  include_text?: 'true' | 'false';
+}
+
 export declare namespace Transcription {
   export {
     type TranscriptionCreateResponse as TranscriptionCreateResponse,
     type TranscriptionRetrieveResponse as TranscriptionRetrieveResponse,
     type TranscriptionCreateParams as TranscriptionCreateParams,
+    type TranscriptionRetrieveParams as TranscriptionRetrieveParams,
   };
 }
