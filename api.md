@@ -632,6 +632,24 @@ Methods:
 - <code title="get /translate/v1/languages">client.translate.v1.<a href="./src/resources/translate/v1.ts">listLanguages</a>({ ...params }) -> V1ListLanguagesResponse</code>
 - <code title="post /translate/v1/translate">client.translate.v1.<a href="./src/resources/translate/v1.ts">translate</a>({ ...params }) -> V1TranslateResponse</code>
 
+# Usage
+
+## V1
+
+Methods:
+
+- <code title="get /usage/v1">client.usage.v1.<a href="./src/resources/usage/v1/v1.ts">retrieve</a>({ ...params }) -> void</code>
+
+### Subscriptions
+
+Methods:
+
+- <code title="post /usage/v1/subscriptions">client.usage.v1.subscriptions.<a href="./src/resources/usage/v1/subscriptions.ts">create</a>({ ...params }) -> void</code>
+- <code title="patch /usage/v1/subscriptions/{subscriptionId}">client.usage.v1.subscriptions.<a href="./src/resources/usage/v1/subscriptions.ts">update</a>(subscriptionID, { ...params }) -> void</code>
+- <code title="get /usage/v1/subscriptions">client.usage.v1.subscriptions.<a href="./src/resources/usage/v1/subscriptions.ts">list</a>() -> void</code>
+- <code title="delete /usage/v1/subscriptions/{subscriptionId}">client.usage.v1.subscriptions.<a href="./src/resources/usage/v1/subscriptions.ts">delete</a>(subscriptionID) -> void</code>
+- <code title="post /usage/v1/subscriptions/{subscriptionId}/test">client.usage.v1.subscriptions.<a href="./src/resources/usage/v1/subscriptions.ts">test</a>(subscriptionID, { ...params }) -> void</code>
+
 # Vault
 
 Types:

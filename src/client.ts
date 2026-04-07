@@ -44,6 +44,7 @@ import {
 } from './resources/skills/skills';
 import { Superdoc } from './resources/superdoc/superdoc';
 import { Translate } from './resources/translate/translate';
+import { Usage } from './resources/usage/usage';
 import {
   Vault,
   VaultConfirmUploadParams,
@@ -811,6 +812,7 @@ export class Casedev {
   search: API.Search = new API.Search(this);
   superdoc: API.Superdoc = new API.Superdoc(this);
   translate: API.Translate = new API.Translate(this);
+  usage: API.Usage = new API.Usage(this);
   /**
    * Secure document storage with semantic search and GraphRAG
    */
@@ -835,6 +837,7 @@ Casedev.Skills = Skills;
 Casedev.Search = Search;
 Casedev.Superdoc = Superdoc;
 Casedev.Translate = Translate;
+Casedev.Usage = Usage;
 Casedev.Vault = Vault;
 Casedev.Voice = Voice;
 
@@ -884,6 +887,8 @@ export declare namespace Casedev {
   export { Superdoc as Superdoc };
 
   export { Translate as Translate };
+
+  export { Usage as Usage };
 
   export {
     Vault as Vault,
