@@ -27,6 +27,7 @@ export {
 export { Superdoc } from './superdoc/superdoc';
 export { System, type SystemListServicesResponse } from './system';
 export { Translate } from './translate/translate';
+export { Usage } from './usage/usage';
 export {
   Vault,
   type VaultCreateResponse,
