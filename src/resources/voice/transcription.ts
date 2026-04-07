@@ -168,7 +168,7 @@ export interface TranscriptionCreateParams {
   /**
    * Enable content moderation and safety labeling
    */
-  content_safety_labels?: boolean;
+  content_safety?: boolean;
 
   /**
    * Output format for the transcript when using vault mode
