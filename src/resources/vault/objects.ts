@@ -285,6 +285,11 @@ export interface ObjectRetrieveResponse {
   textLength?: number;
 
   /**
+   * Object ID of the completed transcript (if available)
+   */
+  transcript_object_id?: string | null;
+
+  /**
    * Number of embedding vectors generated
    */
   vectorCount?: number;
