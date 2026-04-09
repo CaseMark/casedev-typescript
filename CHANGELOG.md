@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.44.1 (2026-04-09)
+
+Full Changelog: [v0.44.0...v0.44.1](https://github.com/CaseMark/casedev-typescript/compare/v0.44.0...v0.44.1)
+
+### Chores
+
+* **internal:** codegen related update ([6639fb8](https://github.com/CaseMark/casedev-typescript/commit/6639fb814c9576f34ab434ae6023d43fd79a4a56))
+
 ## 0.44.0 (2026-04-07)
 
 Full Changelog: [v0.43.0...v0.44.0](https://github.com/CaseMark/casedev-typescript/compare/v0.43.0...v0.44.0)
