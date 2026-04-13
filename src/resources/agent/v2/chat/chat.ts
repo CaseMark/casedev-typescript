@@ -41,6 +41,14 @@ export class Chat extends APIResource {
   }
 
   /**
+   * Returns a short-lived token that allows browser clients to connect directly to
+   * the agent chat SSE stream without exposing the underlying org API key.
+   */
+  createStreamToken(id: string, options?: RequestOptions): APIPromise<ChatCreateStreamTokenResponse> {
+    return this._client.post(path`/agent/v2/chat/${id}/stream-token`, options);
+  }
+
+  /**
    * Answers a pending OpenCode question for the Daytona-backed chat session and
    * resumes or recovers the runtime if needed.
    */
@@ -109,7 +117,8 @@ export class Chat extends APIResource {
   /**
    * Relays OpenCode SSE events for this Daytona-backed chat runtime. Supports replay
    * from buffered events using Last-Event-ID and transparently reconnects stopped or
-   * archived runtimes.
+   * archived runtimes. Accepts either Bearer token auth or a short-lived stream
+   * token via query parameter. When both are provided, Bearer auth takes precedence.
    */
   stream(
     id: string,
@@ -157,6 +166,14 @@ export interface ChatCancelResponse {
   id?: string;
 
   ok?: boolean;
+}
+
+export interface ChatCreateStreamTokenResponse {
+  token: string;
+
+  expiresAt: string;
+
+  streamUrl: string;
 }
 
 export type ChatRespondResponse = string;
@@ -255,6 +272,12 @@ export namespace ChatSendMessageParams {
 
 export interface ChatStreamParams {
   /**
+   * Short-lived stream token from POST /agent/v2/chat/:id/stream-token. If provided,
+   * Bearer auth is not required.
+   */
+  token?: string;
+
+  /**
    * Replay events after this sequence number
    */
   lastEventId?: number;
@@ -267,6 +290,7 @@ export declare namespace Chat {
     type ChatCreateResponse as ChatCreateResponse,
     type ChatDeleteResponse as ChatDeleteResponse,
     type ChatCancelResponse as ChatCancelResponse,
+    type ChatCreateStreamTokenResponse as ChatCreateStreamTokenResponse,
     type ChatRespondResponse as ChatRespondResponse,
     type ChatStreamResponse as ChatStreamResponse,
     type ChatCreateParams as ChatCreateParams,

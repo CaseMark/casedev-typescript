@@ -5,6 +5,7 @@ export {
   type ChatCreateResponse,
   type ChatDeleteResponse,
   type ChatCancelResponse,
+  type ChatCreateStreamTokenResponse,
   type ChatRespondResponse,
   type ChatStreamResponse,
   type ChatCreateParams,
