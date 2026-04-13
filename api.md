@@ -122,6 +122,7 @@ Types:
 - <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatCreateResponse</a></code>
 - <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatDeleteResponse</a></code>
 - <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatCancelResponse</a></code>
+- <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatCreateStreamTokenResponse</a></code>
 - <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatRespondResponse</a></code>
 - <code><a href="./src/resources/agent/v2/chat/chat.ts">ChatStreamResponse</a></code>
 
@@ -130,6 +131,7 @@ Methods:
 - <code title="post /agent/v2/chat">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">create</a>({ ...params }) -> ChatCreateResponse</code>
 - <code title="delete /agent/v2/chat/{id}">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">delete</a>(id) -> ChatDeleteResponse</code>
 - <code title="post /agent/v2/chat/{id}/cancel">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">cancel</a>(id) -> ChatCancelResponse</code>
+- <code title="post /agent/v2/chat/{id}/stream-token">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">createStreamToken</a>(id) -> ChatCreateStreamTokenResponse</code>
 - <code title="post /agent/v2/chat/{id}/question/{requestID}/reply">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">replyToQuestion</a>(requestID, { ...params }) -> void</code>
 - <code title="post /agent/v2/chat/{id}/respond">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">respond</a>(id, { ...params }) -> string</code>
 - <code title="post /agent/v2/chat/{id}/message">client.agent.v2.chat.<a href="./src/resources/agent/v2/chat/chat.ts">sendMessage</a>(id, { ...params }) -> void</code>
