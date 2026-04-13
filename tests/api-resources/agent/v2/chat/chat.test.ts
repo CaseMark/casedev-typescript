@@ -56,6 +56,17 @@ describe('resource chat', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('createStreamToken', async () => {
+    const responsePromise = client.agent.v2.chat.createStreamToken('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('replyToQuestion: only required params', async () => {
     const responsePromise = client.agent.v2.chat.replyToQuestion('requestID', {
       id: 'id',
@@ -113,7 +124,11 @@ describe('resource chat', () => {
   test('stream: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.agent.v2.chat.stream('id', { lastEventId: 0 }, { path: '/_stainless_unknown_path' }),
+      client.agent.v2.chat.stream(
+        'id',
+        { token: 'token', lastEventId: 0 },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 });
