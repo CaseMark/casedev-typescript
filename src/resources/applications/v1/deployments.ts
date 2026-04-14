@@ -61,7 +61,7 @@ export class Deployments extends APIResource {
   }
 
   /**
-   * Create a deployment from raw file contents (for Thurgood sandbox deployments)
+   * Create a deployment from raw file contents for application deployments
    */
   createFromFiles(options?: RequestOptions): APIPromise<void> {
     return this._client.post('/applications/v1/deployments/from-files', {
