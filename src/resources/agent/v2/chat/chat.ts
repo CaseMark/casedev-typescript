@@ -187,6 +187,12 @@ export interface ChatCreateParams {
   idleTimeoutMs?: number | null;
 
   /**
+   * Optional hidden app instructions merged into the chat runtime bootstrap and
+   * never exposed as a user message. Only accepted for privileged C3 system keys.
+   */
+  instructions?: string | null;
+
+  /**
    * Optional model override for the OpenCode session
    */
   model?: string | null;
