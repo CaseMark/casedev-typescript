@@ -25,6 +25,7 @@ describe('resource chat', () => {
       client.agent.v2.chat.create(
         {
           idleTimeoutMs: 0,
+          instructions: 'instructions',
           model: 'model',
           title: 'title',
           vaultIds: ['string'],
