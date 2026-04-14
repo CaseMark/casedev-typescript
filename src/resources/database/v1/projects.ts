@@ -48,8 +48,8 @@ export class Projects extends APIResource {
 
   /**
    * Retrieves all serverless Postgres database projects for the authenticated
-   * organization. Includes storage and compute metrics, plus linked deployments from
-   * Thurgood apps and Compute instances.
+   * organization. Includes storage and compute metrics, plus linked application
+   * deployments and Compute instances.
    *
    * @example
    * ```ts
@@ -332,7 +332,7 @@ export namespace ProjectRetrieveResponse {
     /**
      * Deployment type
      */
-    type?: 'thurgood' | 'compute';
+    type?: 'compute';
 
     /**
      * Deployment URL
@@ -418,10 +418,10 @@ export namespace ProjectListResponse {
       /**
        * Type of deployment
        */
-      type?: 'thurgood' | 'compute';
+      type?: 'compute';
 
       /**
-       * Deployment URL (for Thurgood apps)
+       * Deployment URL
        */
       url?: string;
     }
