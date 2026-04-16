@@ -2,7 +2,14 @@
 
 import { APIResource } from '../../core/resource';
 import * as V1API from './v1';
-import { V1, V1DownloadParams, V1ProcessParams, V1ProcessResponse, V1RetrieveResponse } from './v1';
+import {
+  V1,
+  V1DownloadParams,
+  V1ProcessParams,
+  V1ProcessResponse,
+  V1RetrieveParams,
+  V1RetrieveResponse,
+} from './v1';
 
 export class Ocr extends APIResource {
   v1: V1API.V1 = new V1API.V1(this._client);
@@ -15,6 +22,7 @@ export declare namespace Ocr {
     V1 as V1,
     type V1RetrieveResponse as V1RetrieveResponse,
     type V1ProcessResponse as V1ProcessResponse,
+    type V1RetrieveParams as V1RetrieveParams,
     type V1DownloadParams as V1DownloadParams,
     type V1ProcessParams as V1ProcessParams,
   };

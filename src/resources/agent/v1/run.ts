@@ -168,7 +168,8 @@ export interface RunGetDetailsResponse {
   guidance?: string | null;
 
   /**
-   * Modal sandbox ID (available once sandbox is created)
+   * @deprecated Deprecated legacy Modal sandbox ID. Prefer `provider` and
+   * `runtimeId`.
    */
   modalSandboxId?: string | null;
 
@@ -177,9 +178,24 @@ export interface RunGetDetailsResponse {
   prompt?: string;
 
   /**
+   * Runtime provider for this run
+   */
+  provider?: 'daytona' | 'vercel' | null;
+
+  /**
    * Final output from the agent
    */
   result?: RunGetDetailsResponse.Result | null;
+
+  /**
+   * Provider-specific runtime identifier
+   */
+  runtimeId?: string | null;
+
+  /**
+   * Current runtime state, when available
+   */
+  runtimeState?: 'running' | 'stopped' | 'archived' | 'ended' | 'error' | null;
 
   startedAt?: string | null;
 

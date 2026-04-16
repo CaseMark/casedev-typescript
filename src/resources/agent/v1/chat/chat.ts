@@ -16,8 +16,9 @@ export class Chat extends APIResource {
   files: FilesAPI.Files = new FilesAPI.Files(this._client);
 
   /**
-   * Creates a persistent OpenCode chat session in a Modal sandbox. Session state is
-   * retained and can be resumed across requests.
+   * Creates a persistent OpenCode chat session backed by a Daytona or Vercel
+   * runtime. Session state is retained and can be resumed or recovered across
+   * requests.
    */
   create(
     body: ChatCreateParams | null | undefined = {},
