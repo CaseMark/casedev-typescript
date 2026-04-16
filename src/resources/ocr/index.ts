@@ -5,6 +5,7 @@ export {
   V1,
   type V1RetrieveResponse,
   type V1ProcessResponse,
+  type V1RetrieveParams,
   type V1DownloadParams,
   type V1ProcessParams,
 } from './v1';
