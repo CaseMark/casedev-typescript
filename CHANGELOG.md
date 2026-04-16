@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.47.1 (2026-04-16)
+
+Full Changelog: [v0.47.0...v0.47.1](https://github.com/CaseMark/casedev-typescript/compare/v0.47.0...v0.47.1)
+
 ## 0.47.0 (2026-04-14)
 
 Full Changelog: [v0.46.0...v0.47.0](https://github.com/CaseMark/casedev-typescript/compare/v0.46.0...v0.47.0)
