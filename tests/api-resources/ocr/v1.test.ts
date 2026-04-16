@@ -19,6 +19,13 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.ocr.v1.retrieve('id', { include_text: 'true' }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
   test('download: required and optional params', async () => {
     const response = await client.ocr.v1.download('text', { id: 'id' });
   });

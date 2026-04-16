@@ -19,8 +19,12 @@ export class V1 extends APIResource {
    * const v1 = await client.ocr.v1.retrieve('id');
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<V1RetrieveResponse> {
-    return this._client.get(path`/ocr/v1/${id}`, options);
+  retrieve(
+    id: string,
+    query: V1RetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<V1RetrieveResponse> {
+    return this._client.get(path`/ocr/v1/${id}`, { query, ...options });
   }
 
   /**
@@ -142,6 +146,13 @@ export interface V1ProcessResponse {
   status?: 'queued' | 'processing' | 'completed' | 'failed';
 }
 
+export interface V1RetrieveParams {
+  /**
+   * Include full OCR text in completed responses (default: true)
+   */
+  include_text?: 'true' | 'false';
+}
+
 export interface V1DownloadParams {
   /**
    * OCR job ID returned from the initial OCR request
@@ -226,6 +237,7 @@ export declare namespace V1 {
   export {
     type V1RetrieveResponse as V1RetrieveResponse,
     type V1ProcessResponse as V1ProcessResponse,
+    type V1RetrieveParams as V1RetrieveParams,
     type V1DownloadParams as V1DownloadParams,
     type V1ProcessParams as V1ProcessParams,
   };
