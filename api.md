@@ -733,6 +733,7 @@ Types:
 - <code><a href="./src/resources/vault/objects.ts">ObjectListResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectDeleteResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectCreatePresignedURLResponse</a></code>
+- <code><a href="./src/resources/vault/objects.ts">ObjectGetChunksResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetOcrWordsResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetSummarizeJobResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetTextResponse</a></code>
@@ -745,6 +746,7 @@ Methods:
 - <code title="delete /vault/{id}/objects/{objectId}">client.vault.objects.<a href="./src/resources/vault/objects.ts">delete</a>(objectID, { ...params }) -> ObjectDeleteResponse</code>
 - <code title="post /vault/{id}/objects/{objectId}/presigned-url">client.vault.objects.<a href="./src/resources/vault/objects.ts">createPresignedURL</a>(objectID, { ...params }) -> ObjectCreatePresignedURLResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/download">client.vault.objects.<a href="./src/resources/vault/objects.ts">download</a>(objectID, { ...params }) -> Response</code>
+- <code title="get /vault/{id}/objects/{objectId}/chunks">client.vault.objects.<a href="./src/resources/vault/objects.ts">getChunks</a>(objectID, { ...params }) -> ObjectGetChunksResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/ocr-words">client.vault.objects.<a href="./src/resources/vault/objects.ts">getOcrWords</a>(objectID, { ...params }) -> ObjectGetOcrWordsResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/summarize/{jobId}">client.vault.objects.<a href="./src/resources/vault/objects.ts">getSummarizeJob</a>(jobID, { ...params }) -> ObjectGetSummarizeJobResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/resources/vault/objects.ts">getText</a>(objectID, { ...params }) -> ObjectGetTextResponse</code>
