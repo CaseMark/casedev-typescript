@@ -143,6 +143,29 @@ export class Objects extends APIResource {
   }
 
   /**
+   * Retrieves full extracted chunk text for a processed vault object. Use this after
+   * search when a truncated preview is not enough and you need the exact chunk text
+   * or adjacent chunks for surrounding context such as tables, exhibit lists, or
+   * multi-part passages.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.objects.getChunks(
+   *   'objectId',
+   *   { id: 'id' },
+   * );
+   * ```
+   */
+  getChunks(
+    objectID: string,
+    params: ObjectGetChunksParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectGetChunksResponse> {
+    const { id, ...query } = params;
+    return this._client.get(path`/vault/${id}/objects/${objectID}/chunks`, { query, ...options });
+  }
+
+  /**
    * Retrieves word-level OCR bounding box data for a processed PDF document. Each
    * word includes its text, normalized bounding box coordinates (0-1 range),
    * confidence score, and global word index. Use this data to highlight specific
@@ -536,6 +559,62 @@ export namespace ObjectCreatePresignedURLResponse {
   }
 }
 
+export interface ObjectGetChunksResponse {
+  /**
+   * Full chunk objects for the requested range
+   */
+  chunks: Array<ObjectGetChunksResponse.Chunk>;
+
+  /**
+   * The object ID
+   */
+  object_id: string;
+
+  /**
+   * Total number of chunks stored for the object
+   */
+  total_chunks: number;
+
+  /**
+   * The vault ID
+   */
+  vault_id: string;
+}
+
+export namespace ObjectGetChunksResponse {
+  export interface Chunk {
+    /**
+     * Chunk index within the document
+     */
+    index: number;
+
+    /**
+     * Last page covered by the chunk, if page mapping is available
+     */
+    page_end: number | null;
+
+    /**
+     * First page covered by the chunk, if page mapping is available
+     */
+    page_start: number | null;
+
+    /**
+     * Full text for the chunk
+     */
+    text: string;
+
+    /**
+     * Last OCR word index covered by the chunk, if available
+     */
+    word_end_index: number | null;
+
+    /**
+     * First OCR word index covered by the chunk, if available
+     */
+    word_start_index: number | null;
+  }
+}
+
 export interface ObjectGetOcrWordsResponse {
   /**
    * When the OCR data was extracted
@@ -767,6 +846,24 @@ export interface ObjectDownloadParams {
   id: string;
 }
 
+export interface ObjectGetChunksParams {
+  /**
+   * Path param: The vault ID containing the document.
+   */
+  id: string;
+
+  /**
+   * Query param: The last chunk index to return (inclusive). If omitted, only the
+   * `start` chunk is returned. Ranges are limited to 10 chunks.
+   */
+  end?: number;
+
+  /**
+   * Query param: The first chunk index to return (0-based). Defaults to 0.
+   */
+  start?: number;
+}
+
 export interface ObjectGetOcrWordsParams {
   /**
    * Path param: The vault ID
@@ -818,6 +915,7 @@ export declare namespace Objects {
     type ObjectListResponse as ObjectListResponse,
     type ObjectDeleteResponse as ObjectDeleteResponse,
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
+    type ObjectGetChunksResponse as ObjectGetChunksResponse,
     type ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse,
     type ObjectGetSummarizeJobResponse as ObjectGetSummarizeJobResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
@@ -826,6 +924,7 @@ export declare namespace Objects {
     type ObjectDeleteParams as ObjectDeleteParams,
     type ObjectCreatePresignedURLParams as ObjectCreatePresignedURLParams,
     type ObjectDownloadParams as ObjectDownloadParams,
+    type ObjectGetChunksParams as ObjectGetChunksParams,
     type ObjectGetOcrWordsParams as ObjectGetOcrWordsParams,
     type ObjectGetSummarizeJobParams as ObjectGetSummarizeJobParams,
     type ObjectGetTextParams as ObjectGetTextParams,

@@ -94,6 +94,25 @@ describe('resource objects', () => {
     const response = await client.vault.objects.download('objectId', { id: 'id' });
   });
 
+  test('getChunks: only required params', async () => {
+    const responsePromise = client.vault.objects.getChunks('objectId', { id: 'id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('getChunks: required and optional params', async () => {
+    const response = await client.vault.objects.getChunks('objectId', {
+      id: 'id',
+      end: 0,
+      start: 0,
+    });
+  });
+
   test('getOcrWords: only required params', async () => {
     const responsePromise = client.vault.objects.getOcrWords('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
