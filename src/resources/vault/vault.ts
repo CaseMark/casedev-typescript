@@ -251,6 +251,11 @@ export interface VaultCreateResponse {
   description?: string;
 
   /**
+   * The resolved embedding profile for this vault. Null for storage-only vaults.
+   */
+  embeddingProfile?: VaultCreateResponse.EmbeddingProfile | null;
+
+  /**
    * Whether vector indexing is enabled for this vault
    */
   enableIndexing?: boolean;
@@ -279,6 +284,28 @@ export interface VaultCreateResponse {
    * S3 bucket name for vector embeddings. Null for storage-only vaults.
    */
   vectorBucket?: string | null;
+}
+
+export namespace VaultCreateResponse {
+  /**
+   * The resolved embedding profile for this vault. Null for storage-only vaults.
+   */
+  export interface EmbeddingProfile {
+    /**
+     * Vector dimension used by this vault
+     */
+    dimensions?: number;
+
+    /**
+     * Embedding model catalog key
+     */
+    model?: string;
+
+    /**
+     * Embedding provider
+     */
+    provider?: string;
+  }
 }
 
 export interface VaultRetrieveResponse {
@@ -753,6 +780,22 @@ export interface VaultCreateParams {
    * Optional description of the vault's purpose
    */
   description?: string;
+
+  /**
+   * Optional embedding model for this vault. Defaults to
+   * openai/text-embedding-3-small. Determines the S3 Vectors index dimension and
+   * which model is used at both ingest and search time. The vault is locked to this
+   * model after creation — use a re-embed flow to change later. Ignored when
+   * enableIndexing is false.
+   */
+  embeddingModel?:
+    | 'openai/text-embedding-3-small'
+    | 'openai/text-embedding-3-large'
+    | 'voyage/voyage-3.5'
+    | 'voyage/voyage-law-2'
+    | 'cohere/embed-v4.0'
+    | 'google/gemini-embedding-2'
+    | 'casemark/llama-nemotron-embed-vl-1b-v2';
 
   /**
    * Enable knowledge graph for entity relationship mapping. Only applies when

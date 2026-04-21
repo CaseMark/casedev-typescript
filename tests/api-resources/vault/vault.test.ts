@@ -23,6 +23,7 @@ describe('resource vault', () => {
     const response = await client.vault.create({
       name: 'Contract Review Archive',
       description: 'Repository for all client contract reviews and analysis',
+      embeddingModel: 'casemark/llama-nemotron-embed-vl-1b-v2',
       enableGraph: true,
       enableIndexing: true,
       groupId: 'grp_abc123',

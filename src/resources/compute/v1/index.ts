@@ -9,15 +9,6 @@ export {
   type EnvironmentSetDefaultResponse,
   type EnvironmentCreateParams,
 } from './environments';
-export { InstanceTypes, type InstanceTypeListResponse } from './instance-types';
-export {
-  Instances,
-  type InstanceCreateResponse,
-  type InstanceRetrieveResponse,
-  type InstanceListResponse,
-  type InstanceDeleteResponse,
-  type InstanceCreateParams,
-} from './instances';
 export {
   Secrets,
   type SecretCreateResponse,
