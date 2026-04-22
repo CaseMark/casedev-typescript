@@ -19,7 +19,6 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { System, SystemListServicesResponse } from './resources/system';
 import { Agent } from './resources/agent/agent';
-import { Applications } from './resources/applications/applications';
 import { Compute } from './resources/compute/compute';
 import { Database } from './resources/database/database';
 import { Format } from './resources/format/format';
@@ -791,7 +790,6 @@ export class Casedev {
    * Public system metadata and discovery endpoints
    */
   system: API.System = new API.System(this);
-  applications: API.Applications = new API.Applications(this);
   compute: API.Compute = new API.Compute(this);
   database: API.Database = new API.Database(this);
   format: API.Format = new API.Format(this);
@@ -822,7 +820,6 @@ export class Casedev {
 
 Casedev.Agent = Agent;
 Casedev.System = System;
-Casedev.Applications = Applications;
 Casedev.Compute = Compute;
 Casedev.Database = Database;
 Casedev.Format = Format;
@@ -847,8 +844,6 @@ export declare namespace Casedev {
   export { Agent as Agent };
 
   export { System as System, type SystemListServicesResponse as SystemListServicesResponse };
-
-  export { Applications as Applications };
 
   export { Compute as Compute };
 
