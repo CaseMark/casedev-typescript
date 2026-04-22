@@ -158,51 +158,6 @@ Methods:
 
 - <code title="get /services">client.system.<a href="./src/resources/system.ts">listServices</a>() -> SystemListServicesResponse</code>
 
-# Applications
-
-## V1
-
-### Deployments
-
-Methods:
-
-- <code title="post /applications/v1/deployments">client.applications.v1.deployments.<a href="./src/resources/applications/v1/deployments.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /applications/v1/deployments/{id}">client.applications.v1.deployments.<a href="./src/resources/applications/v1/deployments.ts">retrieve</a>(id, { ...params }) -> void</code>
-- <code title="get /applications/v1/deployments">client.applications.v1.deployments.<a href="./src/resources/applications/v1/deployments.ts">list</a>({ ...params }) -> void</code>
-- <code title="post /applications/v1/deployments/{id}/cancel">client.applications.v1.deployments.<a href="./src/resources/applications/v1/deployments.ts">cancel</a>(id, { ...params }) -> void</code>
-- <code title="post /applications/v1/deployments/from-files">client.applications.v1.deployments.<a href="./src/resources/applications/v1/deployments.ts">createFromFiles</a>() -> void</code>
-- <code title="get /applications/v1/deployments/{id}/logs">client.applications.v1.deployments.<a href="./src/resources/applications/v1/deployments.ts">getLogs</a>(id, { ...params }) -> void</code>
-- <code title="get /applications/v1/deployments/{id}/status">client.applications.v1.deployments.<a href="./src/resources/applications/v1/deployments.ts">getStatus</a>(id) -> void</code>
-- <code title="get /applications/v1/deployments/{id}/stream">client.applications.v1.deployments.<a href="./src/resources/applications/v1/deployments.ts">stream</a>(id, { ...params }) -> void</code>
-
-### Projects
-
-Types:
-
-- <code><a href="./src/resources/applications/v1/projects.ts">ProjectListResponse</a></code>
-
-Methods:
-
-- <code title="post /applications/v1/projects">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /applications/v1/projects/{id}">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">retrieve</a>(id) -> void</code>
-- <code title="get /applications/v1/projects">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">list</a>({ ...params }) -> ProjectListResponse</code>
-- <code title="delete /applications/v1/projects/{id}">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">delete</a>(id, { ...params }) -> void</code>
-- <code title="post /applications/v1/projects/{id}/deployments">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">createDeployment</a>(id, { ...params }) -> void</code>
-- <code title="post /applications/v1/projects/{id}/domains">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">createDomain</a>(id, { ...params }) -> void</code>
-- <code title="post /applications/v1/projects/{id}/env">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">createEnv</a>(id, { ...params }) -> void</code>
-- <code title="delete /applications/v1/projects/{id}/domains/{domain}">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">deleteDomain</a>(domain, { ...params }) -> void</code>
-- <code title="delete /applications/v1/projects/{id}/env/{envId}">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">deleteEnv</a>(envID, { ...params }) -> void</code>
-- <code title="get /applications/v1/projects/{id}/runtime-logs">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">getRuntimeLogs</a>(id, { ...params }) -> void</code>
-- <code title="get /applications/v1/projects/{id}/deployments">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">listDeployments</a>(id, { ...params }) -> void</code>
-- <code title="get /applications/v1/projects/{id}/domains">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">listDomains</a>(id) -> void</code>
-- <code title="get /applications/v1/projects/{id}/env">client.applications.v1.projects.<a href="./src/resources/applications/v1/projects.ts">listEnv</a>(id, { ...params }) -> void</code>
-
-### Workflows
-
-Methods:
-
-- <code title="get /applications/v1/workflows/{id}/status">client.applications.v1.workflows.<a href="./src/resources/applications/v1/workflows.ts">getStatus</a>(id, { ...params }) -> void</code>
-
 # Compute
 
 ## V1
