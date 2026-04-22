@@ -1,6 +1,6 @@
 {
   "name": "casedev",
-  "version": "0.51.0",
+  "version": "0.52.0",
   "description": "The official TypeScript library for the Casedev API",
   "author": "Casedev <support@casemark.com>",
   "types": "dist/index.d.ts",
