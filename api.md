@@ -774,3 +774,33 @@ Methods:
 Methods:
 
 - <code title="post /voice/v1/speak">client.voice.v1.speak.<a href="./src/resources/voice/v1/speak.ts">create</a>({ ...params }) -> Response</code>
+
+# Webhooks
+
+## V1
+
+### Endpoints
+
+Methods:
+
+- <code title="post /webhooks/v1/endpoints">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">create</a>({ ...params }) -> void</code>
+- <code title="get /webhooks/v1/endpoints/{id}">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">retrieve</a>(id) -> void</code>
+- <code title="patch /webhooks/v1/endpoints/{id}">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">update</a>(id, { ...params }) -> void</code>
+- <code title="get /webhooks/v1/endpoints">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">list</a>({ ...params }) -> void</code>
+- <code title="delete /webhooks/v1/endpoints/{id}">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">delete</a>(id) -> void</code>
+- <code title="post /webhooks/v1/endpoints/{id}/rotate_secret">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">rotateSecret</a>(id, { ...params }) -> void</code>
+- <code title="post /webhooks/v1/endpoints/{id}/test">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">test</a>(id, { ...params }) -> void</code>
+
+### Deliveries
+
+Methods:
+
+- <code title="get /webhooks/v1/deliveries/{id}">client.webhooks.v1.deliveries.<a href="./src/resources/webhooks/v1/deliveries.ts">retrieve</a>(id) -> void</code>
+- <code title="get /webhooks/v1/deliveries">client.webhooks.v1.deliveries.<a href="./src/resources/webhooks/v1/deliveries.ts">list</a>({ ...params }) -> void</code>
+- <code title="post /webhooks/v1/deliveries/{id}/replay">client.webhooks.v1.deliveries.<a href="./src/resources/webhooks/v1/deliveries.ts">replay</a>(id, { ...params }) -> void</code>
+
+### EventTypes
+
+Methods:
+
+- <code title="get /webhooks/v1/event_types">client.webhooks.v1.eventTypes.<a href="./src/resources/webhooks/v1/event-types.ts">list</a>() -> void</code>

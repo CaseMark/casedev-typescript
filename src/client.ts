@@ -64,6 +64,7 @@ import {
   VaultUploadResponse,
 } from './resources/vault/vault';
 import { Voice } from './resources/voice/voice';
+import { Webhooks } from './resources/webhooks/webhooks';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -816,6 +817,7 @@ export class Casedev {
    */
   vault: API.Vault = new API.Vault(this);
   voice: API.Voice = new API.Voice(this);
+  webhooks: API.Webhooks = new API.Webhooks(this);
 }
 
 Casedev.Agent = Agent;
@@ -837,6 +839,7 @@ Casedev.Translate = Translate;
 Casedev.Usage = Usage;
 Casedev.Vault = Vault;
 Casedev.Voice = Voice;
+Casedev.Webhooks = Webhooks;
 
 export declare namespace Casedev {
   export type RequestOptions = Opts.RequestOptions;
@@ -906,4 +909,6 @@ export declare namespace Casedev {
   };
 
   export { Voice as Voice };
+
+  export { Webhooks as Webhooks };
 }
