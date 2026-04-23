@@ -168,6 +168,7 @@ Types:
 
 Methods:
 
+- <code title="get /compute/v1/pricing">client.compute.v1.<a href="./src/resources/compute/v1/v1.ts">getPricing</a>() -> void</code>
 - <code title="get /compute/v1/usage">client.compute.v1.<a href="./src/resources/compute/v1/v1.ts">getUsage</a>({ ...params }) -> V1GetUsageResponse</code>
 
 ### Environments
@@ -187,6 +188,32 @@ Methods:
 - <code title="get /compute/v1/environments">client.compute.v1.environments.<a href="./src/resources/compute/v1/environments.ts">list</a>() -> EnvironmentListResponse</code>
 - <code title="delete /compute/v1/environments/{name}">client.compute.v1.environments.<a href="./src/resources/compute/v1/environments.ts">delete</a>(name) -> EnvironmentDeleteResponse</code>
 - <code title="post /compute/v1/environments/{name}/default">client.compute.v1.environments.<a href="./src/resources/compute/v1/environments.ts">setDefault</a>(name) -> EnvironmentSetDefaultResponse</code>
+
+### InstanceTypes
+
+Types:
+
+- <code><a href="./src/resources/compute/v1/instance-types.ts">InstanceTypeListResponse</a></code>
+
+Methods:
+
+- <code title="get /compute/v1/instance-types">client.compute.v1.instanceTypes.<a href="./src/resources/compute/v1/instance-types.ts">list</a>() -> InstanceTypeListResponse</code>
+
+### Instances
+
+Types:
+
+- <code><a href="./src/resources/compute/v1/instances.ts">InstanceCreateResponse</a></code>
+- <code><a href="./src/resources/compute/v1/instances.ts">InstanceRetrieveResponse</a></code>
+- <code><a href="./src/resources/compute/v1/instances.ts">InstanceListResponse</a></code>
+- <code><a href="./src/resources/compute/v1/instances.ts">InstanceDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /compute/v1/instances">client.compute.v1.instances.<a href="./src/resources/compute/v1/instances.ts">create</a>({ ...params }) -> InstanceCreateResponse</code>
+- <code title="get /compute/v1/instances/{id}">client.compute.v1.instances.<a href="./src/resources/compute/v1/instances.ts">retrieve</a>(id) -> InstanceRetrieveResponse</code>
+- <code title="get /compute/v1/instances">client.compute.v1.instances.<a href="./src/resources/compute/v1/instances.ts">list</a>() -> InstanceListResponse</code>
+- <code title="delete /compute/v1/instances/{id}">client.compute.v1.instances.<a href="./src/resources/compute/v1/instances.ts">delete</a>(id) -> InstanceDeleteResponse</code>
 
 ### Secrets
 
