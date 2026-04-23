@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.53.1 (2026-04-23)
+
+Full Changelog: [v0.53.0...v0.53.1](https://github.com/CaseMark/casedev-typescript/compare/v0.53.0...v0.53.1)
+
+### Chores
+
+* **internal:** more robust bootstrap script ([eae4cc7](https://github.com/CaseMark/casedev-typescript/commit/eae4cc7a93ce446735e96b4aeb5237f50468f931))
+
 ## 0.53.0 (2026-04-22)
 
 Full Changelog: [v0.52.0...v0.53.0](https://github.com/CaseMark/casedev-typescript/compare/v0.52.0...v0.53.0)
