@@ -11,6 +11,17 @@ import {
   EnvironmentSetDefaultResponse,
   Environments,
 } from './environments';
+import * as InstanceTypesAPI from './instance-types';
+import { InstanceTypeListResponse, InstanceTypes } from './instance-types';
+import * as InstancesAPI from './instances';
+import {
+  InstanceCreateParams,
+  InstanceCreateResponse,
+  InstanceDeleteResponse,
+  InstanceListResponse,
+  InstanceRetrieveResponse,
+  Instances,
+} from './instances';
 import * as SecretsAPI from './secrets';
 import {
   SecretCreateParams,
@@ -26,6 +37,7 @@ import {
   Secrets,
 } from './secrets';
 import { APIPromise } from '../../../core/api-promise';
+import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 /**
@@ -33,7 +45,26 @@ import { RequestOptions } from '../../../internal/request-options';
  */
 export class V1 extends APIResource {
   environments: EnvironmentsAPI.Environments = new EnvironmentsAPI.Environments(this._client);
+  instanceTypes: InstanceTypesAPI.InstanceTypes = new InstanceTypesAPI.InstanceTypes(this._client);
+  instances: InstancesAPI.Instances = new InstancesAPI.Instances(this._client);
   secrets: SecretsAPI.Secrets = new SecretsAPI.Secrets(this._client);
+
+  /**
+   * Returns current pricing for GPU instances. Prices are fetched in real-time and
+   * include a 20% platform fee. For detailed instance types and availability, use
+   * GET /compute/v1/instance-types.
+   *
+   * @example
+   * ```ts
+   * await client.compute.v1.getPricing();
+   * ```
+   */
+  getPricing(options?: RequestOptions): APIPromise<void> {
+    return this._client.get('/compute/v1/pricing', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
 
   /**
    * Returns detailed compute usage statistics and billing information for your
@@ -110,6 +141,8 @@ export interface V1GetUsageParams {
 }
 
 V1.Environments = Environments;
+V1.InstanceTypes = InstanceTypes;
+V1.Instances = Instances;
 V1.Secrets = Secrets;
 
 export declare namespace V1 {
@@ -123,6 +156,17 @@ export declare namespace V1 {
     type EnvironmentDeleteResponse as EnvironmentDeleteResponse,
     type EnvironmentSetDefaultResponse as EnvironmentSetDefaultResponse,
     type EnvironmentCreateParams as EnvironmentCreateParams,
+  };
+
+  export { InstanceTypes as InstanceTypes, type InstanceTypeListResponse as InstanceTypeListResponse };
+
+  export {
+    Instances as Instances,
+    type InstanceCreateResponse as InstanceCreateResponse,
+    type InstanceRetrieveResponse as InstanceRetrieveResponse,
+    type InstanceListResponse as InstanceListResponse,
+    type InstanceDeleteResponse as InstanceDeleteResponse,
+    type InstanceCreateParams as InstanceCreateParams,
   };
 
   export {
