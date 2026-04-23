@@ -47,3 +47,4 @@ export {
   type VaultUploadParams,
 } from './vault/vault';
 export { Voice } from './voice/voice';
+export { Webhooks } from './webhooks/webhooks';
