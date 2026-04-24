@@ -2,4 +2,3 @@
 
 export { Agent } from './agent';
 export { V1 } from './v1/index';
-export { V2 } from './v2/index';
