@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.58.0 (2026-04-28)
+
+Full Changelog: [v0.57.0...v0.58.0](https://github.com/CaseMark/casedev-typescript/compare/v0.57.0...v0.58.0)
+
+### Features
+
+* support setting headers via env ([085e4e6](https://github.com/CaseMark/casedev-typescript/commit/085e4e641e2f2004fdc38248d15de234491ef69e))
+
+
+### Chores
+
+* **internal:** codegen related update ([6e6ad73](https://github.com/CaseMark/casedev-typescript/commit/6e6ad73bfffe057acac6995d1e6509bdc2bdfe47))
+
 ## 0.57.0 (2026-04-24)
 
 Full Changelog: [v0.56.0...v0.57.0](https://github.com/CaseMark/casedev-typescript/compare/v0.56.0...v0.57.0)
