@@ -103,6 +103,11 @@ export interface SkillReadResponse {
   author_name?: string;
 
   /**
+   * Skill bundle metadata for root skills and companion file rows
+   */
+  bundle?: SkillReadResponse.UnionMember0 | SkillReadResponse.UnionMember1 | null;
+
+  /**
    * Full skill content in markdown
    */
   content?: string;
@@ -146,6 +151,36 @@ export interface SkillReadResponse {
    * Skill version
    */
   version?: string;
+}
+
+export namespace SkillReadResponse {
+  export interface UnionMember0 {
+    files: Array<UnionMember0.File>;
+
+    role: 'root';
+  }
+
+  export namespace UnionMember0 {
+    export interface File {
+      path: string;
+
+      slug: string;
+
+      content_type?: string | null;
+
+      name?: string | null;
+    }
+  }
+
+  export interface UnionMember1 {
+    path: string;
+
+    role: 'file';
+
+    root_slug: string;
+
+    content_type?: string | null;
+  }
 }
 
 export interface SkillResolveResponse {
