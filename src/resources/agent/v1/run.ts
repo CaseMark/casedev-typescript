@@ -225,7 +225,7 @@ export namespace RunGetDetailsResponse {
     finalResponse?: Result.FinalResponse | null;
 
     /**
-     * Sandbox execution logs (OpenCode server + runner script)
+     * Sandbox execution logs (runtime server + runner script)
      */
     logs?: Result.Logs | null;
 
@@ -247,11 +247,11 @@ export namespace RunGetDetailsResponse {
     }
 
     /**
-     * Sandbox execution logs (OpenCode server + runner script)
+     * Sandbox execution logs (runtime server + runner script)
      */
     export interface Logs {
       /**
-       * OpenCode server stdout/stderr
+       * Legacy runtime server stdout/stderr
        */
       opencode?: string;
 
@@ -259,6 +259,11 @@ export namespace RunGetDetailsResponse {
        * Runner script stdout/stderr
        */
       runner?: string;
+
+      /**
+       * Runtime server stdout/stderr
+       */
+      runtime?: string;
     }
   }
 

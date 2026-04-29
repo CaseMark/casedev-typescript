@@ -95,6 +95,21 @@ Methods:
 
 - <code title="get /services">client.system.<a href="./src/resources/system.ts">listServices</a>() -> SystemListServicesResponse</code>
 
+# Worker
+
+## V1
+
+Methods:
+
+- <code title="post /worker/v1">client.worker.v1.<a href="./src/resources/worker/v1.ts">create</a>() -> void</code>
+- <code title="get /worker/v1/{id}">client.worker.v1.<a href="./src/resources/worker/v1.ts">retrieve</a>(id) -> void</code>
+- <code title="delete /worker/v1/{id}">client.worker.v1.<a href="./src/resources/worker/v1.ts">delete</a>(id) -> void</code>
+- <code title="delete /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/resources/worker/v1.ts">proxyDelete</a>(workerPath, { ...params }) -> void</code>
+- <code title="get /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/resources/worker/v1.ts">proxyGet</a>(workerPath, { ...params }) -> void</code>
+- <code title="patch /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/resources/worker/v1.ts">proxyPatch</a>(workerPath, { ...params }) -> void</code>
+- <code title="post /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/resources/worker/v1.ts">proxyPost</a>(workerPath, { ...params }) -> void</code>
+- <code title="put /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/resources/worker/v1.ts">proxyPut</a>(workerPath, { ...params }) -> void</code>
+
 # Compute
 
 ## V1
