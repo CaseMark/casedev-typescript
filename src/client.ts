@@ -65,6 +65,7 @@ import {
 } from './resources/vault/vault';
 import { Voice } from './resources/voice/voice';
 import { Webhooks } from './resources/webhooks/webhooks';
+import { Worker } from './resources/worker/worker';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -803,6 +804,7 @@ export class Casedev {
    * Public system metadata and discovery endpoints
    */
   system: API.System = new API.System(this);
+  worker: API.Worker = new API.Worker(this);
   compute: API.Compute = new API.Compute(this);
   database: API.Database = new API.Database(this);
   format: API.Format = new API.Format(this);
@@ -834,6 +836,7 @@ export class Casedev {
 
 Casedev.Agent = Agent;
 Casedev.System = System;
+Casedev.Worker = Worker;
 Casedev.Compute = Compute;
 Casedev.Database = Database;
 Casedev.Format = Format;
@@ -859,6 +862,8 @@ export declare namespace Casedev {
   export { Agent as Agent };
 
   export { System as System, type SystemListServicesResponse as SystemListServicesResponse };
+
+  export { Worker as Worker };
 
   export { Compute as Compute };
 

@@ -48,3 +48,4 @@ export {
 } from './vault/vault';
 export { Voice } from './voice/voice';
 export { Webhooks } from './webhooks/webhooks';
+export { Worker } from './worker/worker';

@@ -16,9 +16,8 @@ export class Chat extends APIResource {
   files: FilesAPI.Files = new FilesAPI.Files(this._client);
 
   /**
-   * Creates a persistent OpenCode chat session backed by a Daytona or Vercel
-   * runtime. Session state is retained and can be resumed or recovered across
-   * requests.
+   * Creates a persistent chat session backed by a Daytona or Vercel runtime. Session
+   * state is retained and can be resumed or recovered across requests.
    */
   create(
     body: ChatCreateParams | null | undefined = {},
@@ -36,14 +35,14 @@ export class Chat extends APIResource {
   }
 
   /**
-   * Aborts the active OpenCode generation for this chat session.
+   * Aborts the active generation for this chat session.
    */
   cancel(id: string, options?: RequestOptions): APIPromise<ChatCancelResponse> {
     return this._client.post(path`/agent/v1/chat/${id}/cancel`, options);
   }
 
   /**
-   * Answers a pending OpenCode question for the chat session bound to this agent
+   * Answers a pending runtime question for the chat session bound to this agent
    * chat.
    */
   replyToQuestion(
@@ -109,7 +108,7 @@ export class Chat extends APIResource {
   }
 
   /**
-   * Relays OpenCode SSE events for this chat. Supports replay from buffered events
+   * Relays runtime SSE events for this chat. Supports replay from buffered events
    * using Last-Event-ID.
    */
   stream(
@@ -166,7 +165,7 @@ export interface ChatCreateParams {
   idleTimeoutMs?: number | null;
 
   /**
-   * Optional model override for the OpenCode session
+   * Optional model override for the chat runtime session
    */
   model?: string | null;
 
