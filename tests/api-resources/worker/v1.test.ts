@@ -41,6 +41,17 @@ describe('resource v1', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('boot', async () => {
+    const responsePromise = client.worker.v1.boot('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('proxyDelete: only required params', async () => {
     const responsePromise = client.worker.v1.proxyDelete('workerPath', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
