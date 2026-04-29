@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.60.0 (2026-04-29)
+
+Full Changelog: [v0.59.0...v0.60.0](https://github.com/CaseMark/casedev-typescript/compare/v0.59.0...v0.60.0)
+
+### Features
+
+* **api:** api update ([6e1c9f2](https://github.com/CaseMark/casedev-typescript/commit/6e1c9f2dd6b0ef65d876d59022c736fae38702c1))
+* **api:** api update ([8d4b465](https://github.com/CaseMark/casedev-typescript/commit/8d4b4654ee0df72dc606057f93afbb8d51c7a803))
+
+
+### Chores
+
+* **format:** run eslint and prettier separately ([59d1148](https://github.com/CaseMark/casedev-typescript/commit/59d1148084571b92dcb5e3ec1111e2943520fe5d))
+
 ## 0.59.0 (2026-04-29)
 
 Full Changelog: [v0.58.0...v0.59.0](https://github.com/CaseMark/casedev-typescript/compare/v0.58.0...v0.59.0)
