@@ -39,6 +39,18 @@ export class V1 extends APIResource {
   }
 
   /**
+   * Starts or resumes the worker sandbox and OpenCode server. Native
+   * /worker/v1/:id/\* proxy routes require this lifecycle primitive to have
+   * completed first.
+   */
+  boot(id: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/worker/v1/${id}/boot`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
+  /**
    * Forwards a DELETE request to the worker runtime without translating response
    * shapes.
    */
