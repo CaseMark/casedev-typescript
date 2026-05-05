@@ -189,6 +189,37 @@ export class Objects extends APIResource {
   }
 
   /**
+   * Retrieves the raw text of a processed vault object split by page. The object
+   * must have completed ingestion before pages can be retrieved — for PDFs this
+   * requires the OCR pipeline to have finished writing the per-page sidecar, so
+   * freshly uploaded PDFs return 400 with the current `ingestionStatus` until
+   * processing completes. For PDFs this returns the per-page OCR text. For plain
+   * text files (txt, md, source code, court reporter transcripts) the text is split
+   * using right-aligned page-number markers when present (preserving the original
+   * document numbering, including continuations like Volume 2 starting at page 234),
+   * falling back to form-feed (\f) page-break characters, and finally a single page
+   * if neither signal is present. Use the optional `start` and `end` query
+   * parameters to fetch a specific inclusive page range. Pages with no text are
+   * omitted.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.objects.getPages(
+   *   'objectId',
+   *   { id: 'id' },
+   * );
+   * ```
+   */
+  getPages(
+    objectID: string,
+    params: ObjectGetPagesParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectGetPagesResponse> {
+    const { id, ...query } = params;
+    return this._client.get(path`/vault/${id}/objects/${objectID}/pages`, { query, ...options });
+  }
+
+  /**
    * Get the status of a CaseMark summary workflow job.
    *
    * @example
@@ -677,6 +708,63 @@ export namespace ObjectGetOcrWordsResponse {
   }
 }
 
+export interface ObjectGetPagesResponse {
+  metadata: ObjectGetPagesResponse.Metadata;
+
+  /**
+   * Per-page OCR text in ascending page order
+   */
+  pages: Array<ObjectGetPagesResponse.Page>;
+}
+
+export namespace ObjectGetPagesResponse {
+  export interface Metadata {
+    filename: string;
+
+    object_id: string;
+
+    /**
+     * Total number of pages with extracted text in the document
+     */
+    page_count: number;
+
+    /**
+     * Number of pages returned after applying the range filter
+     */
+    returned_pages: number;
+
+    /**
+     * Where the page text came from. `ocr` for PDFs (per-page OCR sidecar). `txt` for
+     * plain-text files split on form-feed (\f) characters.
+     */
+    source: 'ocr' | 'txt';
+
+    vault_id: string;
+
+    /**
+     * Echoes the end query param if provided
+     */
+    end?: number | null;
+
+    /**
+     * Echoes the start query param if provided
+     */
+    start?: number | null;
+  }
+
+  export interface Page {
+    /**
+     * Page number (1-indexed)
+     */
+    page: number;
+
+    /**
+     * OCR text for this page
+     */
+    text: string;
+  }
+}
+
 export interface ObjectGetSummarizeJobResponse {
   /**
    * When the job completed
@@ -889,6 +977,25 @@ export interface ObjectGetOcrWordsParams {
   wordStart?: number;
 }
 
+export interface ObjectGetPagesParams {
+  /**
+   * Path param: The vault ID
+   */
+  id: string;
+
+  /**
+   * Query param: Last page to return (inclusive, 1-indexed). If omitted, returns
+   * through the last page with text.
+   */
+  end?: number;
+
+  /**
+   * Query param: First page to return (inclusive, 1-indexed). If omitted, starts at
+   * the first page with text.
+   */
+  start?: number;
+}
+
 export interface ObjectGetSummarizeJobParams {
   /**
    * Vault ID
@@ -917,6 +1024,7 @@ export declare namespace Objects {
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
     type ObjectGetChunksResponse as ObjectGetChunksResponse,
     type ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse,
+    type ObjectGetPagesResponse as ObjectGetPagesResponse,
     type ObjectGetSummarizeJobResponse as ObjectGetSummarizeJobResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
@@ -926,6 +1034,7 @@ export declare namespace Objects {
     type ObjectDownloadParams as ObjectDownloadParams,
     type ObjectGetChunksParams as ObjectGetChunksParams,
     type ObjectGetOcrWordsParams as ObjectGetOcrWordsParams,
+    type ObjectGetPagesParams as ObjectGetPagesParams,
     type ObjectGetSummarizeJobParams as ObjectGetSummarizeJobParams,
     type ObjectGetTextParams as ObjectGetTextParams,
   };

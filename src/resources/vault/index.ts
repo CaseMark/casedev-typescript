@@ -34,6 +34,7 @@ export {
   type ObjectCreatePresignedURLResponse,
   type ObjectGetChunksResponse,
   type ObjectGetOcrWordsResponse,
+  type ObjectGetPagesResponse,
   type ObjectGetSummarizeJobResponse,
   type ObjectGetTextResponse,
   type ObjectRetrieveParams,
@@ -43,6 +44,7 @@ export {
   type ObjectDownloadParams,
   type ObjectGetChunksParams,
   type ObjectGetOcrWordsParams,
+  type ObjectGetPagesParams,
   type ObjectGetSummarizeJobParams,
   type ObjectGetTextParams,
 } from './objects';
