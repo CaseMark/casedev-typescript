@@ -31,6 +31,8 @@ import { Ocr } from './resources/ocr/ocr';
 import { Privilege } from './resources/privilege/privilege';
 import { Search } from './resources/search/search';
 import {
+  ReadResponseFileBundle,
+  ReadResponseRootBundle,
   SkillCreateParams,
   SkillCreateResponse,
   SkillDeleteResponse,
@@ -887,6 +889,8 @@ export declare namespace Casedev {
 
   export {
     Skills as Skills,
+    type ReadResponseFileBundle as ReadResponseFileBundle,
+    type ReadResponseRootBundle as ReadResponseRootBundle,
     type SkillCreateResponse as SkillCreateResponse,
     type SkillUpdateResponse as SkillUpdateResponse,
     type SkillDeleteResponse as SkillDeleteResponse,
