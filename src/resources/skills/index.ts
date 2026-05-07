@@ -3,6 +3,8 @@
 export { Custom, type CustomListResponse, type CustomListParams } from './custom';
 export {
   Skills,
+  type ReadResponseFileBundle,
+  type ReadResponseRootBundle,
   type SkillCreateResponse,
   type SkillUpdateResponse,
   type SkillDeleteResponse,
