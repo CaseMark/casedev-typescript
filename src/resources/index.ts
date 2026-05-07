@@ -14,6 +14,8 @@ export { Privilege } from './privilege/privilege';
 export { Search } from './search/search';
 export {
   Skills,
+  type ReadResponseFileBundle,
+  type ReadResponseRootBundle,
   type SkillCreateResponse,
   type SkillUpdateResponse,
   type SkillDeleteResponse,
