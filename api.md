@@ -471,6 +471,8 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/skills/skills.ts">ReadResponseFileBundle</a></code>
+- <code><a href="./src/resources/skills/skills.ts">ReadResponseRootBundle</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillCreateResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillUpdateResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillDeleteResponse</a></code>

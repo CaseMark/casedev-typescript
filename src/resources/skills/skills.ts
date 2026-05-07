@@ -54,6 +54,34 @@ export class Skills extends APIResource {
   }
 }
 
+export interface ReadResponseFileBundle {
+  path: string;
+
+  role: 'file';
+
+  root_slug: string;
+
+  content_type?: string | null;
+}
+
+export interface ReadResponseRootBundle {
+  files: Array<ReadResponseRootBundle.File>;
+
+  role: 'root';
+}
+
+export namespace ReadResponseRootBundle {
+  export interface File {
+    path: string;
+
+    slug: string;
+
+    content_type?: string | null;
+
+    name?: string | null;
+  }
+}
+
 export interface SkillCreateResponse {
   content?: string;
 
@@ -105,7 +133,7 @@ export interface SkillReadResponse {
   /**
    * Skill bundle metadata for root skills and companion file rows
    */
-  bundle?: SkillReadResponse.UnionMember0 | SkillReadResponse.UnionMember1 | null;
+  bundle?: ReadResponseRootBundle | ReadResponseFileBundle | null;
 
   /**
    * Full skill content in markdown
@@ -151,36 +179,6 @@ export interface SkillReadResponse {
    * Skill version
    */
   version?: string;
-}
-
-export namespace SkillReadResponse {
-  export interface UnionMember0 {
-    files: Array<UnionMember0.File>;
-
-    role: 'root';
-  }
-
-  export namespace UnionMember0 {
-    export interface File {
-      path: string;
-
-      slug: string;
-
-      content_type?: string | null;
-
-      name?: string | null;
-    }
-  }
-
-  export interface UnionMember1 {
-    path: string;
-
-    role: 'file';
-
-    root_slug: string;
-
-    content_type?: string | null;
-  }
 }
 
 export interface SkillResolveResponse {
@@ -291,6 +289,8 @@ Skills.Custom = Custom;
 
 export declare namespace Skills {
   export {
+    type ReadResponseFileBundle as ReadResponseFileBundle,
+    type ReadResponseRootBundle as ReadResponseRootBundle,
     type SkillCreateResponse as SkillCreateResponse,
     type SkillUpdateResponse as SkillUpdateResponse,
     type SkillDeleteResponse as SkillDeleteResponse,
