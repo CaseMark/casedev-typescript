@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.64.1 (2026-05-08)
+
+Full Changelog: [v0.64.0...v0.64.1](https://github.com/CaseMark/casedev-typescript/compare/v0.64.0...v0.64.1)
+
+### Chores
+
+* redact api-key headers in debug logs ([bd8ba39](https://github.com/CaseMark/casedev-typescript/commit/bd8ba39ba62505e81918526f89f02f9cffe76363))
+
 ## 0.64.0 (2026-05-07)
 
 Full Changelog: [v0.63.0...v0.64.0](https://github.com/CaseMark/casedev-typescript/compare/v0.63.0...v0.64.0)
