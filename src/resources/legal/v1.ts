@@ -1186,8 +1186,7 @@ export interface V1DocketParams {
   docketId?: string;
 
   /**
-   * Include docket entries/filings in lookup responses. Coming soon — currently
-   * returns 501. The parameter is accepted for forward compatibility.
+   * Include docket entries/filings in lookup responses.
    */
   includeEntries?: boolean;
 
