@@ -1,5 +1,19 @@
 # Agent
 
+## Skills
+
+### Namespaces
+
+Methods:
+
+- <code title="post /agent/skills/namespaces">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">create</a>({ ...params }) -> void</code>
+- <code title="get /agent/skills/namespaces/{id}">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">retrieve</a>(id) -> void</code>
+- <code title="get /agent/skills/namespaces">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">list</a>() -> void</code>
+- <code title="delete /agent/skills/namespaces/{id}">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">delete</a>(id) -> void</code>
+- <code title="post /agent/skills/namespaces/{id}/publish">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">publish</a>(id, { ...params }) -> void</code>
+- <code title="get /agent/skills/namespaces/{id}/pull">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">pull</a>(id) -> void</code>
+- <code title="post /agent/skills/namespaces/{id}/rotate-token">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">rotateToken</a>(id) -> void</code>
+
 ## V1
 
 ### Agents
@@ -94,22 +108,6 @@ Types:
 Methods:
 
 - <code title="get /services">client.system.<a href="./src/resources/system.ts">listServices</a>() -> SystemListServicesResponse</code>
-
-# Worker
-
-## V1
-
-Methods:
-
-- <code title="post /worker/v1">client.worker.v1.<a href="./src/resources/worker/v1.ts">create</a>() -> void</code>
-- <code title="get /worker/v1/{id}">client.worker.v1.<a href="./src/resources/worker/v1.ts">retrieve</a>(id) -> void</code>
-- <code title="delete /worker/v1/{id}">client.worker.v1.<a href="./src/resources/worker/v1.ts">delete</a>(id) -> void</code>
-- <code title="post /worker/v1/{id}/boot">client.worker.v1.<a href="./src/resources/worker/v1.ts">boot</a>(id) -> void</code>
-- <code title="delete /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/resources/worker/v1.ts">proxyDelete</a>(workerPath, { ...params }) -> void</code>
-- <code title="get /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/resources/worker/v1.ts">proxyGet</a>(workerPath, { ...params }) -> void</code>
-- <code title="patch /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/resources/worker/v1.ts">proxyPatch</a>(workerPath, { ...params }) -> void</code>
-- <code title="post /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/resources/worker/v1.ts">proxyPost</a>(workerPath, { ...params }) -> void</code>
-- <code title="put /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/resources/worker/v1.ts">proxyPut</a>(workerPath, { ...params }) -> void</code>
 
 # Compute
 
