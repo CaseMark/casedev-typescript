@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.65.1 (2026-05-19)
+
+Full Changelog: [v0.65.0...v0.65.1](https://github.com/CaseMark/casedev-typescript/compare/v0.65.0...v0.65.1)
+
+### Bug Fixes
+
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([f1f4a98](https://github.com/CaseMark/casedev-typescript/commit/f1f4a9870bbd0c17293f7a9d074b053acc4fdc1a))
+
+
+### Chores
+
+* **tests:** remove redundant File import ([6cc90f6](https://github.com/CaseMark/casedev-typescript/commit/6cc90f6afc198781ce67988bb59a1805781a29cd))
+
 ## 0.65.0 (2026-05-15)
 
 Full Changelog: [v0.64.2...v0.65.0](https://github.com/CaseMark/casedev-typescript/compare/v0.64.2...v0.65.0)
