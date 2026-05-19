@@ -28,7 +28,6 @@ describe('resource instances', () => {
       instanceType: 'gpu_1x_a10',
       name: 'ocr-batch-job',
       region: 'us-west-1',
-      autoShutdownMinutes: 120,
       vaultIds: ['vault_abc123'],
     });
   });

@@ -11,9 +11,9 @@ import { path } from '../../../internal/utils/path';
 export class Instances extends APIResource {
   /**
    * Launches a new GPU compute instance with automatic SSH key generation. Supports
-   * mounting Case.dev Vaults as filesystems and configurable auto-shutdown. Instance
-   * boots in ~2-5 minutes. Perfect for batch OCR processing, AI model training, and
-   * intensive document analysis workloads.
+   * mounting Case.dev Vaults as filesystems. Instance boots in ~2-5 minutes. Perfect
+   * for batch OCR processing, AI model training, and intensive document analysis
+   * workloads.
    *
    * @example
    * ```ts
@@ -21,7 +21,6 @@ export class Instances extends APIResource {
    *   instanceType: 'gpu_1x_a10',
    *   name: 'ocr-batch-job',
    *   region: 'us-west-1',
-   *   autoShutdownMinutes: 120,
    *   vaultIds: ['vault_abc123'],
    * });
    * ```
@@ -48,9 +47,8 @@ export class Instances extends APIResource {
 
   /**
    * Retrieves all GPU compute instances for your organization with real-time status
-   * updates from Lambda Labs. Includes pricing, runtime metrics, and auto-shutdown
-   * configuration. Perfect for monitoring AI workloads, document processing jobs,
-   * and cost tracking.
+   * updates from Lambda Labs. Includes pricing and runtime metrics. Perfect for
+   * monitoring AI workloads, document processing jobs, and cost tracking.
    *
    * @example
    * ```ts
@@ -81,8 +79,6 @@ export class Instances extends APIResource {
 export interface InstanceCreateResponse {
   id?: string;
 
-  autoShutdownMinutes?: number | null;
-
   createdAt?: string;
 
   gpu?: string;
@@ -106,8 +102,6 @@ export interface InstanceCreateResponse {
 
 export interface InstanceRetrieveResponse {
   id?: string;
-
-  autoShutdownMinutes?: number | null;
 
   createdAt?: string;
 
@@ -162,8 +156,6 @@ export namespace InstanceListResponse {
   export interface Instance {
     id?: string;
 
-    autoShutdownMinutes?: number | null;
-
     createdAt?: string;
 
     gpu?: string;
@@ -217,11 +209,6 @@ export interface InstanceCreateParams {
    * Region (e.g., 'us-west-1')
    */
   region: string;
-
-  /**
-   * Auto-shutdown timer (null = never)
-   */
-  autoShutdownMinutes?: number | null;
 
   /**
    * Vault IDs to mount
