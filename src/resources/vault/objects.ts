@@ -117,10 +117,9 @@ export class Objects extends APIResource {
   }
 
   /**
-   * Downloads a file from a vault. Returns the actual file content as a binary
-   * stream with appropriate headers for file download. Useful for retrieving
-   * contracts, depositions, case files, and other legal documents stored in your
-   * vault.
+   * Downloads a file from a vault by redirecting to a short-lived presigned S3 URL.
+   * Useful for retrieving contracts, depositions, case files, and other legal
+   * documents stored in your vault.
    *
    * @example
    * ```ts
