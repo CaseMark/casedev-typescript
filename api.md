@@ -418,6 +418,25 @@ Methods:
 - <code title="delete /memory/v1">client.memory.v1.<a href="./src/resources/memory/v1.ts">deleteAll</a>({ ...params }) -> V1DeleteAllResponse</code>
 - <code title="post /memory/v1/search">client.memory.v1.<a href="./src/resources/memory/v1.ts">search</a>({ ...params }) -> V1SearchResponse</code>
 
+# Media
+
+## V1
+
+### Clips
+
+Methods:
+
+- <code title="post /media/v1/clips">client.media.v1.clips.<a href="./src/resources/media/v1/clips.ts">create</a>() -> void</code>
+- <code title="get /media/v1/clips/{id}">client.media.v1.clips.<a href="./src/resources/media/v1/clips.ts">retrieve</a>(id) -> void</code>
+
+### Transcripts
+
+#### Search
+
+Methods:
+
+- <code title="post /media/v1/transcripts/search">client.media.v1.transcripts.search.<a href="./src/resources/media/v1/transcripts/search.ts">create</a>() -> void</code>
+
 # Ocr
 
 ## V1

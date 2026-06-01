@@ -26,6 +26,7 @@ import { Legal } from './resources/legal/legal';
 import { Llm, LlmGetConfigResponse } from './resources/llm/llm';
 import { Mail } from './resources/mail/mail';
 import { Matters } from './resources/matters/matters';
+import { Media } from './resources/media/media';
 import { Memory } from './resources/memory/memory';
 import { Ocr } from './resources/ocr/ocr';
 import { Privilege } from './resources/privilege/privilege';
@@ -815,6 +816,7 @@ export class Casedev {
    */
   llm: API.Llm = new API.Llm(this);
   memory: API.Memory = new API.Memory(this);
+  media: API.Media = new API.Media(this);
   ocr: API.Ocr = new API.Ocr(this);
   privilege: API.Privilege = new API.Privilege(this);
   mail: API.Mail = new API.Mail(this);
@@ -843,6 +845,7 @@ Casedev.Legal = Legal;
 Casedev.Matters = Matters;
 Casedev.Llm = Llm;
 Casedev.Memory = Memory;
+Casedev.Media = Media;
 Casedev.Ocr = Ocr;
 Casedev.Privilege = Privilege;
 Casedev.Mail = Mail;
@@ -875,6 +878,8 @@ export declare namespace Casedev {
   export { Llm as Llm, type LlmGetConfigResponse as LlmGetConfigResponse };
 
   export { Memory as Memory };
+
+  export { Media as Media };
 
   export { Ocr as Ocr };
 
