@@ -935,7 +935,8 @@ export interface VaultSearchParams {
   method?: 'vector' | 'graph' | 'hybrid' | 'global' | 'local' | 'fast' | 'entity';
 
   /**
-   * Maximum number of results to return
+   * Maximum number of results to return. Hybrid search supports 1 to 50; other
+   * methods may support up to 100.
    */
   topK?: number;
 }
