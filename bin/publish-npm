@@ -56,4 +56,4 @@ else
 fi
 
 # Publish with npm trusted publishing.
-pnpm publish --provenance --no-git-checks --tag "$TAG"
+npm publish --tag "$TAG"
