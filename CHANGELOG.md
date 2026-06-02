@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.67.2 (2026-06-02)
+
+Full Changelog: [v0.67.1...v0.67.2](https://github.com/CaseMark/casedev-typescript/compare/v0.67.1...v0.67.2)
+
+### Bug Fixes
+
+* publish npm package with OIDC-compatible npm ([fb8fa45](https://github.com/CaseMark/casedev-typescript/commit/fb8fa45c9b398ad72a0e013bd6b52a6938b70c66))
+
 ## 0.67.1 (2026-06-02)
 
 Full Changelog: [v0.67.0...v0.67.1](https://github.com/CaseMark/casedev-typescript/compare/v0.67.0...v0.67.1)
