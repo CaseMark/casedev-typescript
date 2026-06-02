@@ -19,6 +19,7 @@
 import Casedev from 'casedev';
 
 const apiKey = process.env['CASEDEV_API_KEY'];
+jest.setTimeout(30_000);
 
 // Skip the entire suite if no API key is configured.
 // This lets the test suite run cleanly in environments that only have
@@ -27,19 +28,21 @@ const describeIfLive = apiKey ? describe : describe.skip;
 
 describeIfLive('smoke: /llm/config', () => {
   let client: Casedev;
+  let config: Awaited<ReturnType<Casedev['llm']['getConfig']>>;
+  let response: Response;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     client = new Casedev({ apiKey: apiKey!, timeout: 30_000 });
-  });
+    config = await client.llm.getConfig();
+    response = await client.llm.getConfig().asResponse();
+  }, 30_000);
 
   test('returns a list of models', async () => {
-    const config = await client.llm.getConfig();
     expect(config.models).toBeDefined();
     expect(config.models.length).toBeGreaterThan(0);
   });
 
   test('each model has required fields', async () => {
-    const config = await client.llm.getConfig();
     const model = config.models[0]!;
     expect(model.id).toBeTruthy();
     expect(model.name).toBeTruthy();
@@ -47,7 +50,6 @@ describeIfLive('smoke: /llm/config', () => {
   });
 
   test('raw response is well-formed', async () => {
-    const response = await client.llm.getConfig().asResponse();
     expect(response.status).toBe(200);
     expect(response.headers.get('content-type')).toContain('application/json');
   });
@@ -55,20 +57,22 @@ describeIfLive('smoke: /llm/config', () => {
 
 describeIfLive('smoke: /vault', () => {
   let client: Casedev;
+  let result: Awaited<ReturnType<Casedev['vault']['list']>>;
+  let response: Response;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     client = new Casedev({ apiKey: apiKey!, timeout: 30_000 });
-  });
+    result = await client.vault.list();
+    response = await client.vault.list().asResponse();
+  }, 30_000);
 
   test('list returns a valid response', async () => {
-    const result = await client.vault.list();
     // total can be 0 for a fresh org, but the field should exist
     expect(result.total).toBeDefined();
     expect(result.vaults).toBeDefined();
   });
 
   test('list raw response is well-formed', async () => {
-    const response = await client.vault.list().asResponse();
     expect(response.status).toBe(200);
     expect(response.headers.get('content-type')).toContain('application/json');
   });
