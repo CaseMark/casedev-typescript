@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.67.1 (2026-06-02)
+
+Full Changelog: [v0.67.0...v0.67.1](https://github.com/CaseMark/casedev-typescript/compare/v0.67.0...v0.67.1)
+
+### Bug Fixes
+
+* use npm trusted publishing ([7f444c7](https://github.com/CaseMark/casedev-typescript/commit/7f444c75b011847ded09c93c1a0d5c7ad988ca15))
+
 ## [0.67.0](https://github.com/CaseMark/casedev-typescript/compare/v0.66.0...v0.67.0) (2026-06-01)
 
 
