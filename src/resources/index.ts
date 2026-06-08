@@ -8,6 +8,7 @@ export { Legal } from './legal/legal';
 export { Llm, type LlmGetConfigResponse } from './llm/llm';
 export { Mail } from './mail/mail';
 export { Matters } from './matters/matters';
+export { Media } from './media/media';
 export { Memory } from './memory/memory';
 export { Ocr } from './ocr/ocr';
 export { Privilege } from './privilege/privilege';
@@ -19,10 +20,12 @@ export {
   type SkillCreateResponse,
   type SkillUpdateResponse,
   type SkillDeleteResponse,
+  type SkillExportResponse,
   type SkillReadResponse,
   type SkillResolveResponse,
   type SkillCreateParams,
   type SkillUpdateParams,
+  type SkillExportParams,
   type SkillResolveParams,
 } from './skills/skills';
 export { Superdoc } from './superdoc/superdoc';

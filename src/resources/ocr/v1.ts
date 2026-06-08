@@ -28,9 +28,8 @@ export class V1 extends APIResource {
   }
 
   /**
-   * Download OCR processing results in various formats. Returns the processed
-   * document as text extraction, structured JSON with coordinates, searchable PDF
-   * with text layer, or the original uploaded document.
+   * Download OCR processing results in various formats by redirecting to the OCR
+   * service download URL.
    *
    * @example
    * ```ts

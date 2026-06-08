@@ -7,9 +7,9 @@ const client = new Casedev({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource files', () => {
-  test('list', async () => {
-    const responsePromise = client.agent.v1.chat.files.list('id');
+describe('resource clips', () => {
+  test('create', async () => {
+    const responsePromise = client.media.v1.clips.create();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -19,7 +19,14 @@ describe('resource files', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('download: required and optional params', async () => {
-    const response = await client.agent.v1.chat.files.download('filePath', { id: 'id' });
+  test('retrieve', async () => {
+    const responsePromise = client.media.v1.clips.retrieve('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 });

@@ -1,4 +1,4 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Agent } from './agent';
-export { V1 } from './v1/index';
+export { Search } from './search';
+export { Transcripts } from './transcripts';

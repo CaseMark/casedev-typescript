@@ -31,32 +31,16 @@ import {
   RunWatchParams,
   RunWatchResponse,
 } from './run';
-import * as ChatAPI from './chat/chat';
-import {
-  Chat,
-  ChatCancelResponse,
-  ChatCreateParams,
-  ChatCreateResponse,
-  ChatDeleteResponse,
-  ChatReplyToQuestionParams,
-  ChatRespondParams,
-  ChatRespondResponse,
-  ChatSendMessageParams,
-  ChatStreamParams,
-  ChatStreamResponse,
-} from './chat/chat';
 
 export class V1 extends APIResource {
   agents: AgentsAPI.Agents = new AgentsAPI.Agents(this._client);
   run: RunAPI.Run = new RunAPI.Run(this._client);
   execute: ExecuteAPI.Execute = new ExecuteAPI.Execute(this._client);
-  chat: ChatAPI.Chat = new ChatAPI.Chat(this._client);
 }
 
 V1.Agents = Agents;
 V1.Run = Run;
 V1.Execute = Execute;
-V1.Chat = Chat;
 
 export declare namespace V1 {
   export {
@@ -91,19 +75,5 @@ export declare namespace V1 {
     Execute as Execute,
     type ExecuteCreateResponse as ExecuteCreateResponse,
     type ExecuteCreateParams as ExecuteCreateParams,
-  };
-
-  export {
-    Chat as Chat,
-    type ChatCreateResponse as ChatCreateResponse,
-    type ChatDeleteResponse as ChatDeleteResponse,
-    type ChatCancelResponse as ChatCancelResponse,
-    type ChatRespondResponse as ChatRespondResponse,
-    type ChatStreamResponse as ChatStreamResponse,
-    type ChatCreateParams as ChatCreateParams,
-    type ChatReplyToQuestionParams as ChatReplyToQuestionParams,
-    type ChatRespondParams as ChatRespondParams,
-    type ChatSendMessageParams as ChatSendMessageParams,
-    type ChatStreamParams as ChatStreamParams,
   };
 }
