@@ -20,10 +20,12 @@ export {
   type SkillCreateResponse,
   type SkillUpdateResponse,
   type SkillDeleteResponse,
+  type SkillExportResponse,
   type SkillReadResponse,
   type SkillResolveResponse,
   type SkillCreateParams,
   type SkillUpdateParams,
+  type SkillExportParams,
   type SkillResolveParams,
 } from './skills/skills';
 export { Superdoc } from './superdoc/superdoc';

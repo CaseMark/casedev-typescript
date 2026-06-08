@@ -23,6 +23,17 @@ describe('resource skills', () => {
     const response = await client.skills.create({
       content: 'x',
       name: 'x',
+      files: [
+        {
+          content: 'content',
+          path: 'path',
+          contentType: 'contentType',
+          metadata: {},
+          name: 'name',
+          summary: 'summary',
+          tags: ['string'],
+        },
+      ],
       metadata: {},
       slug: 'slug',
       summary: 'summary',
@@ -50,6 +61,24 @@ describe('resource skills', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('export', async () => {
+    const responsePromise = client.skills.export('slug');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('export: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.skills.export('slug', { target: 'target' }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Casedev.NotFoundError);
   });
 
   test('read', async () => {

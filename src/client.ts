@@ -37,6 +37,8 @@ import {
   SkillCreateParams,
   SkillCreateResponse,
   SkillDeleteResponse,
+  SkillExportParams,
+  SkillExportResponse,
   SkillReadResponse,
   SkillResolveParams,
   SkillResolveResponse,
@@ -894,10 +896,12 @@ export declare namespace Casedev {
     type SkillCreateResponse as SkillCreateResponse,
     type SkillUpdateResponse as SkillUpdateResponse,
     type SkillDeleteResponse as SkillDeleteResponse,
+    type SkillExportResponse as SkillExportResponse,
     type SkillReadResponse as SkillReadResponse,
     type SkillResolveResponse as SkillResolveResponse,
     type SkillCreateParams as SkillCreateParams,
     type SkillUpdateParams as SkillUpdateParams,
+    type SkillExportParams as SkillExportParams,
     type SkillResolveParams as SkillResolveParams,
   };
 

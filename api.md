@@ -1,19 +1,5 @@
 # Agent
 
-## Skills
-
-### Namespaces
-
-Methods:
-
-- <code title="post /agent/skills/namespaces">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /agent/skills/namespaces/{id}">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">retrieve</a>(id) -> void</code>
-- <code title="get /agent/skills/namespaces">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">list</a>() -> void</code>
-- <code title="delete /agent/skills/namespaces/{id}">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">delete</a>(id) -> void</code>
-- <code title="post /agent/skills/namespaces/{id}/publish">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">publish</a>(id, { ...params }) -> void</code>
-- <code title="get /agent/skills/namespaces/{id}/pull">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">pull</a>(id) -> void</code>
-- <code title="post /agent/skills/namespaces/{id}/rotate-token">client.agent.skills.namespaces.<a href="./src/resources/agent/skills/namespaces.ts">rotateToken</a>(id) -> void</code>
-
 ## V1
 
 ### Agents
@@ -67,37 +53,6 @@ Types:
 Methods:
 
 - <code title="post /agent/v1/execute">client.agent.v1.execute.<a href="./src/resources/agent/v1/execute.ts">create</a>({ ...params }) -> ExecuteCreateResponse</code>
-
-### Chat
-
-Types:
-
-- <code><a href="./src/resources/agent/v1/chat/chat.ts">ChatCreateResponse</a></code>
-- <code><a href="./src/resources/agent/v1/chat/chat.ts">ChatDeleteResponse</a></code>
-- <code><a href="./src/resources/agent/v1/chat/chat.ts">ChatCancelResponse</a></code>
-- <code><a href="./src/resources/agent/v1/chat/chat.ts">ChatRespondResponse</a></code>
-- <code><a href="./src/resources/agent/v1/chat/chat.ts">ChatStreamResponse</a></code>
-
-Methods:
-
-- <code title="post /agent/v1/chat">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat/chat.ts">create</a>({ ...params }) -> ChatCreateResponse</code>
-- <code title="delete /agent/v1/chat/{id}">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat/chat.ts">delete</a>(id) -> ChatDeleteResponse</code>
-- <code title="post /agent/v1/chat/{id}/cancel">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat/chat.ts">cancel</a>(id) -> ChatCancelResponse</code>
-- <code title="post /agent/v1/chat/{id}/question/{requestID}/reply">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat/chat.ts">replyToQuestion</a>(requestID, { ...params }) -> void</code>
-- <code title="post /agent/v1/chat/{id}/respond">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat/chat.ts">respond</a>(id, { ...params }) -> string</code>
-- <code title="post /agent/v1/chat/{id}/message">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat/chat.ts">sendMessage</a>(id, { ...params }) -> void</code>
-- <code title="get /agent/v1/chat/{id}/stream">client.agent.v1.chat.<a href="./src/resources/agent/v1/chat/chat.ts">stream</a>(id, { ...params }) -> string</code>
-
-#### Files
-
-Types:
-
-- <code><a href="./src/resources/agent/v1/chat/files.ts">FileListResponse</a></code>
-
-Methods:
-
-- <code title="get /agent/v1/chat/{id}/files">client.agent.v1.chat.files.<a href="./src/resources/agent/v1/chat/files.ts">list</a>(id) -> FileListResponse</code>
-- <code title="get /agent/v1/chat/{id}/files/{filePath}">client.agent.v1.chat.files.<a href="./src/resources/agent/v1/chat/files.ts">download</a>(filePath, { ...params }) -> Response</code>
 
 # System
 
@@ -493,6 +448,7 @@ Types:
 - <code><a href="./src/resources/skills/skills.ts">SkillCreateResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillUpdateResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillDeleteResponse</a></code>
+- <code><a href="./src/resources/skills/skills.ts">SkillExportResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillReadResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillResolveResponse</a></code>
 
@@ -501,6 +457,7 @@ Methods:
 - <code title="post /skills">client.skills.<a href="./src/resources/skills/skills.ts">create</a>({ ...params }) -> SkillCreateResponse</code>
 - <code title="put /skills/{slug}">client.skills.<a href="./src/resources/skills/skills.ts">update</a>(slug, { ...params }) -> SkillUpdateResponse</code>
 - <code title="delete /skills/{slug}">client.skills.<a href="./src/resources/skills/skills.ts">delete</a>(slug) -> SkillDeleteResponse</code>
+- <code title="get /skills/{slug}/export">client.skills.<a href="./src/resources/skills/skills.ts">export</a>(slug, { ...params }) -> SkillExportResponse</code>
 - <code title="get /skills/{slug}">client.skills.<a href="./src/resources/skills/skills.ts">read</a>(slug) -> SkillReadResponse</code>
 - <code title="get /skills/resolve">client.skills.<a href="./src/resources/skills/skills.ts">resolve</a>({ ...params }) -> SkillResolveResponse</code>
 
