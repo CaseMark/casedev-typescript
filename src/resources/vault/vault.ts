@@ -656,6 +656,12 @@ export namespace VaultSearchResponse {
     distance?: number;
 
     /**
+     * Source media timestamp for the last word in the chunk. Present only for
+     * media-backed transcripts with real word timing.
+     */
+    end_ms?: number;
+
+    /**
      * ID of the source document
      */
     object_id?: string;
@@ -681,6 +687,12 @@ export namespace VaultSearchResponse {
      * Source identifier (deprecated, use object_id)
      */
     source?: string;
+
+    /**
+     * Source media timestamp for the first word in the chunk. Present only for
+     * media-backed transcripts with real word timing.
+     */
+    start_ms?: number;
 
     /**
      * Preview of the chunk text (up to 500 characters)

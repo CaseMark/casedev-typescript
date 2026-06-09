@@ -38,6 +38,18 @@ export class Skills extends APIResource {
   }
 
   /**
+   * Export a skill as an installable filesystem tree for sandbox runtimes.
+   * Authenticated org-scoped custom skills are resolved before curated skills.
+   */
+  export(
+    slug: string,
+    query: SkillExportParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<SkillExportResponse> {
+    return this._client.get(path`/skills/${slug}/export`, { query, ...options });
+  }
+
+  /**
    * Read the full content of a legal skill by its slug. Returns markdown content,
    * tags, and metadata.
    */
@@ -83,6 +95,8 @@ export namespace ReadResponseRootBundle {
 }
 
 export interface SkillCreateResponse {
+  bundle?: unknown | null;
+
   content?: string;
 
   created_at?: string;
@@ -101,6 +115,8 @@ export interface SkillCreateResponse {
 }
 
 export interface SkillUpdateResponse {
+  bundle?: unknown | null;
+
   content?: string;
 
   metadata?: unknown;
@@ -122,6 +138,32 @@ export interface SkillDeleteResponse {
   deleted?: boolean;
 
   slug?: string;
+}
+
+export interface SkillExportResponse {
+  files?: Array<SkillExportResponse.File>;
+
+  root?: string;
+
+  slug?: string;
+
+  source?: 'custom' | 'curated';
+
+  target?: string;
+}
+
+export namespace SkillExportResponse {
+  export interface File {
+    content?: string;
+
+    content_type?: string;
+
+    path?: string;
+
+    sha256?: string;
+
+    size_bytes?: number;
+  }
 }
 
 export interface SkillReadResponse {
@@ -236,6 +278,12 @@ export interface SkillCreateParams {
   name: string;
 
   /**
+   * Optional bundled companion files installed alongside the skill as <slug>/<path>
+   * in sandbox skill directories.
+   */
+  files?: Array<SkillCreateParams.File>;
+
+  /**
    * Arbitrary metadata (author, license, etc.)
    */
   metadata?: unknown;
@@ -256,8 +304,36 @@ export interface SkillCreateParams {
   tags?: Array<string>;
 }
 
+export namespace SkillCreateParams {
+  export interface File {
+    content: string;
+
+    /**
+     * Relative path inside the skill directory. SKILL.md is reserved for the root
+     * skill content.
+     */
+    path: string;
+
+    contentType?: string;
+
+    metadata?: unknown;
+
+    name?: string;
+
+    summary?: string;
+
+    tags?: Array<string>;
+  }
+}
+
 export interface SkillUpdateParams {
   content?: string;
+
+  /**
+   * Optional replacement companion file tree. Omit to leave existing bundled files
+   * unchanged; send [] to remove bundled files.
+   */
+  files?: Array<SkillUpdateParams.File> | null;
 
   metadata?: unknown;
 
@@ -271,6 +347,32 @@ export interface SkillUpdateParams {
   summary?: string | null;
 
   tags?: Array<string>;
+}
+
+export namespace SkillUpdateParams {
+  export interface File {
+    content: string;
+
+    path: string;
+
+    contentType?: string;
+
+    metadata?: unknown;
+
+    name?: string;
+
+    summary?: string;
+
+    tags?: Array<string>;
+  }
+}
+
+export interface SkillExportParams {
+  /**
+   * Agent runtime skill directory convention to export for. Most callers should omit
+   * this and pass skillSlugs when creating a runtime.
+   */
+  target?: string;
 }
 
 export interface SkillResolveParams {
@@ -294,10 +396,12 @@ export declare namespace Skills {
     type SkillCreateResponse as SkillCreateResponse,
     type SkillUpdateResponse as SkillUpdateResponse,
     type SkillDeleteResponse as SkillDeleteResponse,
+    type SkillExportResponse as SkillExportResponse,
     type SkillReadResponse as SkillReadResponse,
     type SkillResolveResponse as SkillResolveResponse,
     type SkillCreateParams as SkillCreateParams,
     type SkillUpdateParams as SkillUpdateParams,
+    type SkillExportParams as SkillExportParams,
     type SkillResolveParams as SkillResolveParams,
   };
 

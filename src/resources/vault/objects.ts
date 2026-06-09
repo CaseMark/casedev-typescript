@@ -642,6 +642,18 @@ export namespace ObjectGetChunksResponse {
      * First OCR word index covered by the chunk, if available
      */
     word_start_index: number | null;
+
+    /**
+     * Source media timestamp for the last word in the chunk. Present only for
+     * media-backed transcripts with real word timing.
+     */
+    end_ms?: number;
+
+    /**
+     * Source media timestamp for the first word in the chunk. Present only for
+     * media-backed transcripts with real word timing.
+     */
+    start_ms?: number;
   }
 }
 
