@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.68.0](https://github.com/CaseMark/casedev-typescript/compare/v0.67.2...v0.68.0) (2026-06-09)
+
+
+### Features
+
+* **api:** api update ([fbb916f](https://github.com/CaseMark/casedev-typescript/commit/fbb916f96b2683b2a8868ac8ef82cdc3f511c670))
+
+
+### Chores
+
+* use stable release metadata ([3c86df8](https://github.com/CaseMark/casedev-typescript/commit/3c86df8c4407a06b7295517265ee0ad9f4a923a8))
+
 ## 0.67.2 (2026-06-02)
 
 Full Changelog: [v0.67.1...v0.67.2](https://github.com/CaseMark/casedev-typescript/compare/v0.67.1...v0.67.2)
