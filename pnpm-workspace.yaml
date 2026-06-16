@@ -3,3 +3,7 @@ onlyBuiltDependencies:
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - casedev
+overrides:
+  handlebars: 4.7.9
+  minimatch: ^9.0.5
+  picomatch: 2.3.2
