@@ -3,8 +3,10 @@
 export { Agent } from './agent/agent';
 export { Compute } from './compute/compute';
 export { Database } from './database/database';
+export { DocumentTemplates } from './document-templates/document-templates';
 export { Format } from './format/format';
 export { Legal } from './legal/legal';
+export { Linc } from './linc/linc';
 export { Llm, type LlmGetConfigResponse } from './llm/llm';
 export { Mail } from './mail/mail';
 export { Matters } from './matters/matters';

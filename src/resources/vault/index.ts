@@ -22,8 +22,11 @@ export {
 export {
   Multipart,
   type MultipartGetPartURLsResponse,
+  type MultipartInitResponse,
   type MultipartAbortParams,
+  type MultipartCompleteParams,
   type MultipartGetPartURLsParams,
+  type MultipartInitParams,
 } from './multipart';
 export {
   Objects,
@@ -31,15 +34,19 @@ export {
   type ObjectUpdateResponse,
   type ObjectListResponse,
   type ObjectDeleteResponse,
+  type ObjectAppendResponse,
   type ObjectCreatePresignedURLResponse,
   type ObjectGetChunksResponse,
   type ObjectGetOcrWordsResponse,
   type ObjectGetPagesResponse,
   type ObjectGetSummarizeJobResponse,
   type ObjectGetTextResponse,
+  type ObjectSummarizeResponse,
   type ObjectRetrieveParams,
   type ObjectUpdateParams,
+  type ObjectListParams,
   type ObjectDeleteParams,
+  type ObjectAppendParams,
   type ObjectCreatePresignedURLParams,
   type ObjectDownloadParams,
   type ObjectGetChunksParams,
@@ -47,6 +54,7 @@ export {
   type ObjectGetPagesParams,
   type ObjectGetSummarizeJobParams,
   type ObjectGetTextParams,
+  type ObjectSummarizeParams,
 } from './objects';
 export {
   Vault,

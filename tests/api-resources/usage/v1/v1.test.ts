@@ -25,6 +25,8 @@ describe('resource v1', () => {
       client.usage.v1.retrieve(
         {
           granularity: 'summary',
+          groupBy: 'lincSessionId',
+          lincSessionId: 'lincSessionId',
           periodEnd: '2019-12-27T18:11:19.117Z',
           periodStart: '2019-12-27T18:11:19.117Z',
         },

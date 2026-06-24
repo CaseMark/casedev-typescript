@@ -26,11 +26,16 @@ import * as MultipartAPI from './multipart';
 import {
   Multipart,
   MultipartAbortParams,
+  MultipartCompleteParams,
   MultipartGetPartURLsParams,
   MultipartGetPartURLsResponse,
+  MultipartInitParams,
+  MultipartInitResponse,
 } from './multipart';
 import * as ObjectsAPI from './objects';
 import {
+  ObjectAppendParams,
+  ObjectAppendResponse,
   ObjectCreatePresignedURLParams,
   ObjectCreatePresignedURLResponse,
   ObjectDeleteParams,
@@ -46,9 +51,12 @@ import {
   ObjectGetSummarizeJobResponse,
   ObjectGetTextParams,
   ObjectGetTextResponse,
+  ObjectListParams,
   ObjectListResponse,
   ObjectRetrieveParams,
   ObjectRetrieveResponse,
+  ObjectSummarizeParams,
+  ObjectSummarizeResponse,
   ObjectUpdateParams,
   ObjectUpdateResponse,
   Objects,
@@ -177,13 +185,13 @@ export class Vault extends APIResource {
 
   /**
    * Triggers ingestion workflow for a vault object to extract text, generate chunks,
-   * and create embeddings. For supported file types (PDF, DOCX, PPTX, TXT, RTF, XML,
-   * HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files, ZIP, audio,
-   * video), processing happens asynchronously. ZIP archives are unpacked recursively
-   * up to 5 levels, and each extracted file is created as an independent vault
-   * object and ingested via the normal pipeline. For unsupported types (images,
-   * etc.), the file is marked as completed immediately without text extraction.
-   * GraphRAG indexing must be triggered separately via POST
+   * and create embeddings. For supported file types (PDF, DOCX, PPTX, XLSX, TXT,
+   * RTF, XML, HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files,
+   * ZIP, audio, video), processing happens asynchronously. ZIP archives are unpacked
+   * recursively up to 5 levels, and each extracted file is created as an independent
+   * vault object and ingested via the normal pipeline. For unsupported types
+   * (images, etc.), the file is marked as completed immediately without text
+   * extraction. GraphRAG indexing must be triggered separately via POST
    * /vault/:id/graphrag/:objectId.
    *
    * @example
@@ -578,11 +586,29 @@ export namespace VaultDeleteResponse {
 export interface VaultConfirmUploadResponse {
   alreadyConfirmed?: boolean;
 
+  /**
+   * Present when autoIngest was requested on a successful confirmation
+   */
+  ingest?: VaultConfirmUploadResponse.Ingest;
+
   objectId?: string;
 
   status?: 'completed' | 'failed';
 
   vaultId?: string;
+}
+
+export namespace VaultConfirmUploadResponse {
+  /**
+   * Present when autoIngest was requested on a successful confirmation
+   */
+  export interface Ingest {
+    error?: string;
+
+    triggered?: boolean;
+
+    workflowId?: string | null;
+  }
 }
 
 export interface VaultIngestResponse {
@@ -750,6 +776,11 @@ export interface VaultUploadResponse {
   instructions?: VaultUploadResponse.Instructions;
 
   /**
+   * Whether the file is marked as AI-generated work product
+   */
+  is_ai_generated?: boolean;
+
+  /**
    * Next API endpoint to call for processing
    */
   next_step?: string | null;
@@ -893,6 +924,14 @@ export declare namespace VaultConfirmUploadParams {
     success: true;
 
     /**
+     * Body param: When true and the object was uploaded with auto_index, trigger
+     * ingestion immediately after a successful confirmation (no separate ingest call
+     * needed). The ingest outcome is reported in the `ingest` response field; an
+     * ingest failure does not fail the confirmation.
+     */
+    autoIngest?: boolean;
+
+    /**
      * Body param: S3 ETag for the uploaded object (optional if client cannot access
      * ETag header)
      */
@@ -985,6 +1024,13 @@ export interface VaultUploadParams {
   auto_index?: boolean;
 
   /**
+   * Marks the file as AI-generated work product (e.g. uploaded by an agent) rather
+   * than a user-provided source document. Persisted on the object and returned by
+   * object listings so clients can distinguish provenance.
+   */
+  is_ai_generated?: boolean;
+
+  /**
    * Additional metadata to associate with the file
    */
   metadata?: unknown;
@@ -1049,8 +1095,11 @@ export declare namespace Vault {
   export {
     Multipart as Multipart,
     type MultipartGetPartURLsResponse as MultipartGetPartURLsResponse,
+    type MultipartInitResponse as MultipartInitResponse,
     type MultipartAbortParams as MultipartAbortParams,
+    type MultipartCompleteParams as MultipartCompleteParams,
     type MultipartGetPartURLsParams as MultipartGetPartURLsParams,
+    type MultipartInitParams as MultipartInitParams,
   };
 
   export {
@@ -1059,15 +1108,19 @@ export declare namespace Vault {
     type ObjectUpdateResponse as ObjectUpdateResponse,
     type ObjectListResponse as ObjectListResponse,
     type ObjectDeleteResponse as ObjectDeleteResponse,
+    type ObjectAppendResponse as ObjectAppendResponse,
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
     type ObjectGetChunksResponse as ObjectGetChunksResponse,
     type ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse,
     type ObjectGetPagesResponse as ObjectGetPagesResponse,
     type ObjectGetSummarizeJobResponse as ObjectGetSummarizeJobResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
+    type ObjectSummarizeResponse as ObjectSummarizeResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectUpdateParams as ObjectUpdateParams,
+    type ObjectListParams as ObjectListParams,
     type ObjectDeleteParams as ObjectDeleteParams,
+    type ObjectAppendParams as ObjectAppendParams,
     type ObjectCreatePresignedURLParams as ObjectCreatePresignedURLParams,
     type ObjectDownloadParams as ObjectDownloadParams,
     type ObjectGetChunksParams as ObjectGetChunksParams,
@@ -1075,6 +1128,7 @@ export declare namespace Vault {
     type ObjectGetPagesParams as ObjectGetPagesParams,
     type ObjectGetSummarizeJobParams as ObjectGetSummarizeJobParams,
     type ObjectGetTextParams as ObjectGetTextParams,
+    type ObjectSummarizeParams as ObjectSummarizeParams,
   };
 
   export {

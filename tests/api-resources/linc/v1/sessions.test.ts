@@ -7,9 +7,9 @@ const client = new Casedev({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource vault', () => {
-  test('create: only required params', async () => {
-    const responsePromise = client.vault.create({ name: 'Contract Review Archive' });
+describe('resource sessions', () => {
+  test('create', async () => {
+    const responsePromise = client.linc.v1.sessions.create();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -19,74 +19,57 @@ describe('resource vault', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('create: required and optional params', async () => {
-    const response = await client.vault.create({
-      name: 'Contract Review Archive',
-      description: 'Repository for all client contract reviews and analysis',
-      embeddingModel: 'casemark/embed-v1',
-      enableGraph: true,
-      enableIndexing: true,
-      groupId: 'grp_abc123',
-      metadata: { containsPHI: true, hipaaCompliant: true },
-    });
-  });
-
-  test('retrieve', async () => {
-    const responsePromise = client.vault.retrieve('vault_abc123');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('update', async () => {
-    const responsePromise = client.vault.update('id', {});
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list', async () => {
-    const responsePromise = client.vault.list();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('delete', async () => {
-    const responsePromise = client.vault.delete('id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('delete: request options and params are passed correctly', async () => {
+  test('create: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.vault.delete('id', { async: true }, { path: '/_stainless_unknown_path' }),
+      client.linc.v1.sessions.create(
+        {
+          documentTemplateSlugs: ['string'],
+          idleTimeoutMs: 0,
+          includeDocumentTemplates: true,
+          instructions: 'instructions',
+          model: 'model',
+          scopedApiKey: 'scopedApiKey',
+          skillSlugs: ['string'],
+          title: 'title',
+          vaultIds: ['string'],
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  test('confirmUpload: only required params', async () => {
-    const responsePromise = client.vault.confirmUpload('objectId', {
-      id: 'id',
-      sizeBytes: 1,
-      success: true,
+  test('delete', async () => {
+    const responsePromise = client.linc.v1.sessions.delete('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('cancel', async () => {
+    const responsePromise = client.linc.v1.sessions.cancel('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('ingestEvents: only required params', async () => {
+    const responsePromise = client.linc.v1.sessions.ingestEvents('id', {
+      frames: [
+        {
+          event: { foo: 'bar' },
+          seq: 1,
+          type: 'type',
+        },
+      ],
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -97,18 +80,20 @@ describe('resource vault', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('confirmUpload: required and optional params', async () => {
-    const response = await client.vault.confirmUpload('objectId', {
-      id: 'id',
-      sizeBytes: 1,
-      success: true,
-      autoIngest: true,
-      etag: 'etag',
+  test('ingestEvents: required and optional params', async () => {
+    const response = await client.linc.v1.sessions.ingestEvents('id', {
+      frames: [
+        {
+          event: { foo: 'bar' },
+          seq: 1,
+          type: 'type',
+        },
+      ],
     });
   });
 
-  test('ingest: only required params', async () => {
-    const responsePromise = client.vault.ingest('objectId', { id: 'id' });
+  test('retrieveEvents', async () => {
+    const responsePromise = client.linc.v1.sessions.retrieveEvents('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -118,12 +103,24 @@ describe('resource vault', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('ingest: required and optional params', async () => {
-    const response = await client.vault.ingest('objectId', { id: 'id' });
+  test('retrieveEvents: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.linc.v1.sessions.retrieveEvents(
+        'id',
+        {
+          afterSeq: 0,
+          cursor: 0,
+          excludeEventTypes: ['string'],
+          limit: 1,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  test('search: only required params', async () => {
-    const responsePromise = client.vault.search('id', { query: 'query' });
+  test('retrieveMessages', async () => {
+    const responsePromise = client.linc.v1.sessions.retrieveMessages('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -133,17 +130,23 @@ describe('resource vault', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('search: required and optional params', async () => {
-    const response = await client.vault.search('id', {
-      query: 'query',
-      filters: { object_id: 'string' },
-      method: 'vector',
-      topK: 1,
-    });
+  test('retrieveMessages: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.linc.v1.sessions.retrieveMessages(
+        'id',
+        {
+          afterSeq: 0,
+          cursor: 0,
+          limit: 1,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  test('upload: only required params', async () => {
-    const responsePromise = client.vault.upload('id', { contentType: 'contentType', filename: 'filename' });
+  test('retrieveState', async () => {
+    const responsePromise = client.linc.v1.sessions.retrieveState('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -153,15 +156,18 @@ describe('resource vault', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('upload: required and optional params', async () => {
-    const response = await client.vault.upload('id', {
-      contentType: 'contentType',
-      filename: 'filename',
-      auto_index: true,
-      is_ai_generated: true,
-      metadata: {},
-      path: 'path',
-      sizeBytes: 1,
-    });
+  test('sendRpc: only required params', async () => {
+    const responsePromise = client.linc.v1.sessions.sendRpc('id', { type: 'type' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('sendRpc: required and optional params', async () => {
+    const response = await client.linc.v1.sessions.sendRpc('id', { type: 'type', id: 'id' });
   });
 });

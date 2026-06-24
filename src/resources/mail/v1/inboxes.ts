@@ -7,7 +7,7 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 /**
- * Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+ * Managed inboxes for agent email workflows
  */
 export class Inboxes extends APIResource {
   /**

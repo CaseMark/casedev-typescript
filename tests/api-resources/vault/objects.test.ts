@@ -54,6 +54,13 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.vault.objects.list('id', { includeUnconfirmed: true }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
   test('delete: only required params', async () => {
     const responsePromise = client.vault.objects.delete('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -67,6 +74,30 @@ describe('resource objects', () => {
 
   test('delete: required and optional params', async () => {
     const response = await client.vault.objects.delete('objectId', { id: 'id', force: 'true' });
+  });
+
+  test('append: only required params', async () => {
+    const responsePromise = client.vault.objects.append('objectId', {
+      id: 'id',
+      appendObjectIds: ['string'],
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('append: required and optional params', async () => {
+    const response = await client.vault.objects.append('objectId', {
+      id: 'id',
+      appendObjectIds: ['string'],
+      backLinks: true,
+      backLinksText: 'backLinksText',
+      rewriteLinks: true,
+    });
   });
 
   test('createPresignedURL: only required params', async () => {
@@ -180,5 +211,24 @@ describe('resource objects', () => {
 
   test('getText: required and optional params', async () => {
     const response = await client.vault.objects.getText('objectId', { id: 'id' });
+  });
+
+  test('summarize: only required params', async () => {
+    const responsePromise = client.vault.objects.summarize('objectId', { id: 'id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('summarize: required and optional params', async () => {
+    const response = await client.vault.objects.summarize('objectId', {
+      id: 'id',
+      outputFormat: 'PDF',
+      workflowType: 'workflowType',
+    });
   });
 });

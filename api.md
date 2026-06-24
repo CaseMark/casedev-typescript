@@ -173,6 +173,23 @@ Methods:
 - <code title="get /database/v1/projects/{id}/connection">client.database.v1.projects.<a href="./src/resources/database/v1/projects.ts">getConnection</a>(id, { ...params }) -> ProjectGetConnectionResponse</code>
 - <code title="get /database/v1/projects/{id}/branches">client.database.v1.projects.<a href="./src/resources/database/v1/projects.ts">listBranches</a>(id) -> ProjectListBranchesResponse</code>
 
+# DocumentTemplates
+
+Methods:
+
+- <code title="post /document-templates">client.documentTemplates.<a href="./src/resources/document-templates/document-templates.ts">create</a>() -> void</code>
+- <code title="get /document-templates/{id}">client.documentTemplates.<a href="./src/resources/document-templates/document-templates.ts">retrieve</a>(id) -> void</code>
+- <code title="patch /document-templates/{id}">client.documentTemplates.<a href="./src/resources/document-templates/document-templates.ts">update</a>(id) -> void</code>
+- <code title="get /document-templates">client.documentTemplates.<a href="./src/resources/document-templates/document-templates.ts">list</a>() -> void</code>
+- <code title="delete /document-templates/{id}">client.documentTemplates.<a href="./src/resources/document-templates/document-templates.ts">delete</a>(id) -> void</code>
+- <code title="post /document-templates/{id}/confirm">client.documentTemplates.<a href="./src/resources/document-templates/document-templates.ts">confirm</a>(id) -> void</code>
+
+## FromVaultObject
+
+Methods:
+
+- <code title="post /document-templates/from-vault-object">client.documentTemplates.fromVaultObject.<a href="./src/resources/document-templates/from-vault-object.ts">create</a>() -> void</code>
+
 # Format
 
 ## V1
@@ -234,6 +251,23 @@ Methods:
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/resources/legal/v1.ts">similar</a>({ ...params }) -> V1SimilarResponse</code>
 - <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/resources/legal/v1.ts">trademarkSearch</a>({ ...params }) -> V1TrademarkSearchResponse</code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/resources/legal/v1.ts">verify</a>({ ...params }) -> V1VerifyResponse</code>
+
+# Linc
+
+## V1
+
+### Sessions
+
+Methods:
+
+- <code title="post /linc/v1/sessions">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">create</a>({ ...params }) -> void</code>
+- <code title="delete /linc/v1/sessions/{id}">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">delete</a>(id) -> void</code>
+- <code title="post /linc/v1/sessions/{id}/cancel">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">cancel</a>(id) -> void</code>
+- <code title="post /linc/v1/sessions/{id}/events/ingest">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">ingestEvents</a>(id, { ...params }) -> void</code>
+- <code title="get /linc/v1/sessions/{id}/events">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">retrieveEvents</a>(id, { ...params }) -> void</code>
+- <code title="get /linc/v1/sessions/{id}/messages">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">retrieveMessages</a>(id, { ...params }) -> void</code>
+- <code title="get /linc/v1/sessions/{id}/state">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">retrieveState</a>(id) -> void</code>
+- <code title="post /linc/v1/sessions/{id}/rpc">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">sendRpc</a>(id, { ...params }) -> void</code>
 
 # Matters
 
@@ -391,6 +425,16 @@ Methods:
 Methods:
 
 - <code title="post /media/v1/transcripts/search">client.media.v1.transcripts.search.<a href="./src/resources/media/v1/transcripts/search.ts">create</a>() -> void</code>
+
+#### Retrieve
+
+Types:
+
+- <code><a href="./src/resources/media/v1/transcripts/retrieve.ts">RetrieveCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /media/v1/transcripts/retrieve">client.media.v1.transcripts.retrieve.<a href="./src/resources/media/v1/transcripts/retrieve.ts">create</a>({ ...params }) -> RetrieveCreateResponse</code>
 
 # Ocr
 
@@ -602,11 +646,14 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/vault/multipart.ts">MultipartGetPartURLsResponse</a></code>
+- <code><a href="./src/resources/vault/multipart.ts">MultipartInitResponse</a></code>
 
 Methods:
 
 - <code title="post /vault/{id}/multipart/abort">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">abort</a>(id, { ...params }) -> void</code>
+- <code title="post /vault/{id}/multipart/complete">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">complete</a>(id, { ...params }) -> void</code>
 - <code title="post /vault/{id}/multipart/part-urls">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">getPartURLs</a>(id, { ...params }) -> MultipartGetPartURLsResponse</code>
+- <code title="post /vault/{id}/multipart/init">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">init</a>(id, { ...params }) -> MultipartInitResponse</code>
 
 ## Objects
 
@@ -616,19 +663,22 @@ Types:
 - <code><a href="./src/resources/vault/objects.ts">ObjectUpdateResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectListResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectDeleteResponse</a></code>
+- <code><a href="./src/resources/vault/objects.ts">ObjectAppendResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectCreatePresignedURLResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetChunksResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetOcrWordsResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetPagesResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetSummarizeJobResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetTextResponse</a></code>
+- <code><a href="./src/resources/vault/objects.ts">ObjectSummarizeResponse</a></code>
 
 Methods:
 
 - <code title="get /vault/{id}/objects/{objectId}">client.vault.objects.<a href="./src/resources/vault/objects.ts">retrieve</a>(objectID, { ...params }) -> ObjectRetrieveResponse</code>
 - <code title="patch /vault/{id}/objects/{objectId}">client.vault.objects.<a href="./src/resources/vault/objects.ts">update</a>(objectID, { ...params }) -> ObjectUpdateResponse</code>
-- <code title="get /vault/{id}/objects">client.vault.objects.<a href="./src/resources/vault/objects.ts">list</a>(id) -> ObjectListResponse</code>
+- <code title="get /vault/{id}/objects">client.vault.objects.<a href="./src/resources/vault/objects.ts">list</a>(id, { ...params }) -> ObjectListResponse</code>
 - <code title="delete /vault/{id}/objects/{objectId}">client.vault.objects.<a href="./src/resources/vault/objects.ts">delete</a>(objectID, { ...params }) -> ObjectDeleteResponse</code>
+- <code title="post /vault/{id}/objects/{objectId}/append">client.vault.objects.<a href="./src/resources/vault/objects.ts">append</a>(objectID, { ...params }) -> ObjectAppendResponse</code>
 - <code title="post /vault/{id}/objects/{objectId}/presigned-url">client.vault.objects.<a href="./src/resources/vault/objects.ts">createPresignedURL</a>(objectID, { ...params }) -> ObjectCreatePresignedURLResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/download">client.vault.objects.<a href="./src/resources/vault/objects.ts">download</a>(objectID, { ...params }) -> Response</code>
 - <code title="get /vault/{id}/objects/{objectId}/chunks">client.vault.objects.<a href="./src/resources/vault/objects.ts">getChunks</a>(objectID, { ...params }) -> ObjectGetChunksResponse</code>
@@ -636,6 +686,7 @@ Methods:
 - <code title="get /vault/{id}/objects/{objectId}/pages">client.vault.objects.<a href="./src/resources/vault/objects.ts">getPages</a>(objectID, { ...params }) -> ObjectGetPagesResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/summarize/{jobId}">client.vault.objects.<a href="./src/resources/vault/objects.ts">getSummarizeJob</a>(jobID, { ...params }) -> ObjectGetSummarizeJobResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/resources/vault/objects.ts">getText</a>(objectID, { ...params }) -> ObjectGetTextResponse</code>
+- <code title="post /vault/{id}/objects/{objectId}/summarize">client.vault.objects.<a href="./src/resources/vault/objects.ts">summarize</a>(objectID, { ...params }) -> ObjectSummarizeResponse</code>
 
 ## Memory
 

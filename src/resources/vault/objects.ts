@@ -67,8 +67,12 @@ export class Objects extends APIResource {
    * const objects = await client.vault.objects.list('id');
    * ```
    */
-  list(id: string, options?: RequestOptions): APIPromise<ObjectListResponse> {
-    return this._client.get(path`/vault/${id}/objects`, options);
+  list(
+    id: string,
+    query: ObjectListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ObjectListResponse> {
+    return this._client.get(path`/vault/${id}/objects`, { query, ...options });
   }
 
   /**
@@ -90,6 +94,30 @@ export class Objects extends APIResource {
   ): APIPromise<ObjectDeleteResponse> {
     const { id, force } = params;
     return this._client.delete(path`/vault/${id}/objects/${objectID}`, { query: { force }, ...options });
+  }
+
+  /**
+   * Merges one or more PDF vault objects onto the end of an existing PDF vault
+   * object, overwriting the target in place before returning. Optionally rewrites
+   * citation links in the original target into internal PDF jumps and adds back
+   * links on appended pages. The target object’s ingestion state is not affected;
+   * appended pages are not searchable.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.objects.append(
+   *   'objectId',
+   *   { id: 'id', appendObjectIds: ['string'] },
+   * );
+   * ```
+   */
+  append(
+    objectID: string,
+    params: ObjectAppendParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectAppendResponse> {
+    const { id, ...body } = params;
+    return this._client.post(path`/vault/${id}/objects/${objectID}/append`, { body, ...options });
   }
 
   /**
@@ -259,6 +287,28 @@ export class Objects extends APIResource {
     const { id } = params;
     return this._client.get(path`/vault/${id}/objects/${objectID}/text`, options);
   }
+
+  /**
+   * Triggers a CaseMark AI workflow to summarize or analyze a document stored in the
+   * vault. The workflow processes the document asynchronously and stores the result
+   * as a new object in the same vault, linked to the original document.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.objects.summarize(
+   *   'objectId',
+   *   { id: 'id' },
+   * );
+   * ```
+   */
+  summarize(
+    objectID: string,
+    params: ObjectSummarizeParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectSummarizeResponse> {
+    const { id, ...body } = params;
+    return this._client.post(path`/vault/${id}/objects/${objectID}/summarize`, { body, ...options });
+  }
 }
 
 export interface ObjectRetrieveResponse {
@@ -311,6 +361,11 @@ export interface ObjectRetrieveResponse {
    * Error details when ingestion fails
    */
   ingestionError?: string | null;
+
+  /**
+   * Whether the file was marked as AI-generated work product at upload time
+   */
+  is_ai_generated?: boolean;
 
   /**
    * Additional metadata
@@ -462,6 +517,11 @@ export namespace ObjectListResponse {
     ingestionWorkflowId?: string | null;
 
     /**
+     * Whether the file was marked as AI-generated work product at upload time
+     */
+    is_ai_generated?: boolean;
+
+    /**
      * Custom metadata associated with the document
      */
     metadata?: unknown;
@@ -526,6 +586,32 @@ export namespace ObjectDeleteResponse {
      */
     vectorsDeleted?: number;
   }
+}
+
+export interface ObjectAppendResponse {
+  id?: string;
+
+  checksum?: string;
+
+  contentType?: string;
+
+  createdAt?: string;
+
+  downloadUrl?: string;
+
+  expiresIn?: number;
+
+  filename?: string;
+
+  ingestionStatus?: string;
+
+  metadata?: unknown;
+
+  pageCount?: number;
+
+  sizeBytes?: number;
+
+  vaultId?: string;
 }
 
 export interface ObjectCreatePresignedURLResponse {
@@ -866,6 +952,33 @@ export namespace ObjectGetTextResponse {
   }
 }
 
+export interface ObjectSummarizeResponse {
+  /**
+   * CaseMark workflow ID
+   */
+  casemarkWorkflowId?: string;
+
+  /**
+   * Case.dev job ID for tracking
+   */
+  jobId?: string;
+
+  /**
+   * Current job status
+   */
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  /**
+   * URL to check job status
+   */
+  statusUrl?: string;
+
+  /**
+   * Type of workflow being executed
+   */
+  workflowType?: string;
+}
+
 export interface ObjectRetrieveParams {
   /**
    * Vault ID
@@ -896,6 +1009,14 @@ export interface ObjectUpdateParams {
   path?: string | null;
 }
 
+export interface ObjectListParams {
+  /**
+   * Include placeholders for uploads that were never completed (awaiting_upload) or
+   * were cancelled (aborted). Excluded by default.
+   */
+  includeUnconfirmed?: boolean;
+}
+
 export interface ObjectDeleteParams {
   /**
    * Path param: Vault ID
@@ -907,6 +1028,37 @@ export interface ObjectDeleteParams {
    * Use this if a document got stuck during ingestion (e.g., OCR timeout).
    */
   force?: 'true';
+}
+
+export interface ObjectAppendParams {
+  /**
+   * Path param: Vault ID
+   */
+  id: string;
+
+  /**
+   * Body param: Vault object IDs whose pages will be appended onto the target
+   * object, in order. Must not include the target object itself.
+   */
+  appendObjectIds: Array<string>;
+
+  /**
+   * Body param: Adds back links on appended pages
+   */
+  backLinks?: boolean;
+
+  /**
+   * Body param: Label text for the back link. Used only when backLinks is true and
+   * rendered centered at the bottom of each appended page.
+   */
+  backLinksText?: string;
+
+  /**
+   * Body param: When true, rewrites links in the target object to internal PDF jumps
+   * when the URL contains exactly one appended object ID as a standalone query
+   * parameter value or decoded path segment.
+   */
+  rewriteLinks?: boolean;
 }
 
 export interface ObjectCreatePresignedURLParams {
@@ -1026,21 +1178,42 @@ export interface ObjectGetTextParams {
   id: string;
 }
 
+export interface ObjectSummarizeParams {
+  /**
+   * Path param: Vault ID
+   */
+  id: string;
+
+  /**
+   * Body param: Output format for the summary document
+   */
+  outputFormat?: 'PDF' | 'WORD';
+
+  /**
+   * Body param: Type of CaseMark workflow to run
+   */
+  workflowType?: string;
+}
+
 export declare namespace Objects {
   export {
     type ObjectRetrieveResponse as ObjectRetrieveResponse,
     type ObjectUpdateResponse as ObjectUpdateResponse,
     type ObjectListResponse as ObjectListResponse,
     type ObjectDeleteResponse as ObjectDeleteResponse,
+    type ObjectAppendResponse as ObjectAppendResponse,
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
     type ObjectGetChunksResponse as ObjectGetChunksResponse,
     type ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse,
     type ObjectGetPagesResponse as ObjectGetPagesResponse,
     type ObjectGetSummarizeJobResponse as ObjectGetSummarizeJobResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
+    type ObjectSummarizeResponse as ObjectSummarizeResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectUpdateParams as ObjectUpdateParams,
+    type ObjectListParams as ObjectListParams,
     type ObjectDeleteParams as ObjectDeleteParams,
+    type ObjectAppendParams as ObjectAppendParams,
     type ObjectCreatePresignedURLParams as ObjectCreatePresignedURLParams,
     type ObjectDownloadParams as ObjectDownloadParams,
     type ObjectGetChunksParams as ObjectGetChunksParams,
@@ -1048,5 +1221,6 @@ export declare namespace Objects {
     type ObjectGetPagesParams as ObjectGetPagesParams,
     type ObjectGetSummarizeJobParams as ObjectGetSummarizeJobParams,
     type ObjectGetTextParams as ObjectGetTextParams,
+    type ObjectSummarizeParams as ObjectSummarizeParams,
   };
 }

@@ -40,6 +40,18 @@ export interface V1RetrieveParams {
   granularity?: 'summary' | 'daily';
 
   /**
+   * Optionally include usage groups keyed by native Linc session id. Only
+   * Linc-session-attributable usage is grouped.
+   */
+  groupBy?: 'lincSessionId';
+
+  /**
+   * Restrict usage to a native Linc session. The session must belong to the
+   * authenticated organization.
+   */
+  lincSessionId?: string;
+
+  /**
    * Period end date. Defaults to now.
    */
   periodEnd?: string;

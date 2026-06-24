@@ -21,8 +21,10 @@ import { System, SystemListServicesResponse } from './resources/system';
 import { Agent } from './resources/agent/agent';
 import { Compute } from './resources/compute/compute';
 import { Database } from './resources/database/database';
+import { DocumentTemplates } from './resources/document-templates/document-templates';
 import { Format } from './resources/format/format';
 import { Legal } from './resources/legal/legal';
+import { Linc } from './resources/linc/linc';
 import { Llm, LlmGetConfigResponse } from './resources/llm/llm';
 import { Mail } from './resources/mail/mail';
 import { Matters } from './resources/matters/matters';
@@ -739,11 +741,19 @@ export class Casedev {
     return () => controller.abort();
   }
 
-  private buildBody({ options: { body, headers: rawHeaders } }: { options: FinalRequestOptions }): {
+  private buildBody({ options }: { options: FinalRequestOptions }): {
     bodyHeaders: HeadersLike;
     body: BodyInit | undefined;
   } {
+    const { body, headers: rawHeaders } = options;
     if (!body) {
+      // A resource method always passes a `body` key when its operation defines a
+      // request body, even if the caller omitted an optional body param. Keep the
+      // content-type for those, and only elide it for operations with no body at
+      // all (e.g. GET/DELETE).
+      if (body == null && 'body' in options) {
+        return this.#encoder({ body, headers: buildHeaders([rawHeaders]) });
+      }
       return { bodyHeaders: undefined, body: undefined };
     }
     const headers = buildHeaders([rawHeaders]);
@@ -810,8 +820,10 @@ export class Casedev {
   system: API.System = new API.System(this);
   compute: API.Compute = new API.Compute(this);
   database: API.Database = new API.Database(this);
+  documentTemplates: API.DocumentTemplates = new API.DocumentTemplates(this);
   format: API.Format = new API.Format(this);
   legal: API.Legal = new API.Legal(this);
+  linc: API.Linc = new API.Linc(this);
   matters: API.Matters = new API.Matters(this);
   /**
    * Access 40+ language models through a unified API
@@ -842,8 +854,10 @@ Casedev.Agent = Agent;
 Casedev.System = System;
 Casedev.Compute = Compute;
 Casedev.Database = Database;
+Casedev.DocumentTemplates = DocumentTemplates;
 Casedev.Format = Format;
 Casedev.Legal = Legal;
+Casedev.Linc = Linc;
 Casedev.Matters = Matters;
 Casedev.Llm = Llm;
 Casedev.Memory = Memory;
@@ -871,9 +885,13 @@ export declare namespace Casedev {
 
   export { Database as Database };
 
+  export { DocumentTemplates as DocumentTemplates };
+
   export { Format as Format };
 
   export { Legal as Legal };
+
+  export { Linc as Linc };
 
   export { Matters as Matters };
 
