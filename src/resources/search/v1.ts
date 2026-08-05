@@ -3,10 +3,9 @@
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
-import { path } from '../../internal/utils/path';
 
 /**
- * Web search, AI answers, and deep research
+ * Web search and AI answers
  */
 export class V1 extends APIResource {
   /**
@@ -26,29 +25,6 @@ export class V1 extends APIResource {
    */
   contents(body: V1ContentsParams, options?: RequestOptions): APIPromise<V1ContentsResponse> {
     return this._client.post('/search/v1/contents', { body, ...options });
-  }
-
-  /**
-   * Performs deep research by conducting multi-step analysis, gathering information
-   * from multiple sources, and providing comprehensive insights. Ideal for legal
-   * research, case analysis, and due diligence investigations.
-   */
-  research(body: V1ResearchParams, options?: RequestOptions): APIPromise<V1ResearchResponse> {
-    return this._client.post('/search/v1/research', { body, ...options });
-  }
-
-  /**
-   * Retrieve the status and results of a deep research task by ID. Supports both
-   * standard JSON responses and streaming for real-time updates as the research
-   * progresses. Research tasks analyze topics comprehensively using web search and
-   * AI synthesis.
-   */
-  retrieveResearch(
-    id: string,
-    query: V1RetrieveResearchParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<V1RetrieveResearchResponse> {
-    return this._client.get(path`/search/v1/research/${id}`, { query, ...options });
   }
 
   /**
@@ -141,115 +117,6 @@ export namespace V1ContentsResponse {
      * Source URL
      */
     url?: string;
-  }
-}
-
-export interface V1ResearchResponse {
-  /**
-   * Model used for research
-   */
-  model?: string;
-
-  /**
-   * Unique identifier for this research
-   */
-  researchId?: string;
-
-  /**
-   * Research findings and analysis
-   */
-  results?: unknown;
-}
-
-export interface V1RetrieveResearchResponse {
-  /**
-   * Research task ID
-   */
-  id?: string;
-
-  /**
-   * Task completion timestamp
-   */
-  completedAt?: string;
-
-  /**
-   * Task creation timestamp
-   */
-  createdAt?: string;
-
-  /**
-   * Research model used
-   */
-  model?: 'fast' | 'normal' | 'pro';
-
-  /**
-   * Completion percentage (0-100)
-   */
-  progress?: number;
-
-  /**
-   * Original research query
-   */
-  query?: string;
-
-  /**
-   * Research findings and analysis
-   */
-  results?: V1RetrieveResearchResponse.Results;
-
-  /**
-   * Current status of the research task
-   */
-  status?: 'pending' | 'running' | 'completed' | 'failed';
-}
-
-export namespace V1RetrieveResearchResponse {
-  /**
-   * Research findings and analysis
-   */
-  export interface Results {
-    /**
-     * Detailed research sections
-     */
-    sections?: Array<Results.Section>;
-
-    /**
-     * All sources referenced in research
-     */
-    sources?: Array<Results.Source>;
-
-    /**
-     * Executive summary of research findings
-     */
-    summary?: string;
-  }
-
-  export namespace Results {
-    export interface Section {
-      content?: string;
-
-      sources?: Array<Section.Source>;
-
-      title?: string;
-    }
-
-    export namespace Section {
-      export interface Source {
-        snippet?: string;
-
-        title?: string;
-
-        url?: string;
-      }
-    }
-
-    export interface Source {
-      snippet?: string;
-
-      title?: string;
-
-      url?: string;
-    }
   }
 }
 
@@ -434,40 +301,6 @@ export interface V1ContentsParams {
   text?: boolean;
 }
 
-export interface V1ResearchParams {
-  /**
-   * Research instructions or query
-   */
-  instructions: string;
-
-  /**
-   * Research quality level - fast (quick), normal (balanced), pro (comprehensive)
-   */
-  model?: 'fast' | 'normal' | 'pro';
-
-  /**
-   * Optional JSON schema to structure the research output
-   */
-  outputSchema?: unknown;
-
-  /**
-   * Alias for instructions (for convenience)
-   */
-  query?: string;
-}
-
-export interface V1RetrieveResearchParams {
-  /**
-   * Filter specific event types for streaming
-   */
-  events?: string;
-
-  /**
-   * Enable streaming for real-time updates
-   */
-  stream?: boolean;
-}
-
 export interface V1SearchParams {
   /**
    * Primary search query
@@ -596,14 +429,10 @@ export declare namespace V1 {
   export {
     type V1AnswerResponse as V1AnswerResponse,
     type V1ContentsResponse as V1ContentsResponse,
-    type V1ResearchResponse as V1ResearchResponse,
-    type V1RetrieveResearchResponse as V1RetrieveResearchResponse,
     type V1SearchResponse as V1SearchResponse,
     type V1SimilarResponse as V1SimilarResponse,
     type V1AnswerParams as V1AnswerParams,
     type V1ContentsParams as V1ContentsParams,
-    type V1ResearchParams as V1ResearchParams,
-    type V1RetrieveResearchParams as V1RetrieveResearchParams,
     type V1SearchParams as V1SearchParams,
     type V1SimilarParams as V1SimilarParams,
   };

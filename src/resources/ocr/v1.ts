@@ -11,8 +11,8 @@ import { path } from '../../internal/utils/path';
  */
 export class V1 extends APIResource {
   /**
-   * Retrieve the status and results of an OCR job. Returns job progress, extracted
-   * text, and metadata when processing is complete.
+   * Retrieve the status and results of an OCR job. Returns job progress and
+   * metadata; full extracted text is included only when include_text=true.
    *
    * @example
    * ```ts
@@ -103,7 +103,7 @@ export interface V1RetrieveResponse {
   page_count?: number;
 
   /**
-   * Extracted text content (when completed)
+   * Extracted text content when completed and include_text=true
    */
   text?: string;
 }
@@ -147,7 +147,7 @@ export interface V1ProcessResponse {
 
 export interface V1RetrieveParams {
   /**
-   * Include full OCR text in completed responses (default: true)
+   * Include full OCR text in completed responses (default: false)
    */
   include_text?: 'true' | 'false';
 }

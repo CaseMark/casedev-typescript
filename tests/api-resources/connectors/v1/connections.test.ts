@@ -7,9 +7,12 @@ const client = new Casedev({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource workItems', () => {
+describe('resource connections', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.matters.v1.workItems.create('id', { title: 'title' });
+    const responsePromise = client.connectors.v1.connections.create({
+      provider: 'clio',
+      return_url: 'return_url',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,21 +23,15 @@ describe('resource workItems', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.matters.v1.workItems.create('id', {
-      title: 'title',
-      assignee_id: 'assignee_id',
-      description: 'description',
-      due_at: '2019-12-27T18:11:19.117Z',
-      exit_criteria: ['string'],
-      instructions: 'instructions',
-      metadata: { foo: 'bar' },
-      priority: 'low',
-      type: 'task',
+    const response = await client.connectors.v1.connections.create({
+      provider: 'clio',
+      return_url: 'return_url',
+      scope_tier: 'clio.us',
     });
   });
 
-  test('retrieve: only required params', async () => {
-    const responsePromise = client.matters.v1.workItems.retrieve('workItemId', { id: 'id' });
+  test('retrieve', async () => {
+    const responsePromise = client.connectors.v1.connections.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -42,43 +39,10 @@ describe('resource workItems', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: required and optional params', async () => {
-    const response = await client.matters.v1.workItems.retrieve('workItemId', { id: 'id' });
-  });
-
-  test('update: only required params', async () => {
-    const responsePromise = client.matters.v1.workItems.update('workItemId', { id: 'id' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('update: required and optional params', async () => {
-    const response = await client.matters.v1.workItems.update('workItemId', {
-      id: 'id',
-      assignee_id: 'assignee_id',
-      completed_at: '2019-12-27T18:11:19.117Z',
-      description: 'description',
-      due_at: '2019-12-27T18:11:19.117Z',
-      exit_criteria: ['string'],
-      instructions: 'instructions',
-      metadata: { foo: 'bar' },
-      priority: 'low',
-      started_at: '2019-12-27T18:11:19.117Z',
-      status: 'draft',
-      title: 'title',
-      type: 'task',
-    });
   });
 
   test('list', async () => {
-    const responsePromise = client.matters.v1.workItems.list('id');
+    const responsePromise = client.connectors.v1.connections.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -91,19 +55,15 @@ describe('resource workItems', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.matters.v1.workItems.list(
-        'id',
-        { assignee_id: 'assignee_id', status: 'status' },
+      client.connectors.v1.connections.list(
+        { provider: 'provider', status: 'pending' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
-  test('decide: only required params', async () => {
-    const responsePromise = client.matters.v1.workItems.decide('workItemId', {
-      id: 'id',
-      decision: 'approve',
-    });
+  test('delete', async () => {
+    const responsePromise = client.connectors.v1.connections.delete('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -113,12 +73,39 @@ describe('resource workItems', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('decide: required and optional params', async () => {
-    const response = await client.matters.v1.workItems.decide('workItemId', {
-      id: 'id',
-      decision: 'approve',
-      metadata: { foo: 'bar' },
-      reason: 'reason',
-    });
+  test('delete: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.connectors.v1.connections.delete('id', { purge: true }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
+  test('browse', async () => {
+    const responsePromise = client.connectors.v1.connections.browse('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('browse: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.connectors.v1.connections.browse(
+        'id',
+        {
+          container: 'container',
+          cursor: 'cursor',
+          page_size: 1000,
+          parent: 'parent',
+          query: 'query',
+          site: 'site',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
   });
 });

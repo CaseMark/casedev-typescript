@@ -96,6 +96,13 @@ describe('resource objects', () => {
       appendObjectIds: ['string'],
       backLinks: true,
       backLinksText: 'backLinksText',
+      bates: {
+        enabled: true,
+        padTo: 0,
+        prefix: 'prefix',
+        start: 1,
+        suffix: 'suffix',
+      },
       rewriteLinks: true,
     });
   });
@@ -183,21 +190,6 @@ describe('resource objects', () => {
     });
   });
 
-  test('getSummarizeJob: only required params', async () => {
-    const responsePromise = client.vault.objects.getSummarizeJob('jobId', { id: 'id', objectId: 'objectId' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('getSummarizeJob: required and optional params', async () => {
-    const response = await client.vault.objects.getSummarizeJob('jobId', { id: 'id', objectId: 'objectId' });
-  });
-
   test('getText: only required params', async () => {
     const responsePromise = client.vault.objects.getText('objectId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -213,8 +205,13 @@ describe('resource objects', () => {
     const response = await client.vault.objects.getText('objectId', { id: 'id' });
   });
 
-  test('summarize: only required params', async () => {
-    const responsePromise = client.vault.objects.summarize('objectId', { id: 'id' });
+  test('merge: only required params', async () => {
+    const responsePromise = client.vault.objects.merge('id', {
+      filename: 'filename',
+      sourceObjectIds: ['string'],
+      sourceRendition: 'original',
+      'Idempotency-Key': 'x',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -224,11 +221,19 @@ describe('resource objects', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('summarize: required and optional params', async () => {
-    const response = await client.vault.objects.summarize('objectId', {
-      id: 'id',
-      outputFormat: 'PDF',
-      workflowType: 'workflowType',
+  test('merge: required and optional params', async () => {
+    const response = await client.vault.objects.merge('id', {
+      filename: 'filename',
+      sourceObjectIds: ['string'],
+      sourceRendition: 'original',
+      'Idempotency-Key': 'x',
+      bates: {
+        padTo: 0,
+        prefix: 'prefix',
+        start: 1,
+        suffix: 'suffix',
+      },
+      clientReference: 'clientReference',
     });
   });
 });

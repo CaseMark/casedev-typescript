@@ -6,6 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * Transcript retrieval and captioned media clip generation
+ */
 export class Clips extends APIResource {
   /**
    * Create a captioned media clip

@@ -7,7 +7,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 /**
- * Secure document storage with semantic search and GraphRAG
+ * Vault object management, content access, and document operations
  */
 export class Objects extends APIResource {
   /**
@@ -247,29 +247,10 @@ export class Objects extends APIResource {
   }
 
   /**
-   * Get the status of a CaseMark summary workflow job.
-   *
-   * @example
-   * ```ts
-   * const response = await client.vault.objects.getSummarizeJob(
-   *   'jobId',
-   *   { id: 'id', objectId: 'objectId' },
-   * );
-   * ```
-   */
-  getSummarizeJob(
-    jobID: string,
-    params: ObjectGetSummarizeJobParams,
-    options?: RequestOptions,
-  ): APIPromise<ObjectGetSummarizeJobResponse> {
-    const { id, objectId } = params;
-    return this._client.get(path`/vault/${id}/objects/${objectId}/summarize/${jobID}`, options);
-  }
-
-  /**
-   * Retrieves the full extracted text content from a processed vault object. Returns
-   * the concatenated text from all chunks, useful for document review, analysis, or
-   * export. The object must have completed processing before text can be retrieved.
+   * Retrieves the full extracted text content from a processed vault object,
+   * page-numbered (--- Page N --- markers) when the source document is paginated.
+   * Useful for document review, analysis, or export. The object must have completed
+   * processing before text can be retrieved.
    *
    * @example
    * ```ts
@@ -289,25 +270,27 @@ export class Objects extends APIResource {
   }
 
   /**
-   * Triggers a CaseMark AI workflow to summarize or analyze a document stored in the
-   * vault. The workflow processes the document asynchronously and stores the result
-   * as a new object in the same vault, linked to the original document.
+   * Starts an asynchronous merge that creates a new PDF vault object. Source objects
+   * are unchanged. Missing searchable PDF renditions are generated on demand before
+   * combining. Completion is reported through vault.object.merge webhooks.
    *
    * @example
    * ```ts
-   * const response = await client.vault.objects.summarize(
-   *   'objectId',
-   *   { id: 'id' },
-   * );
+   * const response = await client.vault.objects.merge('id', {
+   *   filename: 'filename',
+   *   sourceObjectIds: ['string'],
+   *   sourceRendition: 'original',
+   *   'Idempotency-Key': 'x',
+   * });
    * ```
    */
-  summarize(
-    objectID: string,
-    params: ObjectSummarizeParams,
-    options?: RequestOptions,
-  ): APIPromise<ObjectSummarizeResponse> {
-    const { id, ...body } = params;
-    return this._client.post(path`/vault/${id}/objects/${objectID}/summarize`, { body, ...options });
+  merge(id: string, params: ObjectMergeParams, options?: RequestOptions): APIPromise<ObjectMergeResponse> {
+    const { 'Idempotency-Key': idempotencyKey, ...body } = params;
+    return this._client.post(path`/vault/${id}/objects/merge`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ 'Idempotency-Key': idempotencyKey }, options?.headers]),
+    });
   }
 }
 
@@ -591,6 +574,8 @@ export namespace ObjectDeleteResponse {
 export interface ObjectAppendResponse {
   id?: string;
 
+  bates?: unknown;
+
   checksum?: string;
 
   contentType?: string;
@@ -606,6 +591,8 @@ export interface ObjectAppendResponse {
   ingestionStatus?: string;
 
   metadata?: unknown;
+
+  objectId?: string;
 
   pageCount?: number;
 
@@ -862,53 +849,6 @@ export namespace ObjectGetPagesResponse {
   }
 }
 
-export interface ObjectGetSummarizeJobResponse {
-  /**
-   * When the job completed
-   */
-  completedAt?: string | null;
-
-  /**
-   * When the job was created
-   */
-  createdAt?: string;
-
-  /**
-   * Error message (if failed)
-   */
-  error?: string | null;
-
-  /**
-   * Case.dev job ID
-   */
-  jobId?: string;
-
-  /**
-   * Filename of the result document (if completed)
-   */
-  resultFilename?: string | null;
-
-  /**
-   * ID of the result document (if completed)
-   */
-  resultObjectId?: string | null;
-
-  /**
-   * ID of the source document
-   */
-  sourceObjectId?: string;
-
-  /**
-   * Current job status
-   */
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-  /**
-   * Type of workflow being executed
-   */
-  workflowType?: string;
-}
-
 export interface ObjectGetTextResponse {
   metadata: ObjectGetTextResponse.Metadata;
 
@@ -952,31 +892,14 @@ export namespace ObjectGetTextResponse {
   }
 }
 
-export interface ObjectSummarizeResponse {
-  /**
-   * CaseMark workflow ID
-   */
-  casemarkWorkflowId?: string;
+export interface ObjectMergeResponse {
+  clientReference?: string;
 
-  /**
-   * Case.dev job ID for tracking
-   */
-  jobId?: string;
+  objectId?: string;
 
-  /**
-   * Current job status
-   */
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
+  status?: 'processing';
 
-  /**
-   * URL to check job status
-   */
-  statusUrl?: string;
-
-  /**
-   * Type of workflow being executed
-   */
-  workflowType?: string;
+  workflowId?: string;
 }
 
 export interface ObjectRetrieveParams {
@@ -1054,11 +977,36 @@ export interface ObjectAppendParams {
   backLinksText?: string;
 
   /**
+   * Body param: Optional Bates stamping for appended source PDFs. Numbering is
+   * deterministic across appendObjectIds order and does not stamp the target report
+   * pages.
+   */
+  bates?: ObjectAppendParams.Bates;
+
+  /**
    * Body param: When true, rewrites links in the target object to internal PDF jumps
    * when the URL contains exactly one appended object ID as a standalone query
    * parameter value or decoded path segment.
    */
   rewriteLinks?: boolean;
+}
+
+export namespace ObjectAppendParams {
+  /**
+   * Optional Bates stamping for appended source PDFs. Numbering is deterministic
+   * across appendObjectIds order and does not stamp the target report pages.
+   */
+  export interface Bates {
+    enabled?: boolean;
+
+    padTo?: number;
+
+    prefix?: string;
+
+    start?: number;
+
+    suffix?: string;
+  }
 }
 
 export interface ObjectCreatePresignedURLParams {
@@ -1159,18 +1107,6 @@ export interface ObjectGetPagesParams {
   start?: number;
 }
 
-export interface ObjectGetSummarizeJobParams {
-  /**
-   * Vault ID
-   */
-  id: string;
-
-  /**
-   * Source object ID
-   */
-  objectId: string;
-}
-
 export interface ObjectGetTextParams {
   /**
    * The vault ID
@@ -1178,21 +1114,48 @@ export interface ObjectGetTextParams {
   id: string;
 }
 
-export interface ObjectSummarizeParams {
+export interface ObjectMergeParams {
   /**
-   * Path param: Vault ID
+   * Body param: Output PDF filename
    */
-  id: string;
+  filename: string;
 
   /**
-   * Body param: Output format for the summary document
+   * Body param: Source object IDs in output order
    */
-  outputFormat?: 'PDF' | 'WORD';
+  sourceObjectIds: Array<string>;
 
   /**
-   * Body param: Type of CaseMark workflow to run
+   * Body param
    */
-  workflowType?: string;
+  sourceRendition: 'original' | 'searchable_pdf';
+
+  /**
+   * Header param: Stable key for safely retrying the same merge request
+   */
+  'Idempotency-Key': string;
+
+  /**
+   * Body param
+   */
+  bates?: ObjectMergeParams.Bates;
+
+  /**
+   * Body param
+   */
+  clientReference?: string;
+}
+
+export namespace ObjectMergeParams {
+  export interface Bates {
+    padTo?: number;
+
+    prefix?: string;
+
+    start?: number;
+
+    suffix?: string;
+  }
 }
 
 export declare namespace Objects {
@@ -1206,9 +1169,8 @@ export declare namespace Objects {
     type ObjectGetChunksResponse as ObjectGetChunksResponse,
     type ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse,
     type ObjectGetPagesResponse as ObjectGetPagesResponse,
-    type ObjectGetSummarizeJobResponse as ObjectGetSummarizeJobResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
-    type ObjectSummarizeResponse as ObjectSummarizeResponse,
+    type ObjectMergeResponse as ObjectMergeResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectUpdateParams as ObjectUpdateParams,
     type ObjectListParams as ObjectListParams,
@@ -1219,8 +1181,7 @@ export declare namespace Objects {
     type ObjectGetChunksParams as ObjectGetChunksParams,
     type ObjectGetOcrWordsParams as ObjectGetOcrWordsParams,
     type ObjectGetPagesParams as ObjectGetPagesParams,
-    type ObjectGetSummarizeJobParams as ObjectGetSummarizeJobParams,
     type ObjectGetTextParams as ObjectGetTextParams,
-    type ObjectSummarizeParams as ObjectSummarizeParams,
+    type ObjectMergeParams as ObjectMergeParams,
   };
 }

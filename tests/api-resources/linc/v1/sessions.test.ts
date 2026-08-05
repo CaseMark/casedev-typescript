@@ -30,6 +30,7 @@ describe('resource sessions', () => {
           instructions: 'instructions',
           model: 'model',
           scopedApiKey: 'scopedApiKey',
+          serviceTier: 'default',
           skillSlugs: ['string'],
           title: 'title',
           vaultIds: ['string'],
@@ -59,6 +60,13 @@ describe('resource sessions', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('cancel: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.linc.v1.sessions.cancel('id', { clearQueue: true }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Casedev.NotFoundError);
   });
 
   test('ingestEvents: only required params', async () => {

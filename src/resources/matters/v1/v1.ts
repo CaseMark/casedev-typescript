@@ -17,7 +17,6 @@ import * as WorkItemsAPI from './work-items';
 import {
   WorkItemCreateParams,
   WorkItemDecideParams,
-  WorkItemListExecutionsParams,
   WorkItemListParams,
   WorkItemRetrieveParams,
   WorkItemUpdateParams,
@@ -239,6 +238,5 @@ export declare namespace V1 {
     type WorkItemUpdateParams as WorkItemUpdateParams,
     type WorkItemListParams as WorkItemListParams,
     type WorkItemDecideParams as WorkItemDecideParams,
-    type WorkItemListExecutionsParams as WorkItemListExecutionsParams,
   };
 }

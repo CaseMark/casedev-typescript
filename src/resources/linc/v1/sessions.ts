@@ -7,7 +7,7 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 /**
- * Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+ * Durable, stateful legal agent sessions with sandboxed tools and files
  */
 export class Sessions extends APIResource {
   /**
@@ -34,10 +34,18 @@ export class Sessions extends APIResource {
   }
 
   /**
-   * Cancel native Linc session turn
+   * Sends an abort RPC to the session runtime, ending the current turn while keeping
+   * the session alive. Body handling is intentionally lenient — cancel is a stop
+   * control, so unknown fields are ignored and an invalid or missing body is treated
+   * as empty rather than rejected.
    */
-  cancel(id: string, options?: RequestOptions): APIPromise<void> {
+  cancel(
+    id: string,
+    body: SessionCancelParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<void> {
     return this._client.post(path`/linc/v1/sessions/${id}/cancel`, {
+      body,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
@@ -140,6 +148,12 @@ export interface SessionCreateParams {
   scopedApiKey?: string | null;
 
   /**
+   * Processing tier for eligible OpenAI GPT models. Priority provides lower latency
+   * at premium cost.
+   */
+  serviceTier?: 'default' | 'priority';
+
+  /**
    * Skills API slugs to install into the runtime sandbox before the native session
    * starts.
    */
@@ -148,6 +162,20 @@ export interface SessionCreateParams {
   title?: string;
 
   vaultIds?: Array<string> | null;
+}
+
+export interface SessionCancelParams {
+  /**
+   * Also clear queued steering/follow-up messages so the abort leaves the agent
+   * fully idle. Cleared texts are returned in the `response.data.clearedQueue` field
+   * of the response body. Without it, messages still queued when the abort settles
+   * are auto-continued as a new run. Runtimes older than the Linc release that
+   * supports this flag ignore it: the abort still happens but the queue is left
+   * untouched.
+   */
+  clearQueue?: boolean;
+
+  [k: string]: unknown;
 }
 
 export interface SessionIngestEventsParams {
@@ -233,6 +261,7 @@ export interface SessionSendRpcParams {
 export declare namespace Sessions {
   export {
     type SessionCreateParams as SessionCreateParams,
+    type SessionCancelParams as SessionCancelParams,
     type SessionIngestEventsParams as SessionIngestEventsParams,
     type SessionRetrieveEventsParams as SessionRetrieveEventsParams,
     type SessionRetrieveMessagesParams as SessionRetrieveMessagesParams,

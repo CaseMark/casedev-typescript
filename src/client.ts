@@ -18,15 +18,11 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { System, SystemListServicesResponse } from './resources/system';
-import { Agent } from './resources/agent/agent';
 import { Compute } from './resources/compute/compute';
-import { Database } from './resources/database/database';
-import { DocumentTemplates } from './resources/document-templates/document-templates';
-import { Format } from './resources/format/format';
+import { Connectors } from './resources/connectors/connectors';
 import { Legal } from './resources/legal/legal';
 import { Linc } from './resources/linc/linc';
 import { Llm, LlmGetConfigResponse } from './resources/llm/llm';
-import { Mail } from './resources/mail/mail';
 import { Matters } from './resources/matters/matters';
 import { Media } from './resources/media/media';
 import { Memory } from './resources/memory/memory';
@@ -48,7 +44,6 @@ import {
   SkillUpdateResponse,
   Skills,
 } from './resources/skills/skills';
-import { Superdoc } from './resources/superdoc/superdoc';
 import { Translate } from './resources/translate/translate';
 import { Usage } from './resources/usage/usage';
 import {
@@ -813,15 +808,12 @@ export class Casedev {
 
   static toFile = Uploads.toFile;
 
-  agent: API.Agent = new API.Agent(this);
+  connectors: API.Connectors = new API.Connectors(this);
   /**
    * Public system metadata and discovery endpoints
    */
   system: API.System = new API.System(this);
   compute: API.Compute = new API.Compute(this);
-  database: API.Database = new API.Database(this);
-  documentTemplates: API.DocumentTemplates = new API.DocumentTemplates(this);
-  format: API.Format = new API.Format(this);
   legal: API.Legal = new API.Legal(this);
   linc: API.Linc = new API.Linc(this);
   matters: API.Matters = new API.Matters(this);
@@ -833,13 +825,11 @@ export class Casedev {
   media: API.Media = new API.Media(this);
   ocr: API.Ocr = new API.Ocr(this);
   privilege: API.Privilege = new API.Privilege(this);
-  mail: API.Mail = new API.Mail(this);
   /**
    * Search and read legal AI skills for agents
    */
   skills: API.Skills = new API.Skills(this);
   search: API.Search = new API.Search(this);
-  superdoc: API.Superdoc = new API.Superdoc(this);
   translate: API.Translate = new API.Translate(this);
   usage: API.Usage = new API.Usage(this);
   /**
@@ -850,12 +840,9 @@ export class Casedev {
   webhooks: API.Webhooks = new API.Webhooks(this);
 }
 
-Casedev.Agent = Agent;
+Casedev.Connectors = Connectors;
 Casedev.System = System;
 Casedev.Compute = Compute;
-Casedev.Database = Database;
-Casedev.DocumentTemplates = DocumentTemplates;
-Casedev.Format = Format;
 Casedev.Legal = Legal;
 Casedev.Linc = Linc;
 Casedev.Matters = Matters;
@@ -864,10 +851,8 @@ Casedev.Memory = Memory;
 Casedev.Media = Media;
 Casedev.Ocr = Ocr;
 Casedev.Privilege = Privilege;
-Casedev.Mail = Mail;
 Casedev.Skills = Skills;
 Casedev.Search = Search;
-Casedev.Superdoc = Superdoc;
 Casedev.Translate = Translate;
 Casedev.Usage = Usage;
 Casedev.Vault = Vault;
@@ -877,17 +862,11 @@ Casedev.Webhooks = Webhooks;
 export declare namespace Casedev {
   export type RequestOptions = Opts.RequestOptions;
 
-  export { Agent as Agent };
+  export { Connectors as Connectors };
 
   export { System as System, type SystemListServicesResponse as SystemListServicesResponse };
 
   export { Compute as Compute };
-
-  export { Database as Database };
-
-  export { DocumentTemplates as DocumentTemplates };
-
-  export { Format as Format };
 
   export { Legal as Legal };
 
@@ -904,8 +883,6 @@ export declare namespace Casedev {
   export { Ocr as Ocr };
 
   export { Privilege as Privilege };
-
-  export { Mail as Mail };
 
   export {
     Skills as Skills,
@@ -924,8 +901,6 @@ export declare namespace Casedev {
   };
 
   export { Search as Search };
-
-  export { Superdoc as Superdoc };
 
   export { Translate as Translate };
 

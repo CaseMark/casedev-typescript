@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Casedev from 'casedev';
+import Casedev, { toFile } from 'casedev';
 
 const client = new Casedev({
   apiKey: 'My API Key',
@@ -61,6 +61,14 @@ describe('resource v1', () => {
       target: 'es',
       format: 'text',
       model: 'nmt',
+      source: 'en',
+    });
+  });
+
+  test('translateDocument: required and optional params', async () => {
+    const response = await client.translate.v1.translateDocument({
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
+      target: 'es',
       source: 'en',
     });
   });

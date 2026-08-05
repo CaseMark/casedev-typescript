@@ -1,13 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export { Events } from './events/index';
-export {
-  Graphrag,
-  type GraphragGetStatsResponse,
-  type GraphragInitResponse,
-  type GraphragProcessObjectResponse,
-  type GraphragProcessObjectParams,
-} from './graphrag';
 export { Groups, type GroupCreateParams, type GroupUpdateParams } from './groups';
 export {
   Memory,
@@ -39,9 +32,8 @@ export {
   type ObjectGetChunksResponse,
   type ObjectGetOcrWordsResponse,
   type ObjectGetPagesResponse,
-  type ObjectGetSummarizeJobResponse,
   type ObjectGetTextResponse,
-  type ObjectSummarizeResponse,
+  type ObjectMergeResponse,
   type ObjectRetrieveParams,
   type ObjectUpdateParams,
   type ObjectListParams,
@@ -52,9 +44,8 @@ export {
   type ObjectGetChunksParams,
   type ObjectGetOcrWordsParams,
   type ObjectGetPagesParams,
-  type ObjectGetSummarizeJobParams,
   type ObjectGetTextParams,
-  type ObjectSummarizeParams,
+  type ObjectMergeParams,
 } from './objects';
 export {
   Vault,

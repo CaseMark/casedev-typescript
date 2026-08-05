@@ -8,6 +8,7 @@ import {
   V1DetectResponse,
   V1ListLanguagesParams,
   V1ListLanguagesResponse,
+  V1TranslateDocumentParams,
   V1TranslateParams,
   V1TranslateResponse,
 } from './v1';
@@ -27,5 +28,6 @@ export declare namespace Translate {
     type V1DetectParams as V1DetectParams,
     type V1ListLanguagesParams as V1ListLanguagesParams,
     type V1TranslateParams as V1TranslateParams,
+    type V1TranslateDocumentParams as V1TranslateDocumentParams,
   };
 }

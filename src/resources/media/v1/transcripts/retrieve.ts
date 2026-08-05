@@ -4,6 +4,9 @@ import { APIResource } from '../../../../core/resource';
 import { APIPromise } from '../../../../core/api-promise';
 import { RequestOptions } from '../../../../internal/request-options';
 
+/**
+ * Transcript retrieval and captioned media clip generation
+ */
 export class Retrieve extends APIResource {
   /**
    * Retrieves the full transcript text for a vault transcript object or an
