@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.69.0](https://github.com/CaseMark/casedev-typescript/compare/v0.68.0...v0.69.0) (2026-08-05)
+
+
+### Features
+
+* **api:** api update ([092cb9a](https://github.com/CaseMark/casedev-typescript/commit/092cb9a1e257c25d23dbbec49eaed0881a16f1f0))
+* **api:** api update ([f292c48](https://github.com/CaseMark/casedev-typescript/commit/f292c481fe1ad02b845d846fa0951562b412e4cf))
+* **api:** api update ([#6](https://github.com/CaseMark/casedev-typescript/issues/6)) ([1f2f4fb](https://github.com/CaseMark/casedev-typescript/commit/1f2f4fb19112b89138ea8847c973ee2aba0db33e))
+
 ## [0.68.0](https://github.com/CaseMark/casedev-typescript/compare/v0.67.2...v0.68.0) (2026-06-09)
 
 
