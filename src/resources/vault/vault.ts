@@ -1,14 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as GraphragAPI from './graphrag';
-import {
-  Graphrag,
-  GraphragGetStatsResponse,
-  GraphragInitResponse,
-  GraphragProcessObjectParams,
-  GraphragProcessObjectResponse,
-} from './graphrag';
 import * as GroupsAPI from './groups';
 import { GroupCreateParams, GroupUpdateParams, Groups } from './groups';
 import * as MemoryAPI from './memory';
@@ -26,11 +18,16 @@ import * as MultipartAPI from './multipart';
 import {
   Multipart,
   MultipartAbortParams,
+  MultipartCompleteParams,
   MultipartGetPartURLsParams,
   MultipartGetPartURLsResponse,
+  MultipartInitParams,
+  MultipartInitResponse,
 } from './multipart';
 import * as ObjectsAPI from './objects';
 import {
+  ObjectAppendParams,
+  ObjectAppendResponse,
   ObjectCreatePresignedURLParams,
   ObjectCreatePresignedURLResponse,
   ObjectDeleteParams,
@@ -42,11 +39,12 @@ import {
   ObjectGetOcrWordsResponse,
   ObjectGetPagesParams,
   ObjectGetPagesResponse,
-  ObjectGetSummarizeJobParams,
-  ObjectGetSummarizeJobResponse,
   ObjectGetTextParams,
   ObjectGetTextResponse,
+  ObjectListParams,
   ObjectListResponse,
+  ObjectMergeParams,
+  ObjectMergeResponse,
   ObjectRetrieveParams,
   ObjectRetrieveResponse,
   ObjectUpdateParams,
@@ -56,6 +54,7 @@ import {
 import * as EventsAPI from './events/events';
 import { Events } from './events/events';
 import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -64,7 +63,6 @@ import { path } from '../../internal/utils/path';
  */
 export class Vault extends APIResource {
   events: EventsAPI.Events = new EventsAPI.Events(this._client);
-  graphrag: GraphragAPI.Graphrag = new GraphragAPI.Graphrag(this._client);
   groups: GroupsAPI.Groups = new GroupsAPI.Groups(this._client);
   multipart: MultipartAPI.Multipart = new MultipartAPI.Multipart(this._client);
   objects: ObjectsAPI.Objects = new ObjectsAPI.Objects(this._client);
@@ -152,17 +150,15 @@ export class Vault extends APIResource {
   /**
    * Confirm whether a direct-to-S3 vault upload succeeded or failed. This endpoint
    * emits vault.upload.completed or vault.upload.failed events and is idempotent for
-   * repeated confirmations.
+   * repeated confirmations. Conditional fields: when success=true, sizeBytes is
+   * required; when success=false, errorCode and errorMessage are required. These
+   * rules are enforced server-side with specific 400 responses.
    *
    * @example
    * ```ts
    * const response = await client.vault.confirmUpload(
    *   'objectId',
-   *   {
-   *     id: 'id',
-   *     sizeBytes: 1,
-   *     success: true,
-   *   },
+   *   { id: 'id', success: true },
    * );
    * ```
    */
@@ -177,14 +173,13 @@ export class Vault extends APIResource {
 
   /**
    * Triggers ingestion workflow for a vault object to extract text, generate chunks,
-   * and create embeddings. For supported file types (PDF, DOCX, PPTX, TXT, RTF, XML,
-   * HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files, ZIP, audio,
-   * video), processing happens asynchronously. ZIP archives are unpacked recursively
-   * up to 5 levels, and each extracted file is created as an independent vault
-   * object and ingested via the normal pipeline. For unsupported types (images,
-   * etc.), the file is marked as completed immediately without text extraction.
-   * GraphRAG indexing must be triggered separately via POST
-   * /vault/:id/graphrag/:objectId.
+   * and create embeddings. For supported file types (PDF, DOCX, PPTX, XLSX, TXT,
+   * RTF, XML, HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files,
+   * ZIP, audio, video), processing happens asynchronously. ZIP archives are unpacked
+   * recursively up to 5 levels, and each extracted file is created as an independent
+   * vault object and ingested via the normal pipeline. For unsupported types
+   * (images, etc.), the file is marked as completed immediately without text
+   * extraction.
    *
    * @example
    * ```ts
@@ -232,8 +227,16 @@ export class Vault extends APIResource {
    * });
    * ```
    */
-  upload(id: string, body: VaultUploadParams, options?: RequestOptions): APIPromise<VaultUploadResponse> {
-    return this._client.post(path`/vault/${id}/upload`, { body, ...options });
+  upload(id: string, params: VaultUploadParams, options?: RequestOptions): APIPromise<VaultUploadResponse> {
+    const { 'Idempotency-Key': idempotencyKey, ...body } = params;
+    return this._client.post(path`/vault/${id}/upload`, {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { ...(idempotencyKey != null ? { 'Idempotency-Key': idempotencyKey } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 }
 
@@ -578,6 +581,11 @@ export namespace VaultDeleteResponse {
 export interface VaultConfirmUploadResponse {
   alreadyConfirmed?: boolean;
 
+  /**
+   * Present when autoIngest was requested on a successful confirmation
+   */
+  ingest?: VaultConfirmUploadResponse.Ingest;
+
   objectId?: string;
 
   status?: 'completed' | 'failed';
@@ -585,10 +593,22 @@ export interface VaultConfirmUploadResponse {
   vaultId?: string;
 }
 
+export namespace VaultConfirmUploadResponse {
+  /**
+   * Present when autoIngest was requested on a successful confirmation
+   */
+  export interface Ingest {
+    error?: string;
+
+    triggered?: boolean;
+
+    workflowId?: string | null;
+  }
+}
+
 export interface VaultIngestResponse {
   /**
-   * Always false - GraphRAG must be triggered separately via POST
-   * /vault/:id/graphrag/:objectId
+   * Always false; retained for response compatibility
    */
   enableGraphRAG: boolean;
 
@@ -733,6 +753,11 @@ export namespace VaultSearchResponse {
 
 export interface VaultUploadResponse {
   /**
+   * True when this idempotency key already identifies a confirmed upload
+   */
+  alreadyUploaded?: boolean;
+
+  /**
    * Whether the file will be automatically indexed
    */
   auto_index?: boolean;
@@ -747,7 +772,12 @@ export interface VaultUploadResponse {
    */
   expiresIn?: number;
 
-  instructions?: VaultUploadResponse.Instructions;
+  instructions?: VaultUploadResponse.Instructions | null;
+
+  /**
+   * Whether the file is marked as AI-generated work product
+   */
+  is_ai_generated?: boolean;
 
   /**
    * Next API endpoint to call for processing
@@ -772,7 +802,7 @@ export interface VaultUploadResponse {
   /**
    * Presigned URL for uploading the file
    */
-  uploadUrl?: string;
+  uploadUrl?: string | null;
 }
 
 export namespace VaultUploadResponse {
@@ -871,55 +901,45 @@ export interface VaultDeleteParams {
   async?: boolean;
 }
 
-export type VaultConfirmUploadParams =
-  | VaultConfirmUploadParams.VaultConfirmUploadSuccess
-  | VaultConfirmUploadParams.VaultConfirmUploadFailure;
+export interface VaultConfirmUploadParams {
+  /**
+   * Path param: Vault ID
+   */
+  id: string;
 
-export declare namespace VaultConfirmUploadParams {
-  export interface VaultConfirmUploadSuccess {
-    /**
-     * Path param: Vault ID
-     */
-    id: string;
+  /**
+   * Body param: Whether the upload succeeded
+   */
+  success: boolean;
 
-    /**
-     * Body param: Uploaded file size in bytes
-     */
-    sizeBytes: number;
+  /**
+   * Body param: When true and the object was uploaded with auto_index, trigger
+   * ingestion immediately after a successful confirmation (no separate ingest call
+   * needed). The ingest outcome is reported in the `ingest` response field; an
+   * ingest failure does not fail the confirmation.
+   */
+  autoIngest?: boolean;
 
-    /**
-     * Body param: Whether the upload succeeded
-     */
-    success: true;
+  /**
+   * Body param: Client-side error code. Required when success=false.
+   */
+  errorCode?: string;
 
-    /**
-     * Body param: S3 ETag for the uploaded object (optional if client cannot access
-     * ETag header)
-     */
-    etag?: string;
-  }
+  /**
+   * Body param: Client-side error message. Required when success=false.
+   */
+  errorMessage?: string;
 
-  export interface VaultConfirmUploadFailure {
-    /**
-     * Path param: Vault ID
-     */
-    id: string;
+  /**
+   * Body param: S3 ETag for the uploaded object (optional if client cannot access
+   * ETag header). Only meaningful when success=true.
+   */
+  etag?: string;
 
-    /**
-     * Body param: Client-side error code
-     */
-    errorCode: string;
-
-    /**
-     * Body param: Client-side error message
-     */
-    errorMessage: string;
-
-    /**
-     * Body param: Whether the upload succeeded
-     */
-    success: false;
-  }
+  /**
+   * Body param: Uploaded file size in bytes. Required when success=true.
+   */
+  sizeBytes?: number;
 }
 
 export interface VaultIngestParams {
@@ -970,41 +990,52 @@ export namespace VaultSearchParams {
 
 export interface VaultUploadParams {
   /**
-   * MIME type of the file (e.g., application/pdf, image/jpeg)
+   * Body param: MIME type of the file (e.g., application/pdf, image/jpeg)
    */
   contentType: string;
 
   /**
-   * Name of the file to upload
+   * Body param: Name of the file to upload
    */
   filename: string;
 
   /**
-   * Whether to automatically process and index the file for search
+   * Body param: Whether to automatically process and index the file for search
    */
   auto_index?: boolean;
 
   /**
-   * Additional metadata to associate with the file
+   * Body param: Marks the file as AI-generated work product (e.g. uploaded by an
+   * agent) rather than a user-provided source document. Persisted on the object and
+   * returned by object listings so clients can distinguish provenance.
+   */
+  is_ai_generated?: boolean;
+
+  /**
+   * Body param: Additional metadata to associate with the file
    */
   metadata?: unknown;
 
   /**
-   * Optional folder path for hierarchy preservation. Allows integrations to maintain
-   * source folder structure from systems like NetDocs, Clio, or Smokeball. Example:
-   * '/Discovery/Depositions/2024'
+   * Body param: Optional folder path for hierarchy preservation. Allows integrations
+   * to maintain source folder structure from systems like NetDocs, Clio, or
+   * Smokeball. Example: '/Discovery/Depositions/2024'
    */
   path?: string;
 
   /**
-   * File size in bytes (optional, max 5GB for single PUT uploads). When provided,
-   * enforces exact file size at S3 level.
+   * Body param: File size in bytes (optional, max 5GB for single PUT uploads). When
+   * provided, enforces exact file size at S3 level.
    */
   sizeBytes?: number;
+
+  /**
+   * Header param: Optional stable key for safely retrying upload initialization
+   */
+  'Idempotency-Key'?: string;
 }
 
 Vault.Events = Events;
-Vault.Graphrag = Graphrag;
 Vault.Groups = Groups;
 Vault.Multipart = Multipart;
 Vault.Objects = Objects;
@@ -1033,14 +1064,6 @@ export declare namespace Vault {
   export { Events as Events };
 
   export {
-    Graphrag as Graphrag,
-    type GraphragGetStatsResponse as GraphragGetStatsResponse,
-    type GraphragInitResponse as GraphragInitResponse,
-    type GraphragProcessObjectResponse as GraphragProcessObjectResponse,
-    type GraphragProcessObjectParams as GraphragProcessObjectParams,
-  };
-
-  export {
     Groups as Groups,
     type GroupCreateParams as GroupCreateParams,
     type GroupUpdateParams as GroupUpdateParams,
@@ -1049,8 +1072,11 @@ export declare namespace Vault {
   export {
     Multipart as Multipart,
     type MultipartGetPartURLsResponse as MultipartGetPartURLsResponse,
+    type MultipartInitResponse as MultipartInitResponse,
     type MultipartAbortParams as MultipartAbortParams,
+    type MultipartCompleteParams as MultipartCompleteParams,
     type MultipartGetPartURLsParams as MultipartGetPartURLsParams,
+    type MultipartInitParams as MultipartInitParams,
   };
 
   export {
@@ -1059,22 +1085,25 @@ export declare namespace Vault {
     type ObjectUpdateResponse as ObjectUpdateResponse,
     type ObjectListResponse as ObjectListResponse,
     type ObjectDeleteResponse as ObjectDeleteResponse,
+    type ObjectAppendResponse as ObjectAppendResponse,
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
     type ObjectGetChunksResponse as ObjectGetChunksResponse,
     type ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse,
     type ObjectGetPagesResponse as ObjectGetPagesResponse,
-    type ObjectGetSummarizeJobResponse as ObjectGetSummarizeJobResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
+    type ObjectMergeResponse as ObjectMergeResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectUpdateParams as ObjectUpdateParams,
+    type ObjectListParams as ObjectListParams,
     type ObjectDeleteParams as ObjectDeleteParams,
+    type ObjectAppendParams as ObjectAppendParams,
     type ObjectCreatePresignedURLParams as ObjectCreatePresignedURLParams,
     type ObjectDownloadParams as ObjectDownloadParams,
     type ObjectGetChunksParams as ObjectGetChunksParams,
     type ObjectGetOcrWordsParams as ObjectGetOcrWordsParams,
     type ObjectGetPagesParams as ObjectGetPagesParams,
-    type ObjectGetSummarizeJobParams as ObjectGetSummarizeJobParams,
     type ObjectGetTextParams as ObjectGetTextParams,
+    type ObjectMergeParams as ObjectMergeParams,
   };
 
   export {

@@ -9,4 +9,5 @@ export {
   type V1DetectParams,
   type V1ListLanguagesParams,
   type V1TranslateParams,
+  type V1TranslateDocumentParams,
 } from './v1';

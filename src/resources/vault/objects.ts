@@ -7,7 +7,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 /**
- * Secure document storage with semantic search and GraphRAG
+ * Vault object management, content access, and document operations
  */
 export class Objects extends APIResource {
   /**
@@ -67,8 +67,12 @@ export class Objects extends APIResource {
    * const objects = await client.vault.objects.list('id');
    * ```
    */
-  list(id: string, options?: RequestOptions): APIPromise<ObjectListResponse> {
-    return this._client.get(path`/vault/${id}/objects`, options);
+  list(
+    id: string,
+    query: ObjectListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ObjectListResponse> {
+    return this._client.get(path`/vault/${id}/objects`, { query, ...options });
   }
 
   /**
@@ -90,6 +94,30 @@ export class Objects extends APIResource {
   ): APIPromise<ObjectDeleteResponse> {
     const { id, force } = params;
     return this._client.delete(path`/vault/${id}/objects/${objectID}`, { query: { force }, ...options });
+  }
+
+  /**
+   * Merges one or more PDF vault objects onto the end of an existing PDF vault
+   * object, overwriting the target in place before returning. Optionally rewrites
+   * citation links in the original target into internal PDF jumps and adds back
+   * links on appended pages. The target object’s ingestion state is not affected;
+   * appended pages are not searchable.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.objects.append(
+   *   'objectId',
+   *   { id: 'id', appendObjectIds: ['string'] },
+   * );
+   * ```
+   */
+  append(
+    objectID: string,
+    params: ObjectAppendParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectAppendResponse> {
+    const { id, ...body } = params;
+    return this._client.post(path`/vault/${id}/objects/${objectID}/append`, { body, ...options });
   }
 
   /**
@@ -219,29 +247,10 @@ export class Objects extends APIResource {
   }
 
   /**
-   * Get the status of a CaseMark summary workflow job.
-   *
-   * @example
-   * ```ts
-   * const response = await client.vault.objects.getSummarizeJob(
-   *   'jobId',
-   *   { id: 'id', objectId: 'objectId' },
-   * );
-   * ```
-   */
-  getSummarizeJob(
-    jobID: string,
-    params: ObjectGetSummarizeJobParams,
-    options?: RequestOptions,
-  ): APIPromise<ObjectGetSummarizeJobResponse> {
-    const { id, objectId } = params;
-    return this._client.get(path`/vault/${id}/objects/${objectId}/summarize/${jobID}`, options);
-  }
-
-  /**
-   * Retrieves the full extracted text content from a processed vault object. Returns
-   * the concatenated text from all chunks, useful for document review, analysis, or
-   * export. The object must have completed processing before text can be retrieved.
+   * Retrieves the full extracted text content from a processed vault object,
+   * page-numbered (--- Page N --- markers) when the source document is paginated.
+   * Useful for document review, analysis, or export. The object must have completed
+   * processing before text can be retrieved.
    *
    * @example
    * ```ts
@@ -258,6 +267,30 @@ export class Objects extends APIResource {
   ): APIPromise<ObjectGetTextResponse> {
     const { id } = params;
     return this._client.get(path`/vault/${id}/objects/${objectID}/text`, options);
+  }
+
+  /**
+   * Starts an asynchronous merge that creates a new PDF vault object. Source objects
+   * are unchanged. Missing searchable PDF renditions are generated on demand before
+   * combining. Completion is reported through vault.object.merge webhooks.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.objects.merge('id', {
+   *   filename: 'filename',
+   *   sourceObjectIds: ['string'],
+   *   sourceRendition: 'original',
+   *   'Idempotency-Key': 'x',
+   * });
+   * ```
+   */
+  merge(id: string, params: ObjectMergeParams, options?: RequestOptions): APIPromise<ObjectMergeResponse> {
+    const { 'Idempotency-Key': idempotencyKey, ...body } = params;
+    return this._client.post(path`/vault/${id}/objects/merge`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ 'Idempotency-Key': idempotencyKey }, options?.headers]),
+    });
   }
 }
 
@@ -311,6 +344,11 @@ export interface ObjectRetrieveResponse {
    * Error details when ingestion fails
    */
   ingestionError?: string | null;
+
+  /**
+   * Whether the file was marked as AI-generated work product at upload time
+   */
+  is_ai_generated?: boolean;
 
   /**
    * Additional metadata
@@ -462,6 +500,11 @@ export namespace ObjectListResponse {
     ingestionWorkflowId?: string | null;
 
     /**
+     * Whether the file was marked as AI-generated work product at upload time
+     */
+    is_ai_generated?: boolean;
+
+    /**
      * Custom metadata associated with the document
      */
     metadata?: unknown;
@@ -526,6 +569,36 @@ export namespace ObjectDeleteResponse {
      */
     vectorsDeleted?: number;
   }
+}
+
+export interface ObjectAppendResponse {
+  id?: string;
+
+  bates?: unknown;
+
+  checksum?: string;
+
+  contentType?: string;
+
+  createdAt?: string;
+
+  downloadUrl?: string;
+
+  expiresIn?: number;
+
+  filename?: string;
+
+  ingestionStatus?: string;
+
+  metadata?: unknown;
+
+  objectId?: string;
+
+  pageCount?: number;
+
+  sizeBytes?: number;
+
+  vaultId?: string;
 }
 
 export interface ObjectCreatePresignedURLResponse {
@@ -776,53 +849,6 @@ export namespace ObjectGetPagesResponse {
   }
 }
 
-export interface ObjectGetSummarizeJobResponse {
-  /**
-   * When the job completed
-   */
-  completedAt?: string | null;
-
-  /**
-   * When the job was created
-   */
-  createdAt?: string;
-
-  /**
-   * Error message (if failed)
-   */
-  error?: string | null;
-
-  /**
-   * Case.dev job ID
-   */
-  jobId?: string;
-
-  /**
-   * Filename of the result document (if completed)
-   */
-  resultFilename?: string | null;
-
-  /**
-   * ID of the result document (if completed)
-   */
-  resultObjectId?: string | null;
-
-  /**
-   * ID of the source document
-   */
-  sourceObjectId?: string;
-
-  /**
-   * Current job status
-   */
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-  /**
-   * Type of workflow being executed
-   */
-  workflowType?: string;
-}
-
 export interface ObjectGetTextResponse {
   metadata: ObjectGetTextResponse.Metadata;
 
@@ -866,6 +892,16 @@ export namespace ObjectGetTextResponse {
   }
 }
 
+export interface ObjectMergeResponse {
+  clientReference?: string;
+
+  objectId?: string;
+
+  status?: 'processing';
+
+  workflowId?: string;
+}
+
 export interface ObjectRetrieveParams {
   /**
    * Vault ID
@@ -896,6 +932,14 @@ export interface ObjectUpdateParams {
   path?: string | null;
 }
 
+export interface ObjectListParams {
+  /**
+   * Include placeholders for uploads that were never completed (awaiting_upload) or
+   * were cancelled (aborted). Excluded by default.
+   */
+  includeUnconfirmed?: boolean;
+}
+
 export interface ObjectDeleteParams {
   /**
    * Path param: Vault ID
@@ -907,6 +951,62 @@ export interface ObjectDeleteParams {
    * Use this if a document got stuck during ingestion (e.g., OCR timeout).
    */
   force?: 'true';
+}
+
+export interface ObjectAppendParams {
+  /**
+   * Path param: Vault ID
+   */
+  id: string;
+
+  /**
+   * Body param: Vault object IDs whose pages will be appended onto the target
+   * object, in order. Must not include the target object itself.
+   */
+  appendObjectIds: Array<string>;
+
+  /**
+   * Body param: Adds back links on appended pages
+   */
+  backLinks?: boolean;
+
+  /**
+   * Body param: Label text for the back link. Used only when backLinks is true and
+   * rendered centered at the bottom of each appended page.
+   */
+  backLinksText?: string;
+
+  /**
+   * Body param: Optional Bates stamping for appended source PDFs. Numbering is
+   * deterministic across appendObjectIds order and does not stamp the target report
+   * pages.
+   */
+  bates?: ObjectAppendParams.Bates;
+
+  /**
+   * Body param: When true, rewrites links in the target object to internal PDF jumps
+   * when the URL contains exactly one appended object ID as a standalone query
+   * parameter value or decoded path segment.
+   */
+  rewriteLinks?: boolean;
+}
+
+export namespace ObjectAppendParams {
+  /**
+   * Optional Bates stamping for appended source PDFs. Numbering is deterministic
+   * across appendObjectIds order and does not stamp the target report pages.
+   */
+  export interface Bates {
+    enabled?: boolean;
+
+    padTo?: number;
+
+    prefix?: string;
+
+    start?: number;
+
+    suffix?: string;
+  }
 }
 
 export interface ObjectCreatePresignedURLParams {
@@ -1007,23 +1107,55 @@ export interface ObjectGetPagesParams {
   start?: number;
 }
 
-export interface ObjectGetSummarizeJobParams {
-  /**
-   * Vault ID
-   */
-  id: string;
-
-  /**
-   * Source object ID
-   */
-  objectId: string;
-}
-
 export interface ObjectGetTextParams {
   /**
    * The vault ID
    */
   id: string;
+}
+
+export interface ObjectMergeParams {
+  /**
+   * Body param: Output PDF filename
+   */
+  filename: string;
+
+  /**
+   * Body param: Source object IDs in output order
+   */
+  sourceObjectIds: Array<string>;
+
+  /**
+   * Body param
+   */
+  sourceRendition: 'original' | 'searchable_pdf';
+
+  /**
+   * Header param: Stable key for safely retrying the same merge request
+   */
+  'Idempotency-Key': string;
+
+  /**
+   * Body param
+   */
+  bates?: ObjectMergeParams.Bates;
+
+  /**
+   * Body param
+   */
+  clientReference?: string;
+}
+
+export namespace ObjectMergeParams {
+  export interface Bates {
+    padTo?: number;
+
+    prefix?: string;
+
+    start?: number;
+
+    suffix?: string;
+  }
 }
 
 export declare namespace Objects {
@@ -1032,21 +1164,24 @@ export declare namespace Objects {
     type ObjectUpdateResponse as ObjectUpdateResponse,
     type ObjectListResponse as ObjectListResponse,
     type ObjectDeleteResponse as ObjectDeleteResponse,
+    type ObjectAppendResponse as ObjectAppendResponse,
     type ObjectCreatePresignedURLResponse as ObjectCreatePresignedURLResponse,
     type ObjectGetChunksResponse as ObjectGetChunksResponse,
     type ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse,
     type ObjectGetPagesResponse as ObjectGetPagesResponse,
-    type ObjectGetSummarizeJobResponse as ObjectGetSummarizeJobResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
+    type ObjectMergeResponse as ObjectMergeResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectUpdateParams as ObjectUpdateParams,
+    type ObjectListParams as ObjectListParams,
     type ObjectDeleteParams as ObjectDeleteParams,
+    type ObjectAppendParams as ObjectAppendParams,
     type ObjectCreatePresignedURLParams as ObjectCreatePresignedURLParams,
     type ObjectDownloadParams as ObjectDownloadParams,
     type ObjectGetChunksParams as ObjectGetChunksParams,
     type ObjectGetOcrWordsParams as ObjectGetOcrWordsParams,
     type ObjectGetPagesParams as ObjectGetPagesParams,
-    type ObjectGetSummarizeJobParams as ObjectGetSummarizeJobParams,
     type ObjectGetTextParams as ObjectGetTextParams,
+    type ObjectMergeParams as ObjectMergeParams,
   };
 }

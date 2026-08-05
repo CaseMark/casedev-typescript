@@ -83,11 +83,7 @@ describe('resource vault', () => {
   });
 
   test('confirmUpload: only required params', async () => {
-    const responsePromise = client.vault.confirmUpload('objectId', {
-      id: 'id',
-      sizeBytes: 1,
-      success: true,
-    });
+    const responsePromise = client.vault.confirmUpload('objectId', { id: 'id', success: true });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -100,9 +96,12 @@ describe('resource vault', () => {
   test('confirmUpload: required and optional params', async () => {
     const response = await client.vault.confirmUpload('objectId', {
       id: 'id',
-      sizeBytes: 1,
       success: true,
+      autoIngest: true,
+      errorCode: 'errorCode',
+      errorMessage: 'errorMessage',
       etag: 'etag',
+      sizeBytes: 1,
     });
   });
 
@@ -157,9 +156,11 @@ describe('resource vault', () => {
       contentType: 'contentType',
       filename: 'filename',
       auto_index: true,
+      is_ai_generated: true,
       metadata: {},
       path: 'path',
       sizeBytes: 1,
+      'Idempotency-Key': 'Idempotency-Key',
     });
   });
 });

@@ -61,48 +61,6 @@ describe('resource v1', () => {
     });
   });
 
-  test('research: only required params', async () => {
-    const responsePromise = client.search.v1.research({ instructions: 'instructions' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('research: required and optional params', async () => {
-    const response = await client.search.v1.research({
-      instructions: 'instructions',
-      model: 'fast',
-      outputSchema: {},
-      query: 'query',
-    });
-  });
-
-  test('retrieveResearch', async () => {
-    const responsePromise = client.search.v1.retrieveResearch('id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieveResearch: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.search.v1.retrieveResearch(
-        'id',
-        { events: 'events', stream: true },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Casedev.NotFoundError);
-  });
-
   test('search: only required params', async () => {
     const responsePromise = client.search.v1.search({ query: 'query' });
     const rawResponse = await responsePromise.asResponse();

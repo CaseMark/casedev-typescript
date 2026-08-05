@@ -21,5 +21,4 @@ export {
   type WorkItemUpdateParams,
   type WorkItemListParams,
   type WorkItemDecideParams,
-  type WorkItemListExecutionsParams,
 } from './work-items';

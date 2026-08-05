@@ -7,7 +7,7 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 /**
- * Secure document storage with semantic search and GraphRAG
+ * Vault-scoped event subscriptions and delivery testing
  */
 export class Subscriptions extends APIResource {
   /**

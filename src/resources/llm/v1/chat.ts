@@ -90,8 +90,9 @@ export interface ChatCreateCompletionParams {
   messages: Array<ChatCreateCompletionParams.Message>;
 
   /**
-   * CaseMark-only: when true, allows reasoning fields in responses. Defaults to
-   * false (reasoning is suppressed).
+   * CaseMark-only: controls whether reasoning fields appear in responses. Defaults
+   * to false (suppressed) for most CaseMark models; defaults to true for
+   * casemark/core-potassium.
    */
   casemark_show_reasoning?: boolean;
 

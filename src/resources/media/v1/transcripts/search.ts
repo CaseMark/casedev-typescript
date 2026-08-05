@@ -5,6 +5,9 @@ import { APIPromise } from '../../../../core/api-promise';
 import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 
+/**
+ * Transcript retrieval and captioned media clip generation
+ */
 export class Search extends APIResource {
   /**
    * Search transcript words

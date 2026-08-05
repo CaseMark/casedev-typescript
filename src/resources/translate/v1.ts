@@ -2,8 +2,14 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
+import { type Uploadable } from '../../core/uploads';
+import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
+import { multipartFormRequestOptions } from '../../internal/uploads';
 
+/**
+ * Language detection and translation for multilingual legal workflows
+ */
 export class V1 extends APIResource {
   /**
    * Detect the language of text. Returns the most likely language code and
@@ -51,6 +57,38 @@ export class V1 extends APIResource {
    */
   translate(body: V1TranslateParams, options?: RequestOptions): APIPromise<V1TranslateResponse> {
     return this._client.post('/translate/v1/translate', { body, ...options });
+  }
+
+  /**
+   * Translate one TXT, DOCX, or searchable PDF document. DOCX and PDF translations
+   * preserve the source document format and retain as much layout and formatting as
+   * possible.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.translate.v1.translateDocument({
+   *     file: fs.createReadStream('path/to/file'),
+   *     target: 'es',
+   *   });
+   *
+   * const content = await response.blob();
+   * console.log(content);
+   * ```
+   */
+  translateDocument(body: V1TranslateDocumentParams, options?: RequestOptions): APIPromise<Response> {
+    return this._client.post(
+      '/translate/v1/document',
+      multipartFormRequestOptions(
+        {
+          body,
+          ...options,
+          headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
+          __binaryResponse: true,
+        },
+        this._client,
+      ),
+    );
   }
 }
 
@@ -185,6 +223,23 @@ export interface V1TranslateParams {
   source?: string;
 }
 
+export interface V1TranslateDocumentParams {
+  /**
+   * TXT, DOCX, or searchable PDF document (max 20MB)
+   */
+  file: Uploadable;
+
+  /**
+   * Target BCP-47 language code
+   */
+  target: string;
+
+  /**
+   * Optional source BCP-47 language code. Auto-detected when omitted.
+   */
+  source?: string;
+}
+
 export declare namespace V1 {
   export {
     type V1DetectResponse as V1DetectResponse,
@@ -193,5 +248,6 @@ export declare namespace V1 {
     type V1DetectParams as V1DetectParams,
     type V1ListLanguagesParams as V1ListLanguagesParams,
     type V1TranslateParams as V1TranslateParams,
+    type V1TranslateDocumentParams as V1TranslateDocumentParams,
   };
 }
