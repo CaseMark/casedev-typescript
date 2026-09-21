@@ -11,11 +11,13 @@ import { path } from '../../internal/utils/path';
  */
 export class Transcription extends APIResource {
   /**
-   * Creates an asynchronous transcription job for audio files. Supports two modes:
+   * Creates an asynchronous transcription job for audio or video files. Supports two
+   * modes:
    *
    * **Vault-based (recommended)**: Pass `vault_id` and `object_id` to transcribe
-   * audio from your vault. The transcript will automatically be saved back to the
-   * vault when complete.
+   * media from your vault. Large videos are converted to an internal MP3 derivative
+   * before transcription while the original video remains the transcript source. The
+   * transcript is automatically saved back to the vault when complete.
    *
    * **Direct URL (legacy)**: Pass `audio_url` for direct transcription without
    * automatic storage.
@@ -76,14 +78,20 @@ export interface TranscriptionCreateResponse {
   id?: string;
 
   /**
-   * Source audio object ID (only for vault-based transcription)
+   * Object submitted to the speech provider. For large videos, this is an internal
+   * audio derivative.
+   */
+  input_object_id?: string;
+
+  /**
+   * Original source media object ID (only for vault-based transcription)
    */
   source_object_id?: string;
 
   /**
    * Current status of the transcription job
    */
-  status?: 'queued' | 'processing' | 'completed' | 'error';
+  status?: 'queued' | 'preprocessing' | 'processing' | 'completed' | 'error';
 
   /**
    * Vault ID (only for vault-based transcription)
@@ -100,7 +108,7 @@ export interface TranscriptionRetrieveResponse {
   /**
    * Current status of the transcription job
    */
-  status: 'queued' | 'processing' | 'completed' | 'failed';
+  status: 'queued' | 'preprocessing' | 'processing' | 'completed' | 'failed';
 
   /**
    * Duration of the audio file in seconds
@@ -118,12 +126,18 @@ export interface TranscriptionRetrieveResponse {
   error?: string;
 
   /**
+   * Media object submitted to the speech provider. May be an internal audio
+   * derivative for large videos.
+   */
+  input_object_id?: string;
+
+  /**
    * Result transcript object ID (vault-based jobs, when completed)
    */
   result_object_id?: string;
 
   /**
-   * Source audio object ID (vault-based jobs only)
+   * Original source media object ID (vault-based jobs only)
    */
   source_object_id?: string;
 

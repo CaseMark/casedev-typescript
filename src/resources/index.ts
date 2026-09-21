@@ -1,12 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Agent } from './agent/agent';
 export { Compute } from './compute/compute';
-export { Database } from './database/database';
-export { Format } from './format/format';
+export { Connectors } from './connectors/connectors';
 export { Legal } from './legal/legal';
+export { Linc } from './linc/linc';
 export { Llm, type LlmGetConfigResponse } from './llm/llm';
-export { Mail } from './mail/mail';
 export { Matters } from './matters/matters';
 export { Media } from './media/media';
 export { Memory } from './memory/memory';
@@ -28,7 +26,6 @@ export {
   type SkillExportParams,
   type SkillResolveParams,
 } from './skills/skills';
-export { Superdoc } from './superdoc/superdoc';
 export { System, type SystemListServicesResponse } from './system';
 export { Translate } from './translate/translate';
 export { Usage } from './usage/usage';

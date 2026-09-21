@@ -60,28 +60,12 @@ export class WorkItems extends APIResource {
   }
 
   /**
-   * Approve, revise, block, or reassign a work item. Used by humans or agents to
-   * move work items through their lifecycle.
+   * Approve or block a work item.
    */
   decide(workItemID: string, params: WorkItemDecideParams, options?: RequestOptions): APIPromise<void> {
     const { id, ...body } = params;
     return this._client.post(path`/matters/v1/${id}/work-items/${workItemID}/decision`, {
       body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  /**
-   * List execution attempts for a work item, including agent and run linkage.
-   */
-  listExecutions(
-    workItemID: string,
-    params: WorkItemListExecutionsParams,
-    options?: RequestOptions,
-  ): APIPromise<void> {
-    const { id } = params;
-    return this._client.get(path`/matters/v1/${id}/work-items/${workItemID}/executions`, {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
@@ -220,12 +204,7 @@ export interface WorkItemDecideParams {
   /**
    * Body param
    */
-  decision: 'approve' | 'revise' | 'block' | 'reassign';
-
-  /**
-   * Body param
-   */
-  agent_type_id?: string | null;
+  decision: 'approve' | 'block';
 
   /**
    * Body param
@@ -238,10 +217,6 @@ export interface WorkItemDecideParams {
   reason?: string | null;
 }
 
-export interface WorkItemListExecutionsParams {
-  id: string;
-}
-
 export declare namespace WorkItems {
   export {
     type WorkItemCreateParams as WorkItemCreateParams,
@@ -249,6 +224,5 @@ export declare namespace WorkItems {
     type WorkItemUpdateParams as WorkItemUpdateParams,
     type WorkItemListParams as WorkItemListParams,
     type WorkItemDecideParams as WorkItemDecideParams,
-    type WorkItemListExecutionsParams as WorkItemListExecutionsParams,
   };
 }

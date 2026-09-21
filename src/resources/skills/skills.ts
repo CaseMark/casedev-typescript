@@ -330,6 +330,11 @@ export interface SkillUpdateParams {
   content?: string;
 
   /**
+   * Reject with 409 if the skill changed since this version was read.
+   */
+  expectedVersion?: number;
+
+  /**
    * Optional replacement companion file tree. Omit to leave existing bundled files
    * unchanged; send [] to remove bundled files.
    */

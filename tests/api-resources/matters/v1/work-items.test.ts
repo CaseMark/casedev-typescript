@@ -117,24 +117,8 @@ describe('resource workItems', () => {
     const response = await client.matters.v1.workItems.decide('workItemId', {
       id: 'id',
       decision: 'approve',
-      agent_type_id: 'agent_type_id',
       metadata: { foo: 'bar' },
       reason: 'reason',
     });
-  });
-
-  test('listExecutions: only required params', async () => {
-    const responsePromise = client.matters.v1.workItems.listExecutions('workItemId', { id: 'id' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('listExecutions: required and optional params', async () => {
-    const response = await client.matters.v1.workItems.listExecutions('workItemId', { id: 'id' });
   });
 });

@@ -1,13 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export { Events } from './events/index';
-export {
-  Graphrag,
-  type GraphragGetStatsResponse,
-  type GraphragInitResponse,
-  type GraphragProcessObjectResponse,
-  type GraphragProcessObjectParams,
-} from './graphrag';
 export { Groups, type GroupCreateParams, type GroupUpdateParams } from './groups';
 export {
   Memory,
@@ -22,8 +15,11 @@ export {
 export {
   Multipart,
   type MultipartGetPartURLsResponse,
+  type MultipartInitResponse,
   type MultipartAbortParams,
+  type MultipartCompleteParams,
   type MultipartGetPartURLsParams,
+  type MultipartInitParams,
 } from './multipart';
 export {
   Objects,
@@ -31,22 +27,25 @@ export {
   type ObjectUpdateResponse,
   type ObjectListResponse,
   type ObjectDeleteResponse,
+  type ObjectAppendResponse,
   type ObjectCreatePresignedURLResponse,
   type ObjectGetChunksResponse,
   type ObjectGetOcrWordsResponse,
   type ObjectGetPagesResponse,
-  type ObjectGetSummarizeJobResponse,
   type ObjectGetTextResponse,
+  type ObjectMergeResponse,
   type ObjectRetrieveParams,
   type ObjectUpdateParams,
+  type ObjectListParams,
   type ObjectDeleteParams,
+  type ObjectAppendParams,
   type ObjectCreatePresignedURLParams,
   type ObjectDownloadParams,
   type ObjectGetChunksParams,
   type ObjectGetOcrWordsParams,
   type ObjectGetPagesParams,
-  type ObjectGetSummarizeJobParams,
   type ObjectGetTextParams,
+  type ObjectMergeParams,
 } from './objects';
 export {
   Vault,

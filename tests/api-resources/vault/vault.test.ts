@@ -83,11 +83,7 @@ describe('resource vault', () => {
   });
 
   test('confirmUpload: only required params', async () => {
-    const responsePromise = client.vault.confirmUpload('objectId', {
-      id: 'id',
-      sizeBytes: 1,
-      success: true,
-    });
+    const responsePromise = client.vault.confirmUpload('objectId', { id: 'id', success: true });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -100,9 +96,12 @@ describe('resource vault', () => {
   test('confirmUpload: required and optional params', async () => {
     const response = await client.vault.confirmUpload('objectId', {
       id: 'id',
-      sizeBytes: 1,
       success: true,
+      autoIngest: true,
+      errorCode: 'errorCode',
+      errorMessage: 'errorMessage',
       etag: 'etag',
+      sizeBytes: 1,
     });
   });
 
@@ -118,7 +117,11 @@ describe('resource vault', () => {
   });
 
   test('ingest: required and optional params', async () => {
-    const response = await client.vault.ingest('objectId', { id: 'id' });
+    const response = await client.vault.ingest('objectId', {
+      id: 'id',
+      callback_url: 'https://example.com',
+      page_boundaries: [2],
+    });
   });
 
   test('search: only required params', async () => {
@@ -135,7 +138,10 @@ describe('resource vault', () => {
   test('search: required and optional params', async () => {
     const response = await client.vault.search('id', {
       query: 'query',
-      filters: { object_id: 'string' },
+      filters: {
+        object_id: 'string',
+        page_range: { start: 1, end: 1 },
+      },
       method: 'vector',
       topK: 1,
     });
@@ -157,9 +163,12 @@ describe('resource vault', () => {
       contentType: 'contentType',
       filename: 'filename',
       auto_index: true,
+      file_origin: { foo: 'bar' },
+      is_ai_generated: true,
       metadata: {},
       path: 'path',
       sizeBytes: 1,
+      'Idempotency-Key': 'Idempotency-Key',
     });
   });
 });

@@ -15,12 +15,8 @@ export class Endpoints extends APIResource {
    * event-type filters. Returns the generated signing secret ONCE — the response is
    * the only time it is shown in plaintext.
    */
-  create(body: EndpointCreateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/webhooks/v1/endpoints', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  create(body: EndpointCreateParams, options?: RequestOptions): APIPromise<EndpointCreateResponse> {
+    return this._client.post('/webhooks/v1/endpoints', { body, ...options });
   }
 
   /**
@@ -105,6 +101,55 @@ export class Endpoints extends APIResource {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
+  }
+}
+
+export interface EndpointCreateResponse {
+  endpoint: EndpointCreateResponse.Endpoint;
+
+  /**
+   * One-time webhook signing secret.
+   */
+  signingSecret: string;
+}
+
+export namespace EndpointCreateResponse {
+  export interface Endpoint {
+    id: string;
+
+    consecutiveFailureCount: number;
+
+    createdAt: string;
+
+    description: string | null;
+
+    disabledReason: string | null;
+
+    eventTypeFilters: Array<string>;
+
+    hasPreviousSigningSecret: boolean;
+
+    lastFailureAt: string | null;
+
+    lastSuccessAt: string | null;
+
+    previousSigningSecretExpiresAt: string | null;
+
+    resourceScopes: Endpoint.ResourceScopes | null;
+
+    status: 'active' | 'disabled' | 'auto_disabled';
+
+    updatedAt: string;
+
+    url: string;
+  }
+
+  export namespace Endpoint {
+    export interface ResourceScopes {
+      matterIds?: Array<string>;
+
+      vaultIds?: Array<string>;
+    }
   }
 }
 
@@ -195,6 +240,7 @@ export interface EndpointTestParams {
 
 export declare namespace Endpoints {
   export {
+    type EndpointCreateResponse as EndpointCreateResponse,
     type EndpointCreateParams as EndpointCreateParams,
     type EndpointUpdateParams as EndpointUpdateParams,
     type EndpointListParams as EndpointListParams,

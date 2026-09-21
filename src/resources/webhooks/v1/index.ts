@@ -3,6 +3,7 @@
 export { Deliveries, type DeliveryListParams, type DeliveryReplayParams } from './deliveries';
 export {
   Endpoints,
+  type EndpointCreateResponse,
   type EndpointCreateParams,
   type EndpointUpdateParams,
   type EndpointListParams,
