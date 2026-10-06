@@ -70,7 +70,9 @@ describe('resource parties', () => {
     await expect(
       client.matters.v1.parties.list(
         {
+          cursor: 'cursor',
           email: 'email',
+          limit: 1,
           query: 'query',
           type: 'person',
         },

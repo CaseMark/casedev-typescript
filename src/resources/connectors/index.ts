@@ -3,6 +3,10 @@
 export { Connectors } from './connectors';
 export {
   V1,
+  type SyncLinkLinkRun,
+  type SyncLinkRun,
+  type TransferLinkRun,
+  type TransferRun,
   type V1SyncLinkResponse,
   type V1TransferResponse,
   type V1SyncLinkParams,

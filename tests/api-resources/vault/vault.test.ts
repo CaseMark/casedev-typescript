@@ -24,7 +24,6 @@ describe('resource vault', () => {
       name: 'Contract Review Archive',
       description: 'Repository for all client contract reviews and analysis',
       embeddingModel: 'casemark/embed-v1',
-      enableGraph: true,
       enableIndexing: true,
       groupId: 'grp_abc123',
       metadata: { containsPHI: true, hipaaCompliant: true },
@@ -64,6 +63,21 @@ describe('resource vault', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.vault.list(
+        {
+          cursor: 'cursor',
+          include_totals: true,
+          limit: 1,
+          query: 'query',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
   test('delete', async () => {
     const responsePromise = client.vault.delete('id');
     const rawResponse = await responsePromise.asResponse();
@@ -101,7 +115,7 @@ describe('resource vault', () => {
       errorCode: 'errorCode',
       errorMessage: 'errorMessage',
       etag: 'etag',
-      sizeBytes: 1,
+      sizeBytes: 0,
     });
   });
 
@@ -117,7 +131,11 @@ describe('resource vault', () => {
   });
 
   test('ingest: required and optional params', async () => {
-    const response = await client.vault.ingest('objectId', { id: 'id' });
+    const response = await client.vault.ingest('objectId', {
+      id: 'id',
+      callback_url: 'https://example.com',
+      page_boundaries: [2],
+    });
   });
 
   test('search: only required params', async () => {
@@ -134,8 +152,11 @@ describe('resource vault', () => {
   test('search: required and optional params', async () => {
     const response = await client.vault.search('id', {
       query: 'query',
-      filters: { object_id: 'string' },
-      method: 'vector',
+      filters: {
+        object_id: 'string',
+        page_range: { start: 1, end: 1 },
+      },
+      method: 'hybrid',
       topK: 1,
     });
   });
@@ -156,10 +177,11 @@ describe('resource vault', () => {
       contentType: 'contentType',
       filename: 'filename',
       auto_index: true,
+      file_origin: { foo: 'bar' },
       is_ai_generated: true,
       metadata: {},
       path: 'path',
-      sizeBytes: 1,
+      sizeBytes: 0,
       'Idempotency-Key': 'Idempotency-Key',
     });
   });

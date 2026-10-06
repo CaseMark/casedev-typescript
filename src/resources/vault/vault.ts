@@ -19,6 +19,7 @@ import {
   Multipart,
   MultipartAbortParams,
   MultipartCompleteParams,
+  MultipartCompleteResponse,
   MultipartGetPartURLsParams,
   MultipartGetPartURLsResponse,
   MultipartInitParams,
@@ -45,6 +46,8 @@ import {
   ObjectListResponse,
   ObjectMergeParams,
   ObjectMergeResponse,
+  ObjectMoveParams,
+  ObjectMoveResponse,
   ObjectRetrieveParams,
   ObjectRetrieveResponse,
   ObjectUpdateParams,
@@ -59,7 +62,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 /**
- * Secure document storage with semantic search and GraphRAG
+ * Secure document storage with semantic search
  */
 export class Vault extends APIResource {
   events: EventsAPI.Events = new EventsAPI.Events(this._client);
@@ -70,9 +73,8 @@ export class Vault extends APIResource {
 
   /**
    * Creates a new secure vault with dedicated S3 storage and vector search
-   * capabilities. Each vault provides isolated document storage with semantic
-   * search, OCR processing, and optional GraphRAG knowledge graph features for legal
-   * document analysis and discovery.
+   * capabilities. Each vault provides isolated document storage with semantic search
+   * and OCR processing for legal document analysis and discovery.
    *
    * @example
    * ```ts
@@ -100,9 +102,7 @@ export class Vault extends APIResource {
   }
 
   /**
-   * Update vault settings including name, description, and enableGraph. Changing
-   * enableGraph only affects future document uploads - existing documents retain
-   * their current graph/non-graph state.
+   * Update vault settings including name, description, and group membership.
    *
    * @example
    * ```ts
@@ -118,14 +118,22 @@ export class Vault extends APIResource {
   /**
    * List all vaults for the authenticated organization. Returns vault metadata
    * including name, description, storage configuration, and usage statistics.
+   * Pagination is opt-in: pass `limit` (1-200) to receive a bounded page, then
+   * replay `pagination.next_cursor` as `?cursor=` while `pagination.has_more` is
+   * true. A request with neither `limit` nor `cursor` still returns every vault, and
+   * `pagination.limit` is null. That default will become a bounded page in a future
+   * release — paginate now to avoid the change.
    *
    * @example
    * ```ts
    * const vaults = await client.vault.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<VaultListResponse> {
-    return this._client.get('/vault', options);
+  list(
+    query: VaultListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<VaultListResponse> {
+    return this._client.get('/vault', { query, ...options });
   }
 
   /**
@@ -175,11 +183,11 @@ export class Vault extends APIResource {
    * Triggers ingestion workflow for a vault object to extract text, generate chunks,
    * and create embeddings. For supported file types (PDF, DOCX, PPTX, XLSX, TXT,
    * RTF, XML, HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files,
-   * ZIP, audio, video), processing happens asynchronously. ZIP archives are unpacked
-   * recursively up to 5 levels, and each extracted file is created as an independent
-   * vault object and ingested via the normal pipeline. For unsupported types
-   * (images, etc.), the file is marked as completed immediately without text
-   * extraction.
+   * ZIP, audio, video), processing happens asynchronously. ZIP archives always
+   * return a processing response, are unpacked recursively up to 5 levels, and each
+   * extracted file is created as an independent vault object and ingested via the
+   * normal pipeline. For unsupported types (images, etc.), the file is marked as
+   * completed immediately without text extraction.
    *
    * @example
    * ```ts
@@ -193,15 +201,14 @@ export class Vault extends APIResource {
     params: VaultIngestParams,
     options?: RequestOptions,
   ): APIPromise<VaultIngestResponse> {
-    const { id } = params;
-    return this._client.post(path`/vault/${id}/ingest/${objectID}`, options);
+    const { id, ...body } = params;
+    return this._client.post(path`/vault/${id}/ingest/${objectID}`, { body, ...options });
   }
 
   /**
-   * Search across vault documents using multiple methods including hybrid vector +
-   * graph search, GraphRAG global search, entity-based search, and fast similarity
-   * search. Returns relevant documents and contextual answers based on the search
-   * method.
+   * Search across vault documents using hybrid vector + BM25 search (default), fast
+   * vector similarity search, or a simple vector fallback. Returns matching chunks
+   * and their source documents.
    *
    * @example
    * ```ts
@@ -351,11 +358,6 @@ export interface VaultRetrieveResponse {
   description?: string;
 
   /**
-   * Whether GraphRAG is enabled
-   */
-  enableGraph?: boolean;
-
-  /**
    * Search index name
    */
   indexName?: string;
@@ -445,11 +447,6 @@ export interface VaultUpdateResponse {
   description?: string | null;
 
   /**
-   * Whether GraphRAG is enabled for future uploads
-   */
-  enableGraph?: boolean;
-
-  /**
    * S3 bucket for document storage
    */
   filesBucket?: string;
@@ -506,15 +503,43 @@ export interface VaultUpdateResponse {
 }
 
 export interface VaultListResponse {
+  pagination?: VaultListResponse.Pagination;
+
   /**
-   * Total number of vaults
+   * Number of vaults in this response
    */
   total?: number;
+
+  /**
+   * Present only with `include_totals=true`. Covers every vault matching the
+   * filters, across all pages.
+   */
+  totals?: VaultListResponse.Totals;
 
   vaults?: Array<VaultListResponse.Vault>;
 }
 
 export namespace VaultListResponse {
+  export interface Pagination {
+    has_more?: boolean;
+
+    limit?: number | null;
+
+    next_cursor?: string | null;
+  }
+
+  /**
+   * Present only with `include_totals=true`. Covers every vault matching the
+   * filters, across all pages.
+   */
+  export interface Totals {
+    totalBytes?: number;
+
+    totalObjects?: number;
+
+    vaults?: number;
+  }
+
   export interface Vault {
     /**
      * Vault identifier
@@ -530,11 +555,6 @@ export namespace VaultListResponse {
      * Vault description
      */
     description?: string;
-
-    /**
-     * Whether GraphRAG is enabled
-     */
-    enableGraph?: boolean;
 
     /**
      * Vault name
@@ -600,6 +620,8 @@ export namespace VaultConfirmUploadResponse {
   export interface Ingest {
     error?: string;
 
+    statusCode?: number;
+
     triggered?: boolean;
 
     workflowId?: string | null;
@@ -607,11 +629,6 @@ export namespace VaultConfirmUploadResponse {
 }
 
 export interface VaultIngestResponse {
-  /**
-   * Always false; retained for response compatibility
-   */
-  enableGraphRAG: boolean;
-
   /**
    * Human-readable status message
    */
@@ -650,11 +667,6 @@ export interface VaultSearchResponse {
    */
   query?: string;
 
-  /**
-   * AI-generated answer based on search results (for global/entity methods)
-   */
-  response?: string;
-
   sources?: Array<VaultSearchResponse.Source>;
 
   /**
@@ -680,6 +692,12 @@ export namespace VaultSearchResponse {
      * media-backed transcripts with real word timing.
      */
     end_ms?: number;
+
+    /**
+     * Filename of the chunk's source document; null when the vector's object ID no
+     * longer matches a vault object (stale index entry)
+     */
+    filename?: string | null;
 
     /**
      * ID of the source document
@@ -772,6 +790,11 @@ export interface VaultUploadResponse {
    */
   expiresIn?: number;
 
+  /**
+   * Client-defined provenance metadata associated with the file
+   */
+  file_origin?: { [key: string]: unknown } | null;
+
   instructions?: VaultUploadResponse.Instructions | null;
 
   /**
@@ -846,12 +869,6 @@ export interface VaultCreateParams {
     | 'casemark/llama-nemotron-embed-vl-1b-v2';
 
   /**
-   * Enable knowledge graph for entity relationship mapping. Only applies when
-   * enableIndexing is true.
-   */
-  enableGraph?: boolean;
-
-  /**
    * Enable vector indexing and search capabilities. Set to false for storage-only
    * vaults.
    */
@@ -877,11 +894,6 @@ export interface VaultUpdateParams {
   description?: string | null;
 
   /**
-   * Whether to enable GraphRAG for future document uploads
-   */
-  enableGraph?: boolean;
-
-  /**
    * Move the vault to a different group, or set to null to remove from its current
    * group.
    */
@@ -891,6 +903,32 @@ export interface VaultUpdateParams {
    * New name for the vault
    */
   name?: string;
+}
+
+export interface VaultListParams {
+  /**
+   * Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+   * Must be replayed with the same API key scope and `query` that produced it.
+   */
+  cursor?: string;
+
+  /**
+   * When `true`, adds `totals` covering every vault matching the filters, not just
+   * this page. Scans all objects in those vaults, so request it once per filter
+   * change rather than on every page.
+   */
+  include_totals?: boolean;
+
+  /**
+   * Vaults per page (1-200). Omit to receive every vault. Supplying a cursor without
+   * a limit uses 50.
+   */
+  limit?: number;
+
+  /**
+   * Case-insensitive substring match on the vault name.
+   */
+  query?: string;
 }
 
 export interface VaultDeleteParams {
@@ -937,16 +975,29 @@ export interface VaultConfirmUploadParams {
   etag?: string;
 
   /**
-   * Body param: Uploaded file size in bytes. Required when success=true.
+   * Body param: Uploaded file size in bytes, including zero. Required when
+   * success=true and verified against S3. Empty files can be stored and transferred,
+   * but cannot be ingested.
    */
   sizeBytes?: number;
 }
 
 export interface VaultIngestParams {
   /**
-   * Vault ID
+   * Path param: Vault ID
    */
   id: string;
+
+  /**
+   * Body param: Optional callback URL for asynchronous workflow completion.
+   */
+  callback_url?: string;
+
+  /**
+   * Body param: Optional PDF pages that must begin a new chunk segment. Overlap
+   * never crosses these boundaries.
+   */
+  page_boundaries?: Array<number>;
 }
 
 export interface VaultSearchParams {
@@ -961,10 +1012,11 @@ export interface VaultSearchParams {
   filters?: VaultSearchParams.Filters;
 
   /**
-   * Search method: 'global' for comprehensive questions, 'entity' for specific
-   * entities, 'fast' for quick similarity search, 'hybrid' for combined approach
+   * Search method: 'hybrid' for combined vector + keyword ranking (default), 'fast'
+   * for quick vector similarity search, 'vector' for a simple document listing
+   * fallback
    */
-  method?: 'vector' | 'graph' | 'hybrid' | 'global' | 'local' | 'fast' | 'entity';
+  method?: 'hybrid' | 'fast' | 'vector';
 
   /**
    * Maximum number of results to return. Hybrid search supports 1 to 50; other
@@ -984,7 +1036,25 @@ export namespace VaultSearchParams {
      */
     object_id?: string | Array<string>;
 
+    /**
+     * Restrict vector-backed retrieval to chunks wholly contained in this inclusive
+     * PDF page range. Supported by vector, hybrid, and fast methods.
+     */
+    page_range?: Filters.PageRange;
+
     [k: string]: unknown;
+  }
+
+  export namespace Filters {
+    /**
+     * Restrict vector-backed retrieval to chunks wholly contained in this inclusive
+     * PDF page range. Supported by vector, hybrid, and fast methods.
+     */
+    export interface PageRange {
+      start: number;
+
+      end?: number;
+    }
   }
 }
 
@@ -1005,6 +1075,12 @@ export interface VaultUploadParams {
   auto_index?: boolean;
 
   /**
+   * Body param: Optional client-defined provenance metadata. Returned with the
+   * object and queryable through the object-list API.
+   */
+  file_origin?: { [key: string]: unknown };
+
+  /**
    * Body param: Marks the file as AI-generated work product (e.g. uploaded by an
    * agent) rather than a user-provided source document. Persisted on the object and
    * returned by object listings so clients can distinguish provenance.
@@ -1017,15 +1093,16 @@ export interface VaultUploadParams {
   metadata?: unknown;
 
   /**
-   * Body param: Optional folder path for hierarchy preservation. Allows integrations
-   * to maintain source folder structure from systems like NetDocs, Clio, or
-   * Smokeball. Example: '/Discovery/Depositions/2024'
+   * Body param: Optional folder path, excluding the filename, for hierarchy
+   * preservation. Allows integrations to maintain source folder structure from
+   * systems like NetDocs, Clio, or Smokeball. Example: '/Discovery/Depositions/2024'
    */
   path?: string;
 
   /**
-   * Body param: File size in bytes (optional, max 5GB for single PUT uploads). When
-   * provided, enforces exact file size at S3 level.
+   * Body param: File size in bytes (optional, including zero, max 5GB for single PUT
+   * uploads). When provided, enforces exact file size at S3 level. Empty files can
+   * be stored and transferred, but cannot be ingested.
    */
   sizeBytes?: number;
 
@@ -1054,6 +1131,7 @@ export declare namespace Vault {
     type VaultUploadResponse as VaultUploadResponse,
     type VaultCreateParams as VaultCreateParams,
     type VaultUpdateParams as VaultUpdateParams,
+    type VaultListParams as VaultListParams,
     type VaultDeleteParams as VaultDeleteParams,
     type VaultConfirmUploadParams as VaultConfirmUploadParams,
     type VaultIngestParams as VaultIngestParams,
@@ -1071,6 +1149,7 @@ export declare namespace Vault {
 
   export {
     Multipart as Multipart,
+    type MultipartCompleteResponse as MultipartCompleteResponse,
     type MultipartGetPartURLsResponse as MultipartGetPartURLsResponse,
     type MultipartInitResponse as MultipartInitResponse,
     type MultipartAbortParams as MultipartAbortParams,
@@ -1092,6 +1171,7 @@ export declare namespace Vault {
     type ObjectGetPagesResponse as ObjectGetPagesResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
     type ObjectMergeResponse as ObjectMergeResponse,
+    type ObjectMoveResponse as ObjectMoveResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectUpdateParams as ObjectUpdateParams,
     type ObjectListParams as ObjectListParams,
@@ -1104,6 +1184,7 @@ export declare namespace Vault {
     type ObjectGetPagesParams as ObjectGetPagesParams,
     type ObjectGetTextParams as ObjectGetTextParams,
     type ObjectMergeParams as ObjectMergeParams,
+    type ObjectMoveParams as ObjectMoveParams,
   };
 
   export {

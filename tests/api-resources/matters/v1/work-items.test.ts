@@ -93,7 +93,12 @@ describe('resource workItems', () => {
     await expect(
       client.matters.v1.workItems.list(
         'id',
-        { assignee_id: 'assignee_id', status: 'status' },
+        {
+          assignee_id: 'assignee_id',
+          cursor: 'cursor',
+          limit: 1,
+          status: 'status',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Casedev.NotFoundError);

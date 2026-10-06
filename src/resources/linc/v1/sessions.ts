@@ -15,19 +15,37 @@ export class Sessions extends APIResource {
    * This endpoint starts the sandbox actor only; messages and event replay use
    * separate endpoints.
    */
-  create(body: SessionCreateParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
+  create(params: SessionCreateParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
+    const {
+      'ai-reporting-tags': aiReportingTags,
+      'ai-reporting-user': aiReportingUser,
+      ...body
+    } = params ?? {};
     return this._client.post('/linc/v1/sessions', {
       body,
       ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      headers: buildHeaders([
+        {
+          Accept: '*/*',
+          ...(aiReportingTags != null ? { 'ai-reporting-tags': aiReportingTags } : undefined),
+          ...(aiReportingUser != null ? { 'ai-reporting-user': aiReportingUser } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
   /**
    * End native Linc session
    */
-  delete(id: string, options?: RequestOptions): APIPromise<void> {
+  delete(
+    id: string,
+    params: SessionDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    const { reason } = params ?? {};
     return this._client.delete(path`/linc/v1/sessions/${id}`, {
+      query: { reason },
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
@@ -57,6 +75,19 @@ export class Sessions extends APIResource {
    */
   ingestEvents(id: string, body: SessionIngestEventsParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/linc/v1/sessions/${id}/events/ingest`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
+  /**
+   * Stops the conversation worker, applies a newly authorized object scope, revokes
+   * its prior managed credential, and resumes the same native conversation in its
+   * existing workspace.
+   */
+  replaceScope(id: string, body: SessionReplaceScopeParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.put(path`/linc/v1/sessions/${id}/scope`, {
       body,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
@@ -122,46 +153,119 @@ export class Sessions extends APIResource {
 
 export interface SessionCreateParams {
   /**
-   * Specific document template slugs to inject into the using-document-templates
-   * skill.
+   * Body param: Optional server-enforced capability profile. read_only grants only
+   * retrieval/inference service reads; session event ingestion remains bound to the
+   * exact managed runtime credential.
+   */
+  capabilityPolicy?: 'read_only';
+
+  /**
+   * Body param: Stable conversation identity within workspaceKey. Required in
+   * workspace mode and idempotent for repeated creates.
+   */
+  conversationKey?: string;
+
+  /**
+   * Body param: Specific document template slugs to inject into the
+   * using-document-templates skill.
    */
   documentTemplateSlugs?: Array<string> | null;
 
+  /**
+   * Body param
+   */
   idleTimeoutMs?: number | null;
 
   /**
-   * When true, inject all active org document templates into the
+   * Body param: When true, inject all active org document templates into the
    * using-document-templates skill.
    */
   includeDocumentTemplates?: boolean | null;
 
   /**
-   * Privileged C3-only hidden app instructions to append to the sandbox AGENTS.md.
+   * Body param: Privileged C3-only hidden app instructions to append to the sandbox
+   * AGENTS.md.
    */
   instructions?: string | null;
 
+  /**
+   * Body param
+   */
   model?: string | null;
 
   /**
-   * Optional caller-provided scoped Case.dev API key for the runtime.
+   * Body param: Optional caller-provided scoped Case.dev API key for the runtime.
    */
   scopedApiKey?: string | null;
 
   /**
-   * Processing tier for eligible OpenAI GPT models. Priority provides lower latency
-   * at premium cost.
+   * Body param: Processing tier for eligible OpenAI GPT models. Priority provides
+   * lower latency at premium cost.
    */
   serviceTier?: 'default' | 'priority';
 
   /**
-   * Skills API slugs to install into the runtime sandbox before the native session
-   * starts.
+   * Body param: Skills API slugs to install into the runtime sandbox before the
+   * native session starts.
    */
   skillSlugs?: Array<string> | null;
 
+  /**
+   * Body param
+   */
   title?: string;
 
+  /**
+   * Body param: Legacy explicit whole-vault scope. Mutually exclusive with
+   * vaultScopes.
+   */
   vaultIds?: Array<string> | null;
+
+  /**
+   * Body param: Exact object allowlist per vault. Empty objectIds denies object
+   * access for that vault. Mutually exclusive with vaultIds.
+   */
+  vaultScopes?: Array<SessionCreateParams.VaultScope> | null;
+
+  /**
+   * Body param: Opt-in persistent workspace identity. Requires conversationKey. Omit
+   * both fields to preserve isolated legacy session behavior.
+   */
+  workspaceKey?: string;
+
+  /**
+   * Header param: Comma-separated AI Gateway reporting tags. At most 10 unique tags,
+   * each 1–64 characters.
+   */
+  'ai-reporting-tags'?: string;
+
+  /**
+   * Header param: Stable internal user or customer identifier for AI Gateway cost
+   * reporting.
+   */
+  'ai-reporting-user'?: string;
+}
+
+export namespace SessionCreateParams {
+  export interface VaultScope {
+    objectIds: Array<string>;
+
+    vaultId: string;
+  }
+}
+
+export interface SessionDeleteParams {
+  /**
+   * Why the session is being ended; recorded in the linc.session.ended event
+   * payload. Unknown values fall back to user*deleted. The replaced*\* values
+   * distinguish automatic session replacement (e.g. by C3) from a user-initiated
+   * deletion.
+   */
+  reason?:
+    | 'user_deleted'
+    | 'replaced_scope_changed'
+    | 'replaced_missing_session'
+    | 'replaced_runtime_unavailable';
 }
 
 export interface SessionCancelParams {
@@ -201,6 +305,26 @@ export namespace SessionIngestEventsParams {
      * Native Linc event type.
      */
     type: string;
+  }
+}
+
+export interface SessionReplaceScopeParams {
+  /**
+   * Legacy whole-vault scope. Mutually exclusive with vaultScopes.
+   */
+  vaultIds?: Array<string>;
+
+  /**
+   * Authoritative object allowlist for the next and later turns.
+   */
+  vaultScopes?: Array<SessionReplaceScopeParams.VaultScope>;
+}
+
+export namespace SessionReplaceScopeParams {
+  export interface VaultScope {
+    objectIds: Array<string>;
+
+    vaultId: string;
   }
 }
 
@@ -261,8 +385,10 @@ export interface SessionSendRpcParams {
 export declare namespace Sessions {
   export {
     type SessionCreateParams as SessionCreateParams,
+    type SessionDeleteParams as SessionDeleteParams,
     type SessionCancelParams as SessionCancelParams,
     type SessionIngestEventsParams as SessionIngestEventsParams,
+    type SessionReplaceScopeParams as SessionReplaceScopeParams,
     type SessionRetrieveEventsParams as SessionRetrieveEventsParams,
     type SessionRetrieveMessagesParams as SessionRetrieveMessagesParams,
     type SessionSendRpcParams as SessionSendRpcParams,

@@ -185,6 +185,11 @@ export interface TranscriptionCreateParams {
   content_safety?: boolean;
 
   /**
+   * Preserve filler words such as um and uh in English transcription
+   */
+  disfluencies?: boolean;
+
+  /**
    * Output format for the transcript when using vault mode
    */
   format?: 'json' | 'text';

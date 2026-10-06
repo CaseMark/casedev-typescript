@@ -23,7 +23,12 @@ describe('resource installations', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.connectors.v1.installations.list(
-        { application: 'application', external_tenant_id: 'external_tenant_id' },
+        {
+          application: 'application',
+          cursor: 'cursor',
+          external_tenant_id: 'external_tenant_id',
+          limit: 1,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Casedev.NotFoundError);

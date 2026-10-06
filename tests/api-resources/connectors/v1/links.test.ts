@@ -19,6 +19,17 @@ describe('resource links', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.connectors.v1.links.retrieve(
+        'id',
+        { 'x-case-connector-subject': 'x-case-connector-subject' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
   test('update', async () => {
     const responsePromise = client.connectors.v1.links.update('id', {});
     const rawResponse = await responsePromise.asResponse();
@@ -47,11 +58,13 @@ describe('resource links', () => {
       client.connectors.v1.links.list(
         {
           connection_id: 'connection_id',
+          cursor: 'cursor',
           direction: 'import',
           mode: 'once',
           pair_id: 'pair_id',
           state: 'ready',
           vault_id: 'vault_id',
+          'x-case-connector-subject': 'x-case-connector-subject',
         },
         { path: '/_stainless_unknown_path' },
       ),
@@ -72,7 +85,11 @@ describe('resource links', () => {
   test('delete: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.connectors.v1.links.delete('id', { vault_docs: 'keep' }, { path: '/_stainless_unknown_path' }),
+      client.connectors.v1.links.delete(
+        'id',
+        { vault_docs: 'keep', 'x-case-connector-subject': 'x-case-connector-subject' },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
@@ -92,7 +109,11 @@ describe('resource links', () => {
     await expect(
       client.connectors.v1.links.listObjects(
         'id',
-        { cursor: 'cursor', state: 'pending' },
+        {
+          cursor: 'cursor',
+          state: 'pending',
+          'x-case-connector-subject': 'x-case-connector-subject',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Casedev.NotFoundError);

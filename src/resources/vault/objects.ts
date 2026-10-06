@@ -33,9 +33,9 @@ export class Objects extends APIResource {
   }
 
   /**
-   * Update a document's filename, path, or metadata. Use this to rename files or
-   * organize them into virtual folders. The path is stored in metadata.path and can
-   * be used to build folder hierarchies in your application.
+   * Update a document's filename, folder path, or metadata. Use this to rename files
+   * or organize them into virtual folders. The path is a folder, not a complete file
+   * path, and is stored separately from the filename.
    *
    * @example
    * ```ts
@@ -59,8 +59,10 @@ export class Objects extends APIResource {
   }
 
   /**
-   * Retrieve all objects stored in a specific vault, including document metadata,
-   * ingestion status, and processing statistics.
+   * Retrieve the objects stored in a specific vault, oldest first, including
+   * document metadata, ingestion status, and processing statistics. Pass `limit` to
+   * page through large vaults: when `pagination.has_more` is true, the response is
+   * incomplete and `pagination.next_cursor` fetches the rest.
    *
    * @example
    * ```ts
@@ -98,10 +100,11 @@ export class Objects extends APIResource {
 
   /**
    * Merges one or more PDF vault objects onto the end of an existing PDF vault
-   * object, overwriting the target in place before returning. Optionally rewrites
-   * citation links in the original target into internal PDF jumps and adds back
-   * links on appended pages. The target object’s ingestion state is not affected;
-   * appended pages are not searchable.
+   * object. Sync mode is the default and overwrites the target in place before
+   * returning. Async mode returns 202 immediately and reports completion through
+   * vault.object.append webhooks. Optionally rewrites citation links in the original
+   * target into internal PDF jumps and adds back links on appended pages. The target
+   * object’s ingestion state is not affected; appended pages are not searchable.
    *
    * @example
    * ```ts
@@ -116,8 +119,15 @@ export class Objects extends APIResource {
     params: ObjectAppendParams,
     options?: RequestOptions,
   ): APIPromise<ObjectAppendResponse> {
-    const { id, ...body } = params;
-    return this._client.post(path`/vault/${id}/objects/${objectID}/append`, { body, ...options });
+    const { id, 'Idempotency-Key': idempotencyKey, ...body } = params;
+    return this._client.post(path`/vault/${id}/objects/${objectID}/append`, {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { ...(idempotencyKey != null ? { 'Idempotency-Key': idempotencyKey } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 
   /**
@@ -292,6 +302,32 @@ export class Objects extends APIResource {
       headers: buildHeaders([{ 'Idempotency-Key': idempotencyKey }, options?.headers]),
     });
   }
+
+  /**
+   * Copies storage and search data without downloading the file through the client.
+   * Moves preserve object IDs; copies return new IDs. Extracted ZIP children travel
+   * with their parent. Retry failed objects with the same Idempotency-Key;
+   * successful objects are replayed without transfer. Object ID order does not
+   * affect the key.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.objects.move('id', {
+   *   destinationVaultId: 'destinationVaultId',
+   *   mode: 'move',
+   *   objectIds: ['string'],
+   *   'Idempotency-Key': 'Idempotency-Key',
+   * });
+   * ```
+   */
+  move(id: string, params: ObjectMoveParams, options?: RequestOptions): APIPromise<ObjectMoveResponse> {
+    const { 'Idempotency-Key': idempotencyKey, ...body } = params;
+    return this._client.post(path`/vault/${id}/objects/move`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ 'Idempotency-Key': idempotencyKey }, options?.headers]),
+    });
+  }
 }
 
 export interface ObjectRetrieveResponse {
@@ -339,6 +375,11 @@ export interface ObjectRetrieveResponse {
    * Number of text chunks created
    */
   chunkCount?: number;
+
+  /**
+   * Client-defined provenance metadata associated with the file
+   */
+  file_origin?: { [key: string]: unknown } | null;
 
   /**
    * Error details when ingestion fails
@@ -435,16 +476,25 @@ export interface ObjectUpdateResponse {
 
 export interface ObjectListResponse {
   /**
-   * Total number of objects in the vault
+   * Number of objects in this response. Equals the vault total only when
+   * `pagination.has_more` is false; use `totals.objects` for the total across pages.
    */
   count: number;
 
   objects: Array<ObjectListResponse.Object>;
 
+  pagination: ObjectListResponse.Pagination;
+
   /**
    * The ID of the vault
    */
   vaultId: string;
+
+  /**
+   * Present only with `include_totals=true`. Covers every object matching the
+   * filters, across all pages.
+   */
+  totals?: ObjectListResponse.Totals;
 }
 
 export namespace ObjectListResponse {
@@ -480,6 +530,11 @@ export namespace ObjectListResponse {
     chunkCount?: number;
 
     /**
+     * Client-defined provenance metadata associated with the file
+     */
+    file_origin?: { [key: string]: unknown } | null;
+
+    /**
      * Processing completion timestamp
      */
     ingestionCompletedAt?: string;
@@ -495,7 +550,8 @@ export namespace ObjectListResponse {
     ingestionStartedAt?: string | null;
 
     /**
-     * Durable workflow run ID for the active or last ingestion attempt
+     * Durable workflow run ID for the active or last ingestion attempt. Null while a
+     * dispatch claim is being reconciled or when no workflow applies.
      */
     ingestionWorkflowId?: string | null;
 
@@ -539,6 +595,39 @@ export namespace ObjectListResponse {
      */
     vectorCount?: number;
   }
+
+  export interface Pagination {
+    /**
+     * Whether more objects exist beyond this page.
+     */
+    has_more: boolean;
+
+    /**
+     * Page size applied, or null when every object was returned.
+     */
+    limit: number | null;
+
+    /**
+     * Pass as `cursor` to fetch the next page. Null on the final page.
+     */
+    next_cursor: string | null;
+  }
+
+  /**
+   * Present only with `include_totals=true`. Covers every object matching the
+   * filters, across all pages.
+   */
+  export interface Totals {
+    /**
+     * Number of matching objects
+     */
+    objects?: number;
+
+    /**
+     * Combined size of matching objects
+     */
+    totalBytes?: number;
+  }
 }
 
 export interface ObjectDeleteResponse {
@@ -573,6 +662,16 @@ export namespace ObjectDeleteResponse {
 
 export interface ObjectAppendResponse {
   id?: string;
+
+  /**
+   * Last 1-indexed page added by this append operation.
+   */
+  appendedPageEnd?: number;
+
+  /**
+   * First 1-indexed page added by this append operation.
+   */
+  appendedPageStart?: number;
 
   bates?: unknown;
 
@@ -902,6 +1001,16 @@ export interface ObjectMergeResponse {
   workflowId?: string;
 }
 
+export interface ObjectMoveResponse {
+  destinationVaultId?: string;
+
+  mode?: string;
+
+  results?: Array<unknown>;
+
+  sourceVaultId?: string;
+}
+
 export interface ObjectRetrieveParams {
   /**
    * Vault ID
@@ -926,18 +1035,48 @@ export interface ObjectUpdateParams {
   metadata?: unknown;
 
   /**
-   * Body param: Folder path for hierarchy preservation (e.g.,
-   * '/Discovery/Depositions'). Set to null or empty string to remove.
+   * Body param: Folder path, excluding the filename, for hierarchy preservation
+   * (e.g., '/Discovery/Depositions'). Set to null or empty string to remove.
    */
   path?: string | null;
 }
 
 export interface ObjectListParams {
   /**
+   * Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+   * Must be replayed with the same API key scope and the same `query`, `file_origin`
+   * and `includeUnconfirmed` values that produced it.
+   */
+  cursor?: string;
+
+  /**
+   * JSON-encoded provenance object used as a partial match. For example,
+   * {"provider":"clio"} returns objects whose file_origin contains that value.
+   */
+  file_origin?: string;
+
+  /**
+   * When `true`, adds `totals` covering every object matching the filters, not just
+   * this page. Request it once per filter change rather than on every page.
+   */
+  include_totals?: boolean;
+
+  /**
    * Include placeholders for uploads that were never completed (awaiting_upload) or
    * were cancelled (aborted). Excluded by default.
    */
   includeUnconfirmed?: boolean;
+
+  /**
+   * Objects per page (1-200). Omit to receive every object. Supplying a cursor
+   * without a limit uses 50.
+   */
+  limit?: number;
+
+  /**
+   * Case-insensitive substring match on the filename.
+   */
+  query?: string;
 }
 
 export interface ObjectDeleteParams {
@@ -961,7 +1100,8 @@ export interface ObjectAppendParams {
 
   /**
    * Body param: Vault object IDs whose pages will be appended onto the target
-   * object, in order. Must not include the target object itself.
+   * object, in order. Must not include the target object itself. Sync mode accepts
+   * at most 20; async mode accepts at most 1000.
    */
   appendObjectIds: Array<string>;
 
@@ -984,11 +1124,29 @@ export interface ObjectAppendParams {
   bates?: ObjectAppendParams.Bates;
 
   /**
+   * Body param: Caller-provided correlation value returned in async responses and
+   * webhooks.
+   */
+  clientReference?: string;
+
+  /**
+   * Body param: Use async to return immediately and receive completion through
+   * vault.object.append webhooks.
+   */
+  mode?: 'sync' | 'async';
+
+  /**
    * Body param: When true, rewrites links in the target object to internal PDF jumps
    * when the URL contains exactly one appended object ID as a standalone query
    * parameter value or decoded path segment.
    */
   rewriteLinks?: boolean;
+
+  /**
+   * Header param: Required when mode is async; stable key for safely retrying the
+   * append
+   */
+  'Idempotency-Key'?: string;
 }
 
 export namespace ObjectAppendParams {
@@ -1158,6 +1316,33 @@ export namespace ObjectMergeParams {
   }
 }
 
+export interface ObjectMoveParams {
+  /**
+   * Body param
+   */
+  destinationVaultId: string;
+
+  /**
+   * Body param
+   */
+  mode: 'move' | 'copy';
+
+  /**
+   * Body param
+   */
+  objectIds: Array<string>;
+
+  /**
+   * Header param
+   */
+  'Idempotency-Key': string;
+
+  /**
+   * Body param
+   */
+  path?: string | null;
+}
+
 export declare namespace Objects {
   export {
     type ObjectRetrieveResponse as ObjectRetrieveResponse,
@@ -1171,6 +1356,7 @@ export declare namespace Objects {
     type ObjectGetPagesResponse as ObjectGetPagesResponse,
     type ObjectGetTextResponse as ObjectGetTextResponse,
     type ObjectMergeResponse as ObjectMergeResponse,
+    type ObjectMoveResponse as ObjectMoveResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectUpdateParams as ObjectUpdateParams,
     type ObjectListParams as ObjectListParams,
@@ -1183,5 +1369,6 @@ export declare namespace Objects {
     type ObjectGetPagesParams as ObjectGetPagesParams,
     type ObjectGetTextParams as ObjectGetTextParams,
     type ObjectMergeParams as ObjectMergeParams,
+    type ObjectMoveParams as ObjectMoveParams,
   };
 }

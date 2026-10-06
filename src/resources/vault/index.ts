@@ -14,6 +14,7 @@ export {
 } from './memory';
 export {
   Multipart,
+  type MultipartCompleteResponse,
   type MultipartGetPartURLsResponse,
   type MultipartInitResponse,
   type MultipartAbortParams,
@@ -34,6 +35,7 @@ export {
   type ObjectGetPagesResponse,
   type ObjectGetTextResponse,
   type ObjectMergeResponse,
+  type ObjectMoveResponse,
   type ObjectRetrieveParams,
   type ObjectUpdateParams,
   type ObjectListParams,
@@ -46,6 +48,7 @@ export {
   type ObjectGetPagesParams,
   type ObjectGetTextParams,
   type ObjectMergeParams,
+  type ObjectMoveParams,
 } from './objects';
 export {
   Vault,
@@ -60,6 +63,7 @@ export {
   type VaultUploadResponse,
   type VaultCreateParams,
   type VaultUpdateParams,
+  type VaultListParams,
   type VaultDeleteParams,
   type VaultConfirmUploadParams,
   type VaultIngestParams,

@@ -7,7 +7,7 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 /**
- * Import and export between provider folders (Google Drive) and vaults
+ * Import and export between provider folders and vaults
  */
 export class Vaults extends APIResource {
   /**

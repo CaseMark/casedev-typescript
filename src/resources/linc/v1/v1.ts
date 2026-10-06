@@ -5,7 +5,9 @@ import * as SessionsAPI from './sessions';
 import {
   SessionCancelParams,
   SessionCreateParams,
+  SessionDeleteParams,
   SessionIngestEventsParams,
+  SessionReplaceScopeParams,
   SessionRetrieveEventsParams,
   SessionRetrieveMessagesParams,
   SessionSendRpcParams,
@@ -22,8 +24,10 @@ export declare namespace V1 {
   export {
     Sessions as Sessions,
     type SessionCreateParams as SessionCreateParams,
+    type SessionDeleteParams as SessionDeleteParams,
     type SessionCancelParams as SessionCancelParams,
     type SessionIngestEventsParams as SessionIngestEventsParams,
+    type SessionReplaceScopeParams as SessionReplaceScopeParams,
     type SessionRetrieveEventsParams as SessionRetrieveEventsParams,
     type SessionRetrieveMessagesParams as SessionRetrieveMessagesParams,
     type SessionSendRpcParams as SessionSendRpcParams,

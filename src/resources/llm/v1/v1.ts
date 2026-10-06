@@ -33,9 +33,9 @@ export class V1 extends APIResource {
   }
 
   /**
-   * Retrieve a list of all available language models from 40+ providers including
-   * OpenAI, Anthropic, Google, and Case.dev's specialized legal models. Returns
-   * OpenAI-compatible model metadata with pricing information.
+   * Retrieve the curated list of available models: OpenAI and Google models plus
+   * Case.dev's specialized CaseMark legal models. Returns OpenAI-compatible model
+   * metadata with pricing information.
    *
    * This endpoint is compatible with OpenAI's models API format, making it easy to
    * integrate with existing applications.

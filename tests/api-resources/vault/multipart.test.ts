@@ -48,6 +48,7 @@ describe('resource multipart', () => {
       parts: [{ etag: 'etag', partNumber: 1 }],
       sizeBytes: 1,
       uploadId: 'uploadId',
+      autoIngest: true,
     });
   });
 
@@ -95,6 +96,7 @@ describe('resource multipart', () => {
       filename: 'filename',
       sizeBytes: 1,
       auto_index: true,
+      file_origin: { foo: 'bar' },
       is_ai_generated: true,
       metadata: {},
       partSizeBytes: 5242880,

@@ -57,7 +57,18 @@ describe('resource objects', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.vault.objects.list('id', { includeUnconfirmed: true }, { path: '/_stainless_unknown_path' }),
+      client.vault.objects.list(
+        'id',
+        {
+          cursor: 'cursor',
+          file_origin: '{"provider":"clio"}',
+          include_totals: true,
+          includeUnconfirmed: true,
+          limit: 1,
+          query: 'query',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
@@ -103,7 +114,10 @@ describe('resource objects', () => {
         start: 1,
         suffix: 'suffix',
       },
+      clientReference: 'clientReference',
+      mode: 'sync',
       rewriteLinks: true,
+      'Idempotency-Key': 'x',
     });
   });
 
@@ -234,6 +248,32 @@ describe('resource objects', () => {
         suffix: 'suffix',
       },
       clientReference: 'clientReference',
+    });
+  });
+
+  test('move: only required params', async () => {
+    const responsePromise = client.vault.objects.move('id', {
+      destinationVaultId: 'destinationVaultId',
+      mode: 'move',
+      objectIds: ['string'],
+      'Idempotency-Key': 'Idempotency-Key',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('move: required and optional params', async () => {
+    const response = await client.vault.objects.move('id', {
+      destinationVaultId: 'destinationVaultId',
+      mode: 'move',
+      objectIds: ['string'],
+      'Idempotency-Key': 'Idempotency-Key',
+      path: 'path',
     });
   });
 });

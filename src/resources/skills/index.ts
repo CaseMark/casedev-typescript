@@ -8,11 +8,13 @@ export {
   type SkillCreateResponse,
   type SkillUpdateResponse,
   type SkillDeleteResponse,
+  type SkillCatalogResponse,
   type SkillExportResponse,
   type SkillReadResponse,
   type SkillResolveResponse,
   type SkillCreateParams,
   type SkillUpdateParams,
+  type SkillCatalogParams,
   type SkillExportParams,
   type SkillResolveParams,
 } from './skills';

@@ -28,6 +28,7 @@ describe('resource skills', () => {
           content: 'content',
           path: 'path',
           contentType: 'contentType',
+          encoding: 'utf8',
           metadata: {},
           name: 'name',
           summary: 'summary',
@@ -61,6 +62,33 @@ describe('resource skills', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('catalog', async () => {
+    const responsePromise = client.skills.catalog();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('catalog: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.skills.catalog(
+        {
+          limit: 1,
+          offset: 0,
+          q: 'q',
+          source: 'custom',
+          tag: 'tag',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
   });
 
   test('export', async () => {
