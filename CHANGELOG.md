@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.70.0](https://github.com/CaseMark/casedev-typescript/compare/v0.69.0...v0.70.0) (2026-10-06)
+
+
+### Compatibility and migration
+
+This pre-1.0 minor release includes breaking API signatures. Vault GraphRAG settings and graph/global/local/entity search modes are retired; use hybrid, fast, or vector search instead. Matter, party and work-item lists and multipart completion now expose typed response envelopes; consume pagination.next_cursor and pagination.has_more rather than assuming an array or empty response.
+
+Migration examples and operational guidance: https://github.com/CaseMark/casedotdev-mono/blob/preview/stainless/RELEASE_RECONCILIATION.md. Connector token creation and webhook endpoint creation return one-time credentials; protect them and exclude responses from logs.
+
+### Features
+
+* **api:** api update ([3f69ee9](https://github.com/CaseMark/casedev-typescript/commit/3f69ee99618e0336f7b7bd4799aa860310519004))
+
 ## [0.69.0](https://github.com/CaseMark/casedev-typescript/compare/v0.68.0...v0.69.0) (2026-08-05)
 
 
