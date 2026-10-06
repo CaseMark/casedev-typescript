@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
+import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 /**
@@ -22,10 +23,21 @@ export class Chat extends APIResource {
    * ```
    */
   createCompletion(
-    body: ChatCreateCompletionParams,
+    params: ChatCreateCompletionParams,
     options?: RequestOptions,
   ): APIPromise<ChatCreateCompletionResponse> {
-    return this._client.post('/llm/v1/chat/completions', { body, ...options });
+    const { 'ai-reporting-tags': aiReportingTags, 'ai-reporting-user': aiReportingUser, ...body } = params;
+    return this._client.post('/llm/v1/chat/completions', {
+      body,
+      ...options,
+      headers: buildHeaders([
+        {
+          ...(aiReportingTags != null ? { 'ai-reporting-tags': aiReportingTags } : undefined),
+          ...(aiReportingUser != null ? { 'ai-reporting-user': aiReportingUser } : undefined),
+        },
+        options?.headers,
+      ]),
+    });
   }
 }
 
@@ -85,51 +97,64 @@ export namespace ChatCreateCompletionResponse {
 
 export interface ChatCreateCompletionParams {
   /**
-   * List of messages comprising the conversation
+   * Body param: List of messages comprising the conversation
    */
   messages: Array<ChatCreateCompletionParams.Message>;
 
   /**
-   * CaseMark-only: controls whether reasoning fields appear in responses. Defaults
-   * to false (suppressed) for most CaseMark models; defaults to true for
-   * casemark/core-potassium.
+   * Body param: CaseMark-only: controls whether reasoning fields appear in
+   * responses. Defaults to false (suppressed) for most CaseMark models; defaults to
+   * true for casemark/core-potassium.
    */
   casemark_show_reasoning?: boolean;
 
   /**
-   * Frequency penalty parameter
+   * Body param: Frequency penalty parameter
    */
   frequency_penalty?: number;
 
   /**
-   * Maximum number of tokens to generate
+   * Body param: Maximum number of tokens to generate
    */
   max_tokens?: number;
 
   /**
-   * Model to use for completion. Defaults to casemark/core-large if not specified
+   * Body param: Model to use for completion. Defaults to casemark/core-large if not
+   * specified
    */
   model?: string;
 
   /**
-   * Presence penalty parameter
+   * Body param: Presence penalty parameter
    */
   presence_penalty?: number;
 
   /**
-   * Whether to stream back partial progress
+   * Body param: Whether to stream back partial progress
    */
   stream?: boolean;
 
   /**
-   * Sampling temperature between 0 and 2
+   * Body param: Sampling temperature between 0 and 2
    */
   temperature?: number;
 
   /**
-   * Nucleus sampling parameter
+   * Body param: Nucleus sampling parameter
    */
   top_p?: number;
+
+  /**
+   * Header param: Comma-separated AI Gateway reporting tags. At most 10 unique tags,
+   * each 1–64 characters.
+   */
+  'ai-reporting-tags'?: string;
+
+  /**
+   * Header param: Stable internal user or customer identifier for AI Gateway cost
+   * reporting.
+   */
+  'ai-reporting-user'?: string;
 }
 
 export namespace ChatCreateCompletionParams {

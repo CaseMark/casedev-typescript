@@ -38,7 +38,6 @@ describe('resource v1', () => {
       subtype: 'subtype',
       vault: {
         description: 'description',
-        enableGraph: true,
         enableIndexing: true,
         metadata: { foo: 'bar' },
       },
@@ -84,6 +83,8 @@ describe('resource v1', () => {
     await expect(
       client.matters.v1.list(
         {
+          cursor: 'cursor',
+          limit: 1,
           matter_type: 'matter_type',
           practice_area: 'practice_area',
           query: 'query',
@@ -92,5 +93,16 @@ describe('resource v1', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
+  test('delete', async () => {
+    const responsePromise = client.matters.v1.delete('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 });

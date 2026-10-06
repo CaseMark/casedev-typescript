@@ -21,11 +21,15 @@ export class Subscriptions extends APIResource {
    * });
    * ```
    */
-  create(id: string, body: SubscriptionCreateParams, options?: RequestOptions): APIPromise<void> {
+  create(id: string, params: SubscriptionCreateParams, options?: RequestOptions): APIPromise<void> {
+    const { 'Idempotency-Key': idempotencyKey, ...body } = params;
     return this._client.post(path`/vault/${id}/events/subscriptions`, {
       body,
       ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      headers: buildHeaders([
+        { Accept: '*/*', ...(idempotencyKey != null ? { 'Idempotency-Key': idempotencyKey } : undefined) },
+        options?.headers,
+      ]),
     });
   }
 
@@ -116,25 +120,32 @@ export class Subscriptions extends APIResource {
 
 export interface SubscriptionCreateParams {
   /**
-   * Webhook endpoint URL that will receive vault event deliveries
+   * Body param: Webhook endpoint URL that will receive vault event deliveries
    */
   callbackUrl: string;
 
   /**
-   * Vault event types to deliver. Omit to receive the default supported set.
+   * Body param: Vault event types to deliver. Omit to receive the default supported
+   * set.
    */
   eventTypes?: Array<string>;
 
   /**
-   * Vault object IDs to limit notifications to. Omit to receive events for all
-   * objects in the vault.
+   * Body param: Vault object IDs to limit notifications to. Omit to receive events
+   * for all objects in the vault.
    */
   objectIds?: Array<string>;
 
   /**
-   * Optional secret used to sign outbound webhook deliveries
+   * Body param: Optional secret used to sign outbound webhook deliveries
    */
   signingSecret?: string;
+
+  /**
+   * Header param: Reusing a key for this Vault updates and returns the same webhook
+   * subscription.
+   */
+  'Idempotency-Key'?: string;
 }
 
 export interface SubscriptionUpdateParams {

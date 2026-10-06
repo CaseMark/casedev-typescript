@@ -13,11 +13,15 @@ export class Subscriptions extends APIResource {
   /**
    * Creates a webhook subscription for matter and work-item events.
    */
-  create(id: string, body: SubscriptionCreateParams, options?: RequestOptions): APIPromise<void> {
+  create(id: string, params: SubscriptionCreateParams, options?: RequestOptions): APIPromise<void> {
+    const { 'Idempotency-Key': idempotencyKey, ...body } = params;
     return this._client.post(path`/matters/v1/${id}/events/subscriptions`, {
       body,
       ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      headers: buildHeaders([
+        { Accept: '*/*', ...(idempotencyKey != null ? { 'Idempotency-Key': idempotencyKey } : undefined) },
+        options?.headers,
+      ]),
     });
   }
 
@@ -48,11 +52,26 @@ export class Subscriptions extends APIResource {
 }
 
 export interface SubscriptionCreateParams {
+  /**
+   * Body param
+   */
   callbackUrl: string;
 
+  /**
+   * Body param
+   */
   eventTypes?: Array<string>;
 
+  /**
+   * Body param
+   */
   signingSecret?: string;
+
+  /**
+   * Header param: Reusing a key for this Matter updates and returns the same webhook
+   * subscription.
+   */
+  'Idempotency-Key'?: string;
 }
 
 export interface SubscriptionDeleteParams {

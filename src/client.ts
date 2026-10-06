@@ -32,6 +32,8 @@ import { Search } from './resources/search/search';
 import {
   ReadResponseFileBundle,
   ReadResponseRootBundle,
+  SkillCatalogParams,
+  SkillCatalogResponse,
   SkillCreateParams,
   SkillCreateResponse,
   SkillDeleteResponse,
@@ -56,6 +58,7 @@ import {
   VaultDeleteResponse,
   VaultIngestParams,
   VaultIngestResponse,
+  VaultListParams,
   VaultListResponse,
   VaultRetrieveResponse,
   VaultSearchParams,
@@ -833,7 +836,7 @@ export class Casedev {
   translate: API.Translate = new API.Translate(this);
   usage: API.Usage = new API.Usage(this);
   /**
-   * Secure document storage with semantic search and GraphRAG
+   * Secure document storage with semantic search
    */
   vault: API.Vault = new API.Vault(this);
   voice: API.Voice = new API.Voice(this);
@@ -891,11 +894,13 @@ export declare namespace Casedev {
     type SkillCreateResponse as SkillCreateResponse,
     type SkillUpdateResponse as SkillUpdateResponse,
     type SkillDeleteResponse as SkillDeleteResponse,
+    type SkillCatalogResponse as SkillCatalogResponse,
     type SkillExportResponse as SkillExportResponse,
     type SkillReadResponse as SkillReadResponse,
     type SkillResolveResponse as SkillResolveResponse,
     type SkillCreateParams as SkillCreateParams,
     type SkillUpdateParams as SkillUpdateParams,
+    type SkillCatalogParams as SkillCatalogParams,
     type SkillExportParams as SkillExportParams,
     type SkillResolveParams as SkillResolveParams,
   };
@@ -919,6 +924,7 @@ export declare namespace Casedev {
     type VaultUploadResponse as VaultUploadResponse,
     type VaultCreateParams as VaultCreateParams,
     type VaultUpdateParams as VaultUpdateParams,
+    type VaultListParams as VaultListParams,
     type VaultDeleteParams as VaultDeleteParams,
     type VaultConfirmUploadParams as VaultConfirmUploadParams,
     type VaultIngestParams as VaultIngestParams,

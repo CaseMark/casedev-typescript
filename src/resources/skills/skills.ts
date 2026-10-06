@@ -38,6 +38,17 @@ export class Skills extends APIResource {
   }
 
   /**
+   * Browse public and organization skills using one authenticated catalog. Returns
+   * metadata only; skill content is loaded separately.
+   */
+  catalog(
+    query: SkillCatalogParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<SkillCatalogResponse> {
+    return this._client.get('/skills/catalog', { query, ...options });
+  }
+
+  /**
    * Export a skill as an installable filesystem tree for sandbox runtimes.
    * Authenticated org-scoped custom skills are resolved before curated skills.
    */
@@ -74,6 +85,11 @@ export interface ReadResponseFileBundle {
   root_slug: string;
 
   content_type?: string | null;
+
+  /**
+   * Encoding of the returned content field.
+   */
+  encoding?: 'utf8' | 'base64';
 }
 
 export interface ReadResponseRootBundle {
@@ -89,6 +105,11 @@ export namespace ReadResponseRootBundle {
     slug: string;
 
     content_type?: string | null;
+
+    /**
+     * Encoding used by content when this companion slug is read.
+     */
+    encoding?: 'utf8' | 'base64';
 
     name?: string | null;
   }
@@ -140,6 +161,38 @@ export interface SkillDeleteResponse {
   slug?: string;
 }
 
+export interface SkillCatalogResponse {
+  count?: number;
+
+  hasMore?: boolean;
+
+  limit?: number;
+
+  nextOffset?: number | null;
+
+  offset?: number;
+
+  query?: string;
+
+  skills?: Array<SkillCatalogResponse.Skill>;
+
+  total?: number;
+}
+
+export namespace SkillCatalogResponse {
+  export interface Skill {
+    description?: string;
+
+    name?: string;
+
+    slug?: string;
+
+    source?: 'custom' | 'curated';
+
+    tags?: Array<string>;
+  }
+}
+
 export interface SkillExportResponse {
   files?: Array<SkillExportResponse.File>;
 
@@ -157,6 +210,11 @@ export namespace SkillExportResponse {
     content?: string;
 
     content_type?: string;
+
+    /**
+     * Encoding of content. Binary files use canonical base64.
+     */
+    encoding?: 'utf8' | 'base64';
 
     path?: string;
 
@@ -279,7 +337,8 @@ export interface SkillCreateParams {
 
   /**
    * Optional bundled companion files installed alongside the skill as <slug>/<path>
-   * in sandbox skill directories.
+   * in sandbox skill directories. The complete file set may contain at most 12 MiB
+   * of decoded content.
    */
   files?: Array<SkillCreateParams.File>;
 
@@ -306,6 +365,10 @@ export interface SkillCreateParams {
 
 export namespace SkillCreateParams {
   export interface File {
+    /**
+     * UTF-8 text when encoding is utf8 (max 65,536 characters), or canonical base64
+     * when encoding is base64 (max 262,144 decoded bytes).
+     */
     content: string;
 
     /**
@@ -315,6 +378,11 @@ export namespace SkillCreateParams {
     path: string;
 
     contentType?: string;
+
+    /**
+     * How content is encoded. Omit for UTF-8 text files.
+     */
+    encoding?: 'utf8' | 'base64';
 
     metadata?: unknown;
 
@@ -330,8 +398,13 @@ export interface SkillUpdateParams {
   content?: string;
 
   /**
-   * Optional replacement companion file tree. Omit to leave existing bundled files
-   * unchanged; send [] to remove bundled files.
+   * Reject with 409 if the skill changed since this version was read.
+   */
+  expectedVersion?: number;
+
+  /**
+   * Optional replacement companion file tree, limited to 12 MiB of decoded content.
+   * Omit to leave existing bundled files unchanged; send [] to remove bundled files.
    */
   files?: Array<SkillUpdateParams.File> | null;
 
@@ -351,11 +424,20 @@ export interface SkillUpdateParams {
 
 export namespace SkillUpdateParams {
   export interface File {
+    /**
+     * UTF-8 text when encoding is utf8 (max 65,536 characters), or canonical base64
+     * when encoding is base64 (max 262,144 decoded bytes).
+     */
     content: string;
 
     path: string;
 
     contentType?: string;
+
+    /**
+     * How content is encoded. Omit for UTF-8 text files.
+     */
+    encoding?: 'utf8' | 'base64';
 
     metadata?: unknown;
 
@@ -365,6 +447,34 @@ export namespace SkillUpdateParams {
 
     tags?: Array<string>;
   }
+}
+
+export interface SkillCatalogParams {
+  /**
+   * Maximum results to return
+   */
+  limit?: number;
+
+  /**
+   * Number of results to skip
+   */
+  offset?: number;
+
+  /**
+   * Optional text search
+   */
+  q?: string;
+
+  /**
+   * Optional source filter, applied after organization overrides and before
+   * pagination. Omit to browse both sources.
+   */
+  source?: 'custom' | 'curated';
+
+  /**
+   * Optional tag filter
+   */
+  tag?: string;
 }
 
 export interface SkillExportParams {
@@ -396,11 +506,13 @@ export declare namespace Skills {
     type SkillCreateResponse as SkillCreateResponse,
     type SkillUpdateResponse as SkillUpdateResponse,
     type SkillDeleteResponse as SkillDeleteResponse,
+    type SkillCatalogResponse as SkillCatalogResponse,
     type SkillExportResponse as SkillExportResponse,
     type SkillReadResponse as SkillReadResponse,
     type SkillResolveResponse as SkillResolveResponse,
     type SkillCreateParams as SkillCreateParams,
     type SkillUpdateParams as SkillUpdateParams,
+    type SkillCatalogParams as SkillCatalogParams,
     type SkillExportParams as SkillExportParams,
     type SkillResolveParams as SkillResolveParams,
   };

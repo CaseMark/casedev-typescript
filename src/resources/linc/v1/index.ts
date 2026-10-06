@@ -3,8 +3,10 @@
 export {
   Sessions,
   type SessionCreateParams,
+  type SessionDeleteParams,
   type SessionCancelParams,
   type SessionIngestEventsParams,
+  type SessionReplaceScopeParams,
   type SessionRetrieveEventsParams,
   type SessionRetrieveMessagesParams,
   type SessionSendRpcParams,

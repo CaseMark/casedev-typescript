@@ -42,14 +42,34 @@ export class Parties extends APIResource {
   }
 
   /**
-   * List reusable legal parties for the authenticated organization.
+   * List reusable legal parties for the authenticated organization, newest update
+   * first. Pagination is opt-in: pass `limit` (1-200) to receive a bounded page,
+   * then replay `pagination.next_cursor` as `?cursor=` while `pagination.has_more`
+   * is true. A request with neither `limit` nor `cursor` still returns every party,
+   * and `pagination.limit` is null. That default will become a bounded page in a
+   * future release — paginate now to avoid the change.
    */
-  list(query: PartyListParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/matters/v1/parties', {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  list(
+    query: PartyListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PartyListResponse> {
+    return this._client.get('/matters/v1/parties', { query, ...options });
+  }
+}
+
+export interface PartyListResponse {
+  data?: Array<unknown>;
+
+  pagination?: PartyListResponse.Pagination;
+}
+
+export namespace PartyListResponse {
+  export interface Pagination {
+    has_more?: boolean;
+
+    limit?: number | null;
+
+    next_cursor?: string | null;
   }
 }
 
@@ -72,7 +92,19 @@ export interface PartyCreateParams {
 }
 
 export interface PartyListParams {
+  /**
+   * Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+   * Must be replayed with the same filters that produced it.
+   */
+  cursor?: string;
+
   email?: string;
+
+  /**
+   * Parties per page (1-200). Omit to receive every party. Supplying a cursor
+   * without a limit uses 50.
+   */
+  limit?: number;
 
   query?: string;
 
@@ -80,5 +112,9 @@ export interface PartyListParams {
 }
 
 export declare namespace Parties {
-  export { type PartyCreateParams as PartyCreateParams, type PartyListParams as PartyListParams };
+  export {
+    type PartyListResponse as PartyListResponse,
+    type PartyCreateParams as PartyCreateParams,
+    type PartyListParams as PartyListParams,
+  };
 }
