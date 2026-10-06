@@ -32,15 +32,28 @@ describe('resource v1', () => {
         folder_id: 'folder_id',
         container_id: 'container_id',
         path: 'path',
+        resource_type: 'resource_type',
         site_id: 'site_id',
       },
       vault_id: 'vault_id',
+      export_destination: {
+        folder_id: 'folder_id',
+        container_id: 'container_id',
+        path: 'path',
+        site_id: 'site_id',
+      },
       matter_id: 'matter_id',
       policy: {
         collisions: 'version',
         deletes: 'mirror',
-        filters: { exclude_mime: ['string'], max_size_bytes: 0 },
+        filters: {
+          exclude_file_ids: ['string'],
+          exclude_folder_ids: ['string'],
+          exclude_mime: ['string'],
+          max_size_bytes: 0,
+        },
       },
+      'x-case-connector-subject': 'x-case-connector-subject',
     });
   });
 
@@ -68,16 +81,29 @@ describe('resource v1', () => {
         folder_id: 'folder_id',
         container_id: 'container_id',
         path: 'path',
+        resource_type: 'resource_type',
         site_id: 'site_id',
       },
       vault_id: 'vault_id',
+      export_destination: {
+        folder_id: 'folder_id',
+        container_id: 'container_id',
+        path: 'path',
+        site_id: 'site_id',
+      },
       matter_id: 'matter_id',
       policy: {
         collisions: 'version',
         deletes: 'mirror',
-        filters: { exclude_mime: ['string'], max_size_bytes: 0 },
+        filters: {
+          exclude_file_ids: ['string'],
+          exclude_folder_ids: ['string'],
+          exclude_mime: ['string'],
+          max_size_bytes: 0,
+        },
       },
       run_mode: 'auto',
+      'x-case-connector-subject': 'x-case-connector-subject',
     });
   });
 });

@@ -24,6 +24,8 @@ describe('resource sessions', () => {
     await expect(
       client.linc.v1.sessions.create(
         {
+          capabilityPolicy: 'read_only',
+          conversationKey: 'conversationKey',
           documentTemplateSlugs: ['string'],
           idleTimeoutMs: 0,
           includeDocumentTemplates: true,
@@ -34,6 +36,10 @@ describe('resource sessions', () => {
           skillSlugs: ['string'],
           title: 'title',
           vaultIds: ['string'],
+          vaultScopes: [{ objectIds: ['string'], vaultId: 'vaultId' }],
+          workspaceKey: 'workspaceKey',
+          'ai-reporting-tags': 'ai-reporting-tags',
+          'ai-reporting-user': 'ai-reporting-user',
         },
         { path: '/_stainless_unknown_path' },
       ),
@@ -49,6 +55,13 @@ describe('resource sessions', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('delete: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.linc.v1.sessions.delete('id', { reason: 'user_deleted' }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Casedev.NotFoundError);
   });
 
   test('cancel', async () => {
@@ -98,6 +111,17 @@ describe('resource sessions', () => {
         },
       ],
     });
+  });
+
+  test('replaceScope', async () => {
+    const responsePromise = client.linc.v1.sessions.replaceScope('id', {});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 
   test('retrieveEvents', async () => {

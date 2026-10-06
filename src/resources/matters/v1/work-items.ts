@@ -45,18 +45,19 @@ export class WorkItems extends APIResource {
   }
 
   /**
-   * List active work items for a matter.
+   * List active work items for a matter, newest update first. Pagination is opt-in:
+   * pass `limit` (1-200) to receive a bounded page, then replay
+   * `pagination.next_cursor` as `?cursor=` while `pagination.has_more` is true. A
+   * request with neither `limit` nor `cursor` still returns every work item, and
+   * `pagination.limit` is null. That default will become a bounded page in a future
+   * release — paginate now to avoid the change.
    */
   list(
     id: string,
     query: WorkItemListParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.get(path`/matters/v1/${id}/work-items`, {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  ): APIPromise<WorkItemListResponse> {
+    return this._client.get(path`/matters/v1/${id}/work-items`, { query, ...options });
   }
 
   /**
@@ -69,6 +70,22 @@ export class WorkItems extends APIResource {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
+  }
+}
+
+export interface WorkItemListResponse {
+  data?: Array<unknown>;
+
+  pagination?: WorkItemListResponse.Pagination;
+}
+
+export namespace WorkItemListResponse {
+  export interface Pagination {
+    has_more?: boolean;
+
+    limit?: number | null;
+
+    next_cursor?: string | null;
   }
 }
 
@@ -192,6 +209,18 @@ export interface WorkItemUpdateParams {
 export interface WorkItemListParams {
   assignee_id?: string;
 
+  /**
+   * Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+   * Must be replayed with the same filters that produced it.
+   */
+  cursor?: string;
+
+  /**
+   * Work items per page (1-200). Omit to receive every work item. Supplying a cursor
+   * without a limit uses 50.
+   */
+  limit?: number;
+
   status?: string;
 }
 
@@ -219,6 +248,7 @@ export interface WorkItemDecideParams {
 
 export declare namespace WorkItems {
   export {
+    type WorkItemListResponse as WorkItemListResponse,
     type WorkItemCreateParams as WorkItemCreateParams,
     type WorkItemRetrieveParams as WorkItemRetrieveParams,
     type WorkItemUpdateParams as WorkItemUpdateParams,

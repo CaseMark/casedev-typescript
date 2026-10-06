@@ -6,6 +6,7 @@ import { Deliveries, DeliveryListParams, DeliveryReplayParams } from './deliveri
 import * as EndpointsAPI from './endpoints';
 import {
   EndpointCreateParams,
+  EndpointCreateResponse,
   EndpointListParams,
   EndpointRotateSecretParams,
   EndpointTestParams,
@@ -28,6 +29,7 @@ V1.EventTypes = EventTypes;
 export declare namespace V1 {
   export {
     Endpoints as Endpoints,
+    type EndpointCreateResponse as EndpointCreateResponse,
     type EndpointCreateParams as EndpointCreateParams,
     type EndpointUpdateParams as EndpointUpdateParams,
     type EndpointListParams as EndpointListParams,

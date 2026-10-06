@@ -2,7 +2,17 @@
 
 import { APIResource } from '../../core/resource';
 import * as V1API from './v1/v1';
-import { V1, V1SyncLinkParams, V1SyncLinkResponse, V1TransferParams, V1TransferResponse } from './v1/v1';
+import {
+  SyncLinkLinkRun,
+  SyncLinkRun,
+  TransferLinkRun,
+  TransferRun,
+  V1,
+  V1SyncLinkParams,
+  V1SyncLinkResponse,
+  V1TransferParams,
+  V1TransferResponse,
+} from './v1/v1';
 
 export class Connectors extends APIResource {
   v1: V1API.V1 = new V1API.V1(this._client);
@@ -13,6 +23,10 @@ Connectors.V1 = V1;
 export declare namespace Connectors {
   export {
     V1 as V1,
+    type SyncLinkLinkRun as SyncLinkLinkRun,
+    type SyncLinkRun as SyncLinkRun,
+    type TransferLinkRun as TransferLinkRun,
+    type TransferRun as TransferRun,
     type V1SyncLinkResponse as V1SyncLinkResponse,
     type V1TransferResponse as V1TransferResponse,
     type V1SyncLinkParams as V1SyncLinkParams,

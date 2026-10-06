@@ -7,7 +7,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 /**
- * Secure document storage with semantic search and GraphRAG
+ * Secure document storage with semantic search
  */
 export class Multipart extends APIResource {
   /**
@@ -36,20 +36,23 @@ export class Multipart extends APIResource {
    *
    * @example
    * ```ts
-   * await client.vault.multipart.complete('id', {
-   *   objectId: 'objectId',
-   *   parts: [{ etag: 'etag', partNumber: 1 }],
-   *   sizeBytes: 1,
-   *   uploadId: 'uploadId',
-   * });
+   * const response = await client.vault.multipart.complete(
+   *   'id',
+   *   {
+   *     objectId: 'objectId',
+   *     parts: [{ etag: 'etag', partNumber: 1 }],
+   *     sizeBytes: 1,
+   *     uploadId: 'uploadId',
+   *   },
+   * );
    * ```
    */
-  complete(id: string, body: MultipartCompleteParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/vault/${id}/multipart/complete`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  complete(
+    id: string,
+    body: MultipartCompleteParams,
+    options?: RequestOptions,
+  ): APIPromise<MultipartCompleteResponse> {
+    return this._client.post(path`/vault/${id}/multipart/complete`, { body, ...options });
   }
 
   /**
@@ -95,6 +98,30 @@ export class Multipart extends APIResource {
   }
 }
 
+export interface MultipartCompleteResponse {
+  /**
+   * Present when autoIngest was requested
+   */
+  ingest?: MultipartCompleteResponse.Ingest;
+
+  success?: boolean;
+}
+
+export namespace MultipartCompleteResponse {
+  /**
+   * Present when autoIngest was requested
+   */
+  export interface Ingest {
+    error?: string;
+
+    statusCode?: number;
+
+    triggered?: boolean;
+
+    workflowId?: string | null;
+  }
+}
+
 export interface MultipartGetPartURLsResponse {
   urls?: Array<MultipartGetPartURLsResponse.URL>;
 }
@@ -108,6 +135,11 @@ export namespace MultipartGetPartURLsResponse {
 }
 
 export interface MultipartInitResponse {
+  /**
+   * Client-defined provenance metadata associated with the file
+   */
+  file_origin?: { [key: string]: unknown } | null;
+
   next_step?: string;
 
   objectId?: string;
@@ -145,6 +177,12 @@ export interface MultipartCompleteParams {
   sizeBytes: number;
 
   uploadId: string;
+
+  /**
+   * Start ingestion after completion when auto_index is enabled. The ingest response
+   * reports whether a workflow was started.
+   */
+  autoIngest?: boolean;
 }
 
 export namespace MultipartCompleteParams {
@@ -209,6 +247,12 @@ export interface MultipartInitParams {
   auto_index?: boolean;
 
   /**
+   * Optional client-defined provenance metadata. Returned with the object and
+   * queryable through the object-list API.
+   */
+  file_origin?: { [key: string]: unknown };
+
+  /**
    * Marks the file as AI-generated work product (e.g. uploaded by an agent) rather
    * than a user-provided source document. Persisted on the object and returned by
    * object listings so clients can distinguish provenance.
@@ -226,13 +270,14 @@ export interface MultipartInitParams {
   partSizeBytes?: number;
 
   /**
-   * Optional folder path for hierarchy preservation
+   * Optional folder path, excluding the filename, for hierarchy preservation
    */
   path?: string;
 }
 
 export declare namespace Multipart {
   export {
+    type MultipartCompleteResponse as MultipartCompleteResponse,
     type MultipartGetPartURLsResponse as MultipartGetPartURLsResponse,
     type MultipartInitResponse as MultipartInitResponse,
     type MultipartAbortParams as MultipartAbortParams,

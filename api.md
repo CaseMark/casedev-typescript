@@ -4,6 +4,10 @@
 
 Types:
 
+- <code><a href="./src/resources/connectors/v1/v1.ts">SyncLinkLinkRun</a></code>
+- <code><a href="./src/resources/connectors/v1/v1.ts">SyncLinkRun</a></code>
+- <code><a href="./src/resources/connectors/v1/v1.ts">TransferLinkRun</a></code>
+- <code><a href="./src/resources/connectors/v1/v1.ts">TransferRun</a></code>
 - <code><a href="./src/resources/connectors/v1/v1.ts">V1SyncLinkResponse</a></code>
 - <code><a href="./src/resources/connectors/v1/v1.ts">V1TransferResponse</a></code>
 
@@ -12,12 +16,40 @@ Methods:
 - <code title="post /connectors/v1/sync-link">client.connectors.v1.<a href="./src/resources/connectors/v1/v1.ts">syncLink</a>({ ...params }) -> V1SyncLinkResponse</code>
 - <code title="post /connectors/v1/transfer">client.connectors.v1.<a href="./src/resources/connectors/v1/v1.ts">transfer</a>({ ...params }) -> V1TransferResponse</code>
 
-### Installations
+### Applications
+
+#### Keys
+
+Types:
+
+- <code><a href="./src/resources/connectors/v1/applications/keys.ts">KeyBindResponse</a></code>
 
 Methods:
 
-- <code title="get /connectors/v1/installations">client.connectors.v1.installations.<a href="./src/resources/connectors/v1/installations/installations.ts">list</a>({ ...params }) -> void</code>
+- <code title="put /connectors/v1/applications/{id}/keys/{keyId}">client.connectors.v1.applications.keys.<a href="./src/resources/connectors/v1/applications/keys.ts">bind</a>(keyID, { ...params }) -> KeyBindResponse</code>
+- <code title="delete /connectors/v1/applications/{id}/keys/{keyId}">client.connectors.v1.applications.keys.<a href="./src/resources/connectors/v1/applications/keys.ts">revoke</a>(keyID, { ...params }) -> void</code>
+
+### Installations
+
+Types:
+
+- <code><a href="./src/resources/connectors/v1/installations/installations.ts">InstallationListResponse</a></code>
+
+Methods:
+
+- <code title="get /connectors/v1/installations">client.connectors.v1.installations.<a href="./src/resources/connectors/v1/installations/installations.ts">list</a>({ ...params }) -> InstallationListResponse</code>
 - <code title="post /connectors/v1/installations">client.connectors.v1.installations.<a href="./src/resources/connectors/v1/installations/installations.ts">ensure</a>({ ...params }) -> void</code>
+
+#### Tokens
+
+Types:
+
+- <code><a href="./src/resources/connectors/v1/installations/tokens.ts">TokenCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /connectors/v1/installations/{id}/tokens">client.connectors.v1.installations.tokens.<a href="./src/resources/connectors/v1/installations/tokens.ts">create</a>(id, { ...params }) -> TokenCreateResponse</code>
+- <code title="delete /connectors/v1/installations/{id}/tokens/{tokenId}">client.connectors.v1.installations.tokens.<a href="./src/resources/connectors/v1/installations/tokens.ts">revoke</a>(tokenID, { ...params }) -> void</code>
 
 #### Vaults
 
@@ -38,16 +70,17 @@ Types:
 Methods:
 
 - <code title="post /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">create</a>({ ...params }) -> ConnectionCreateResponse</code>
-- <code title="get /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">retrieve</a>(id) -> void</code>
+- <code title="get /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">retrieve</a>(id, { ...params }) -> void</code>
 - <code title="get /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">list</a>({ ...params }) -> ConnectionListResponse</code>
 - <code title="delete /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">delete</a>(id, { ...params }) -> void</code>
 - <code title="get /connectors/v1/connections/{id}/browse">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">browse</a>(id, { ...params }) -> ConnectionBrowseResponse</code>
+- <code title="patch /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">updateAll</a>({ ...params }) -> void</code>
 
 ### Links
 
 Methods:
 
-- <code title="get /connectors/v1/links/{id}">client.connectors.v1.links.<a href="./src/resources/connectors/v1/links.ts">retrieve</a>(id) -> void</code>
+- <code title="get /connectors/v1/links/{id}">client.connectors.v1.links.<a href="./src/resources/connectors/v1/links.ts">retrieve</a>(id, { ...params }) -> void</code>
 - <code title="patch /connectors/v1/links/{id}">client.connectors.v1.links.<a href="./src/resources/connectors/v1/links.ts">update</a>(id, { ...params }) -> void</code>
 - <code title="get /connectors/v1/links">client.connectors.v1.links.<a href="./src/resources/connectors/v1/links.ts">list</a>({ ...params }) -> void</code>
 - <code title="delete /connectors/v1/links/{id}">client.connectors.v1.links.<a href="./src/resources/connectors/v1/links.ts">delete</a>(id, { ...params }) -> void</code>
@@ -185,9 +218,10 @@ Methods:
 Methods:
 
 - <code title="post /linc/v1/sessions">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">create</a>({ ...params }) -> void</code>
-- <code title="delete /linc/v1/sessions/{id}">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">delete</a>(id) -> void</code>
+- <code title="delete /linc/v1/sessions/{id}">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">delete</a>(id, { ...params }) -> void</code>
 - <code title="post /linc/v1/sessions/{id}/cancel">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">cancel</a>(id, { ...params }) -> void</code>
 - <code title="post /linc/v1/sessions/{id}/events/ingest">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">ingestEvents</a>(id, { ...params }) -> void</code>
+- <code title="put /linc/v1/sessions/{id}/scope">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">replaceScope</a>(id, { ...params }) -> void</code>
 - <code title="get /linc/v1/sessions/{id}/events">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">retrieveEvents</a>(id, { ...params }) -> void</code>
 - <code title="get /linc/v1/sessions/{id}/messages">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">retrieveMessages</a>(id, { ...params }) -> void</code>
 - <code title="get /linc/v1/sessions/{id}/state">client.linc.v1.sessions.<a href="./src/resources/linc/v1/sessions.ts">retrieveState</a>(id) -> void</code>
@@ -197,12 +231,40 @@ Methods:
 
 ## V1
 
+Types:
+
+- <code><a href="./src/resources/matters/v1/v1.ts">V1ListResponse</a></code>
+- <code><a href="./src/resources/matters/v1/v1.ts">V1DeleteResponse</a></code>
+
 Methods:
 
 - <code title="post /matters/v1">client.matters.v1.<a href="./src/resources/matters/v1/v1.ts">create</a>({ ...params }) -> void</code>
 - <code title="get /matters/v1/{id}">client.matters.v1.<a href="./src/resources/matters/v1/v1.ts">retrieve</a>(id) -> void</code>
 - <code title="patch /matters/v1/{id}">client.matters.v1.<a href="./src/resources/matters/v1/v1.ts">update</a>(id, { ...params }) -> void</code>
-- <code title="get /matters/v1">client.matters.v1.<a href="./src/resources/matters/v1/v1.ts">list</a>({ ...params }) -> void</code>
+- <code title="get /matters/v1">client.matters.v1.<a href="./src/resources/matters/v1/v1.ts">list</a>({ ...params }) -> V1ListResponse</code>
+- <code title="delete /matters/v1/{id}">client.matters.v1.<a href="./src/resources/matters/v1/v1.ts">delete</a>(id) -> V1DeleteResponse</code>
+
+### Purges
+
+Types:
+
+- <code><a href="./src/resources/matters/v1/purges.ts">PurgeRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="get /matters/v1/purges/{purgeId}">client.matters.v1.purges.<a href="./src/resources/matters/v1/purges.ts">retrieve</a>(purgeID) -> PurgeRetrieveResponse</code>
+
+### ContentPurges
+
+Types:
+
+- <code><a href="./src/resources/matters/v1/content-purges.ts">ContentPurgeCreateResponse</a></code>
+- <code><a href="./src/resources/matters/v1/content-purges.ts">ContentPurgeRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="post /matters/v1/{id}/content-purges">client.matters.v1.contentPurges.<a href="./src/resources/matters/v1/content-purges.ts">create</a>(id, { ...params }) -> ContentPurgeCreateResponse</code>
+- <code title="get /matters/v1/content-purges/{purgeId}">client.matters.v1.contentPurges.<a href="./src/resources/matters/v1/content-purges.ts">retrieve</a>(purgeID) -> ContentPurgeRetrieveResponse</code>
 
 ### AgentTypes
 
@@ -213,12 +275,16 @@ Methods:
 
 ### Parties
 
+Types:
+
+- <code><a href="./src/resources/matters/v1/parties.ts">PartyListResponse</a></code>
+
 Methods:
 
 - <code title="post /matters/v1/parties">client.matters.v1.parties.<a href="./src/resources/matters/v1/parties.ts">create</a>({ ...params }) -> void</code>
 - <code title="get /matters/v1/parties/{partyId}">client.matters.v1.parties.<a href="./src/resources/matters/v1/parties.ts">retrieve</a>(partyID) -> void</code>
 - <code title="patch /matters/v1/parties/{partyId}">client.matters.v1.parties.<a href="./src/resources/matters/v1/parties.ts">update</a>(partyID) -> void</code>
-- <code title="get /matters/v1/parties">client.matters.v1.parties.<a href="./src/resources/matters/v1/parties.ts">list</a>({ ...params }) -> void</code>
+- <code title="get /matters/v1/parties">client.matters.v1.parties.<a href="./src/resources/matters/v1/parties.ts">list</a>({ ...params }) -> PartyListResponse</code>
 
 ### Types
 
@@ -268,12 +334,16 @@ Methods:
 
 ### WorkItems
 
+Types:
+
+- <code><a href="./src/resources/matters/v1/work-items.ts">WorkItemListResponse</a></code>
+
 Methods:
 
 - <code title="post /matters/v1/{id}/work-items">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">create</a>(id, { ...params }) -> void</code>
 - <code title="get /matters/v1/{id}/work-items/{workItemId}">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">retrieve</a>(workItemID, { ...params }) -> void</code>
 - <code title="patch /matters/v1/{id}/work-items/{workItemId}">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">update</a>(workItemID, { ...params }) -> void</code>
-- <code title="get /matters/v1/{id}/work-items">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">list</a>(id, { ...params }) -> void</code>
+- <code title="get /matters/v1/{id}/work-items">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">list</a>(id, { ...params }) -> WorkItemListResponse</code>
 - <code title="post /matters/v1/{id}/work-items/{workItemId}/decision">client.matters.v1.workItems.<a href="./src/resources/matters/v1/work-items.ts">decide</a>(workItemID, { ...params }) -> void</code>
 
 # Llm
@@ -395,6 +465,7 @@ Types:
 - <code><a href="./src/resources/skills/skills.ts">SkillCreateResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillUpdateResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillDeleteResponse</a></code>
+- <code><a href="./src/resources/skills/skills.ts">SkillCatalogResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillExportResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillReadResponse</a></code>
 - <code><a href="./src/resources/skills/skills.ts">SkillResolveResponse</a></code>
@@ -404,6 +475,7 @@ Methods:
 - <code title="post /skills">client.skills.<a href="./src/resources/skills/skills.ts">create</a>({ ...params }) -> SkillCreateResponse</code>
 - <code title="put /skills/{slug}">client.skills.<a href="./src/resources/skills/skills.ts">update</a>(slug, { ...params }) -> SkillUpdateResponse</code>
 - <code title="delete /skills/{slug}">client.skills.<a href="./src/resources/skills/skills.ts">delete</a>(slug) -> SkillDeleteResponse</code>
+- <code title="get /skills/catalog">client.skills.<a href="./src/resources/skills/skills.ts">catalog</a>({ ...params }) -> SkillCatalogResponse</code>
 - <code title="get /skills/{slug}/export">client.skills.<a href="./src/resources/skills/skills.ts">export</a>(slug, { ...params }) -> SkillExportResponse</code>
 - <code title="get /skills/{slug}">client.skills.<a href="./src/resources/skills/skills.ts">read</a>(slug) -> SkillReadResponse</code>
 - <code title="get /skills/resolve">client.skills.<a href="./src/resources/skills/skills.ts">resolve</a>({ ...params }) -> SkillResolveResponse</code>
@@ -490,7 +562,7 @@ Methods:
 - <code title="post /vault">client.vault.<a href="./src/resources/vault/vault.ts">create</a>({ ...params }) -> VaultCreateResponse</code>
 - <code title="get /vault/{id}">client.vault.<a href="./src/resources/vault/vault.ts">retrieve</a>(id) -> VaultRetrieveResponse</code>
 - <code title="patch /vault/{id}">client.vault.<a href="./src/resources/vault/vault.ts">update</a>(id, { ...params }) -> VaultUpdateResponse</code>
-- <code title="get /vault">client.vault.<a href="./src/resources/vault/vault.ts">list</a>() -> VaultListResponse</code>
+- <code title="get /vault">client.vault.<a href="./src/resources/vault/vault.ts">list</a>({ ...params }) -> VaultListResponse</code>
 - <code title="delete /vault/{id}">client.vault.<a href="./src/resources/vault/vault.ts">delete</a>(id, { ...params }) -> VaultDeleteResponse</code>
 - <code title="post /vault/{id}/upload/{objectId}/confirm">client.vault.<a href="./src/resources/vault/vault.ts">confirmUpload</a>(objectID, { ...params }) -> VaultConfirmUploadResponse</code>
 - <code title="post /vault/{id}/ingest/{objectId}">client.vault.<a href="./src/resources/vault/vault.ts">ingest</a>(objectID, { ...params }) -> VaultIngestResponse</code>
@@ -522,13 +594,14 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/vault/multipart.ts">MultipartCompleteResponse</a></code>
 - <code><a href="./src/resources/vault/multipart.ts">MultipartGetPartURLsResponse</a></code>
 - <code><a href="./src/resources/vault/multipart.ts">MultipartInitResponse</a></code>
 
 Methods:
 
 - <code title="post /vault/{id}/multipart/abort">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">abort</a>(id, { ...params }) -> void</code>
-- <code title="post /vault/{id}/multipart/complete">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">complete</a>(id, { ...params }) -> void</code>
+- <code title="post /vault/{id}/multipart/complete">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">complete</a>(id, { ...params }) -> MultipartCompleteResponse</code>
 - <code title="post /vault/{id}/multipart/part-urls">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">getPartURLs</a>(id, { ...params }) -> MultipartGetPartURLsResponse</code>
 - <code title="post /vault/{id}/multipart/init">client.vault.multipart.<a href="./src/resources/vault/multipart.ts">init</a>(id, { ...params }) -> MultipartInitResponse</code>
 
@@ -547,6 +620,7 @@ Types:
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetPagesResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetTextResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectMergeResponse</a></code>
+- <code><a href="./src/resources/vault/objects.ts">ObjectMoveResponse</a></code>
 
 Methods:
 
@@ -562,6 +636,7 @@ Methods:
 - <code title="get /vault/{id}/objects/{objectId}/pages">client.vault.objects.<a href="./src/resources/vault/objects.ts">getPages</a>(objectID, { ...params }) -> ObjectGetPagesResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/resources/vault/objects.ts">getText</a>(objectID, { ...params }) -> ObjectGetTextResponse</code>
 - <code title="post /vault/{id}/objects/merge">client.vault.objects.<a href="./src/resources/vault/objects.ts">merge</a>(id, { ...params }) -> ObjectMergeResponse</code>
+- <code title="post /vault/{id}/objects/move">client.vault.objects.<a href="./src/resources/vault/objects.ts">move</a>(id, { ...params }) -> ObjectMoveResponse</code>
 
 ## Memory
 
@@ -638,9 +713,13 @@ Methods:
 
 ### Endpoints
 
+Types:
+
+- <code><a href="./src/resources/webhooks/v1/endpoints.ts">EndpointCreateResponse</a></code>
+
 Methods:
 
-- <code title="post /webhooks/v1/endpoints">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">create</a>({ ...params }) -> void</code>
+- <code title="post /webhooks/v1/endpoints">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">create</a>({ ...params }) -> EndpointCreateResponse</code>
 - <code title="get /webhooks/v1/endpoints/{id}">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">retrieve</a>(id) -> void</code>
 - <code title="patch /webhooks/v1/endpoints/{id}">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">update</a>(id, { ...params }) -> void</code>
 - <code title="get /webhooks/v1/endpoints">client.webhooks.v1.endpoints.<a href="./src/resources/webhooks/v1/endpoints.ts">list</a>({ ...params }) -> void</code>

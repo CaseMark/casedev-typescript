@@ -27,6 +27,7 @@ describe('resource subscriptions', () => {
       eventTypes: ['string'],
       objectIds: ['string'],
       signingSecret: 'signingSecret',
+      'Idempotency-Key': 'Idempotency-Key',
     });
   });
 

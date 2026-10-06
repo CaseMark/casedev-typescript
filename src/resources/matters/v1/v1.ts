@@ -3,12 +3,21 @@
 import { APIResource } from '../../../core/resource';
 import * as AgentTypesAPI from './agent-types';
 import { AgentTypeCreateParams, AgentTypeListParams, AgentTypes } from './agent-types';
+import * as ContentPurgesAPI from './content-purges';
+import {
+  ContentPurgeCreateParams,
+  ContentPurgeCreateResponse,
+  ContentPurgeRetrieveResponse,
+  ContentPurges,
+} from './content-purges';
 import * as LogAPI from './log';
 import { Log, LogCreateParams, LogExportParams, LogExportResponse, LogListParams } from './log';
 import * as MatterPartiesAPI from './matter-parties';
 import { MatterParties, MatterPartyCreateParams } from './matter-parties';
 import * as PartiesAPI from './parties';
-import { Parties, PartyCreateParams, PartyListParams } from './parties';
+import { Parties, PartyCreateParams, PartyListParams, PartyListResponse } from './parties';
+import * as PurgesAPI from './purges';
+import { PurgeRetrieveResponse, Purges } from './purges';
 import * as SharesAPI from './shares';
 import { ShareCreateParams, ShareDeleteParams, Shares } from './shares';
 import * as TypesAPI from './types';
@@ -18,6 +27,7 @@ import {
   WorkItemCreateParams,
   WorkItemDecideParams,
   WorkItemListParams,
+  WorkItemListResponse,
   WorkItemRetrieveParams,
   WorkItemUpdateParams,
   WorkItems,
@@ -33,6 +43,8 @@ import { path } from '../../../internal/utils/path';
  * Matter-native legal workspaces and orchestration primitives
  */
 export class V1 extends APIResource {
+  purges: PurgesAPI.Purges = new PurgesAPI.Purges(this._client);
+  contentPurges: ContentPurgesAPI.ContentPurges = new ContentPurgesAPI.ContentPurges(this._client);
   agentTypes: AgentTypesAPI.AgentTypes = new AgentTypesAPI.AgentTypes(this._client);
   parties: PartiesAPI.Parties = new PartiesAPI.Parties(this._client);
   types: TypesAPI.Types = new TypesAPI.Types(this._client);
@@ -75,14 +87,84 @@ export class V1 extends APIResource {
   }
 
   /**
-   * List matters for the authenticated organization.
+   * List matters for the authenticated organization, newest update first. Pagination
+   * is opt-in: pass `limit` (1-200) to receive a bounded page, then replay
+   * `pagination.next_cursor` as `?cursor=` while `pagination.has_more` is true.
+   * Cursors are opaque and are only valid for the exact filter set they were issued
+   * under. A request with neither `limit` nor `cursor` still returns every matter,
+   * and `pagination.limit` is null. That default will become a bounded page in a
+   * future release — paginate now to avoid the change.
    */
-  list(query: V1ListParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/matters/v1', {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  list(query: V1ListParams | null | undefined = {}, options?: RequestOptions): APIPromise<V1ListResponse> {
+    return this._client.get('/matters/v1', { query, ...options });
+  }
+
+  /**
+   * Queues a durable, idempotent purge of a Matter and all linked live content. Use
+   * matter purge webhooks for status changes; the inspection route is intended for
+   * manual diagnostics only.
+   */
+  delete(id: string, options?: RequestOptions): APIPromise<V1DeleteResponse> {
+    return this._client.delete(path`/matters/v1/${id}`, options);
+  }
+}
+
+export interface V1ListResponse {
+  data?: Array<unknown>;
+
+  pagination?: V1ListResponse.Pagination;
+}
+
+export namespace V1ListResponse {
+  export interface Pagination {
+    has_more?: boolean;
+
+    limit?: number | null;
+
+    next_cursor?: string | null;
+  }
+}
+
+export interface V1DeleteResponse {
+  attempt: number;
+
+  matter_id: string;
+
+  purge_id: string;
+
+  status: 'queued' | 'in_progress' | 'failed' | 'completed';
+
+  vault_id: string;
+
+  workflow_id: string | null;
+
+  completed_at?: string | null;
+
+  counts?: V1DeleteResponse.Counts;
+
+  failed_at?: string | null;
+
+  failure_code?: string | null;
+
+  requested_at?: string;
+
+  started_at?: string | null;
+
+  /**
+   * Stable ID of the failed or completed terminal webhook event
+   */
+  terminal_event_id?: string | null;
+}
+
+export namespace V1DeleteResponse {
+  export interface Counts {
+    chats?: number;
+
+    objects?: number;
+
+    sessions?: number;
+
+    transcriptions?: number;
   }
 }
 
@@ -126,8 +208,6 @@ export namespace V1CreateParams {
   export interface Vault {
     description?: string;
 
-    enableGraph?: boolean;
-
     enableIndexing?: boolean;
 
     metadata?: { [key: string]: unknown };
@@ -169,6 +249,18 @@ export interface V1UpdateParams {
 }
 
 export interface V1ListParams {
+  /**
+   * Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+   * Must be replayed with the same filters that produced it.
+   */
+  cursor?: string;
+
+  /**
+   * Matters per page (1-200). Omit to receive every matter. Supplying a cursor
+   * without a limit uses 50.
+   */
+  limit?: number;
+
   matter_type?: string;
 
   practice_area?: string;
@@ -178,6 +270,8 @@ export interface V1ListParams {
   status?: string;
 }
 
+V1.Purges = Purges;
+V1.ContentPurges = ContentPurges;
 V1.AgentTypes = AgentTypes;
 V1.Parties = Parties;
 V1.Types = Types;
@@ -189,9 +283,20 @@ V1.WorkItems = WorkItems;
 
 export declare namespace V1 {
   export {
+    type V1ListResponse as V1ListResponse,
+    type V1DeleteResponse as V1DeleteResponse,
     type V1CreateParams as V1CreateParams,
     type V1UpdateParams as V1UpdateParams,
     type V1ListParams as V1ListParams,
+  };
+
+  export { Purges as Purges, type PurgeRetrieveResponse as PurgeRetrieveResponse };
+
+  export {
+    ContentPurges as ContentPurges,
+    type ContentPurgeCreateResponse as ContentPurgeCreateResponse,
+    type ContentPurgeRetrieveResponse as ContentPurgeRetrieveResponse,
+    type ContentPurgeCreateParams as ContentPurgeCreateParams,
   };
 
   export {
@@ -202,6 +307,7 @@ export declare namespace V1 {
 
   export {
     Parties as Parties,
+    type PartyListResponse as PartyListResponse,
     type PartyCreateParams as PartyCreateParams,
     type PartyListParams as PartyListParams,
   };
@@ -233,6 +339,7 @@ export declare namespace V1 {
 
   export {
     WorkItems as WorkItems,
+    type WorkItemListResponse as WorkItemListResponse,
     type WorkItemCreateParams as WorkItemCreateParams,
     type WorkItemRetrieveParams as WorkItemRetrieveParams,
     type WorkItemUpdateParams as WorkItemUpdateParams,

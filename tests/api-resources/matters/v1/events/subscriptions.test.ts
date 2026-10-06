@@ -26,6 +26,7 @@ describe('resource subscriptions', () => {
       callbackUrl: 'https://example.com',
       eventTypes: ['string'],
       signingSecret: 'signingSecret',
+      'Idempotency-Key': 'Idempotency-Key',
     });
   });
 
