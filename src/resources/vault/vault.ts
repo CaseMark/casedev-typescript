@@ -1,6 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as FoldersAPI from './folders';
+import {
+  FolderCreateParams,
+  FolderCreateResponse,
+  FolderListResponse,
+  FolderMoveParams,
+  FolderMoveResponse,
+  Folders,
+} from './folders';
 import * as GroupsAPI from './groups';
 import { GroupCreateParams, GroupUpdateParams, Groups } from './groups';
 import * as MemoryAPI from './memory';
@@ -48,6 +57,8 @@ import {
   ObjectMergeResponse,
   ObjectMoveParams,
   ObjectMoveResponse,
+  ObjectOrganizeParams,
+  ObjectOrganizeResponse,
   ObjectRetrieveParams,
   ObjectRetrieveResponse,
   ObjectUpdateParams,
@@ -65,6 +76,7 @@ import { path } from '../../internal/utils/path';
  * Secure document storage with semantic search
  */
 export class Vault extends APIResource {
+  folders: FoldersAPI.Folders = new FoldersAPI.Folders(this._client);
   events: EventsAPI.Events = new EventsAPI.Events(this._client);
   groups: GroupsAPI.Groups = new GroupsAPI.Groups(this._client);
   multipart: MultipartAPI.Multipart = new MultipartAPI.Multipart(this._client);
@@ -1112,6 +1124,7 @@ export interface VaultUploadParams {
   'Idempotency-Key'?: string;
 }
 
+Vault.Folders = Folders;
 Vault.Events = Events;
 Vault.Groups = Groups;
 Vault.Multipart = Multipart;
@@ -1137,6 +1150,15 @@ export declare namespace Vault {
     type VaultIngestParams as VaultIngestParams,
     type VaultSearchParams as VaultSearchParams,
     type VaultUploadParams as VaultUploadParams,
+  };
+
+  export {
+    Folders as Folders,
+    type FolderCreateResponse as FolderCreateResponse,
+    type FolderListResponse as FolderListResponse,
+    type FolderMoveResponse as FolderMoveResponse,
+    type FolderCreateParams as FolderCreateParams,
+    type FolderMoveParams as FolderMoveParams,
   };
 
   export { Events as Events };
@@ -1172,6 +1194,7 @@ export declare namespace Vault {
     type ObjectGetTextResponse as ObjectGetTextResponse,
     type ObjectMergeResponse as ObjectMergeResponse,
     type ObjectMoveResponse as ObjectMoveResponse,
+    type ObjectOrganizeResponse as ObjectOrganizeResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectUpdateParams as ObjectUpdateParams,
     type ObjectListParams as ObjectListParams,
@@ -1185,6 +1208,7 @@ export declare namespace Vault {
     type ObjectGetTextParams as ObjectGetTextParams,
     type ObjectMergeParams as ObjectMergeParams,
     type ObjectMoveParams as ObjectMoveParams,
+    type ObjectOrganizeParams as ObjectOrganizeParams,
   };
 
   export {

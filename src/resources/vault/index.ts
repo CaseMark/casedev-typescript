@@ -1,6 +1,14 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export { Events } from './events/index';
+export {
+  Folders,
+  type FolderCreateResponse,
+  type FolderListResponse,
+  type FolderMoveResponse,
+  type FolderCreateParams,
+  type FolderMoveParams,
+} from './folders';
 export { Groups, type GroupCreateParams, type GroupUpdateParams } from './groups';
 export {
   Memory,
@@ -36,6 +44,7 @@ export {
   type ObjectGetTextResponse,
   type ObjectMergeResponse,
   type ObjectMoveResponse,
+  type ObjectOrganizeResponse,
   type ObjectRetrieveParams,
   type ObjectUpdateParams,
   type ObjectListParams,
@@ -49,6 +58,7 @@ export {
   type ObjectGetTextParams,
   type ObjectMergeParams,
   type ObjectMoveParams,
+  type ObjectOrganizeParams,
 } from './objects';
 export {
   Vault,

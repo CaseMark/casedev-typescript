@@ -172,6 +172,16 @@ export interface SessionCreateParams {
   documentTemplateSlugs?: Array<string> | null;
 
   /**
+   * Body param: Optional caller-supplied executable tool files to install into
+   * .linc/extensions/ before the agent starts. Only supported for standalone
+   * sessions without capabilityPolicy: read_only. Rejected with a 400 on persistent
+   * (workspaceKey/conversationKey) or read_only sessions. At most 10 files, 64KB
+   * each, 256KB total. Extension destinations and content hashes are recorded in the
+   * session-created audit event; raw code is not logged.
+   */
+  extensions?: Array<SessionCreateParams.Extension> | null;
+
+  /**
    * Body param
    */
   idleTimeoutMs?: number | null;
@@ -194,6 +204,14 @@ export interface SessionCreateParams {
   model?: string | null;
 
   /**
+   * Body param: Optional ordered availability fallbacks for this session. Requires
+   * an explicit model. An empty array disables fallbacks; omission preserves
+   * existing runtime behavior. Linc switches within the same session, preserving
+   * context.
+   */
+  modelFallbacks?: Array<string>;
+
+  /**
    * Body param: Optional caller-provided scoped Case.dev API key for the runtime.
    */
   scopedApiKey?: string | null;
@@ -203,6 +221,13 @@ export interface SessionCreateParams {
    * lower latency at premium cost.
    */
   serviceTier?: 'default' | 'priority';
+
+  /**
+   * Body param: Defaults to local preinstallation. MCP is an opt-in, org-allowlisted
+   * rollout on a separately pinned image; requires a new standalone session and no
+   * skillSlugs preinstallation. Execution remains content-approval gated.
+   */
+  skillsDelivery?: 'local' | 'mcp';
 
   /**
    * Body param: Skills API slugs to install into the runtime sandbox before the
@@ -247,6 +272,22 @@ export interface SessionCreateParams {
 }
 
 export namespace SessionCreateParams {
+  export interface Extension {
+    /**
+     * UTF-8 tool file content, at most 64KB.
+     */
+    content: string;
+
+    /**
+     * Bare .ts/.js filename or one-level subdir (e.g. create-automations.ts or
+     * automations/index.ts). Each directory must include exactly one index.ts or
+     * index.js entrypoint; helper files may accompany it. Platform names
+     * (casedev/subagent), root index.ts/index.js, node_modules, hidden top-level
+     * names, absolute paths, "..", and other extensions or nesting are rejected.
+     */
+    path: string;
+  }
+
   export interface VaultScope {
     objectIds: Array<string>;
 

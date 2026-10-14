@@ -88,9 +88,54 @@ export interface V1RetrieveResponse {
   status: 'pending' | 'processing' | 'completed' | 'failed';
 
   /**
+   * Total number of OCR chunks.
+   */
+  chunk_count?: number;
+
+  /**
+   * Exact number of failed OCR chunks.
+   */
+  chunks_failed?: number;
+
+  /**
    * Job completion timestamp
    */
   completed_at?: string;
+
+  /**
+   * Safe human-readable failure message; null when no failure is recorded.
+   */
+  error?: string | null;
+
+  /**
+   * Stable failure identifier, such as source_access_denied, invalid_pdf,
+   * inference_failed, chunks_failed, or result_upload_failed. Historic failures may
+   * be unclassified.
+   */
+  error_code?: string | null;
+
+  /**
+   * Operation that failed.
+   */
+  error_stage?:
+    | 'dispatch'
+    | 'download'
+    | 'document_validation'
+    | 'chunking'
+    | 'engine_init'
+    | 'inference'
+    | 'feature_processing'
+    | 'result_write'
+    | 'chunk_processing'
+    | 'result_assembly'
+    | 'result_upload'
+    | null;
+
+  /**
+   * Bounded failure samples. Page ranges are one-based and inclusive; chunks_failed
+   * and chunk_count retain exact totals.
+   */
+  failed_chunks?: Array<V1RetrieveResponse.FailedChunk> | null;
 
   /**
    * Additional processing metadata
@@ -103,9 +148,33 @@ export interface V1RetrieveResponse {
   page_count?: number;
 
   /**
+   * Whether retrying the same document may help. Unknown failures retain bounded
+   * retry behavior.
+   */
+  retryable?: boolean | null;
+
+  /**
    * Extracted text content when completed and include_text=true
    */
   text?: string;
+}
+
+export namespace V1RetrieveResponse {
+  export interface FailedChunk {
+    chunk_id?: string;
+
+    error?: string;
+
+    error_code?: string;
+
+    error_stage?: string;
+
+    page_end?: number;
+
+    page_start?: number;
+
+    retryable?: boolean;
+  }
 }
 
 export interface V1ProcessResponse {
