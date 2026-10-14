@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.71.0](https://github.com/CaseMark/casedev-typescript/compare/v0.70.0...v0.71.0) (2026-10-14)
+
+
+### Features
+
+* **api:** CD-1814: add vault organization APIs and patched SDK dependencies ([5066779](https://github.com/CaseMark/casedev-typescript/commit/5066779eb0fa703f0b3047bd2bc8b16fab8bc767))
+
 ## [0.70.0](https://github.com/CaseMark/casedev-typescript/compare/v0.69.0...v0.70.0) (2026-10-06)
 
 
