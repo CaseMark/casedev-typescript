@@ -569,6 +569,20 @@ Methods:
 - <code title="post /vault/{id}/search">client.vault.<a href="./src/resources/vault/vault.ts">search</a>(id, { ...params }) -> VaultSearchResponse</code>
 - <code title="post /vault/{id}/upload">client.vault.<a href="./src/resources/vault/vault.ts">upload</a>(id, { ...params }) -> VaultUploadResponse</code>
 
+## Folders
+
+Types:
+
+- <code><a href="./src/resources/vault/folders.ts">FolderCreateResponse</a></code>
+- <code><a href="./src/resources/vault/folders.ts">FolderListResponse</a></code>
+- <code><a href="./src/resources/vault/folders.ts">FolderMoveResponse</a></code>
+
+Methods:
+
+- <code title="post /vault/{id}/folders">client.vault.folders.<a href="./src/resources/vault/folders.ts">create</a>(id, { ...params }) -> FolderCreateResponse</code>
+- <code title="get /vault/{id}/folders">client.vault.folders.<a href="./src/resources/vault/folders.ts">list</a>(id) -> FolderListResponse</code>
+- <code title="patch /vault/{id}/folders">client.vault.folders.<a href="./src/resources/vault/folders.ts">move</a>(id, { ...params }) -> FolderMoveResponse</code>
+
 ## Events
 
 ### Subscriptions
@@ -621,6 +635,7 @@ Types:
 - <code><a href="./src/resources/vault/objects.ts">ObjectGetTextResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectMergeResponse</a></code>
 - <code><a href="./src/resources/vault/objects.ts">ObjectMoveResponse</a></code>
+- <code><a href="./src/resources/vault/objects.ts">ObjectOrganizeResponse</a></code>
 
 Methods:
 
@@ -637,6 +652,7 @@ Methods:
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/resources/vault/objects.ts">getText</a>(objectID, { ...params }) -> ObjectGetTextResponse</code>
 - <code title="post /vault/{id}/objects/merge">client.vault.objects.<a href="./src/resources/vault/objects.ts">merge</a>(id, { ...params }) -> ObjectMergeResponse</code>
 - <code title="post /vault/{id}/objects/move">client.vault.objects.<a href="./src/resources/vault/objects.ts">move</a>(id, { ...params }) -> ObjectMoveResponse</code>
+- <code title="post /vault/{id}/objects/organize">client.vault.objects.<a href="./src/resources/vault/objects.ts">organize</a>(id, { ...params }) -> ObjectOrganizeResponse</code>
 
 ## Memory
 

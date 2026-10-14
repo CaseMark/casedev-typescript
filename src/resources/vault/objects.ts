@@ -328,6 +328,28 @@ export class Objects extends APIResource {
       headers: buildHeaders([{ 'Idempotency-Key': idempotencyKey }, options?.headers]),
     });
   }
+
+  /**
+   * Atomically moves up to 500 files to a folder. Authoritative transcription
+   * results follow source media. Selecting a transcription result requires selecting
+   * its source media too. Source and destination folders remain durable even when
+   * empty. Metadata only; requires vault-wide write access and vault ownership.
+   *
+   * @example
+   * ```ts
+   * const response = await client.vault.objects.organize('id', {
+   *   objectIds: ['string'],
+   *   path: 'path',
+   * });
+   * ```
+   */
+  organize(
+    id: string,
+    body: ObjectOrganizeParams,
+    options?: RequestOptions,
+  ): APIPromise<ObjectOrganizeResponse> {
+    return this._client.post(path`/vault/${id}/objects/organize`, { body, ...options });
+  }
 }
 
 export interface ObjectRetrieveResponse {
@@ -533,6 +555,11 @@ export namespace ObjectListResponse {
      * Client-defined provenance metadata associated with the file
      */
     file_origin?: { [key: string]: unknown } | null;
+
+    /**
+     * Canonical folder path, excluding the filename even for legacy ZIP imports.
+     */
+    folderPath?: string;
 
     /**
      * Processing completion timestamp
@@ -1011,6 +1038,22 @@ export interface ObjectMoveResponse {
   sourceVaultId?: string;
 }
 
+export interface ObjectOrganizeResponse {
+  folderPaths?: Array<string>;
+
+  moves?: Array<ObjectOrganizeResponse.Move>;
+}
+
+export namespace ObjectOrganizeResponse {
+  export interface Move {
+    id?: string;
+
+    path?: string;
+
+    previousPath?: string;
+  }
+}
+
 export interface ObjectRetrieveParams {
   /**
    * Vault ID
@@ -1343,6 +1386,42 @@ export interface ObjectMoveParams {
   path?: string | null;
 }
 
+export type ObjectOrganizeParams = ObjectOrganizeParams.Variant0 | ObjectOrganizeParams.Variant1;
+
+export declare namespace ObjectOrganizeParams {
+  export interface Variant0 {
+    objectIds: Array<string>;
+
+    path: string;
+
+    /**
+     * Optional current folder preconditions for the supplied object IDs only.
+     * Automatically included transcription results do not require entries; supplied
+     * result entries are checked.
+     */
+    expectedPaths?: { [key: string]: string };
+  }
+
+  export interface Variant1 {
+    /**
+     * Restore confirmed move receipts with optimistic concurrency checks. Include
+     * every receipt for each media/transcription family. Cannot combine with objectIds
+     * or path.
+     */
+    moves: Array<Variant1.Move>;
+  }
+
+  export namespace Variant1 {
+    export interface Move {
+      id: string;
+
+      expectedPath: string;
+
+      path: string;
+    }
+  }
+}
+
 export declare namespace Objects {
   export {
     type ObjectRetrieveResponse as ObjectRetrieveResponse,
@@ -1357,6 +1436,7 @@ export declare namespace Objects {
     type ObjectGetTextResponse as ObjectGetTextResponse,
     type ObjectMergeResponse as ObjectMergeResponse,
     type ObjectMoveResponse as ObjectMoveResponse,
+    type ObjectOrganizeResponse as ObjectOrganizeResponse,
     type ObjectRetrieveParams as ObjectRetrieveParams,
     type ObjectUpdateParams as ObjectUpdateParams,
     type ObjectListParams as ObjectListParams,
@@ -1370,5 +1450,6 @@ export declare namespace Objects {
     type ObjectGetTextParams as ObjectGetTextParams,
     type ObjectMergeParams as ObjectMergeParams,
     type ObjectMoveParams as ObjectMoveParams,
+    type ObjectOrganizeParams as ObjectOrganizeParams,
   };
 }
