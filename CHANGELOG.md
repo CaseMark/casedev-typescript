@@ -1,5 +1,54 @@
 # Changelog
 
+## [0.71.0](https://github.com/CaseMark/casedev-typescript/compare/v0.70.0...v0.71.0) (2026-10-14)
+
+
+### Features
+
+* **api:** CD-1814: add vault organization APIs and patched SDK dependencies ([5066779](https://github.com/CaseMark/casedev-typescript/commit/5066779eb0fa703f0b3047bd2bc8b16fab8bc767))
+
+## [0.70.0](https://github.com/CaseMark/casedev-typescript/compare/v0.69.0...v0.70.0) (2026-10-06)
+
+
+### Compatibility and migration
+
+This pre-1.0 minor release includes breaking API signatures. Vault GraphRAG settings and graph/global/local/entity search modes are retired; use hybrid, fast, or vector search instead. Matter, party and work-item lists and multipart completion now expose typed response envelopes; consume pagination.next_cursor and pagination.has_more rather than assuming an array or empty response.
+
+Migration examples and operational guidance: https://github.com/CaseMark/casedotdev-mono/blob/preview/stainless/RELEASE_RECONCILIATION.md. Connector token creation and webhook endpoint creation return one-time credentials; protect them and exclude responses from logs.
+
+### Features
+
+* **api:** api update ([3f69ee9](https://github.com/CaseMark/casedev-typescript/commit/3f69ee99618e0336f7b7bd4799aa860310519004))
+
+## [0.69.0](https://github.com/CaseMark/casedev-typescript/compare/v0.68.0...v0.69.0) (2026-08-05)
+
+
+### Features
+
+* **api:** api update ([092cb9a](https://github.com/CaseMark/casedev-typescript/commit/092cb9a1e257c25d23dbbec49eaed0881a16f1f0))
+* **api:** api update ([f292c48](https://github.com/CaseMark/casedev-typescript/commit/f292c481fe1ad02b845d846fa0951562b412e4cf))
+* **api:** api update ([#6](https://github.com/CaseMark/casedev-typescript/issues/6)) ([1f2f4fb](https://github.com/CaseMark/casedev-typescript/commit/1f2f4fb19112b89138ea8847c973ee2aba0db33e))
+
+## [0.68.0](https://github.com/CaseMark/casedev-typescript/compare/v0.67.2...v0.68.0) (2026-06-09)
+
+
+### Features
+
+* **api:** api update ([fbb916f](https://github.com/CaseMark/casedev-typescript/commit/fbb916f96b2683b2a8868ac8ef82cdc3f511c670))
+
+
+### Chores
+
+* use stable release metadata ([3c86df8](https://github.com/CaseMark/casedev-typescript/commit/3c86df8c4407a06b7295517265ee0ad9f4a923a8))
+
+## 0.67.2 (2026-06-02)
+
+Full Changelog: [v0.67.1...v0.67.2](https://github.com/CaseMark/casedev-typescript/compare/v0.67.1...v0.67.2)
+
+### Bug Fixes
+
+* publish npm package with OIDC-compatible npm ([fb8fa45](https://github.com/CaseMark/casedev-typescript/commit/fb8fa45c9b398ad72a0e013bd6b52a6938b70c66))
+
 ## 0.67.1 (2026-06-02)
 
 Full Changelog: [v0.67.0...v0.67.1](https://github.com/CaseMark/casedev-typescript/compare/v0.67.0...v0.67.1)
