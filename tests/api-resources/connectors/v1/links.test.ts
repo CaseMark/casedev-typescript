@@ -118,4 +118,26 @@ describe('resource links', () => {
       ),
     ).rejects.toThrow(Casedev.NotFoundError);
   });
+
+  test('retrieveSelectionRoot', async () => {
+    const responsePromise = client.connectors.v1.links.retrieveSelectionRoot('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieveSelectionRoot: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.connectors.v1.links.retrieveSelectionRoot(
+        'id',
+        { 'x-case-connector-subject': 'x-case-connector-subject' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
 });

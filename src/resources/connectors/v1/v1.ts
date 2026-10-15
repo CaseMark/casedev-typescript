@@ -20,6 +20,7 @@ import {
   LinkListObjectsParams,
   LinkListParams,
   LinkRetrieveParams,
+  LinkRetrieveSelectionRootParams,
   LinkUpdateParams,
   Links,
 } from './links';
@@ -412,5 +413,6 @@ export declare namespace V1 {
     type LinkListParams as LinkListParams,
     type LinkDeleteParams as LinkDeleteParams,
     type LinkListObjectsParams as LinkListObjectsParams,
+    type LinkRetrieveSelectionRootParams as LinkRetrieveSelectionRootParams,
   };
 }

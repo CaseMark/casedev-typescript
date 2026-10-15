@@ -50,7 +50,10 @@ export class Skills extends APIResource {
 
   /**
    * Export a skill as an installable filesystem tree for sandbox runtimes.
-   * Authenticated org-scoped custom skills are resolved before curated skills.
+   * Authenticated org-scoped custom skills are resolved before curated skills. Slugs
+   * of merged skills are permanent aliases: they export the surviving skill (slug,
+   * root and files describe the target) with `redirected_from` set to the requested
+   * slug.
    */
   export(
     slug: string,
@@ -62,7 +65,9 @@ export class Skills extends APIResource {
 
   /**
    * Read the full content of a legal skill by its slug. Returns markdown content,
-   * tags, and metadata.
+   * tags, and metadata. Slugs of merged skills are permanent aliases: they return
+   * the surviving skill with `redirected_from` set to the requested slug instead of
+   * an error.
    */
   read(slug: string, options?: RequestOptions): APIPromise<SkillReadResponse> {
     return this._client.get(path`/skills/${slug}`, options);
@@ -196,6 +201,12 @@ export namespace SkillCatalogResponse {
 export interface SkillExportResponse {
   files?: Array<SkillExportResponse.File>;
 
+  /**
+   * Present only when the requested slug is a permanent alias of a merged skill.
+   * Holds the requested slug; slug, root and files describe the target skill.
+   */
+  redirected_from?: string;
+
   root?: string;
 
   slug?: string;
@@ -254,6 +265,13 @@ export interface SkillReadResponse {
    * Skill name
    */
   name?: string;
+
+  /**
+   * Present only when the requested slug is a permanent alias of a merged skill.
+   * Holds the slug that was requested; every other field (including slug) describes
+   * the target skill. Omitted for non-alias reads.
+   */
+  redirected_from?: string;
 
   /**
    * Unique skill identifier

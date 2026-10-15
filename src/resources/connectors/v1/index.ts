@@ -26,6 +26,7 @@ export {
   type LinkListParams,
   type LinkDeleteParams,
   type LinkListObjectsParams,
+  type LinkRetrieveSelectionRootParams,
 } from './links';
 export {
   V1,
