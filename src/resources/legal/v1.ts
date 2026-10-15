@@ -106,6 +106,24 @@ export class V1 extends APIResource {
   }
 
   /**
+   * Retrieve structured financial values reported to the SEC in XBRL, via
+   * data.sec.gov. Use this endpoint when you need numbers (net income, assets,
+   * shares outstanding, and so on); use sec-filing to find filing documents. Three
+   * types: "concept" returns one line item for one company over time; "facts"
+   * returns a catalog of every concept a company reports (or normalized facts for
+   * the concepts you name); "frames" returns one concept across all reporting
+   * companies for one calendar period. Each fact links back to its EDGAR filing
+   * index via secUrl. The same value is re-reported in later filings as a
+   * prior-period comparative, so by default (dedupe: true) only facts the SEC
+   * assigned a calendar frame are returned; set dedupe to false for every reported
+   * fact. Free.
+   */
+  secXbrl(params: V1SecXbrlParams, options?: RequestOptions): APIPromise<V1SecXbrlResponse> {
+    const { ciks, tickers, ...body } = params;
+    return this._client.post('/legal/v1/sec-xbrl', { body: { ciks, tickers, ...body }, ...options });
+  }
+
+  /**
    * Find cases and documents similar to a given legal source. Useful for finding
    * citing cases, related precedents, or similar statutes.
    */
@@ -878,6 +896,197 @@ export namespace V1SecFilingResponse {
   }
 }
 
+export interface V1SecXbrlResponse {
+  /**
+   * Padded CIK (concept and facts)
+   */
+  cik?: string;
+
+  /**
+   * facts without concepts: the catalog of concepts the company reports
+   */
+  concepts?: Array<V1SecXbrlResponse.Concept>;
+
+  /**
+   * frames: one row per reporting company
+   */
+  data?: Array<V1SecXbrlResponse.Data>;
+
+  dateAfter?: string | null;
+
+  dateBefore?: string | null;
+
+  /**
+   * concept and facts with concepts
+   */
+  dedupe?: boolean;
+
+  description?: string | null;
+
+  entityName?: string | null;
+
+  /**
+   * concept, and facts when concepts is provided
+   */
+  facts?: Array<V1SecXbrlResponse.Fact>;
+
+  fiscalPeriods?: Array<string>;
+
+  formTypes?: Array<string>;
+
+  label?: string | null;
+
+  limit?: number;
+
+  offset?: number;
+
+  /**
+   * frames only
+   */
+  period?: string;
+
+  /**
+   * frames only
+   */
+  sort?: string;
+
+  /**
+   * concept and frames
+   */
+  tag?: string;
+
+  taxonomy?: string | null;
+
+  ticker?: string | null;
+
+  /**
+   * Rows matching before pagination
+   */
+  total?: number;
+
+  type?: 'concept' | 'facts' | 'frames';
+
+  unit?: string | null;
+}
+
+export namespace V1SecXbrlResponse {
+  export interface Concept {
+    factCount?: number;
+
+    label?: string | null;
+
+    latestPeriodEnd?: string | null;
+
+    tag?: string;
+
+    taxonomy?: string;
+
+    units?: Array<string>;
+  }
+
+  export interface Data {
+    accessionNumber?: string | null;
+
+    cik?: string;
+
+    end?: string;
+
+    entityName?: string | null;
+
+    filed?: string | null;
+
+    fiscalPeriod?: string | null;
+
+    fiscalYear?: number | null;
+
+    form?: string | null;
+
+    /**
+     * SEC calendar frame, null if not assigned
+     */
+    frame?: string | null;
+
+    label?: string | null;
+
+    /**
+     * frames only. Reporting company location code
+     */
+    loc?: string | null;
+
+    /**
+     * EDGAR filing index URL
+     */
+    secUrl?: string | null;
+
+    /**
+     * Null for instantaneous facts
+     */
+    start?: string | null;
+
+    tag?: string;
+
+    taxonomy?: string;
+
+    /**
+     * For example USD, shares, or USD/shares
+     */
+    unit?: string;
+
+    value?: number;
+  }
+
+  export interface Fact {
+    accessionNumber?: string | null;
+
+    cik?: string;
+
+    end?: string;
+
+    entityName?: string | null;
+
+    filed?: string | null;
+
+    fiscalPeriod?: string | null;
+
+    fiscalYear?: number | null;
+
+    form?: string | null;
+
+    /**
+     * SEC calendar frame, null if not assigned
+     */
+    frame?: string | null;
+
+    label?: string | null;
+
+    /**
+     * frames only. Reporting company location code
+     */
+    loc?: string | null;
+
+    /**
+     * EDGAR filing index URL
+     */
+    secUrl?: string | null;
+
+    /**
+     * Null for instantaneous facts
+     */
+    start?: string | null;
+
+    tag?: string;
+
+    taxonomy?: string;
+
+    /**
+     * For example USD, shares, or USD/shares
+     */
+    unit?: string;
+
+    value?: number;
+  }
+}
+
 export interface V1SimilarResponse {
   /**
    * Number of similar sources found
@@ -1423,6 +1632,108 @@ export interface V1SecFilingParams {
   ticker?: string;
 }
 
+export interface V1SecXbrlParams {
+  /**
+   * concept: one line item for one company over time. facts: all concepts for one
+   * company (catalog, or values for the concepts you list). frames: one concept
+   * across all companies for one period.
+   */
+  type: 'concept' | 'facts' | 'frames';
+
+  /**
+   * Company CIK, padded or unpadded (concept and facts). Provide exactly one of cik
+   * or ticker.
+   */
+  cik?: string;
+
+  /**
+   * frames only. Restrict results to these CIKs (peer set).
+   */
+  ciks?: Array<string>;
+
+  /**
+   * facts only. "taxonomy:tag" strings or bare tags (default us-gaap). Omit to get
+   * the concept catalog, which has no values.
+   */
+  concepts?: Array<string>;
+
+  /**
+   * concept and facts. Only facts whose period end date is on or after this date
+   * (YYYY-MM-DD).
+   */
+  dateAfter?: string;
+
+  /**
+   * concept and facts. Only facts whose period end date is on or before this date
+   * (YYYY-MM-DD).
+   */
+  dateBefore?: string;
+
+  /**
+   * concept and facts. When true, keep only facts the SEC assigned a calendar frame
+   * (its canonical fact per period), dropping prior-period comparatives re-reported
+   * in later filings. When false, return every reported fact.
+   */
+  dedupe?: boolean;
+
+  /**
+   * concept and facts. Filter by fiscal period.
+   */
+  fiscalPeriods?: Array<'FY' | 'Q1' | 'Q2' | 'Q3'>;
+
+  /**
+   * concept and facts. Filter by SEC form type such as 10-K or 10-Q.
+   */
+  formTypes?: Array<string>;
+
+  /**
+   * Maximum rows to return
+   */
+  limit?: number;
+
+  /**
+   * Result offset for pagination
+   */
+  offset?: number;
+
+  /**
+   * frames only, required. CY2024 = annual duration, CY2024Q1 = quarterly duration,
+   * CY2024Q1I = instantaneous (balance sheet items).
+   */
+  period?: string;
+
+  /**
+   * frames only. Sort order by value.
+   */
+  sort?: 'value_desc' | 'value_asc';
+
+  /**
+   * XBRL element name such as NetIncomeLoss (required for concept and frames)
+   */
+  tag?: string;
+
+  /**
+   * XBRL taxonomy. For facts it only filters the catalog and has no default.
+   */
+  taxonomy?: 'us-gaap' | 'ifrs-full' | 'dei' | 'srt';
+
+  /**
+   * Company ticker (concept and facts). Provide exactly one of cik or ticker.
+   */
+  ticker?: string;
+
+  /**
+   * frames only. Restrict results to these tickers (peer set).
+   */
+  tickers?: Array<string>;
+
+  /**
+   * Unit such as USD, shares, or USD/shares. Optional filter for concept; defaults
+   * to USD for frames (the SEC URL form USD-per-shares is also accepted).
+   */
+  unit?: string;
+}
+
 export interface V1SimilarParams {
   /**
    * URL of a legal document to find similar sources for
@@ -1481,6 +1792,7 @@ export declare namespace V1 {
     type V1PatentSearchResponse as V1PatentSearchResponse,
     type V1ResearchResponse as V1ResearchResponse,
     type V1SecFilingResponse as V1SecFilingResponse,
+    type V1SecXbrlResponse as V1SecXbrlResponse,
     type V1SimilarResponse as V1SimilarResponse,
     type V1TrademarkSearchResponse as V1TrademarkSearchResponse,
     type V1VerifyResponse as V1VerifyResponse,
@@ -1494,6 +1806,7 @@ export declare namespace V1 {
     type V1PatentSearchParams as V1PatentSearchParams,
     type V1ResearchParams as V1ResearchParams,
     type V1SecFilingParams as V1SecFilingParams,
+    type V1SecXbrlParams as V1SecXbrlParams,
     type V1SimilarParams as V1SimilarParams,
     type V1TrademarkSearchParams as V1TrademarkSearchParams,
     type V1VerifyParams as V1VerifyParams,

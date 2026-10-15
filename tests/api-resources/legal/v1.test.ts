@@ -221,6 +221,40 @@ describe('resource v1', () => {
     });
   });
 
+  test('secXbrl: only required params', async () => {
+    const responsePromise = client.legal.v1.secXbrl({ type: 'concept' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('secXbrl: required and optional params', async () => {
+    const response = await client.legal.v1.secXbrl({
+      type: 'concept',
+      cik: 'cik',
+      ciks: ['string'],
+      concepts: ['string'],
+      dateAfter: '2019-12-27',
+      dateBefore: '2019-12-27',
+      dedupe: true,
+      fiscalPeriods: ['FY'],
+      formTypes: ['string'],
+      limit: 1,
+      offset: 0,
+      period: 'CY7321',
+      sort: 'value_desc',
+      tag: 'tag',
+      taxonomy: 'us-gaap',
+      ticker: 'ticker',
+      tickers: ['string'],
+      unit: 'unit',
+    });
+  });
+
   test('similar: only required params', async () => {
     const responsePromise = client.legal.v1.similar({ url: 'https://example.com' });
     const rawResponse = await responsePromise.asResponse();

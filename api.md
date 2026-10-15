@@ -85,6 +85,7 @@ Methods:
 - <code title="get /connectors/v1/links">client.connectors.v1.links.<a href="./src/resources/connectors/v1/links.ts">list</a>({ ...params }) -> void</code>
 - <code title="delete /connectors/v1/links/{id}">client.connectors.v1.links.<a href="./src/resources/connectors/v1/links.ts">delete</a>(id, { ...params }) -> void</code>
 - <code title="get /connectors/v1/links/{id}/objects">client.connectors.v1.links.<a href="./src/resources/connectors/v1/links.ts">listObjects</a>(id, { ...params }) -> void</code>
+- <code title="get /connectors/v1/links/{id}/selection">client.connectors.v1.links.<a href="./src/resources/connectors/v1/links.ts">retrieveSelectionRoot</a>(id, { ...params }) -> void</code>
 
 # System
 
@@ -189,6 +190,7 @@ Types:
 - <code><a href="./src/resources/legal/v1.ts">V1PatentSearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1ResearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1SecFilingResponse</a></code>
+- <code><a href="./src/resources/legal/v1.ts">V1SecXbrlResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1SimilarResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1TrademarkSearchResponse</a></code>
 - <code><a href="./src/resources/legal/v1.ts">V1VerifyResponse</a></code>
@@ -205,6 +207,7 @@ Methods:
 - <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/resources/legal/v1.ts">patentSearch</a>({ ...params }) -> V1PatentSearchResponse</code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/resources/legal/v1.ts">research</a>({ ...params }) -> V1ResearchResponse</code>
 - <code title="post /legal/v1/sec-filing">client.legal.v1.<a href="./src/resources/legal/v1.ts">secFiling</a>({ ...params }) -> V1SecFilingResponse</code>
+- <code title="post /legal/v1/sec-xbrl">client.legal.v1.<a href="./src/resources/legal/v1.ts">secXbrl</a>({ ...params }) -> V1SecXbrlResponse</code>
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/resources/legal/v1.ts">similar</a>({ ...params }) -> V1SimilarResponse</code>
 - <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/resources/legal/v1.ts">trademarkSearch</a>({ ...params }) -> V1TrademarkSearchResponse</code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/resources/legal/v1.ts">verify</a>({ ...params }) -> V1VerifyResponse</code>

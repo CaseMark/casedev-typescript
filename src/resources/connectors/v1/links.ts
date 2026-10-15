@@ -125,6 +125,30 @@ export class Links extends APIResource {
       ]),
     });
   }
+
+  /**
+   * Resolve the linked Clio matter root and existing folder ancestry for managing
+   * synced folders. Applies the provider account ACLs.
+   */
+  retrieveSelectionRoot(
+    id: string,
+    params: LinkRetrieveSelectionRootParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    const { 'x-case-connector-subject': xCaseConnectorSubject } = params ?? {};
+    return this._client.get(path`/connectors/v1/links/${id}/selection`, {
+      ...options,
+      headers: buildHeaders([
+        {
+          Accept: '*/*',
+          ...(xCaseConnectorSubject != null ?
+            { 'x-case-connector-subject': xCaseConnectorSubject }
+          : undefined),
+        },
+        options?.headers,
+      ]),
+    });
+  }
 }
 
 export interface LinkRetrieveParams {
@@ -138,6 +162,18 @@ export interface LinkRetrieveParams {
 
 export interface LinkUpdateParams {
   /**
+   * Body param: Optional saved Clio import policy. Rejects concurrent changes to its
+   * folder/file exclusions.
+   */
+  expected_policy?: unknown;
+
+  /**
+   * Body param: Required saved remote when expanding a Clio import root; detects
+   * concurrent source changes.
+   */
+  expected_remote?: unknown;
+
+  /**
    * Body param
    */
   mode?: 'once' | 'synced';
@@ -148,6 +184,13 @@ export interface LinkUpdateParams {
    * Folder/file exclusions require deletes: preserve (the default).
    */
   policy?: unknown;
+
+  /**
+   * Body param: For unpaired Clio document imports only: expand folder_id to its
+   * verified Clio matter root. Connection, matter, vault and ledger remain
+   * unchanged.
+   */
+  remote?: unknown;
 
   /**
    * Body param
@@ -239,6 +282,15 @@ export interface LinkListObjectsParams {
   'x-case-connector-subject'?: string;
 }
 
+export interface LinkRetrieveSelectionRootParams {
+  /**
+   * Trusted server-to-server application-user assertion. Derive it from the
+   * authenticated application session, never browser input. Omit only for the legacy
+   * organization-scoped namespace.
+   */
+  'x-case-connector-subject'?: string;
+}
+
 export declare namespace Links {
   export {
     type LinkRetrieveParams as LinkRetrieveParams,
@@ -246,5 +298,6 @@ export declare namespace Links {
     type LinkListParams as LinkListParams,
     type LinkDeleteParams as LinkDeleteParams,
     type LinkListObjectsParams as LinkListObjectsParams,
+    type LinkRetrieveSelectionRootParams as LinkRetrieveSelectionRootParams,
   };
 }
