@@ -1,6 +1,14 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as AssembliesAPI from './assemblies';
+import {
+  Assemblies,
+  AssemblyCreateParams,
+  AssemblyCreateResponse,
+  AssemblyRetrieveParams,
+  AssemblyRetrieveResponse,
+} from './assemblies';
 import * as FoldersAPI from './folders';
 import {
   FolderCreateParams,
@@ -76,6 +84,7 @@ import { path } from '../../internal/utils/path';
  * Secure document storage with semantic search
  */
 export class Vault extends APIResource {
+  assemblies: AssembliesAPI.Assemblies = new AssembliesAPI.Assemblies(this._client);
   folders: FoldersAPI.Folders = new FoldersAPI.Folders(this._client);
   events: EventsAPI.Events = new EventsAPI.Events(this._client);
   groups: GroupsAPI.Groups = new GroupsAPI.Groups(this._client);
@@ -661,6 +670,12 @@ export interface VaultIngestResponse {
    * Workflow run ID for tracking progress. Null for file types that skip processing.
    */
   workflowId: string | null;
+
+  /**
+   * True when the document is waiting for ingestion capacity. It starts
+   * automatically; workflowId is null until then.
+   */
+  queued?: boolean;
 }
 
 export interface VaultSearchResponse {
@@ -1124,6 +1139,7 @@ export interface VaultUploadParams {
   'Idempotency-Key'?: string;
 }
 
+Vault.Assemblies = Assemblies;
 Vault.Folders = Folders;
 Vault.Events = Events;
 Vault.Groups = Groups;
@@ -1150,6 +1166,14 @@ export declare namespace Vault {
     type VaultIngestParams as VaultIngestParams,
     type VaultSearchParams as VaultSearchParams,
     type VaultUploadParams as VaultUploadParams,
+  };
+
+  export {
+    Assemblies as Assemblies,
+    type AssemblyCreateResponse as AssemblyCreateResponse,
+    type AssemblyRetrieveResponse as AssemblyRetrieveResponse,
+    type AssemblyCreateParams as AssemblyCreateParams,
+    type AssemblyRetrieveParams as AssemblyRetrieveParams,
   };
 
   export {

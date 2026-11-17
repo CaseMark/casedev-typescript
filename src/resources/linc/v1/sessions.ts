@@ -11,9 +11,9 @@ import { path } from '../../../internal/utils/path';
  */
 export class Sessions extends APIResource {
   /**
-   * Creates a Daytona-backed native Linc session with scoped Case.dev credentials.
-   * This endpoint starts the sandbox actor only; messages and event replay use
-   * separate endpoints.
+   * Creates a native Linc session in a sandboxed runtime with scoped Case.dev
+   * credentials. This endpoint starts the sandbox actor only; messages and event
+   * replay use separate endpoints.
    */
   create(params: SessionCreateParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
     const {
@@ -193,12 +193,6 @@ export interface SessionCreateParams {
   includeDocumentTemplates?: boolean | null;
 
   /**
-   * Body param: Privileged C3-only hidden app instructions to append to the sandbox
-   * AGENTS.md.
-   */
-  instructions?: string | null;
-
-  /**
    * Body param
    */
   model?: string | null;
@@ -210,6 +204,27 @@ export interface SessionCreateParams {
    * context.
    */
   modelFallbacks?: Array<string>;
+
+  /**
+   * Body param: indefinite keeps the runtime and its saved state until the session
+   * (or, in workspace mode, its last conversation) is deleted, so a chat can resume
+   * after any idle gap. The default in workspace mode; standalone chats opt in with
+   * it, one-off runs leave it unset. Raises an existing workspace to indefinite.
+   * Mutually exclusive with runtimeRetentionDays.
+   */
+  runtimeRetention?: 'indefinite';
+
+  /**
+   * Body param: Days the runtime and its saved state are kept after the last
+   * activity. Defaults to 1 for standalone sessions; workspace-mode conversations
+   * (workspaceKey) and the C3 system key default to indefinite (see
+   * runtimeRetention). Once they are deleted, commands to the session answer 410
+   * linc_runtime_expired; its events stay readable. A workspace keeps the value it
+   * was created with; a larger value on a later conversation raises it. Applies to
+   * Vercel Sandbox runtimes; accepted and stored on Daytona, where it has no effect.
+   * Mutually exclusive with runtimeRetention.
+   */
+  runtimeRetentionDays?: number;
 
   /**
    * Body param: Optional caller-provided scoped Case.dev API key for the runtime.
