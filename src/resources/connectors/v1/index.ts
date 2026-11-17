@@ -4,13 +4,23 @@ export { Applications } from './applications/index';
 export {
   Connections,
   type ConnectionCreateResponse,
+  type ConnectionRetrieveResponse,
   type ConnectionListResponse,
   type ConnectionBrowseResponse,
+  type ConnectionCreateMicrosoftAdminApprovalResponse,
+  type ConnectionListContentsResponse,
+  type ConnectionResolveLinkResponse,
+  type ConnectionSearchResponse,
   type ConnectionCreateParams,
   type ConnectionRetrieveParams,
   type ConnectionListParams,
   type ConnectionDeleteParams,
   type ConnectionBrowseParams,
+  type ConnectionCreateFolderParams,
+  type ConnectionCreateMicrosoftAdminApprovalParams,
+  type ConnectionListContentsParams,
+  type ConnectionResolveLinkParams,
+  type ConnectionSearchParams,
   type ConnectionUpdateAllParams,
 } from './connections';
 export {
@@ -36,6 +46,7 @@ export {
   type TransferRun,
   type V1SyncLinkResponse,
   type V1TransferResponse,
+  type V1FetchParams,
   type V1SyncLinkParams,
   type V1TransferParams,
 } from './v1';

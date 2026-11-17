@@ -9,6 +9,7 @@ export {
   type TransferRun,
   type V1SyncLinkResponse,
   type V1TransferResponse,
+  type V1FetchParams,
   type V1SyncLinkParams,
   type V1TransferParams,
 } from './v1/index';

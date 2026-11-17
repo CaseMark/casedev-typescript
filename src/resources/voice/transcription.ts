@@ -175,7 +175,8 @@ export interface TranscriptionCreateParams {
   auto_highlights?: boolean;
 
   /**
-   * How much to boost custom vocabulary
+   * @deprecated Deprecated and ignored: current AssemblyAI models do not support
+   * boost strength.
    */
   boost_param?: 'low' | 'default' | 'high';
 
@@ -198,6 +199,12 @@ export interface TranscriptionCreateParams {
    * Format text with proper capitalization
    */
   format_text?: boolean;
+
+  /**
+   * Domain-specific words or phrases (max 6 words each) to improve recognition
+   * accuracy. Up to 1000 on universal-3-5-pro, 200 on universal-2.
+   */
+  keyterms_prompt?: Array<string>;
 
   /**
    * Language code (e.g., 'en_us', 'es', 'fr'). If not specified, language will be
@@ -241,7 +248,8 @@ export interface TranscriptionCreateParams {
   vault_id?: string;
 
   /**
-   * Custom vocabulary words to boost (e.g., legal terms)
+   * @deprecated Legacy alias for `keyterms_prompt`. Entries are merged into
+   * `keyterms_prompt` before submission.
    */
   word_boost?: Array<string>;
 }
