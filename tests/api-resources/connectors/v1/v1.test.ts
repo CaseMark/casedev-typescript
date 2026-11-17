@@ -8,6 +8,26 @@ const client = new Casedev({
 });
 
 describe('resource v1', () => {
+  test('fetch: only required params', async () => {
+    const responsePromise = client.connectors.v1.fetch({ open_ref: 'open_ref' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('fetch: required and optional params', async () => {
+    const response = await client.connectors.v1.fetch({
+      open_ref: 'open_ref',
+      upload_url: 'upload_url',
+      vault_id: 'vault_id',
+      'x-case-connector-subject': 'x-case-connector-subject',
+    });
+  });
+
   test('syncLink: only required params', async () => {
     const responsePromise = client.connectors.v1.syncLink({
       connection_id: 'connection_id',
@@ -47,12 +67,14 @@ describe('resource v1', () => {
         collisions: 'version',
         deletes: 'mirror',
         filters: {
+          allow_extensions: ['string'],
           exclude_file_ids: ['string'],
           exclude_folder_ids: ['string'],
           exclude_mime: ['string'],
           max_size_bytes: 0,
         },
       },
+      selection: { folder: 'folder', object_ids: ['string'] },
       'x-case-connector-subject': 'x-case-connector-subject',
     });
   });
@@ -96,6 +118,7 @@ describe('resource v1', () => {
         collisions: 'version',
         deletes: 'mirror',
         filters: {
+          allow_extensions: ['string'],
           exclude_file_ids: ['string'],
           exclude_folder_ids: ['string'],
           exclude_mime: ['string'],
@@ -103,6 +126,7 @@ describe('resource v1', () => {
         },
       },
       run_mode: 'auto',
+      selection: { folder: 'folder', object_ids: ['string'] },
       'x-case-connector-subject': 'x-case-connector-subject',
     });
   });

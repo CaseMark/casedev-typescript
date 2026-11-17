@@ -230,7 +230,8 @@ export interface V1DownloadParams {
 
 export interface V1ProcessParams {
   /**
-   * URL or S3 path to the document to process
+   * HTTP(S) URL of the document to process, or the s3:// path of a vault object in
+   * your organization
    */
   document_url: string;
 

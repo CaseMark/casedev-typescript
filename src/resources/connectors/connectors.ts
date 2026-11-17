@@ -8,6 +8,7 @@ import {
   TransferLinkRun,
   TransferRun,
   V1,
+  V1FetchParams,
   V1SyncLinkParams,
   V1SyncLinkResponse,
   V1TransferParams,
@@ -29,6 +30,7 @@ export declare namespace Connectors {
     type TransferRun as TransferRun,
     type V1SyncLinkResponse as V1SyncLinkResponse,
     type V1TransferResponse as V1TransferResponse,
+    type V1FetchParams as V1FetchParams,
     type V1SyncLinkParams as V1SyncLinkParams,
     type V1TransferParams as V1TransferParams,
   };

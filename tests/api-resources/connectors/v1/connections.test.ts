@@ -132,6 +132,120 @@ describe('resource connections', () => {
     ).rejects.toThrow(Casedev.NotFoundError);
   });
 
+  test('createFolder: only required params', async () => {
+    const responsePromise = client.connectors.v1.connections.createFolder('id', { name: 'name' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('createFolder: required and optional params', async () => {
+    const response = await client.connectors.v1.connections.createFolder('id', {
+      name: 'name',
+      container: 'container',
+      parent: 'parent',
+      site: 'site',
+      'x-case-connector-subject': 'x-case-connector-subject',
+    });
+  });
+
+  test('createMicrosoftAdminApproval', async () => {
+    const responsePromise = client.connectors.v1.connections.createMicrosoftAdminApproval('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('createMicrosoftAdminApproval: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.connectors.v1.connections.createMicrosoftAdminApproval(
+        'id',
+        { 'x-case-connector-subject': 'x-case-connector-subject' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
+  test('listContents', async () => {
+    const responsePromise = client.connectors.v1.connections.listContents('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listContents: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.connectors.v1.connections.listContents(
+        'id',
+        {
+          container: 'container',
+          cursor: 'cursor',
+          page_size: 1,
+          parent: 'parent',
+          site: 'site',
+          'x-case-connector-subject': 'x-case-connector-subject',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Casedev.NotFoundError);
+  });
+
+  test('resolveLink: only required params', async () => {
+    const responsePromise = client.connectors.v1.connections.resolveLink('id', { url: 'url' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('resolveLink: required and optional params', async () => {
+    const response = await client.connectors.v1.connections.resolveLink('id', {
+      url: 'url',
+      'x-case-connector-subject': 'x-case-connector-subject',
+    });
+  });
+
+  test('search: only required params', async () => {
+    const responsePromise = client.connectors.v1.connections.search('id', { query: 'query' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('search: required and optional params', async () => {
+    const response = await client.connectors.v1.connections.search('id', {
+      query: 'query',
+      container: 'container',
+      cursor: 'cursor',
+      kind: 'file',
+      page_size: 1000,
+      parent: 'parent',
+      site: 'site',
+      'x-case-connector-subject': 'x-case-connector-subject',
+    });
+  });
+
   test('updateAll: only required params', async () => {
     const responsePromise = client.connectors.v1.connections.updateAll({
       confirm_organization_wide: true,

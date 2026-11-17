@@ -1,5 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+export {
+  Assemblies,
+  type AssemblyCreateResponse,
+  type AssemblyRetrieveResponse,
+  type AssemblyCreateParams,
+  type AssemblyRetrieveParams,
+} from './assemblies';
 export { Events } from './events/index';
 export {
   Folders,

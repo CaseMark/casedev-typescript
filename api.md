@@ -13,6 +13,7 @@ Types:
 
 Methods:
 
+- <code title="post /connectors/v1/fetch">client.connectors.v1.<a href="./src/resources/connectors/v1/v1.ts">fetch</a>({ ...params }) -> void</code>
 - <code title="post /connectors/v1/sync-link">client.connectors.v1.<a href="./src/resources/connectors/v1/v1.ts">syncLink</a>({ ...params }) -> V1SyncLinkResponse</code>
 - <code title="post /connectors/v1/transfer">client.connectors.v1.<a href="./src/resources/connectors/v1/v1.ts">transfer</a>({ ...params }) -> V1TransferResponse</code>
 
@@ -64,16 +65,26 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/connectors/v1/connections.ts">ConnectionCreateResponse</a></code>
+- <code><a href="./src/resources/connectors/v1/connections.ts">ConnectionRetrieveResponse</a></code>
 - <code><a href="./src/resources/connectors/v1/connections.ts">ConnectionListResponse</a></code>
 - <code><a href="./src/resources/connectors/v1/connections.ts">ConnectionBrowseResponse</a></code>
+- <code><a href="./src/resources/connectors/v1/connections.ts">ConnectionCreateMicrosoftAdminApprovalResponse</a></code>
+- <code><a href="./src/resources/connectors/v1/connections.ts">ConnectionListContentsResponse</a></code>
+- <code><a href="./src/resources/connectors/v1/connections.ts">ConnectionResolveLinkResponse</a></code>
+- <code><a href="./src/resources/connectors/v1/connections.ts">ConnectionSearchResponse</a></code>
 
 Methods:
 
 - <code title="post /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">create</a>({ ...params }) -> ConnectionCreateResponse</code>
-- <code title="get /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">retrieve</a>(id, { ...params }) -> void</code>
+- <code title="get /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">retrieve</a>(id, { ...params }) -> ConnectionRetrieveResponse</code>
 - <code title="get /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">list</a>({ ...params }) -> ConnectionListResponse</code>
 - <code title="delete /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">delete</a>(id, { ...params }) -> void</code>
 - <code title="get /connectors/v1/connections/{id}/browse">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">browse</a>(id, { ...params }) -> ConnectionBrowseResponse</code>
+- <code title="post /connectors/v1/connections/{id}/folders">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">createFolder</a>(id, { ...params }) -> void</code>
+- <code title="post /connectors/v1/connections/{id}/microsoft-admin-approval">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">createMicrosoftAdminApproval</a>(id, { ...params }) -> ConnectionCreateMicrosoftAdminApprovalResponse</code>
+- <code title="get /connectors/v1/connections/{id}/contents">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">listContents</a>(id, { ...params }) -> ConnectionListContentsResponse</code>
+- <code title="get /connectors/v1/connections/{id}/resolve">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">resolveLink</a>(id, { ...params }) -> ConnectionResolveLinkResponse</code>
+- <code title="get /connectors/v1/connections/{id}/search">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">search</a>(id, { ...params }) -> ConnectionSearchResponse</code>
 - <code title="patch /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/resources/connectors/v1/connections.ts">updateAll</a>({ ...params }) -> void</code>
 
 ### Links
@@ -571,6 +582,18 @@ Methods:
 - <code title="post /vault/{id}/ingest/{objectId}">client.vault.<a href="./src/resources/vault/vault.ts">ingest</a>(objectID, { ...params }) -> VaultIngestResponse</code>
 - <code title="post /vault/{id}/search">client.vault.<a href="./src/resources/vault/vault.ts">search</a>(id, { ...params }) -> VaultSearchResponse</code>
 - <code title="post /vault/{id}/upload">client.vault.<a href="./src/resources/vault/vault.ts">upload</a>(id, { ...params }) -> VaultUploadResponse</code>
+
+## Assemblies
+
+Types:
+
+- <code><a href="./src/resources/vault/assemblies.ts">AssemblyCreateResponse</a></code>
+- <code><a href="./src/resources/vault/assemblies.ts">AssemblyRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="post /vault/{id}/assemblies">client.vault.assemblies.<a href="./src/resources/vault/assemblies.ts">create</a>(id, { ...params }) -> AssemblyCreateResponse</code>
+- <code title="get /vault/{id}/assemblies/{assemblyId}">client.vault.assemblies.<a href="./src/resources/vault/assemblies.ts">retrieve</a>(assemblyID, { ...params }) -> AssemblyRetrieveResponse</code>
 
 ## Folders
 
