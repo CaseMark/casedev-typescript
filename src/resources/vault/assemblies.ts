@@ -100,6 +100,12 @@ export interface AssemblyRetrieveResponse {
 
   clientReference?: string;
 
+  /**
+   * What the assembly cost Case.dev, once it is completed or failed. Internal COGS,
+   * not a price.
+   */
+  cogs?: AssemblyRetrieveResponse.Cogs;
+
   error?: AssemblyRetrieveResponse.Error;
 
   status?: 'queued' | 'processing' | 'completed' | 'failed' | 'cancelled';
@@ -112,6 +118,28 @@ export interface AssemblyRetrieveResponse {
 }
 
 export namespace AssemblyRetrieveResponse {
+  /**
+   * What the assembly cost Case.dev, once it is completed or failed. Internal COGS,
+   * not a price.
+   */
+  export interface Cogs {
+    computeMicros?: number;
+
+    cpu?: number;
+
+    memoryMib?: number;
+
+    outputBytes?: number;
+
+    rateVersion?: string;
+
+    sourceBytes?: number;
+
+    transferMicros?: number;
+
+    workerSeconds?: number;
+  }
+
   export interface Error {
     code?: string;
 
@@ -155,8 +183,9 @@ export namespace AssemblyRetrieveResponse {
 
 export interface AssemblyCreateParams {
   /**
-   * Body param: Source PDFs. Page ranges refer to a source by its index in this
-   * list.
+   * Body param: Source PDFs, or ingested office files (spreadsheets, CSV/TSV, Word),
+   * which are assembled from the PDF version ingestion saved for them. Page ranges
+   * refer to a source by its index in this list.
    */
   sources: Array<AssemblyCreateParams.Source>;
 

@@ -679,6 +679,7 @@ Methods:
 - <code title="post /vault/{id}/objects/merge">client.vault.objects.<a href="./src/resources/vault/objects.ts">merge</a>(id, { ...params }) -> ObjectMergeResponse</code>
 - <code title="post /vault/{id}/objects/move">client.vault.objects.<a href="./src/resources/vault/objects.ts">move</a>(id, { ...params }) -> ObjectMoveResponse</code>
 - <code title="post /vault/{id}/objects/organize">client.vault.objects.<a href="./src/resources/vault/objects.ts">organize</a>(id, { ...params }) -> ObjectOrganizeResponse</code>
+- <code title="post /vault/{id}/objects/{objectId}/pdf">client.vault.objects.<a href="./src/resources/vault/objects.ts">toPdf</a>(objectID, { ...params }) -> void</code>
 
 ## Memory
 

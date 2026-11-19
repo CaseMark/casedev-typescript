@@ -6,9 +6,6 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-/**
- * Vault object management, content access, and document operations
- */
 export class Objects extends APIResource {
   /**
    * Retrieves metadata for a specific document in a vault and generates a temporary
@@ -157,7 +154,9 @@ export class Objects extends APIResource {
   /**
    * Downloads a file from a vault by redirecting to a short-lived presigned S3 URL.
    * Useful for retrieving contracts, depositions, case files, and other legal
-   * documents stored in your vault.
+   * documents stored in your vault. With format=pdf, a spreadsheet downloads as its
+   * PDF version (see POST /vault/{id}/objects/{objectId}/pdf); a PDF downloads as
+   * usual.
    *
    * @example
    * ```ts
@@ -171,8 +170,9 @@ export class Objects extends APIResource {
    * ```
    */
   download(objectID: string, params: ObjectDownloadParams, options?: RequestOptions): APIPromise<Response> {
-    const { id } = params;
+    const { id, ...query } = params;
     return this._client.get(path`/vault/${id}/objects/${objectID}/download`, {
+      query,
       ...options,
       headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
       __binaryResponse: true,
@@ -349,6 +349,31 @@ export class Objects extends APIResource {
     options?: RequestOptions,
   ): APIPromise<ObjectOrganizeResponse> {
     return this._client.post(path`/vault/${id}/objects/organize`, { body, ...options });
+  }
+
+  /**
+   * Starts making the PDF version of a spreadsheet object (.xlsx, .xlsm, .xlsb,
+   * .xls, .ods, .numbers, .csv, .tsv). Spreadsheets get one automatically when they
+   * are ingested; call this for objects stored without ingestion, or with force=true
+   * to make it again. Each visible sheet prints on landscape Letter at 100% scale,
+   * down the rows and then across the columns, with no repeated header rows; hidden
+   * sheets, rows and columns are left out and listed. The PDF is a copy: the object,
+   * its text and its search index are unchanged. Completion is reported through
+   * vault.object.pdf.completed or vault.object.pdf.failed; download it with GET
+   * /vault/{id}/objects/{objectId}/download?format=pdf.
+   *
+   * @example
+   * ```ts
+   * await client.vault.objects.toPdf('objectId', { id: 'id' });
+   * ```
+   */
+  toPdf(objectID: string, params: ObjectToPdfParams, options?: RequestOptions): APIPromise<void> {
+    const { id, force } = params;
+    return this._client.post(path`/vault/${id}/objects/${objectID}/pdf`, {
+      query: { force },
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 
@@ -771,6 +796,11 @@ export interface ObjectCreatePresignedURLResponse {
   s3Key?: string;
 
   /**
+   * Which file the URL points at
+   */
+  variant?: 'original' | 'view';
+
+  /**
    * The vault identifier
    */
   vaultId?: string;
@@ -784,6 +814,9 @@ export namespace ObjectCreatePresignedURLResponse {
 
     region?: string;
 
+    /**
+     * Size of the file the URL points at
+     */
     sizeBytes?: number;
   }
 }
@@ -1237,13 +1270,26 @@ export interface ObjectCreatePresignedURLParams {
    * provided for PUT operations, enforces exact file size at S3 level.
    */
   sizeBytes?: number;
+
+  /**
+   * Body param: Which file to sign for GET and HEAD. 'view' returns the PDF's
+   * fast-opening viewing copy when it has one, and the original otherwise. Use it
+   * only to display a PDF; downloads and exports should use the original.
+   */
+  variant?: 'original' | 'view';
 }
 
 export interface ObjectDownloadParams {
   /**
-   * Vault ID
+   * Path param: Vault ID
    */
   id: string;
+
+  /**
+   * Query param: original (default) returns the file as uploaded. pdf returns a
+   * spreadsheet's PDF version, or a PDF as usual.
+   */
+  format?: 'original' | 'pdf';
 }
 
 export interface ObjectGetChunksParams {
@@ -1422,6 +1468,18 @@ export declare namespace ObjectOrganizeParams {
   }
 }
 
+export interface ObjectToPdfParams {
+  /**
+   * Path param: Vault ID
+   */
+  id: string;
+
+  /**
+   * Query param: Make the PDF version again even when one is ready
+   */
+  force?: boolean;
+}
+
 export declare namespace Objects {
   export {
     type ObjectRetrieveResponse as ObjectRetrieveResponse,
@@ -1451,5 +1509,6 @@ export declare namespace Objects {
     type ObjectMergeParams as ObjectMergeParams,
     type ObjectMoveParams as ObjectMoveParams,
     type ObjectOrganizeParams as ObjectOrganizeParams,
+    type ObjectToPdfParams as ObjectToPdfParams,
   };
 }

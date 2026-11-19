@@ -404,6 +404,17 @@ export interface SessionRetrieveEventsParams {
    * Maximum number of events to return.
    */
   limit?: number;
+
+  /**
+   * asc (default) replays oldest first. desc returns the newest events first, still
+   * after the cursor, so a small limit reads only the latest events.
+   */
+  order?: 'asc' | 'desc';
+
+  /**
+   * Comma-separated Linc event types to return; other types are omitted.
+   */
+  types?: Array<string>;
 }
 
 export interface SessionRetrieveMessagesParams {
