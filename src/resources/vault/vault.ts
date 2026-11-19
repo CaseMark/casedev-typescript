@@ -69,6 +69,7 @@ import {
   ObjectOrganizeResponse,
   ObjectRetrieveParams,
   ObjectRetrieveResponse,
+  ObjectToPdfParams,
   ObjectUpdateParams,
   ObjectUpdateResponse,
   Objects,
@@ -1233,6 +1234,7 @@ export declare namespace Vault {
     type ObjectMergeParams as ObjectMergeParams,
     type ObjectMoveParams as ObjectMoveParams,
     type ObjectOrganizeParams as ObjectOrganizeParams,
+    type ObjectToPdfParams as ObjectToPdfParams,
   };
 
   export {
