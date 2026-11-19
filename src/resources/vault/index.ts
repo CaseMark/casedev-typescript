@@ -66,6 +66,7 @@ export {
   type ObjectMergeParams,
   type ObjectMoveParams,
   type ObjectOrganizeParams,
+  type ObjectToPdfParams,
 } from './objects';
 export {
   Vault,

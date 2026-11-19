@@ -149,6 +149,8 @@ describe('resource sessions', () => {
           cursor: 0,
           excludeEventTypes: ['string'],
           limit: 1,
+          order: 'asc',
+          types: ['string'],
         },
         { path: '/_stainless_unknown_path' },
       ),

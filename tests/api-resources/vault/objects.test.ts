@@ -139,11 +139,12 @@ describe('resource objects', () => {
       expiresIn: 60,
       operation: 'GET',
       sizeBytes: 1,
+      variant: 'original',
     });
   });
 
   test('download: required and optional params', async () => {
-    const response = await client.vault.objects.download('objectId', { id: 'id' });
+    const response = await client.vault.objects.download('objectId', { id: 'id', format: 'original' });
   });
 
   test('getChunks: only required params', async () => {
@@ -294,5 +295,20 @@ describe('resource objects', () => {
       path: 'path',
       expectedPaths: { foo: 'string' },
     });
+  });
+
+  test('toPdf: only required params', async () => {
+    const responsePromise = client.vault.objects.toPdf('objectId', { id: 'id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('toPdf: required and optional params', async () => {
+    const response = await client.vault.objects.toPdf('objectId', { id: 'id', force: true });
   });
 });
