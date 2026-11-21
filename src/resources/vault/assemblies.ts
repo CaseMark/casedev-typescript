@@ -184,10 +184,11 @@ export namespace AssemblyRetrieveResponse {
 export interface AssemblyCreateParams {
   /**
    * Body param: Source PDFs, or ingested office files (spreadsheets, CSV/TSV, Word),
-   * which are assembled from the PDF version ingestion saved for them. Page ranges
-   * refer to a source by its index in this list.
+   * which are assembled from the PDF version ingestion saved for them. A source can
+   * also be a PDF you made, such as a cover or notice letter, sent inline. Page
+   * ranges refer to a source by its index in this list.
    */
-  sources: Array<AssemblyCreateParams.Source>;
+  sources: Array<AssemblyCreateParams.UnionMember0 | AssemblyCreateParams.Pdf>;
 
   /**
    * Body param
@@ -223,17 +224,25 @@ export interface AssemblyCreateParams {
   linearize?: boolean;
 
   /**
-   * Body param: Put every page upright on a US Letter portrait sheet: landscape
-   * pages turn a quarter turn, other sizes are scaled to fit
+   * Body param: Put every page upright on a US Letter sheet: portrait pages on a
+   * portrait sheet, landscape pages on a landscape sheet, other sizes scaled to fit
    */
   pageSize?: 'letter';
 }
 
 export namespace AssemblyCreateParams {
-  export interface Source {
+  export interface UnionMember0 {
     objectId: string;
 
     rendition?: 'searchable_pdf' | 'original';
+  }
+
+  export interface Pdf {
+    /**
+     * A base64 PDF of up to 10 pages and 1 MB, assembled as given. Up to 10 per
+     * request.
+     */
+    pdf: string;
   }
 
   export interface Volume {
